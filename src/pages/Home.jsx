@@ -69,7 +69,7 @@ export default function Home() {
 
         <div className="hero-content" style={{ position: 'relative', zIndex: 2 }}>
           <AnimatedSection delay={0.2} className="hero-text" style={{ padding: '2rem', background: 'rgba(26, 93, 26, 0.4)', backdropFilter: 'blur(10px)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.2)' }}>
-            <h1 style={{ color: '#2e7d32' }}>Welcome to MA Pesticides</h1>
+            <h1 style={{ color: 'white' }}>Welcome to MA Pesticides</h1>
             <p>Your Trusted Agricultural Partner near Lal Chowk, Srinagar.</p>
             <p style={{ fontSize: '1.2rem', color: '#e0e0e0' }}>Premium quality <span style={{ color: '#81c784', fontWeight: 'bold' }}>fertilizers</span>, <span style={{ color: '#81c784', fontWeight: 'bold' }}>pesticides</span>, and expert farming advice for a bountiful harvest.</p>
             <Link to="/products" className="cta-button" style={{ marginTop: '2rem' }}>
