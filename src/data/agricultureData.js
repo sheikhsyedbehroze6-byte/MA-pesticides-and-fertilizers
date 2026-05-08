@@ -208,6 +208,26 @@ export const products = [
     diseases: ["Mixed Weed Population"],
     benefits: "20% discount on print price.  Effective control of tough-to-kill weeds in orchards.",
     image: "",
+  },
+  {
+    id: 22,
+    name: "Saffire Bublin (Liquid Fertilizer)",
+    type: "Fertilizer",
+    uses: "Premium liquid fertilizer for quick nutrient absorption and leaf greening.",
+    dosage: "3 ml per Litre of water.",
+    diseases: ["Yellowing Leaves", "Nutrient Stress"],
+    benefits: "20% discount on print price.  Fast-acting liquid formula for instant results.",
+    image: "",
+  },
+  {
+    id: 23,
+    name: "Silixol (Fertilizer)",
+    type: "Fertilizer",
+    uses: "Silicon-based specialty fertilizer for plant strength and stress tolerance.",
+    dosage: "1-2 ml per Litre of water.",
+    diseases: ["Environmental Stress", "Weak Stems"],
+    benefits: "20% discount on print price.  Enhances structural strength and resistance to pests.",
+    image: "",
   }
 ];
 
