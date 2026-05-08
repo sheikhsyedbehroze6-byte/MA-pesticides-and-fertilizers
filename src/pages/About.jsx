@@ -142,6 +142,27 @@ export default function About() {
             </p>
           </AnimatedSection>
 
+          {/* Pesticide Safety Guide Section */}
+          <AnimatedSection delay={0.3} style={{ background: 'rgba(255, 255, 255, 0.98)', backdropFilter: 'blur(10px)', padding: '2.5rem', borderRadius: '16px', boxShadow: '0 20px 50px rgba(0,0,0,0.15)', border: '1px solid rgba(255,255,255,0.5)', marginTop: '3rem' }}>
+            <h3 style={{ display: 'flex', alignItems: 'center', gap: '12px', color: '#ff5722', marginBottom: '1.5rem', fontSize: '1.8rem' }}>
+              <ShieldCheck size={32} /> Pesticide Safety & Guidelines
+            </h3>
+            <p style={{ fontSize: '1.1rem', marginBottom: '2rem', color: 'var(--text-main)' }}>
+              Safety is our top priority. Following proper instructions and safety protocols not only protects your crops but also ensures the health of the farmers and the environment.
+            </p>
+            
+            <div style={{ position: 'relative', width: '100%', borderRadius: '12px', overflow: 'hidden', border: '1px solid #eee' }}>
+              <img 
+                src="/safety-guide.png" 
+                alt="Pesticide Application Safety Guide" 
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+            </div>
+            <p style={{ marginTop: '1.5rem', fontSize: '0.95rem', color: 'var(--text-muted)', textAlign: 'center' }}>
+              * Always read the label and follow the recommended safety gear requirements before handling any chemicals.
+            </p>
+          </AnimatedSection>
+
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginTop: '3rem' }}>
             <AnimatedSection className="glow-card" delay={0.3} style={{ background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(10px)', padding: '2rem', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.05)', border: '1px solid var(--border-color)', textAlign: 'center' }}>
               <div style={{ background: '#2c3e50', padding: '1.5rem', borderRadius: '12px', marginBottom: '1.5rem', display: 'flex', justifyContent: 'center' }}>
