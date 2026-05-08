@@ -9,7 +9,6 @@ export default function ProductCard({ product }) {
           src={product.image} 
           alt={product.name} 
           className="product-image"
-          style={{ width: '100%', height: 'auto' }}
         />
         <span className="product-type-badge">
           {product.type}

@@ -7,7 +7,7 @@ export const products = [
     dosage: "2 ml per Litre of water.",
     diseases: ["Sucking Pests", "Caterpillars", "Bollworms"],
     benefits: "Special 15% Discount! Fast knockdown effect and long residual control.",
-    image: "/cyclone.png",
+    image: "https://5.imimg.com/data5/FB/SH/GY/ANDROID-30875690/prod-20200616-1455468400509020022808526-jpg.jpg",
   },
   {
     id: 2,
