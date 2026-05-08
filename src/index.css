@@ -262,14 +262,12 @@ footer p {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   border-radius: 12px;
 }
 
 .product-card:hover, .disease-card:hover {
-  transform: translateY(-10px) scale(1.02);
   box-shadow: 0 20px 40px rgba(26, 93, 26, 0.15);
   border-color: var(--primary-color);
 }
@@ -363,22 +361,13 @@ footer p {
   border-radius: 12px;
   border-left: 5px solid var(--accent-color);
   box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .disease-card.severity-high {
   border-left-color: #ff1744;
-  animation: severity-pulse 2s infinite;
-}
-
-@keyframes severity-pulse {
-  0% { box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-left-width: 5px; }
-  50% { box-shadow: 0 0 20px rgba(255, 23, 68, 0.2); border-left-width: 8px; }
-  100% { box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-left-width: 5px; }
 }
 
 .disease-card:hover {
-  transform: translateY(-5px);
   box-shadow: 0 12px 30px rgba(0,0,0,0.12);
 }
 

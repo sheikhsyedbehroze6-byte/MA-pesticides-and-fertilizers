@@ -34,8 +34,8 @@ export default function About() {
 
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
         <AnimatedSection className="section-header">
-          <h2 style={{ fontSize: '3rem', color: 'var(--primary-color)' }}>About MA Pesticides</h2>
-          <p>Providing the highest quality agricultural solutions to Kashmiri farmers.</p>
+          <h2 style={{ fontSize: '3rem', color: 'white' }}>About MA Pesticides</h2>
+          <p style={{ color: '#e0e0e0', fontSize: '1.2rem' }}>Providing the highest quality agricultural solutions to Kashmiri farmers.</p>
           
           <motion.div 
             className="about-collage"

@@ -191,6 +191,11 @@ export default function Home() {
           <motion.div whileHover={{ scale: 1.1 }} style={{ textAlign: 'center' }}>
             <img src="/fil.png" alt="FIL Industries" style={{ height: '80px', objectFit: 'contain' }} />
           </motion.div>
+
+          <motion.div whileHover={{ scale: 1.1 }} style={{ textAlign: 'center' }}>
+            <h3 style={{ color: 'var(--primary-color)', fontSize: '2rem', fontWeight: '900', margin: 0 }}>& MORE</h3>
+            <p style={{ margin: 0, fontSize: '0.8rem', color: '#666' }}>Quality First</p>
+          </motion.div>
         </div>
       </div>
     </div>
