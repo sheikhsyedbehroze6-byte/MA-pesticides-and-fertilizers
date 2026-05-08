@@ -6,7 +6,7 @@ export const products = [
     uses: "Chlorpyrifos 50% + Cypermethrin 5% EC. Broad-spectrum control.",
     dosage: "2 ml per Litre of water.",
     diseases: ["Sucking Pests", "Caterpillars", "Bollworms"],
-    benefits: "Special 20% Discount! Fast knockdown effect and long residual control.",
+    benefits: "20% discount on print price.  Fast knockdown effect and long residual control.",
     image: "https://5.imimg.com/data5/FB/SH/GY/ANDROID-30875690/prod-20200616-1455468400509020022808526-jpg.jpg",
   },
   {
@@ -16,7 +16,7 @@ export const products = [
     uses: "Contact fungicide for controlling scab and other fungal infections.",
     dosage: "1 ml per Litre of water.",
     diseases: ["Apple Scab", "Leaf Spot", "Fruit Rot"],
-    benefits: "Special 20% Discount! High-efficacy contact action with superior coverage.",
+    benefits: "20% discount on print price.  High-efficacy contact action with superior coverage.",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXgiKTxt4opENrx9C-DhzrMY_6N63rkyszuw&s",
   },
   {
@@ -26,7 +26,7 @@ export const products = [
     uses: "Contact fungicide with protective action against broad fungal range.",
     dosage: "2.5 g per Litre of water.",
     diseases: ["Powdery Mildew", "Early Blight", "Late Blight"],
-    benefits: "Special 20% Discount! Excellent rain-fastness and protective coverage.",
+    benefits: "20% discount on print price.  Excellent rain-fastness and protective coverage.",
     image: "https://dujjhct8zer0r.cloudfront.net/media/prod_image/97ba698697ab860fb949ed2008187020-02-05-24-18-00-57.webp",
   },
   {
@@ -36,7 +36,7 @@ export const products = [
     uses: "Fluopyram 17.7% + Tebuconazole 17.7%. Systemic fungicide.",
     dosage: "1 ml per Litre of water.",
     diseases: ["Powdery Mildew", "Apple Scab", "Fruit Rot"],
-    benefits: "Special 20% Discount! Excellent systemic control and fruit quality.",
+    benefits: "20% discount on print price.  Excellent systemic control and fruit quality.",
     image: "https://cultree.in/cdn/shop/files/LunaExperience.jpg?v=1709206947",
   },
   {
@@ -46,7 +46,7 @@ export const products = [
     uses: "Propineb - Contact fungicide with broad spectrum action.",
     dosage: "2.5 g per Litre of water.",
     diseases: ["Apple Scab", "Early Blight", "Late Blight"],
-    benefits: "Special 20% Discount! Strong protective action and rain-fastness.",
+    benefits: "20% discount on print price.  Strong protective action and rain-fastness.",
     image: "public/antracol.jpg",
   },
   {
@@ -56,7 +56,7 @@ export const products = [
     uses: "Carbendazim 12% + Mancozeb 63%. Dual action systemic and contact.",
     dosage: "2 g per Litre of water.",
     diseases: ["Leaf Spot", "Blast", "Downy Mildew"],
-    benefits: "Special 20% Discount! Cost-effective and highly reliable formula.",
+    benefits: "20% discount on print price.  Cost-effective and highly reliable formula.",
     image: "",
   },
   {
@@ -66,7 +66,7 @@ export const products = [
     uses: "Broad-spectrum systemic insecticide for sucking pests.",
     dosage: "0.5 g per Litre of water.",
     diseases: ["Aphids", "Whiteflies", "Jassids"],
-    benefits: "Special 20% Discount! Fast action and long-lasting crop protection.",
+    benefits: "20% discount on print price.  Fast action and long-lasting crop protection.",
     image: "",
   },
   {
@@ -76,7 +76,7 @@ export const products = [
     uses: "Captan 50% WP. Multi-site contact fungicide.",
     dosage: "2 g per Litre of water.",
     diseases: ["Apple Scab", "Damping Off", "Grey Mold"],
-    benefits: "Special 20% Discount! Excellent resistance management and crop safety.",
+    benefits: "20% discount on print price.  Excellent resistance management and crop safety.",
     image: "",
   },
   {
@@ -86,7 +86,7 @@ export const products = [
     uses: "Paraquat Dichloride 24% SL. Non-selective contact herbicide.",
     dosage: "5 ml per Litre of water.",
     diseases: ["Annual Grasses", "Broad-leaf Weeds"],
-    benefits: "Special 20% Discount! Fast acting weed control with no soil residual effect.",
+    benefits: "20% discount on print price.  Fast acting weed control with no soil residual effect.",
     image: "https://appvyapar-assets.blr1.digitaloceanspaces.com/uploads/wilshire/2023-10/bigimages/b88a01ae7ce98d68af3773d4af3e3ed4.jpeg",
   },
   {
@@ -96,7 +96,7 @@ export const products = [
     uses: "Thiamethoxam + Lambda-Cyhalothrin ZC. Systemic and contact action.",
     dosage: "0.4 ml per Litre of water.",
     diseases: ["Fruit Borer", "Shoot Borer", "Sucking Pests"],
-    benefits: "Special 20% Discount! Advanced ZC formulation for superior performance and stability.",
+    benefits: "20% discount on print price.  Advanced ZC formulation for superior performance and stability.",
     image: "/tingo.png",
   },
   {
@@ -106,8 +106,8 @@ export const products = [
     uses: "Systemic fungicide with protective and curative action.",
     dosage: "0.5 ml per Litre of water.",
     diseases: ["Apple Scab", "Leaf Spot", "Rust"],
-    benefits: "Special 20% Discount! Long-lasting protection and fast systemic movement.",
-    image: "",
+    benefits: "20% discount on print price.  Long-lasting protection and fast systemic movement.",
+    image: "https://5.imimg.com/data5/SELLER/Default/2024/10/459139118/QZ/EE/KR/131299105/94image-wilcore-500x500.jpg",
   },
   {
     id: 12,
@@ -116,7 +116,7 @@ export const products = [
     uses: "Broad-spectrum contact fungicide and bactericide.",
     dosage: "2.5 g per Litre of water.",
     diseases: ["Bacterial Blight", "Downy Mildew", "Canker"],
-    benefits: "Special 20% Discount! Essential for disease prevention and resistance management.",
+    benefits: "20% discount on print price.  Essential for disease prevention and resistance management.",
     image: "",
   }
 ];
