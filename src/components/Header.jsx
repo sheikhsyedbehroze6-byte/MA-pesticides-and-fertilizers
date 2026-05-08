@@ -10,7 +10,7 @@ export default function Header() {
     <header style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
       <div className="logo-container">
         <Sprout color="#fce043" size={32} />
-        <h1>www.MA pesticides.ac.in</h1>
+        <h1>MA Pesticides</h1>
       </div>
 
       {/* Desktop Nav */}
@@ -32,13 +32,13 @@ export default function Header() {
       {/* Mobile Nav Overlay */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            style={{ 
-              position: 'fixed', top: '70px', right: 0, bottom: 0, left: 0, 
+            style={{
+              position: 'fixed', top: '70px', right: 0, bottom: 0, left: 0,
               background: 'rgba(26, 93, 26, 0.98)', backdropFilter: 'blur(10px)',
               zIndex: 999, display: 'flex', flexDirection: 'column', padding: '2rem'
             }}

@@ -166,24 +166,30 @@ export default function Home() {
           display: 'flex', 
           justifyContent: 'center', 
           alignItems: 'center', 
-          gap: '5rem', 
+          gap: '3rem 5rem', 
           flexWrap: 'wrap',
           marginBottom: '6rem',
-          opacity: 0.8
+          opacity: 1
         }}>
-          <motion.div whileHover={{ scale: 1.1, opacity: 1 }} style={{ textAlign: 'center' }}>
-            <h3 style={{ color: '#0091df', fontSize: '2.5rem', fontWeight: '900', margin: 0 }}>BAYER</h3>
-            <p style={{ margin: 0, fontSize: '0.9rem', color: '#666' }}>Global Leader</p>
+          {/* Specific User Provided Logos */}
+          <motion.div whileHover={{ scale: 1.1 }} style={{ textAlign: 'center' }}>
+            <img src="/bayer.png" alt="Bayer" style={{ height: '80px', objectFit: 'contain' }} />
           </motion.div>
           
-          <motion.div whileHover={{ scale: 1.1, opacity: 1 }} style={{ textAlign: 'center' }}>
-            <h3 style={{ color: '#ff7900', fontSize: '2.5rem', fontWeight: '900', margin: 0 }}>syngenta</h3>
-            <p style={{ margin: 0, fontSize: '0.9rem', color: '#666' }}>Innovation Driven</p>
+          <motion.div whileHover={{ scale: 1.1 }} style={{ textAlign: 'center' }}>
+            <img src="/syngenta.png" alt="Syngenta" style={{ height: '80px', objectFit: 'contain' }} />
           </motion.div>
 
-          <motion.div whileHover={{ scale: 1.1, opacity: 1 }} style={{ textAlign: 'center' }}>
-            <h3 style={{ color: 'var(--primary-color)', fontSize: '2.5rem', fontWeight: '900', margin: 0 }}>&amp; MORE</h3>
-            <p style={{ margin: 0, fontSize: '0.9rem', color: '#666' }}>Quality First</p>
+          <motion.div whileHover={{ scale: 1.1 }} style={{ textAlign: 'center' }}>
+            <img src="/ipl.png" alt="IPL Biologicals" style={{ height: '80px', objectFit: 'contain' }} />
+          </motion.div>
+
+          <motion.div whileHover={{ scale: 1.1 }} style={{ textAlign: 'center' }}>
+            <img src="/willowood.avif" alt="Willowood" style={{ height: '80px', objectFit: 'contain' }} />
+          </motion.div>
+
+          <motion.div whileHover={{ scale: 1.1 }} style={{ textAlign: 'center' }}>
+            <img src="/fil.png" alt="FIL Industries" style={{ height: '80px', objectFit: 'contain' }} />
           </motion.div>
         </div>
       </div>
