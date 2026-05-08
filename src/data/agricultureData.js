@@ -237,7 +237,7 @@ export const products = [
     dosage: "5-10 ml per Litre of water.",
     diseases: ["Annual Weeds", "Perennial Grasses"],
     benefits: "20% discount on print price.  Complete root-to-leaf kill for long-lasting weed control.",
-    image: "",
+    image: "https://images.jdmagicbox.com/quickquotes/images_main/super-clear-cut-372666588-z38e8.jpg",
   },
   {
     id: 25,
@@ -247,7 +247,7 @@ export const products = [
     dosage: "Apply directly to cut surfaces or wounds.",
     diseases: ["Canker", "Fungal Infections", "Wound Rot"],
     benefits: "20% discount on print price.  Forms a durable protective barrier against weather and pests.",
-    image: "",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3dvS4vYRGfvxbCqxXWjs7eK9lmSLiZFrOuQ&s",
   },
   {
     id: 26,
@@ -257,7 +257,7 @@ export const products = [
     dosage: "1-2 g per Litre of water.",
     diseases: ["Powdery Mildew", "Leaf Spot"],
     benefits: "20% discount on print price.  Excellent preventative and curative action.",
-    image: "",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQT4ukTV7KHWsg8IwZnrYa51A8AUABauc1d6A&s",
   },
   {
     id: 27,
@@ -267,7 +267,7 @@ export const products = [
     dosage: "2 g per Litre of water.",
     diseases: ["Apple Scab", "Leaf Spot", "Damping Off"],
     benefits: "20% discount on print price.  Reliable protection and resistance management tool.",
-    image: "",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJ1zgh6MbbsaEgGkTHUNybCylA-Ghvl6a-tg&s",
   },
   {
     id: 28,
@@ -277,7 +277,7 @@ export const products = [
     dosage: "2-3 ml per Litre of water.",
     diseases: ["Bitter Pit", "Fruit Cracking", "Tip Burn"],
     benefits: "20% discount on print price.  Rapidly absorbed for better fruit quality and shelf life.",
-    image: "",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT50BGzJVICHC5w1QriAz5h7JfHYFExCtdfhw&s",
   },
   {
     id: 29,
@@ -287,7 +287,7 @@ export const products = [
     dosage: "2 ml per Litre of water.",
     diseases: ["Stress Recovery", "Poor Fruit Set"],
     benefits: "20% discount on print price.  Natural growth booster with essential amino acids.",
-    image: "",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRYv8O3vHRDVcJcklLz-TxMc2P3BLePzrJpg&s",
   },
   {
     id: 30,
@@ -297,7 +297,7 @@ export const products = [
     dosage: "Paint on trunk base or large pruning wounds.",
     diseases: ["Collar Rot", "Gummosis", "Canker"],
     benefits: "20% discount on print price.  Long-lasting adhesion and excellent disease suppression.",
-    image: "",
+    image: "https://cpimg.tistatic.com/8361085/s/4/devamrut-bordeaux.jpg",
   },
   {
     id: 31,
@@ -307,7 +307,7 @@ export const products = [
     dosage: "1 ml per Litre of water.",
     diseases: ["Blast", "Rust", "Sheath Blight"],
     benefits: "20% discount on print price.  Fast movement within the plant for complete coverage.",
-    image: "",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVdoDLPFDovM1bl72AyoMO904EVH2Wm3_sYg&s",
   },
   {
     id: 32,
@@ -317,7 +317,7 @@ export const products = [
     dosage: "10 ml per Litre for seed treatment or soil drench.",
     diseases: ["Nitrogen Deficiency", "Poor Soil Fertility"],
     benefits: "20% discount on print price.  Enhances soil health and reduces dependence on urea.",
-    image: "",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThpYHnlmTTa3AS8P-TvTmZrF3egUAOVdIK8w&s",
   }
 ];
 
@@ -348,7 +348,7 @@ export const diseases = [
     dosage: "1.5 ml/Litre mixed with horticultural oil.",
     dosageUrdu: "1.5 ملی لیٹر فی لیٹر تیل کے ساتھ ملا کر۔",
     severity: "High",
-    image: "/san-jose-scale.png"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIt4InCwngKvAjcBBYUGHAC4Z6kQ-k7ORBRw&s"
   },
   {
     id: "d3",
@@ -362,7 +362,7 @@ export const diseases = [
     dosage: "2 ml/Litre at pink bud stage.",
     dosageUrdu: "2 ملی لیٹر فی لیٹر کلیوں کے نکلتے وقت۔",
     severity: "Medium",
-    image: "https://images.unsplash.com/photo-1591857177580-dc82b9ac4e1e?w=800&q=80"
+    image: "https://www.gardendesign.com/pictures/images/400x320Exact_0x0/site_3/powdery-mildew-powdery-mildew-on-squash-leaf-shutterstock-com_13365.jpg"
   },
   {
     id: "d4",
@@ -376,7 +376,7 @@ export const diseases = [
     dosage: "1 ml/Litre of water.",
     dosageUrdu: "1 ملی لیٹر فی لیٹر پانی۔",
     severity: "Medium",
-    image: "/european-red-mite.png"
+    image: "https://content.ces.ncsu.edu/media/images/Transparency0235.jpg"
   },
   {
     id: "d5",
@@ -390,7 +390,7 @@ export const diseases = [
     dosage: "2 ml/Litre applied near roots or sprayed.",
     dosageUrdu: "2 ملی لیٹر فی لیٹر پانی، جڑوں یا پتوں پر۔",
     severity: "High",
-    image: "https://images.unsplash.com/photo-1621689626127-6f8e77a54823?w=800&q=80"
+    image: "https://www.cropscience.bayer.co.nz/-/media/bcs-inter/ws_newzealand/pests/insects/woolly-apple-aphid/waa-shoots-page.jpg?h=696&w=900&la=en&hash=FFF8335E2DAD650AF25E1A098DF3E9CC"
   },
   {
     id: "d6",
@@ -404,7 +404,7 @@ export const diseases = [
     dosage: "Paint trunk base with fungicide paste.",
     dosageUrdu: "تنے کے نچلے حصے پر دوائی کا لیپ کریں۔",
     severity: "High",
-    image: "https://images.unsplash.com/photo-1592982537447-6f23f0bf7123?w=800&q=80"
+    image: "https://cdn.shopify.com/s/files/1/1254/5779/files/Collar-Rot2.jpg?v=1619632720"
   },
   {
     id: "d7",
@@ -418,7 +418,7 @@ export const diseases = [
     dosage: "3 gm/Litre of water.",
     dosageUrdu: "3 گرام فی لیٹر پانی۔",
     severity: "Medium",
-    image: "https://images.unsplash.com/photo-1589152121543-f9ec745e6566?w=800&q=80"
+    image: "https://cdn.shopify.com/s/files/1/0762/3639/0696/files/268e8bc6-04ba-4520-9c79-3d7cfadd8fe4_11zon.webp?v=1739606163"
   },
   {
     id: "d8",
@@ -432,7 +432,7 @@ export const diseases = [
     dosage: "100 ppm spray during bloom.",
     dosageUrdu: "پھول آنے کے دوران سپرے کریں۔",
     severity: "High",
-    image: "https://images.unsplash.com/photo-1528183429752-a97d0bf99b5a?w=800&q=80"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnRXwvtqjBqzp42l3groqzRcuAShSVVsnWUQ&s"
   },
   {
     id: "d9",
@@ -446,7 +446,7 @@ export const diseases = [
     dosage: "Cut diseased branch and apply copper paste.",
     dosageUrdu: "بیمار شاخ کو کاٹ کر کاپر کا لیپ کریں۔",
     severity: "High",
-    image: "https://images.unsplash.com/photo-1589152121543-f9ec745e6566?w=800&q=80"
+    image: "https://www.shutterstock.com/image-photo/apple-tree-canker-on-branch-600nw-2585228479.jpg"
   },
   {
     id: "d10",
@@ -460,7 +460,7 @@ export const diseases = [
     dosage: "1.5 ml/Litre after petal fall.",
     dosageUrdu: "1.5 ملی لیٹر، پھول گرنے کے بعد۔",
     severity: "High",
-    image: "https://images.unsplash.com/photo-1596704104278-68eecab902fb?w=800&q=80"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTULXpw0NUvrkFKCw19LtdaxOBu8MUZlMFp-Q&s"
   },
   {
     id: "d11",
@@ -474,7 +474,7 @@ export const diseases = [
     dosage: "3 gm/Litre during early leafing.",
     dosageUrdu: "3 گرام فی لیٹر، نئے پتے نکلتے وقت۔",
     severity: "High",
-    image: "https://images.unsplash.com/photo-1592982537447-6f23f0bf7123?w=800&q=80"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStpnLbKr6eaHnem_u91UVXJvxalo0ARfrmMQ&s"
   },
   {
     id: "d12",
@@ -488,7 +488,7 @@ export const diseases = [
     dosage: "Spray when nuts are pea-sized.",
     dosageUrdu: "جب اخروٹ مٹر کے دانے جتنا ہو تو سپرے کریں۔",
     severity: "Medium",
-    image: "https://images.unsplash.com/photo-1621689626127-6f8e77a54823?w=800&q=80"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF_LUstlJjIP8cV66gU-M9vQpihIRLkRuIrw&s"
   },
   {
     id: "d13",
@@ -502,7 +502,7 @@ export const diseases = [
     dosage: "2.5 gm/Litre of water.",
     dosageUrdu: "2.5 گرام فی لیٹر پانی۔",
     severity: "Medium",
-    image: "https://images.unsplash.com/photo-1591857177580-dc82b9ac4e1e?w=800&q=80"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgz5lhVOMPg1AIvTsie0xP1ZbgtnQrrKuaqw&s"
   },
   {
     id: "d14",
@@ -516,7 +516,7 @@ export const diseases = [
     dosage: "2 gm/Litre after petal fall.",
     dosageUrdu: "2 گرام فی لیٹر، پھول گرنے کے بعد۔",
     severity: "High",
-    image: "https://images.unsplash.com/photo-1528183429752-a97d0bf99b5a?w=800&q=80"
+    image: "https://upload.wikimedia.org/wikipedia/commons/b/b8/Cherry_Leaf_Spot_2.jpg"
   },
   {
     id: "d15",
@@ -544,7 +544,7 @@ export const diseases = [
     dosage: "3 gm/Litre at dormant stage.",
     dosageUrdu: "3 گرام فی لیٹر سردیوں میں۔",
     severity: "Medium",
-    image: "https://images.unsplash.com/photo-1596704104278-68eecab902fb?w=800&q=80"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNLQLtbCI4XVuUVl_RJw0gzOciMkGwgEk1aw&s"
   },
   {
     id: "d17",
@@ -558,7 +558,7 @@ export const diseases = [
     dosage: "Apply thoroughly before bud break.",
     dosageUrdu: "پھول نکلنے سے پہلے سپرے کریں۔",
     severity: "High",
-    image: "https://images.unsplash.com/photo-1591857177580-dc82b9ac4e1e?w=800&q=80"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC6cXSd3VmSwHigwBn8hjLYK_Cu7B53DEZUQ&s"
   },
   {
     id: "d18",
@@ -572,7 +572,7 @@ export const diseases = [
     dosage: "1 gm/Litre of water.",
     dosageUrdu: "1 گرام فی لیٹر پانی۔",
     severity: "High",
-    image: "https://images.unsplash.com/photo-1560493676-04071c5f467b?w=800&q=80"
+    image: "https://agritech.tnau.ac.in/crop_protection/images/rice_diseases/blast_1.jpg"
   },
   {
     id: "d19",
@@ -586,7 +586,7 @@ export const diseases = [
     dosage: "2 ml/Litre of water.",
     dosageUrdu: "2 ملی لیٹر فی لیٹر پانی۔",
     severity: "Medium",
-    image: "https://images.unsplash.com/photo-1592982537447-6f23f0bf7123?w=800&q=80"
+    image: "https://soybeanresearchinfo.com/wp-content/uploads/2019/03/Brown-spot-Daren-Mueller-35-1300x867.jpg"
   },
   {
     id: "d20",
@@ -600,7 +600,7 @@ export const diseases = [
     dosage: "Apply granules in standing water.",
     dosageUrdu: "کھڑے پانی میں دانے دار دوا ڈالیں۔",
     severity: "High",
-    image: "https://images.unsplash.com/photo-1621689626127-6f8e77a54823?w=800&q=80"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1KJH1Y_qQKDCwIFeQ-jUOUUznQSub-fIDIw&s"
   },
   {
     id: "d21",
@@ -614,7 +614,7 @@ export const diseases = [
     dosage: "2.5 gm/Litre of water.",
     dosageUrdu: "2.5 گرام فی لیٹر پانی۔",
     severity: "Medium",
-    image: "https://images.unsplash.com/photo-1596704104278-68eecab902fb?w=800&q=80"
+    image: "https://thumbs.dreamstime.com/b/northern-corn-leaf-blight-maize-helminthosporium-turcicum-i-northern-corn-leaf-blight-maize-helminthosporium-turcicum-104797569.jpg"
   },
   {
     id: "d22",
@@ -628,7 +628,7 @@ export const diseases = [
     dosage: "0.5 gm/Litre of water.",
     dosageUrdu: "0.5 گرام فی لیٹر پانی۔",
     severity: "High",
-    image: "https://images.unsplash.com/photo-1621689626127-6f8e77a54823?w=800&q=80"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJ8U0v30vF5C3h20DU2vSXT34Rh_OAlnew_A&s"
   },
   {
     id: "d23",
@@ -642,7 +642,7 @@ export const diseases = [
     dosage: "Dip corms in 2gm/Litre solution before planting.",
     dosageUrdu: "بونے سے پہلے گٹھوں کو 2 گرام فی لیٹر کے محلول میں ڈبوئیں۔",
     severity: "High",
-    image: "https://images.unsplash.com/photo-1591857177580-dc82b9ac4e1e?w=800&q=80"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8AJmDzURXRJziuZVqFVMavcvJqNF8AMsL2A&s"
   },
   {
     id: "d24",
@@ -656,7 +656,7 @@ export const diseases = [
     dosage: "0.5 ml/Litre of water.",
     dosageUrdu: "0.5 ملی لیٹر فی لیٹر پانی۔",
     severity: "Medium",
-    image: "https://images.unsplash.com/photo-1596704104278-68eecab902fb?w=800&q=80"
+    image: "https://images.squarespace-cdn.com/content/v1/502d2cede4b0ab396711e089/57c7fae2-b697-4386-badc-9c959ddc3e32/PredMidge_Uroeucon_aphid_6_2025_PMS+copy+2.jpg"
   },
   {
     id: "d25",
@@ -670,6 +670,6 @@ export const diseases = [
     dosage: "2.5 gm/Litre of water.",
     dosageUrdu: "2.5 گرام فی لیٹر پانی۔",
     severity: "High",
-    image: "https://images.unsplash.com/photo-1592982537447-6f23f0bf7123?w=800&q=80"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT59UZq2s60UL9MJwEcSN_GPXNlgsSpAsWM9w&s"
   }
 ];
