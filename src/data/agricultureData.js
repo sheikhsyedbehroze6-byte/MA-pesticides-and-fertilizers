@@ -137,17 +137,17 @@ export const products = [
     dosage: "1 ml per Litre of water.",
     diseases: ["Broad-leaf Weeds", "Annual Grasses"],
     benefits: "20% discount on print price.  Safe for the main crop while destroying competing weeds.",
-    image: "",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6nasU2IU8ZEro3M-oaMI5KeHcoEA4F-nzWw&s",
   },
   {
     id: 15,
-    name: "Hinekey (Humic Acid)",
+    name: "Heinekey (Humic Acid)",
     type: "Plant Tonic",
     uses: "High-grade Humic acid for soil enrichment and root stimulation.",
     dosage: "5 ml per Litre of water (Foliar) / 1kg per acre (Soil).",
     diseases: ["Nutrient Deficiency", "Poor Root Growth"],
     benefits: "20% discount on print price.  Improves soil structure and nutrient uptake efficiency.",
-    image: "",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHlgpnfoJw7BGTKaiRC1XYl_rlCAxrOxKL2w&s",
   },
   {
     id: 16,
@@ -157,7 +157,7 @@ export const products = [
     dosage: "2 ml per Litre of water.",
     diseases: ["Stunted Growth", "Low Yield"],
     benefits: "20% discount on print price.  Boosts plant immunity and improves fruit size/quality.",
-    image: "",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3arIuRxI754NrO4GwFUuvOPxCpHqnaGaqcA&s",
   },
   {
     id: 17,
@@ -167,7 +167,7 @@ export const products = [
     dosage: "1.5 ml per Litre of water.",
     diseases: ["Sucking Pests", "Aphids", "Thrips"],
     benefits: "20% discount on print price.  Provides rapid knockdown and broad-spectrum control.",
-    image: "",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv34t2ZrFcv3iPyT27lNOJVXVjeC59a96ZeQ&s",
   },
   {
     id: 18,
@@ -177,7 +177,7 @@ export const products = [
     dosage: "5-10 g per Litre of water.",
     diseases: ["Root Rot", "Wilt", "Damping Off"],
     benefits: "20% discount on print price.  Eco-friendly biological control with no chemical residues.",
-    image: "",
+    image: "https://www.farmersstop.com/cdn/shop/files/35963201716307_360x480.png?v=1748675031",
   },
   {
     id: 19,
@@ -187,7 +187,7 @@ export const products = [
     dosage: "4 kg per acre.",
     diseases: ["Phosphorus Deficiency", "Soil Exhaustion"],
     benefits: "20% discount on print price.  Significantly increases root surface area and drought tolerance.",
-    image: "",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzDdlD5jFnmvQlnkPxcwjXjiP8af0K1zYESg&s",
   },
   {
     id: 20,
@@ -197,7 +197,7 @@ export const products = [
     dosage: "3-5 ml per Litre of water.",
     diseases: ["Whiteflies", "Mites", "Leaf Hopper"],
     benefits: "20% discount on print price.  Natural pest repellent and anti-feedant properties.",
-    image: "",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFPhZWCKsznPzuVNlrlwqU0uxLFWOcjNmSTA&s",
   },
   {
     id: 21,
@@ -217,7 +217,7 @@ export const products = [
     dosage: "3 ml per Litre of water.",
     diseases: ["Yellowing Leaves", "Nutrient Stress"],
     benefits: "20% discount on print price.  Fast-acting liquid formula for instant results.",
-    image: "",
+    image: "https://5.imimg.com/data5/NSDMERP/Default/2026/1/575333124/EH/ID/FV/68915898/68915898-product-1768220776639-250x250.png",
   },
   {
     id: 23,
@@ -227,7 +227,7 @@ export const products = [
     dosage: "1-2 ml per Litre of water.",
     diseases: ["Environmental Stress", "Weak Stems"],
     benefits: "20% discount on print price.  Enhances structural strength and resistance to pests.",
-    image: "",
+    image: "https://cdn.shopify.com/s/files/1/0722/2059/files/silixol-file-61.jpg?v=1737482833",
   }
 ];
 

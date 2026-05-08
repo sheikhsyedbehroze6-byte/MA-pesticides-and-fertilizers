@@ -56,8 +56,8 @@ export default function About() {
             {/* Potato */}
             <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring" }}>
               <img 
-                src="https://images.unsplash.com/photo-1508747703725-719777637510?w=800&q=80" 
-                alt="Fresh Potatoes" 
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhr-De7j3gz5jk_y6icodTeI9aaf9cxcisTw&s" 
+                alt="Agricultural Solutions" 
                 style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '20px', boxShadow: '0 15px 30px rgba(0,0,0,0.2)', border: '4px solid white' }} 
               />
             </motion.div>
