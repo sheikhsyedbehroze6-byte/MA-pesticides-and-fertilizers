@@ -121,7 +121,28 @@ export default function About() {
             </div>
           </AnimatedSection>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+          {/* Apple Growth Stages Chart */}
+          <AnimatedSection delay={0.2} style={{ background: 'rgba(255, 255, 255, 0.98)', backdropFilter: 'blur(10px)', padding: '2.5rem', borderRadius: '16px', boxShadow: '0 20px 50px rgba(0,0,0,0.15)', border: '1px solid rgba(255,255,255,0.5)', marginTop: '3rem' }}>
+            <h3 style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--primary-color)', marginBottom: '1.5rem', fontSize: '1.8rem' }}>
+              <TreeDeciduous size={32} /> Apple Phenological Stages
+            </h3>
+            <p style={{ fontSize: '1.1rem', marginBottom: '2rem', color: 'var(--text-main)' }}>
+              Understanding the different growth stages of apple trees is crucial for timely application of fertilizers and pesticides. Use this guide to identify the exact stage of your orchard for the most effective results.
+            </p>
+            
+            <div style={{ position: 'relative', width: '100%', borderRadius: '12px', overflow: 'hidden', border: '1px solid #eee' }}>
+              <img 
+                src="/apple-stages.png" 
+                alt="Apple Phenological Stages Chart" 
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+              />
+            </div>
+            <p style={{ marginTop: '1.5rem', fontSize: '0.95rem', color: 'var(--text-muted)', fontStyle: 'italic', textAlign: 'center' }}>
+              * Consult with our experts at MA Pesticides for specific spray schedules based on these stages.
+            </p>
+          </AnimatedSection>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginTop: '3rem' }}>
             <AnimatedSection className="glow-card" delay={0.3} style={{ background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(10px)', padding: '2rem', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.05)', border: '1px solid var(--border-color)', textAlign: 'center' }}>
               <div style={{ background: '#2c3e50', padding: '1.5rem', borderRadius: '12px', marginBottom: '1.5rem', display: 'flex', justifyContent: 'center' }}>
                 <img 

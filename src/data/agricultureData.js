@@ -117,7 +117,7 @@ export const products = [
     dosage: "2.5 g per Litre of water.",
     diseases: ["Bacterial Blight", "Downy Mildew", "Canker"],
     benefits: "20% discount on print price.  Essential for disease prevention and resistance management.",
-    image: "",
+    image: "https://highyieldsagro.com/wp-content/uploads/2025/02/Willowood-Carmel-large.webp",
   }
 ];
 
