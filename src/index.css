@@ -598,15 +598,4 @@ footer p {
   animation: float 6s ease-in-out infinite;
 }
 
-/* Rainbow Border Text */
-.rainbow-text {
-  background: linear-gradient(to right, #fce043, #00ff88, #00d2ff, #ff00cc, #fce043);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: rainbow-flow 4s linear infinite;
-}
 
-@keyframes rainbow-flow {
-  to { background-position: 200% center; }
-}

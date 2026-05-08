@@ -69,9 +69,9 @@ export default function Home() {
 
         <div className="hero-content" style={{ position: 'relative', zIndex: 2 }}>
           <AnimatedSection delay={0.2} className="hero-text" style={{ padding: '2rem', background: 'rgba(26, 93, 26, 0.4)', backdropFilter: 'blur(10px)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.2)' }}>
-            <h1 className="rainbow-text" style={{ color: '#fce043' }}>Welcome to MA Pesticides</h1>
+            <h1 style={{ color: '#2e7d32' }}>Welcome to MA Pesticides</h1>
             <p>Your Trusted Agricultural Partner near Lal Chowk, Srinagar.</p>
-            <p style={{ fontSize: '1.2rem', color: '#e0e0e0' }}>Premium quality fertilizers, pesticides, and expert farming advice for a bountiful harvest.</p>
+            <p style={{ fontSize: '1.2rem', color: '#e0e0e0' }}>Premium quality <span style={{ color: '#81c784', fontWeight: 'bold' }}>fertilizers</span>, <span style={{ color: '#81c784', fontWeight: 'bold' }}>pesticides</span>, and expert farming advice for a bountiful harvest.</p>
             <Link to="/products" className="cta-button" style={{ marginTop: '2rem' }}>
               Explore Our Products <ArrowRight size={20} />
             </Link>
@@ -182,7 +182,7 @@ export default function Home() {
           </motion.div>
 
           <motion.div whileHover={{ scale: 1.1, opacity: 1 }} style={{ textAlign: 'center' }}>
-            <h3 style={{ color: 'var(--primary-color)', fontSize: '2.5rem', fontWeight: '900', margin: 0 }}>& MORE</h3>
+            <h3 style={{ color: 'var(--primary-color)', fontSize: '2.5rem', fontWeight: '900', margin: 0 }}>&amp; MORE</h3>
             <p style={{ margin: 0, fontSize: '0.9rem', color: '#666' }}>Quality First</p>
           </motion.div>
         </div>

@@ -1,6 +1,7 @@
 import AnimatedSection from '../components/AnimatedSection';
 import { diseases } from '../data/agricultureData';
 import { AlertTriangle, CheckCircle, Leaf } from 'lucide-react';
+import { motion } from 'framer-motion';
 import './urdu.css'; // Import special styles for Urdu fonts
 
 export default function DiseaseGuide() {
@@ -23,17 +24,35 @@ export default function DiseaseGuide() {
             key={disease.id} 
             delay={index * 0.05} 
             className={`disease-card bilingual-card ${disease.severity === 'High' ? 'severity-high' : ''}`}
-            style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
           >
+            <motion.div
+              whileHover={{ 
+                y: -12,
+                scale: 1.01,
+                boxShadow: '0 20px 40px rgba(46, 125, 50, 0.1)',
+                transition: { duration: 0.3 }
+              }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
+            >
             {disease.image && (
-              <div className="disease-image-container" style={{ margin: '-1.5rem -1.5rem 1.5rem -1.5rem', height: '180px', overflow: 'hidden' }}>
-                <img 
+              <motion.div 
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                className="disease-image-container" 
+                style={{ margin: '-1.5rem -1.5rem 1.5rem -1.5rem', maxHeight: '300px', overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+              >
+                <motion.img 
                   src={disease.image} 
                   alt={disease.name} 
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.5 }}
+                  style={{ maxWidth: '100%', height: 'auto', objectFit: 'contain' }} 
                   onError={(e) => { e.target.style.display = 'none'; }}
                 />
-              </div>
+              </motion.div>
             )}
             
             <div className="disease-header">
@@ -44,7 +63,13 @@ export default function DiseaseGuide() {
               </div>
             </div>
 
-            <div className="disease-content" style={{ flex: 1 }}>
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="disease-content" 
+              style={{ flex: 1 }}
+            >
               <div className="english-side">
                 <p><strong>Symptoms:</strong> {disease.symptoms}</p>
                 <p><strong>Severity:</strong> <span style={{ 
@@ -58,9 +83,15 @@ export default function DiseaseGuide() {
               <div className="urdu-side urdu-text" dir="rtl">
                 <p><strong>علامات:</strong> {disease.symptomsUrdu}</p>
               </div>
-            </div>
+            </motion.div>
             
-            <div className="disease-cure" style={{ background: 'rgba(26, 93, 26, 0.03)', padding: '1rem', borderRadius: '8px', border: '1px solid rgba(26, 93, 26, 0.1)' }}>
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="disease-cure" 
+              style={{ background: 'rgba(26, 93, 26, 0.03)', padding: '1rem', borderRadius: '8px', border: '1px solid rgba(26, 93, 26, 0.1)' }}
+            >
               <div className="english-side">
                 <p><CheckCircle size={16} color="var(--primary-color)" style={{ verticalAlign: 'middle', marginRight: '5px' }}/>
                 <strong>Recommended Cure:</strong> {disease.cure}</p>
@@ -71,8 +102,9 @@ export default function DiseaseGuide() {
                 <strong>علاج:</strong> {disease.cureUrdu}</p>
                 <p style={{ marginTop: '0.5rem', fontSize: '0.9rem' }}><strong>مقدار:</strong> {disease.dosageUrdu}</p>
               </div>
-            </div>
-          </AnimatedSection>
+            </motion.div>
+          </motion.div>
+        </AnimatedSection>
         ))}
       </div>
     </div>

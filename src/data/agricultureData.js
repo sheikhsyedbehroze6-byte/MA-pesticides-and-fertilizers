@@ -68,7 +68,7 @@ export const diseases = [
     dosage: "1.5 ml/Litre mixed with horticultural oil.",
     dosageUrdu: "1.5 ملی لیٹر فی لیٹر تیل کے ساتھ ملا کر۔",
     severity: "High",
-    image: "/san-jose-scale.jpg"
+    image: "/san-jose-scale.png"
   },
   {
     id: "d3",
@@ -96,7 +96,7 @@ export const diseases = [
     dosage: "1 ml/Litre of water.",
     dosageUrdu: "1 ملی لیٹر فی لیٹر پانی۔",
     severity: "Medium",
-    image: "https://images.unsplash.com/photo-1596704104278-68eecab902fb?w=800&q=80"
+    image: "/european-red-mite.png"
   },
   {
     id: "d5",
@@ -292,7 +292,7 @@ export const diseases = [
     dosage: "1 gm/Litre of water.",
     dosageUrdu: "1 گرام فی لیٹر پانی۔",
     severity: "High",
-    image: "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=800&q=80"
+    image: "https://images.unsplash.com/photo-1560493676-04071c5f467b?w=800&q=80"
   },
   {
     id: "d19",
