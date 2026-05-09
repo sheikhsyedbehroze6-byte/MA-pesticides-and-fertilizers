@@ -7,6 +7,7 @@ export const products = [
     dosage: "2 ml per Litre of water.",
     diseases: ["Sucking Pests", "Caterpillars", "Bollworms"],
     benefits: "20% discount on print price.  Fast knockdown effect and long residual control.",
+    composition: "Chlorpyrifos 50% + Cypermethrin 5% EC",
     image: "https://5.imimg.com/data5/FB/SH/GY/ANDROID-30875690/prod-20200616-1455468400509020022808526-jpg.jpg",
   },
   {
@@ -17,6 +18,7 @@ export const products = [
     dosage: "1 ml per Litre of water.",
     diseases: ["Apple Scab", "Leaf Spot", "Fruit Rot"],
     benefits: "20% discount on print price.  High-efficacy contact action with superior coverage.",
+    composition: "Dodine 65% WP",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXgiKTxt4opENrx9C-DhzrMY_6N63rkyszuw&s",
   },
   {
@@ -27,6 +29,7 @@ export const products = [
     dosage: "2.5 g per Litre of water.",
     diseases: ["Powdery Mildew", "Early Blight", "Late Blight"],
     benefits: "20% discount on print price.  Excellent rain-fastness and protective coverage.",
+    composition: "Propineb 70% WP",
     image: "https://dujjhct8zer0r.cloudfront.net/media/prod_image/97ba698697ab860fb949ed2008187020-02-05-24-18-00-57.webp",
   },
   {
@@ -37,6 +40,7 @@ export const products = [
     dosage: "1 ml per Litre of water.",
     diseases: ["Powdery Mildew", "Apple Scab", "Fruit Rot"],
     benefits: "20% discount on print price.  Excellent systemic control and fruit quality.",
+    composition: "Fluopyram 17.7% + Tebuconazole 17.7%",
     image: "https://cultree.in/cdn/shop/files/LunaExperience.jpg?v=1709206947",
   },
   {
@@ -47,6 +51,7 @@ export const products = [
     dosage: "2.5 g per Litre of water.",
     diseases: ["Apple Scab", "Early Blight", "Late Blight"],
     benefits: "20% discount on print price.  Strong protective action and rain-fastness.",
+    composition: "Propineb 70% WP",
     image: "public/antracol.jpg",
   },
   {
@@ -57,6 +62,7 @@ export const products = [
     dosage: "2 g per Litre of water.",
     diseases: ["Leaf Spot", "Blast", "Downy Mildew"],
     benefits: "20% discount on print price.  Cost-effective and highly reliable formula.",
+    composition: "Carbendazim 12% + Mancozeb 63%",
     image: "https://kissanemart.com/storage/tropical-tagban-insecticide-800x800.jpg",
   },
   {
@@ -67,6 +73,7 @@ export const products = [
     dosage: "0.5 g per Litre of water.",
     diseases: ["Aphids", "Whiteflies", "Jassids"],
     benefits: "20% discount on print price.  Fast action and long-lasting crop protection.",
+    composition: "Thiamethoxam 25% WG",
     image: "https://5.imimg.com/data5/SELLER/Default/2023/2/IW/NT/VH/50289229/tagxone-thiamethoxam-25-wg.jpg",
   },
   {
@@ -77,6 +84,7 @@ export const products = [
     dosage: "2 g per Litre of water.",
     diseases: ["Apple Scab", "Damping Off", "Grey Mold"],
     benefits: "20% discount on print price.  Excellent resistance management and crop safety.",
+    composition: "Captan 50% WP",
     image: "https://www.agricoorganics.com/wp-content/uploads/2025/02/015.jpg",
   },
   {
@@ -87,6 +95,7 @@ export const products = [
     dosage: "5 ml per Litre of water.",
     diseases: ["Annual Grasses", "Broad-leaf Weeds"],
     benefits: "20% discount on print price.  Fast acting weed control with no soil residual effect.",
+    composition: "Paraquat Dichloride 24% SL",
     image: "https://appvyapar-assets.blr1.digitaloceanspaces.com/uploads/wilshire/2023-10/bigimages/b88a01ae7ce98d68af3773d4af3e3ed4.jpeg",
   },
   {
@@ -97,6 +106,7 @@ export const products = [
     dosage: "0.4 ml per Litre of water.",
     diseases: ["Fruit Borer", "Shoot Borer", "Sucking Pests"],
     benefits: "20% discount on print price.  Advanced ZC formulation for superior performance and stability.",
+    composition: "Thiamethoxam + Lambda-Cyhalothrin ZC",
     image: "/tingo.png",
   },
   {
@@ -107,6 +117,7 @@ export const products = [
     dosage: "0.5 ml per Litre of water.",
     diseases: ["Apple Scab", "Leaf Spot", "Rust"],
     benefits: "20% discount on print price.  Long-lasting protection and fast systemic movement.",
+    composition: "Difenoconazole 25% EC",
     image: "https://5.imimg.com/data5/SELLER/Default/2024/10/459139118/QZ/EE/KR/131299105/94image-wilcore-500x500.jpg",
   },
   {
@@ -117,6 +128,7 @@ export const products = [
     dosage: "2.5 g per Litre of water.",
     diseases: ["Bacterial Blight", "Downy Mildew", "Canker"],
     benefits: "20% discount on print price.  Essential for disease prevention and resistance management.",
+    composition: "Copper Oxychloride 50% WP",
     image: "https://highyieldsagro.com/wp-content/uploads/2025/02/Willowood-Carmel-large.webp",
   },
   {
@@ -127,6 +139,7 @@ export const products = [
     dosage: "0.4 ml per Litre of water.",
     diseases: ["Fruit Borer", "Caterpillars", "Leaf Miner"],
     benefits: "20% discount on print price.  Excellent crop safety and long-lasting efficacy.",
+    composition: "Chlorantraniliprole 18.5% SC",
     image: "https://cdn.shopify.com/s/files/1/0722/2059/files/Reserved_ImageAttachment__13___ProductImage1_32___0d3ef08ce6a7403ea5e9dcb7fa45a078_1___1.png?v=1752152468",
   },
   {
@@ -137,6 +150,7 @@ export const products = [
     dosage: "1 ml per Litre of water.",
     diseases: ["Broad-leaf Weeds", "Annual Grasses"],
     benefits: "20% discount on print price.  Safe for the main crop while destroying competing weeds.",
+    composition: "Glyphosate 41% SL",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6nasU2IU8ZEro3M-oaMI5KeHcoEA4F-nzWw&s",
   },
   {
@@ -147,6 +161,7 @@ export const products = [
     dosage: "5 ml per Litre of water (Foliar) / 1kg per acre (Soil).",
     diseases: ["Nutrient Deficiency", "Poor Root Growth"],
     benefits: "20% discount on print price.  Improves soil structure and nutrient uptake efficiency.",
+    composition: "Humic Acid 12% + Fulvic Acid",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHlgpnfoJw7BGTKaiRC1XYl_rlCAxrOxKL2w&s",
   },
   {
@@ -157,6 +172,7 @@ export const products = [
     dosage: "2 ml per Litre of water.",
     diseases: ["Stunted Growth", "high Yield"],
     benefits: "20% discount on print price.  Boosts plant immunity and improves fruit size/quality.",
+    composition: "Multi-micronutrients & Bio-stimulants",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3arIuRxI754NrO4GwFUuvOPxCpHqnaGaqcA&s",
   },
   {
@@ -167,6 +183,7 @@ export const products = [
     dosage: "1.5 ml per Litre of water.",
     diseases: ["Sucking Pests", "Aphids", "Thrips"],
     benefits: "20% discount on print price.  Provides rapid knockdown and broad-spectrum control.",
+    composition: "Chlorpyrifos 20% EC",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQv34t2ZrFcv3iPyT27lNOJVXVjeC59a96ZeQ&s",
   },
   {
@@ -177,6 +194,7 @@ export const products = [
     dosage: "5-10 g per Litre of water.",
     diseases: ["Root Rot", "Wilt", "Damping Off"],
     benefits: "20% discount on print price.  Eco-friendly biological control with no chemical residues.",
+    composition: "Trichoderma Viride",
     image: "https://www.farmersstop.com/cdn/shop/files/35963201716307_360x480.png?v=1748675031",
   },
   {
@@ -187,6 +205,7 @@ export const products = [
     dosage: "4 kg per acre.",
     diseases: ["Phosphorus Deficiency", "Soil Exhaustion"],
     benefits: "20% discount on print price.  Significantly increases root surface area and drought tolerance.",
+    composition: "Vesicular Arbuscular Mycorrhiza (VAM)",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzDdlD5jFnmvQlnkPxcwjXjiP8af0K1zYESg&s",
   },
   {
@@ -197,6 +216,7 @@ export const products = [
     dosage: "3-5 ml per Litre of water.",
     diseases: ["Whiteflies", "Mites", "Leaf Hopper"],
     benefits: "20% discount on print price.  Natural pest repellent and anti-feedant properties.",
+    composition: "Neem Oil (Azadirachtin)",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFPhZWCKsznPzuVNlrlwqU0uxLFWOcjNmSTA&s",
   },
   {
@@ -207,6 +227,7 @@ export const products = [
     dosage: "2 ml per Litre of water.",
     diseases: ["Mixed Weed Population"],
     benefits: "20% discount on print price.  Effective control of tough-to-kill weeds in orchards.",
+    composition: "2,4-D Ethyl Ester 38% EC",
     image: "https://5.imimg.com/data5/SELLER/Default/2024/10/458420997/YG/WV/CE/102230489/green-mix-herbicide-500x500.jpg",
   },
   {
@@ -217,6 +238,7 @@ export const products = [
     dosage: "3 ml per Litre of water.",
     diseases: ["Yellowing Leaves", "Nutrient Stress"],
     benefits: "20% discount on print price.  Fast-acting liquid formula for instant results.",
+    composition: "NPK + Micronutrients (Liquid)",
     image: "https://5.imimg.com/data5/NSDMERP/Default/2026/1/575333124/EH/ID/FV/68915898/68915898-product-1768220776639-250x250.png",
   },
   {
@@ -227,6 +249,7 @@ export const products = [
     dosage: "1-2 ml per Litre of water.",
     diseases: ["Environmental Stress", "Weak Stems"],
     benefits: "20% discount on print price.  Enhances structural strength and resistance to pests.",
+    composition: "Ortho Silicic Acid (OSA)",
     image: "https://cdn.shopify.com/s/files/1/0722/2059/files/silixol-file-61.jpg?v=1737482833",
   },
   {
@@ -237,6 +260,7 @@ export const products = [
     dosage: "5-10 ml per Litre of water.",
     diseases: ["Annual Weeds", "Perennial Grasses"],
     benefits: "20% discount on print price.  Complete root-to-leaf kill for long-lasting weed control.",
+    composition: "Glyphosate 41% SL",
     image: "https://images.jdmagicbox.com/quickquotes/images_main/super-clear-cut-372666588-z38e8.jpg",
   },
   {
@@ -247,6 +271,7 @@ export const products = [
     dosage: "Apply directly to cut surfaces or wounds.",
     diseases: ["Canker", "Fungal Infections", "Wound Rot"],
     benefits: "20% discount on print price.  Forms a durable protective barrier against weather and pests.",
+    composition: "Copper Carbonate + Red Lead + Lanoline",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3dvS4vYRGfvxbCqxXWjs7eK9lmSLiZFrOuQ&s",
   },
   {
@@ -257,6 +282,7 @@ export const products = [
     dosage: "1-2 g per Litre of water.",
     diseases: ["Powdery Mildew", "Leaf Spot"],
     benefits: "20% discount on print price.  Excellent preventative and curative action.",
+    composition: "Myclobutanil 10% WP",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQT4ukTV7KHWsg8IwZnrYa51A8AUABauc1d6A&s",
   },
   {
@@ -267,6 +293,7 @@ export const products = [
     dosage: "2 g per Litre of water.",
     diseases: ["Apple Scab", "Leaf Spot", "Damping Off"],
     benefits: "20% discount on print price.  Reliable protection and resistance management tool.",
+    composition: "Captan 50% WP",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJ1zgh6MbbsaEgGkTHUNybCylA-Ghvl6a-tg&s",
   },
   {
@@ -277,6 +304,7 @@ export const products = [
     dosage: "2-3 ml per Litre of water.",
     diseases: ["Bitter Pit", "Fruit Cracking", "Tip Burn"],
     benefits: "20% discount on print price.  Rapidly absorbed for better fruit quality and shelf life.",
+    composition: "Calcium Nitrate (Liquid)",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT50BGzJVICHC5w1QriAz5h7JfHYFExCtdfhw&s",
   },
   {
@@ -287,6 +315,7 @@ export const products = [
     dosage: "2 ml per Litre of water.",
     diseases: ["Stress Recovery", "Poor Fruit Set"],
     benefits: "20% discount on print price.  Natural growth booster with essential amino acids.",
+    composition: "Amino Acids + Peptides",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRYv8O3vHRDVcJcklLz-TxMc2P3BLePzrJpg&s",
   },
   {
@@ -297,6 +326,7 @@ export const products = [
     dosage: "Paint on trunk base or large pruning wounds.",
     diseases: ["Collar Rot", "Gummosis", "Canker"],
     benefits: "20% discount on print price.  Long-lasting adhesion and excellent disease suppression.",
+    composition: "Copper Sulphate + Lime",
     image: "https://cpimg.tistatic.com/8361085/s/4/devamrut-bordeaux.jpg",
   },
   {
@@ -307,6 +337,7 @@ export const products = [
     dosage: "1 ml per Litre of water.",
     diseases: ["Blast", "Rust", "Sheath Blight"],
     benefits: "20% discount on print price.  Fast movement within the plant for complete coverage.",
+    composition: "Tricyclazole 75% WP",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVdoDLPFDovM1bl72AyoMO904EVH2Wm3_sYg&s",
   },
   {
@@ -317,6 +348,7 @@ export const products = [
     dosage: "10 ml per Litre for seed treatment or soil drench.",
     diseases: ["Nitrogen Deficiency", "Poor Soil Fertility"],
     benefits: "20% discount on print price.  Enhances soil health and reduces dependence on urea.",
+    composition: "Rhizobium Sp.",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThpYHnlmTTa3AS8P-TvTmZrF3egUAOVdIK8w&s",
   },
   {
@@ -327,6 +359,7 @@ export const products = [
     dosage: "1.5-2 g per Litre of water.",
     diseases: ["Apple Scab", "Leaf Spot", "Powdery Mildew"],
     benefits: "20% discount on print price.  Fast systemic action for internal plant protection.",
+    composition: "Carbendazim 50% WP",
     image: "",
   },
   {
@@ -337,6 +370,7 @@ export const products = [
     dosage: "1-1.5 ml per Litre of water.",
     diseases: ["Broad-leaf Weeds", "Sedges"],
     benefits: "20% discount on print price.  Targeted weed control with excellent crop safety.",
+    composition: "Ethoxysulfuron 15% WDG",
     image: "",
   },
   {
@@ -347,6 +381,7 @@ export const products = [
     dosage: "2 g per Litre of water.",
     diseases: ["Early Blight", "Late Blight", "Fruit Rot"],
     benefits: "20% discount on print price.  Reliable protection against a wide range of fungal pathogens.",
+    composition: "Flusilazole 40% EC",
     image: "",
   },
   {
@@ -357,6 +392,7 @@ export const products = [
     dosage: "0.5-1 g per Litre of water.",
     diseases: ["Poor Fruit Size", "Stunted Growth"],
     benefits: "20% discount on print price.  Enhances cell elongation and improves fruit quality.",
+    composition: "Gibberellic Acid 0.001%",
     image: "",
   },
   {
@@ -367,6 +403,7 @@ export const products = [
     dosage: "5-7 ml per Litre of water.",
     diseases: ["Annual Grasses", "Broad-leaf Weeds"],
     benefits: "20% discount on print price.  Rapid action with visible results within hours.",
+    composition: "Paraquat Dichloride 24% SL",
     image: "",
   },
   {
@@ -377,6 +414,7 @@ export const products = [
     dosage: "0.4 ml per Litre of water.",
     diseases: ["Apple Scab", "Powdery Mildew"],
     benefits: "20% discount on print price.  Superior systemic movement for comprehensive protection.",
+    composition: "Fenarimol 12% EC",
     image: "",
   },
   {
@@ -387,6 +425,7 @@ export const products = [
     dosage: "5-10 g per Litre of water.",
     diseases: ["Nutrient Deficiency", "Slow Growth"],
     benefits: "20% discount on print price.  100% water-soluble for quick nutrient availability.",
+    composition: "NPK 19:19:19",
     image: "",
   },
   {
@@ -397,6 +436,7 @@ export const products = [
     dosage: "1 ml per Litre of water.",
     diseases: ["Rust", "Smut", "Scab"],
     benefits: "20% discount on print price.  Protective and curative action with long-lasting effect.",
+    composition: "Propiconazole 25% EC",
     image: "",
   },
   {
@@ -407,6 +447,7 @@ export const products = [
     dosage: "10 ml per Litre of water.",
     diseases: ["Poor Root Development", "Soil Exhaustion"],
     benefits: "20% discount on print price.  Natural way to improve soil biology and plant vigor.",
+    composition: "Bacillus Subtilis",
     image: "",
   },
   {
@@ -417,6 +458,7 @@ export const products = [
     dosage: "0.5 ml per Litre of spray solution.",
     diseases: ["Poor Spray Coverage", "Run-off"],
     benefits: "20% discount on print price.  Improves coverage, penetration, and rain-fastness of sprays.",
+    composition: "Alkyl Aryl Polyalkoxylate",
     image: "",
   },
   {
@@ -427,6 +469,7 @@ export const products = [
     dosage: "1 ml per Litre of water.",
     diseases: ["Excessive Vegetative Growth", "Poor Flowering"],
     benefits: "20% discount on print price.  Promotes better flowering and fruit set.",
+    composition: "Paclobutrazol 23% SC",
     image: "",
   },
   {
@@ -437,6 +480,7 @@ export const products = [
     dosage: "1 ml per Litre of water.",
     diseases: ["Aphids", "Thrips", "Caterpillars"],
     benefits: "20% discount on print price.  Advanced formulation for superior pest control.",
+    composition: "Imidacloprid 17.8% SL",
     image: "",
   }
 ];

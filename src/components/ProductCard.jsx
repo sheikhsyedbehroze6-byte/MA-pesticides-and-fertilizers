@@ -21,6 +21,11 @@ export default function ProductCard({ product }) {
         <p className="product-uses">
           {product.uses}
         </p>
+        {product.composition && (
+          <p className="product-composition" style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontStyle: 'italic', marginTop: '0.2rem' }}>
+            <strong>Composition:</strong> {product.composition}
+          </p>
+        )}
         
         <div className="product-details">
           <div className="detail-item">
