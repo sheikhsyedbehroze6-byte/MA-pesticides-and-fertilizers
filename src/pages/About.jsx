@@ -115,13 +115,13 @@ export default function About() {
               <div>
                 <h4 style={{ marginBottom: '1rem', color: 'var(--primary-color)', fontSize: '1.3rem' }}>1. Fertilizer Efficacy (Nutrient Recovery)</h4>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                  <div style={{ position: 'relative', width: '100%', height: '250px', background: '#f0f0f0', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#999', border: '2px dashed #ccc' }}>
-                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(0,0,0,0.7)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold', zIndex: 2 }}>BEFORE</span>
-                    <span>Image Pending</span>
+                  <div style={{ position: 'relative' }}>
+                    <img src="https://images.unsplash.com/photo-1592982537447-6f23f0bf7123?w=800&q=80" alt="Before Fertilizer" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(0,0,0,0.7)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>BEFORE</span>
                   </div>
-                  <div style={{ position: 'relative', width: '100%', height: '250px', background: '#f0f0f0', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#999', border: '2px dashed #ccc' }}>
-                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'var(--primary-color)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold', zIndex: 2 }}>AFTER</span>
-                    <span>Image Pending</span>
+                  <div style={{ position: 'relative' }}>
+                    <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=800&q=80" alt="After Fertilizer" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'var(--primary-color)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>AFTER</span>
                   </div>
                 </div>
                 <p style={{ marginTop: '0.8rem', fontSize: '0.95rem', color: 'var(--text-muted)' }}>Stunted, yellowing crops vs. lush, vibrant green growth after targeted NPK & micronutrient application.</p>
@@ -131,13 +131,13 @@ export default function About() {
               <div>
                 <h4 style={{ marginBottom: '1rem', color: 'var(--primary-color)', fontSize: '1.3rem' }}>2. Disease Control (Scab Prevention)</h4>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                  <div style={{ position: 'relative', width: '100%', height: '250px', background: '#f0f0f0', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#999', border: '2px dashed #ccc' }}>
-                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(0,0,0,0.7)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold', zIndex: 2 }}>BEFORE</span>
-                    <span>Image Pending</span>
+                  <div style={{ position: 'relative' }}>
+                    <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80" alt="Before Pesticide" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(0,0,0,0.7)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>BEFORE</span>
                   </div>
-                  <div style={{ position: 'relative', width: '100%', height: '250px', background: '#f0f0f0', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#999', border: '2px dashed #ccc' }}>
-                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'var(--primary-color)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold', zIndex: 2 }}>AFTER</span>
-                    <span>Image Pending</span>
+                  <div style={{ position: 'relative' }}>
+                    <img src="https://images.unsplash.com/photo-1560806117-097932975fd4?w=800&q=80" alt="After Pesticide" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'var(--primary-color)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>AFTER</span>
                   </div>
                 </div>
                 <p style={{ marginTop: '0.8rem', fontSize: '0.95rem', color: 'var(--text-muted)' }}>Severe fungal infection and scabs vs. clean, export-quality healthy fruit after systematic spraying.</p>
@@ -147,13 +147,13 @@ export default function About() {
               <div>
                 <h4 style={{ marginBottom: '1rem', color: 'var(--primary-color)', fontSize: '1.3rem' }}>3. Pest Management (Insect Control)</h4>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                  <div style={{ position: 'relative', width: '100%', height: '250px', background: '#f0f0f0', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#999', border: '2px dashed #ccc' }}>
-                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(0,0,0,0.7)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold', zIndex: 2 }}>BEFORE</span>
-                    <span>Image Pending</span>
+                  <div style={{ position: 'relative' }}>
+                    <img src="https://images.unsplash.com/photo-1599420186946-7b6fb4e297f0?w=800&q=80" alt="Before Insecticide" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(0,0,0,0.7)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>BEFORE</span>
                   </div>
-                  <div style={{ position: 'relative', width: '100%', height: '250px', background: '#f0f0f0', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#999', border: '2px dashed #ccc' }}>
-                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'var(--primary-color)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold', zIndex: 2 }}>AFTER</span>
-                    <span>Image Pending</span>
+                  <div style={{ position: 'relative' }}>
+                    <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=800&q=80" alt="After Insecticide" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'var(--primary-color)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>AFTER</span>
                   </div>
                 </div>
                 <p style={{ marginTop: '0.8rem', fontSize: '0.95rem', color: 'var(--text-muted)' }}>Leaves damaged by aphids and borers vs. healthy, resilient foliage after using broad-spectrum insecticides.</p>
