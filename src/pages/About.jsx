@@ -132,11 +132,11 @@ export default function About() {
                 <h4 style={{ marginBottom: '1rem', color: 'var(--primary-color)', fontSize: '1.3rem' }}>2. Disease Control (Fungal Prevention)</h4>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                   <div style={{ position: 'relative' }}>
-                    <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80" alt="Fungal Disease (Before)" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <img src="/before-fungal.png" alt="Fungal Disease (Before)" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
                     <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(0,0,0,0.7)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>BEFORE</span>
                   </div>
                   <div style={{ position: 'relative' }}>
-                    <img src="https://images.unsplash.com/photo-1560806117-097932975fd4?w=800&q=80" alt="Healthy Harvest (After)" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <img src="/after-fungal.png" alt="Healthy Harvest (After)" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
                     <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'var(--primary-color)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>AFTER</span>
                   </div>
                 </div>
