@@ -3,12 +3,13 @@ import AnimatedSection from '../components/AnimatedSection';
 import { MapPin, Phone, Mail, Clock, CheckCircle } from 'lucide-react';
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '', website: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '', website: '' });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, email, subject, message, website } = formData;
+    const { name, email, phone, subject, message, website } = formData;
     
     // Security Honeypot Check: If the hidden 'website' field is filled, it's likely a bot
     if (website) {
@@ -16,20 +17,27 @@ export default function Contact() {
       return;
     }
 
-    const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
+    if (!email && !phone) {
+      setError('Please provide either an email or a phone number.');
+      return;
+    }
+
+    setError('');
+    const body = `Name: ${name}\nEmail: ${email || 'Not provided'}\nPhone: ${phone || 'Not provided'}\n\nMessage:\n${message}`;
     const mailtoUrl = `mailto:info@mapesticides.ac.in?subject=Website Query: ${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     
     // Open default email client
     window.location.href = mailtoUrl;
     
     setIsSubmitted(true);
-    setFormData({ name: '', email: '', subject: '', message: '', website: '' });
+    setFormData({ name: '', email: '', phone: '', subject: '', message: '', website: '' });
     
     setTimeout(() => setIsSubmitted(false), 5000);
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (error) setError('');
   };
 
   return (
@@ -84,9 +92,15 @@ export default function Contact() {
             <h3>Ask Us</h3>
             
             {isSubmitted && (
-              <div style={{ backgroundColor: '#e8f5e9', color: '#2e7d32', padding: '1rem', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ backgroundColor: '#e8f5e9', color: '#2e7d32', padding: '1rem', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1.5rem' }}>
                 <CheckCircle size={20} />
                 <span>Redirecting to your email client...</span>
+              </div>
+            )}
+
+            {error && (
+              <div style={{ backgroundColor: '#ffebee', color: '#c62828', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
+                {error}
               </div>
             )}
 
@@ -94,9 +108,13 @@ export default function Contact() {
             <input type="text" name="website" value={formData.website} onChange={handleChange} style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
 
             <input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} required />
-            <input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange} required />
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <input type="email" name="email" placeholder="Your Email (Optional)" value={formData.email} onChange={handleChange} />
+              <input type="tel" name="phone" placeholder="Your Phone (Optional)" value={formData.phone} onChange={handleChange} />
+            </div>
             <input type="text" name="subject" placeholder="Crop / Problem (e.g. Apple Scab)" value={formData.subject} onChange={handleChange} />
             <textarea name="message" rows="5" placeholder="Describe your issue..." value={formData.message} onChange={handleChange} required></textarea>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>* Please provide either your email or phone number so we can reach back.</p>
             <button type="submit">Ask Us</button>
           </form>
         </AnimatedSection>
