@@ -360,7 +360,7 @@ export const products = [
     diseases: ["Apple Scab", "Leaf Spot", "Powdery Mildew"],
     benefits: "20% discount on print price.  Fast systemic action for internal plant protection.",
     composition: "Carbendazim 50% WP",
-    image: "",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJI9khL3IwXLtk2Tgi-27WvBo0unyVTFVySw&s",
   },
   {
     id: 34,
@@ -371,7 +371,7 @@ export const products = [
     diseases: ["Broad-leaf Weeds", "Sedges"],
     benefits: "20% discount on print price.  Targeted weed control with excellent crop safety.",
     composition: "Ethoxysulfuron 15% WDG",
-    image: "",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQik3DWt_CaHEbaNRbjatTua6NQ4A9dAscr2w&s",
   },
   {
     id: 35,

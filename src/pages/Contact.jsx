@@ -23,11 +23,11 @@ export default function Contact() {
     }
 
     setError('');
-    const body = `Name: ${name}\nEmail: ${email || 'Not provided'}\nPhone: ${phone || 'Not provided'}\n\nMessage:\n${message}`;
-    const mailtoUrl = `mailto:info@mapesticides.ac.in?subject=Website Query: ${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const whatsappMessage = `*New Inquiry from Website*\n\n*Name:* ${name}\n*Email:* ${email || 'Not provided'}\n*Phone:* ${phone || 'Not provided'}\n*Subject:* ${subject || 'General'}\n\n*Message:*\n${message}`;
+    const whatsappUrl = `https://wa.me/919906541321?text=${encodeURIComponent(whatsappMessage)}`;
     
-    // Open default email client
-    window.location.href = mailtoUrl;
+    // Redirect to WhatsApp
+    window.open(whatsappUrl, '_blank');
     
     setIsSubmitted(true);
     setFormData({ name: '', email: '', phone: '', subject: '', message: '', website: '' });
@@ -94,7 +94,7 @@ export default function Contact() {
             {isSubmitted && (
               <div style={{ backgroundColor: '#e8f5e9', color: '#2e7d32', padding: '1rem', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1.5rem' }}>
                 <CheckCircle size={20} />
-                <span>Redirecting to your email client...</span>
+                <span>Redirecting to WhatsApp...</span>
               </div>
             )}
 
