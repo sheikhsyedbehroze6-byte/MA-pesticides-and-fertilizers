@@ -79,8 +79,8 @@ export default function Home() {
           
           <AnimatedSection delay={0.6} className="hero-image-container">
             <motion.img 
-              src="/shop.jpg" 
-              alt="M.A. Pesticides Shop" 
+              src="/hero-image.png" 
+              alt="M.A. Pesticides - Premier Agricultural Solutions" 
               className="hero-image" 
               onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1592982537447-6f23f0bf7123?w=800&q=80"; }} 
               whileHover={{ scale: 1.05, rotate: 2 }}
