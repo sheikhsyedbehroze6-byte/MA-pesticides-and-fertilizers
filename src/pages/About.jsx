@@ -116,11 +116,11 @@ export default function About() {
                 <h4 style={{ marginBottom: '1rem', color: 'var(--primary-color)', fontSize: '1.3rem' }}>1. Fertilizer Efficacy (Nutrient Recovery)</h4>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                   <div style={{ position: 'relative' }}>
-                    <img src="https://images.unsplash.com/photo-1628352081506-83c43123ed6d?w=800&q=80" alt="Nutrient Deficiency (Before)" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <img src="/before-neut.png" alt="Nutrient Deficiency (Before)" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
                     <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(0,0,0,0.7)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>BEFORE</span>
                   </div>
                   <div style={{ position: 'relative' }}>
-                    <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=800&q=80" alt="Healthy Yield (After)" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <img src="/after-neut.png" alt="Healthy Yield (After)" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
                     <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'var(--primary-color)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>AFTER</span>
                   </div>
                 </div>
