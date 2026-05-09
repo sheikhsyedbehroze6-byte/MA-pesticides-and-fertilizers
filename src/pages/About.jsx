@@ -142,8 +142,70 @@ export default function About() {
             </p>
           </AnimatedSection>
 
+          {/* Treatment Results: Before & After Section */}
+          <AnimatedSection delay={0.4} style={{ background: 'rgba(255, 255, 255, 0.98)', backdropFilter: 'blur(10px)', padding: '2.5rem', borderRadius: '16px', boxShadow: '0 20px 50px rgba(0,0,0,0.15)', border: '1px solid rgba(255,255,255,0.5)', marginTop: '3rem' }}>
+            <h3 style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--primary-color)', marginBottom: '1.5rem', fontSize: '1.8rem' }}>
+              <Globe size={32} /> Treatment Results: Before & After
+            </h3>
+            <p style={{ fontSize: '1.1rem', marginBottom: '2.5rem', color: 'var(--text-main)' }}>
+              See the real-world impact of using MA Pesticides' premium solutions. These results showcase the difference that quality chemicals and expert advice make in crop health and yield.
+            </p>
+
+            <div style={{ display: 'grid', gap: '3rem' }}>
+              
+              {/* Case 1: Fertilizer Impact */}
+              <div>
+                <h4 style={{ marginBottom: '1rem', color: 'var(--primary-color)', fontSize: '1.3rem' }}>1. Fertilizer Efficacy (Nutrient Recovery)</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div style={{ position: 'relative' }}>
+                    <img src="https://images.unsplash.com/photo-1592982537447-6f23f0bf7123?w=800&q=80" alt="Before Fertilizer" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(0,0,0,0.7)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>BEFORE</span>
+                  </div>
+                  <div style={{ position: 'relative' }}>
+                    <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=800&q=80" alt="After Fertilizer" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'var(--primary-color)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>AFTER</span>
+                  </div>
+                </div>
+                <p style={{ marginTop: '0.8rem', fontSize: '0.95rem', color: 'var(--text-muted)' }}>Stunted, yellowing crops vs. lush, vibrant green growth after targeted NPK & micronutrient application.</p>
+              </div>
+
+              {/* Case 2: Pesticide/Fungicide Impact */}
+              <div>
+                <h4 style={{ marginBottom: '1rem', color: 'var(--primary-color)', fontSize: '1.3rem' }}>2. Disease Control (Scab Prevention)</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div style={{ position: 'relative' }}>
+                    <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80" alt="Before Pesticide" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(0,0,0,0.7)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>BEFORE</span>
+                  </div>
+                  <div style={{ position: 'relative' }}>
+                    <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=800&q=80" alt="After Pesticide" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'var(--primary-color)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>AFTER</span>
+                  </div>
+                </div>
+                <p style={{ marginTop: '0.8rem', fontSize: '0.95rem', color: 'var(--text-muted)' }}>Severe fungal infection and scabs vs. clean, export-quality healthy fruit after systematic spraying.</p>
+              </div>
+
+              {/* Case 3: Insecticide Impact */}
+              <div>
+                <h4 style={{ marginBottom: '1rem', color: 'var(--primary-color)', fontSize: '1.3rem' }}>3. Pest Management (Insect Control)</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div style={{ position: 'relative' }}>
+                    <img src="https://images.unsplash.com/photo-1599420186946-7b6fb4e297f0?w=800&q=80" alt="Before Insecticide" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(0,0,0,0.7)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>BEFORE</span>
+                  </div>
+                  <div style={{ position: 'relative' }}>
+                    <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=800&q=80" alt="After Insecticide" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'var(--primary-color)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>AFTER</span>
+                  </div>
+                </div>
+                <p style={{ marginTop: '0.8rem', fontSize: '0.95rem', color: 'var(--text-muted)' }}>Leaves damaged by aphids and borers vs. healthy, resilient foliage after using broad-spectrum insecticides.</p>
+              </div>
+
+            </div>
+          </AnimatedSection>
+
           {/* Pesticide Safety Guide Section */}
-          <AnimatedSection delay={0.3} style={{ background: 'rgba(255, 255, 255, 0.98)', backdropFilter: 'blur(10px)', padding: '2.5rem', borderRadius: '16px', boxShadow: '0 20px 50px rgba(0,0,0,0.15)', border: '1px solid rgba(255,255,255,0.5)', marginTop: '3rem' }}>
+          <AnimatedSection delay={0.5} style={{ background: 'rgba(255, 255, 255, 0.98)', backdropFilter: 'blur(10px)', padding: '2.5rem', borderRadius: '16px', boxShadow: '0 20px 50px rgba(0,0,0,0.15)', border: '1px solid rgba(255,255,255,0.5)', marginTop: '3rem' }}>
             <h3 style={{ display: 'flex', alignItems: 'center', gap: '12px', color: '#ff5722', marginBottom: '1.5rem', fontSize: '1.8rem' }}>
               <ShieldCheck size={32} /> Pesticide Safety & Guidelines
             </h3>
