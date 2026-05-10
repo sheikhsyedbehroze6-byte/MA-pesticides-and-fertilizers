@@ -382,7 +382,7 @@ export const products = [
     diseases: ["Early Blight", "Late Blight", "Fruit Rot"],
     benefits: "20% discount on print price.  Reliable protection against a wide range of fungal pathogens.",
     composition: "Flusilazole 40% EC",
-    image: "",
+    image: "https://5.imimg.com/data5/SELLER/Default/2022/6/IL/SW/AF/119611945/filia-se-1--500x500.jpg",
   },
   {
     id: 36,
@@ -393,7 +393,7 @@ export const products = [
     diseases: ["Poor Fruit Size", "Stunted Growth"],
     benefits: "20% discount on print price.  Enhances cell elongation and improves fruit quality.",
     composition: "Gibberellic Acid 0.001%",
-    image: "",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTwcx9b7mD0ck83cIUYi4tLRI32JXPF7_9ZA&s",
   },
   {
     id: 37,
@@ -404,7 +404,7 @@ export const products = [
     diseases: ["Annual Grasses", "Broad-leaf Weeds"],
     benefits: "20% discount on print price.  Rapid action with visible results within hours.",
     composition: "Paraquat Dichloride 24% SL",
-    image: "",
+    image: "https://5.imimg.com/data5/SELLER/Default/2025/3/498386206/IY/BQ/RH/77561523/1-litre-wilquat-contact-agricultural-herbicides.jpg",
   },
   {
     id: 38,
@@ -415,7 +415,7 @@ export const products = [
     diseases: ["Apple Scab", "Powdery Mildew"],
     benefits: "20% discount on print price.  Superior systemic movement for comprehensive protection.",
     composition: "Fenarimol 12% EC",
-    image: "",
+    image: "https://5.imimg.com/data5/JN/GD/TF/SELLER-23513554/rubigan-d-fungicide-500x500.jpg",
   },
   {
     id: 39,
@@ -426,7 +426,7 @@ export const products = [
     diseases: ["Nutrient Deficiency", "Slow Growth"],
     benefits: "20% discount on print price.  100% water-soluble for quick nutrient availability.",
     composition: "NPK 19:19:19",
-    image: "",
+    image: "https://m.media-amazon.com/images/I/61UUR5NjhfL._AC_UF1000,1000_QL80_.jpg",
   },
   {
     id: 40,
@@ -437,7 +437,7 @@ export const products = [
     diseases: ["Rust", "Smut", "Scab"],
     benefits: "20% discount on print price.  Protective and curative action with long-lasting effect.",
     composition: "Propiconazole 25% EC",
-    image: "",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHfNmJO0S2qtjRlntd8ZiOkEQOQ_N0CwRwew&s",
   },
   {
     id: 41,
@@ -448,7 +448,7 @@ export const products = [
     diseases: ["Poor Root Development", "Soil Exhaustion"],
     benefits: "20% discount on print price.  Natural way to improve soil biology and plant vigor.",
     composition: "Bacillus Subtilis",
-    image: "",
+    image: "https://5.imimg.com/data5/GLADMIN/Default/2022/12/WS/VI/XC/35854812/new-product-250x250.jpeg",
   },
   {
     id: 42,
@@ -459,7 +459,7 @@ export const products = [
     diseases: ["Poor Spray Coverage", "Run-off"],
     benefits: "20% discount on print price.  Improves coverage, penetration, and rain-fastness of sprays.",
     composition: "Alkyl Aryl Polyalkoxylate",
-    image: "",
+    image: "https://5.imimg.com/data5/PJ/FU/HE/SELLER-26762835/amino-acid-powder-80-agricultural-fertilizer-500x500.jpg",
   },
   {
     id: 43,
@@ -470,7 +470,7 @@ export const products = [
     diseases: ["Excessive Vegetative Growth", "Poor Flowering"],
     benefits: "20% discount on print price.  Promotes better flowering and fruit set.",
     composition: "Paclobutrazol 23% SC",
-    image: "",
+    image: "https://krishimart.in/public/uploads/all/sSoDaErVuZ3gM3yVzJFcDWeuuBUasekV4kORuUIj.jpg",
   },
   {
     id: 44,
@@ -481,9 +481,21 @@ export const products = [
     diseases: ["Aphids", "Thrips", "Caterpillars"],
     benefits: "20% discount on print price.  Advanced formulation for superior pest control.",
     composition: "Imidacloprid 17.8% SL",
-    image: "",
+    image: "https://adhunikcropcare.com/uploads/product/22.jpg",
+  },
+  {
+    id: 45,
+    name: "Mitofix (Insecticide)",
+    type: "Insecticide",
+    uses: "Effective insecticide and acaricide for controlling all stages of mites.",
+    dosage: "2 ml per Litre of water.",
+    diseases: ["Red Mites", "Spider Mites", "Yellow Mites"],
+    benefits: "20% discount on print price. Excellent knock-down effect and long residual control.",
+    composition: "Propargite 57% EC",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvWe35Py5mJbc-yC870sW84RKBnmh5ipPW9w&s",
   }
 ];
+
 
 export const diseases = [
   {
