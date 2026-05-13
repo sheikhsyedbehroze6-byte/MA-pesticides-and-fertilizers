@@ -152,7 +152,7 @@ export default function About() {
                     <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(0,0,0,0.7)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>BEFORE</span>
                   </div>
                   <div style={{ position: 'relative' }}>
-                    <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=800&q=80" alt="Protected Crop (After)" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <img src="https:" alt="Protected Crop (After)" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
                     <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'var(--primary-color)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>AFTER</span>
                   </div>
                 </div>

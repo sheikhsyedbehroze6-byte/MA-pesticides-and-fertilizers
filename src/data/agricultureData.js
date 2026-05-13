@@ -52,7 +52,7 @@ export const products = [
     diseases: ["Apple Scab", "Early Blight", "Late Blight"],
     benefits: "20% discount on print price.  Strong protective action and rain-fastness.",
     composition: "Propineb 70% WP",
-    image: "public/antracol.jpg",
+    image: "https://5.imimg.com/data5/SELLER/Default/2025/3/495602819/XJ/FG/VT/6399641/antracall-fungicide-500-gram.webp",
   },
   {
     id: 6,
