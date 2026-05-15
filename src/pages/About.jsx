@@ -1,6 +1,8 @@
 import AnimatedSection from '../components/AnimatedSection';
 import { ShieldCheck, Award, Globe, TreeDeciduous } from 'lucide-react';
 import { motion } from 'framer-motion';
+import insectBefore from '../assets/Pest Management (Insect Control) before.png';
+import insectAfter from '../assets/Pest Management (Insect Control) after.png';
 
 // Swaying Tree Component
 const SwayingTree = ({ delay, left, size, color }) => {
@@ -148,12 +150,10 @@ export default function About() {
                 <h4 style={{ marginBottom: '1rem', color: 'var(--primary-color)', fontSize: '1.3rem' }}>3. Pest Management (Insect Control)</h4>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                   <div style={{ position: 'relative' }}>
-                    <img src="https://images.unsplash.com/photo-1599420186946-7b6fb4e297f0?w=800&q=80" alt="Pest Damage (Before)" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
-                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(0,0,0,0.7)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>BEFORE</span>
+                    <img src={insectBefore} alt="Pest Damage (Before)" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
                   </div>
                   <div style={{ position: 'relative' }}>
-                    <img src="https:" alt="Protected Crop (After)" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
-                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'var(--primary-color)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>AFTER</span>
+                    <img src={insectAfter} alt="Protected Crop (After)" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
                   </div>
                 </div>
                 <p style={{ marginTop: '0.8rem', fontSize: '0.95rem', color: 'var(--text-muted)' }}>Heavy insect damage and holes vs. healthy, resilient foliage after using broad-spectrum insecticides.</p>
