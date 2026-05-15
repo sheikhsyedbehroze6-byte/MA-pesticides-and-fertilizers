@@ -493,6 +493,39 @@ export const products = [
     benefits: "20% discount on print price. Excellent knock-down effect and long residual control.",
     composition: "Propargite 57% EC",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvWe35Py5mJbc-yC870sW84RKBnmh5ipPW9w&s",
+  },
+  {
+    id: 46,
+    name: "Bublin (NPK 11:11:8 Suspension Fertilizer)",
+    type: "Fertilizer",
+    uses: "High-quality suspension fertilizer enriched with Zinc and Boron for balanced nutrition.",
+    dosage: "2 ml per Litre of water.",
+    diseases: ["Nutrient Deficiency", "Poor Flower Set", "Fruit Drop"],
+    benefits: "20% discount on print price. Enhances flower retention, fruit setting, and overall crop yield.",
+    composition: "NPK 11:11:8 + Zinc + Boron Suspension",
+    image: "https://5.imimg.com/data5/NSDMERP/Default/2026/1/575333124/EH/ID/FV/68915898/68915898-product-1768220776639-250x250.png",
+  },
+  {
+    id: 47,
+    name: "Tata Takumi (Insecticide)",
+    type: "Insecticide",
+    uses: "Advanced systemic insecticide for controlling caterpillars and borers in various crops.",
+    dosage: "0.5 g per Litre of water.",
+    diseases: ["Stem Borer", "Leaf Folder", "Fruit Borer", "Diamondback Moth"],
+    benefits: "20% discount on print price. Fast knockdown effect, stops pest feeding instantly, and provides long-lasting control.",
+    composition: "Flubendiamide 20% WG",
+    image: "https://kavungal.in/wp-content/uploads/2024/07/IMG-20240730-WA0014.jpg",
+  },
+  {
+    id: 48,
+    name: "Sikri Vermicompost (Organic Fertilizer)",
+    type: "Bio-Fertilizer",
+    uses: "High-quality nutrient-rich soil amendment created through controlled earthworm decomposition.",
+    dosage: "2 kg – 4 kg per tree or 250g per potted plant.",
+    diseases: ["Soil Exhaustion", "Poor Soil Structure", "Nutrient Deficiency"],
+    benefits: "20% discount on print price. Enriches soil with macronutrients, improves aeration, and boosts microbial activity.",
+    composition: "Organic Carbon, Nitrogen, Phosphorus, Potassium, and Micronutrients",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq2RlXn0pS7Jz4q44QSfjiLszRJXv2xMiamQ&s",
   }
 ];
 
@@ -847,5 +880,47 @@ export const diseases = [
     dosageUrdu: "2.5 گرام فی لیٹر پانی۔",
     severity: "High",
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT59UZq2s60UL9MJwEcSN_GPXNlgsSpAsWM9w&s"
+  },
+  {
+    id: "d26",
+    crop: "Fruit Trees / پھل دار درخت",
+    name: "Phytophthora Root Rot",
+    nameUrdu: "جڑ کی سڑن (فائٹوف تھورا)",
+    symptoms: "Yellowing leaves, wilting, and dark brown rotting roots with a distinct sour smell.",
+    symptomsUrdu: "پتوں کا پیلا ہونا، مرجھانا، اور جڑوں کا بھورا ہو کر گلنا اور بدبو آنا۔",
+    cure: "Metalaxyl + Mancozeb (Ridomil Gold)",
+    cureUrdu: "میٹالاکسل + مینکوزیب",
+    dosage: "2 gm/Litre solution drenching around the root zone.",
+    dosageUrdu: "2 گرام فی لیٹر پانی، جڑوں کے پاس مٹی میں ڈالیں۔",
+    severity: "High",
+    image: "https://www.amgrow.com.au/wp-content/uploads/sites/4/2016/08/Pic-2-503x600.jpg"
+  },
+  {
+    id: "d27",
+    crop: "Fruit Trees / پھل دار درخت",
+    name: "Crown Gall",
+    nameUrdu: "کراؤن گال (درختوں کا کینسر)",
+    symptoms: "Rough, woody, tumor-like swellings (galls) on roots and lower trunk.",
+    symptomsUrdu: "جڑوں اور نچلے تنے پر لکڑی نما بڑے مسے یا گلٹیاں بننا۔",
+    cure: "Surgical removal and tool sterilization (No chemical cure)",
+    cureUrdu: "متاثرہ حصے کو کاٹ دیں اور اوزاروں کو جراثیم کش کریں۔",
+    dosage: "Carefully prune away galls and apply a copper-based paste to wounds.",
+    dosageUrdu: "مسوں کو احتیاط سے کاٹ کر زخم پر کاپر کا لیپ لگائیں۔",
+    severity: "Medium",
+    image: "https://assets.rhs.org.uk/05836e9f-2692-012f-b4fe-e3f22d127fa9/b1acd355-2e83-4263-b609-2d98564d273c/scn0000013_931579.jpg?w=1200&fit=clip&fm=jpg&auto=format"
+  },
+  {
+    id: "d28",
+    crop: "Fruit Trees / پھل دار درخت",
+    name: "Armillaria Root Rot",
+    nameUrdu: "آرمیلیریا (جڑ کی سڑن)",
+    symptoms: "White fungal mats under the bark, honey-colored mushrooms at base in autumn.",
+    symptomsUrdu: "چھال کے نیچے سفید فنگس اور تنے کے قریب شہد کے رنگ کی کھمبیاں اگنا۔",
+    cure: "Soil excavation and root aeration (Cultural control)",
+    cureUrdu: "مٹی کو ہٹائیں اور جڑوں کو ہوا لگنے دیں (بیمار درخت نکال دیں)۔",
+    dosage: "Expose root crown to air and avoid excessive irrigation.",
+    dosageUrdu: "جڑوں کے اوپری حصے کو ہوا لگنے دیں اور پانی کم دیں۔",
+    severity: "High",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9-kFFCxbJd2pHqqbqeIc8mWaAA9MUVkiM4g&s"
   }
 ];

@@ -156,6 +156,24 @@ export default function Home() {
           </AnimatedSection>
         </div>
 
+        {/* Promotional Card Section */}
+        <AnimatedSection delay={0.2} style={{ marginBottom: '6rem', display: 'flex', justifyContent: 'center' }}>
+          <motion.img 
+            src="/ma-card.png" 
+            alt="MA Pesticides - Complete Crop Protection" 
+            style={{ 
+              width: '70%', 
+              maxWidth: '800px',
+              borderRadius: '24px', 
+              boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
+              border: '4px solid white'
+            }}
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            onError={(e) => { e.target.style.display = 'none'; }}
+          />
+        </AnimatedSection>
+
         {/* Trusted Partners Section */}
         <AnimatedSection className="section-header" delay={0.1} style={{ marginTop: '6rem', marginBottom: '3rem' }}>
           <h2 style={{ fontSize: '2.5rem', color: 'var(--primary-color)' }}>Our Trusted Partners</h2>
