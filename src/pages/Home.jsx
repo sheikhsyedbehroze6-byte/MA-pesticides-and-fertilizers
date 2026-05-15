@@ -154,25 +154,27 @@ export default function Home() {
               <p style={{ color: '#e0e0e0', fontSize: '0.95rem' }}>Conveniently located near Lal Chowk. We understand local farming challenges.</p>
             </div>
           </AnimatedSection>
-        </div>
 
-        {/* Promotional Card Section */}
-        <AnimatedSection delay={0.2} style={{ marginBottom: '6rem', display: 'flex', justifyContent: 'center' }}>
-          <motion.img 
-            src="/ma-card.png" 
-            alt="MA Pesticides - Complete Crop Protection" 
-            style={{ 
-              width: '70%', 
-              maxWidth: '800px',
-              borderRadius: '24px', 
-              boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
-              border: '4px solid white'
-            }}
-            whileHover={{ scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            onError={(e) => { e.target.style.display = 'none'; }}
-          />
-        </AnimatedSection>
+          {/* Promotional Card - Integrated into Grid */}
+          <AnimatedSection className="glow-card" delay={0.8} style={{ 
+            position: 'relative', overflow: 'hidden', borderRadius: '16px', height: '320px',
+            boxShadow: '0 15px 30px rgba(0,0,0,0.1)'
+          }}>
+            <motion.img 
+              src="/ma-card.png" 
+              alt="Complete Protection"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0, zIndex: 0 }} 
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.5 }}
+            />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.2))', zIndex: 1, pointerEvents: 'none' }}></div>
+            <div style={{ position: 'relative', zIndex: 2, padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', height: '100%', color: 'white', pointerEvents: 'none' }}>
+              <Shield size={40} color="#fce043" style={{ marginBottom: '1rem' }} />
+              <h3 style={{ color: 'white', fontSize: '1.5rem', marginBottom: '0.5rem' }}>Complete Protection</h3>
+              <p style={{ color: '#e0e0e0', fontSize: '0.95rem' }}>Your harvest, our protection, total satisfaction – every step of the way.</p>
+            </div>
+          </AnimatedSection>
+        </div>
 
         {/* Trusted Partners Section */}
         <AnimatedSection className="section-header" delay={0.1} style={{ marginTop: '6rem', marginBottom: '3rem' }}>
