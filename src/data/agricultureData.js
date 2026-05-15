@@ -113,7 +113,7 @@ export const products = [
     id: 11,
     name: "Difenoconazole 25% (Willowood)",
     type: "Fungicide",
-    uses: "Systemic fungicide with protective action.",
+    uses: "Systemic fungicide.",
     dosage: "0.5 ml per Litre of water.",
     diseases: ["Apple Scab", "Leaf Spot", "Rust"],
     benefits: "20% discount on print price.  Long-lasting protection and fast systemic movement.",
