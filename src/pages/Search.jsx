@@ -25,7 +25,7 @@ export default function Search() {
 
   const results = useMemo(() => {
     const q = initialQuery.toLowerCase().trim();
-    if (!q) return { matchedDiseases: [] };
+    if (!q) return { matchedDiseases: [], matchedProducts: [] };
 
     // Find diseases that match the query
     const matchedDiseases = diseases.filter(d => 
@@ -41,7 +41,16 @@ export default function Search() {
       return { ...disease, relatedProducts };
     });
 
-    return { matchedDiseases };
+    // Find products that directly match the query (name, type, composition, uses)
+    const matchedProducts = products.filter(p => 
+      p.name.toLowerCase().includes(q) ||
+      p.type.toLowerCase().includes(q) ||
+      (p.composition && p.composition.toLowerCase().includes(q)) ||
+      (p.uses && p.uses.toLowerCase().includes(q)) ||
+      p.diseases.some(pd => pd.toLowerCase().includes(q))
+    );
+
+    return { matchedDiseases, matchedProducts };
   }, [initialQuery]);
 
   return (
@@ -92,11 +101,28 @@ export default function Search() {
         </form>
       </AnimatedSection>
 
-      {initialQuery && results.matchedDiseases.length === 0 && (
+      {initialQuery && results.matchedDiseases.length === 0 && results.matchedProducts.length === 0 && (
         <div style={{ textAlign: 'center', marginTop: '2rem', padding: '3rem', background: '#f5f5f5', borderRadius: '12px' }}>
-          <h3 style={{ color: '#555' }}>No diseases found matching "{initialQuery}"</h3>
-          <p style={{ color: '#777' }}>Try searching for a different term or symptom.</p>
+          <h3 style={{ color: '#555' }}>No diseases or products found matching "{initialQuery}"</h3>
+          <p style={{ color: '#777' }}>Try searching for a different term, symptom, or product name.</p>
         </div>
+      )}
+
+      {/* Direct Product Matches */}
+      {results.matchedProducts.length > 0 && (
+        <AnimatedSection style={{ marginBottom: '4rem' }}>
+          <h3 style={{ textAlign: 'center', color: 'var(--primary-color)', marginBottom: '1.5rem', fontSize: '1.8rem' }}>
+            Product Matches
+          </h3>
+          <div className="products-grid">
+            {results.matchedProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+          {results.matchedDiseases.length > 0 && (
+            <hr style={{ margin: '4rem auto', width: '50%', border: '1px solid #e0e0e0' }} />
+          )}
+        </AnimatedSection>
       )}
 
       {results.matchedDiseases.map((disease) => (
