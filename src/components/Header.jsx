@@ -20,6 +20,7 @@ export default function Header() {
           <li><NavLink to="/about" className={({ isActive }) => (isActive ? 'active' : '')}>About Us</NavLink></li>
           <li><NavLink to="/products" className={({ isActive }) => (isActive ? 'active' : '')}>Products</NavLink></li>
           <li><NavLink to="/disease-guide" className={({ isActive }) => (isActive ? 'active' : '')}>Disease Guide</NavLink></li>
+          <li><NavLink to="/search" className={({ isActive }) => (isActive ? 'active' : '')}>Search</NavLink></li>
           <li><NavLink to="/contact" className={({ isActive }) => (isActive ? 'active' : '')}>Contact</NavLink></li>
         </ul>
       </nav>
@@ -48,6 +49,7 @@ export default function Header() {
               <li><NavLink to="/about" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', color: 'white' }}>About Us</NavLink></li>
               <li><NavLink to="/products" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', color: 'white' }}>Products</NavLink></li>
               <li><NavLink to="/disease-guide" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', color: 'white' }}>Disease Guide</NavLink></li>
+              <li><NavLink to="/search" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', color: 'white' }}>Search</NavLink></li>
               <li><NavLink to="/contact" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', color: 'white' }}>Contact</NavLink></li>
             </ul>
           </motion.div>

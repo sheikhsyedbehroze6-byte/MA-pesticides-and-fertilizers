@@ -7,6 +7,7 @@ import Products from './pages/Products';
 import DiseaseGuide from './pages/DiseaseGuide';
 import Contact from './pages/Contact';
 import About from './pages/About';
+import Search from './pages/Search';
 import './App.css';
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/products" element={<Products />} />
             <Route path="/disease-guide" element={<DiseaseGuide />} />
+            <Route path="/search" element={<Search />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
         </main>
