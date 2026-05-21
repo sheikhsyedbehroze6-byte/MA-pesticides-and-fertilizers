@@ -3,6 +3,7 @@ import { ShieldCheck, Award, Globe, TreeDeciduous, Star, Quote } from 'lucide-re
 import { motion } from 'framer-motion';
 import insectBefore from '../assets/Pest Management (Insect Control) before.png';
 import insectAfter from '../assets/Pest Management (Insect Control) after.png';
+import hajiGhulamRasool from '../assets/haji_ghulam_rasool.png';
 
 // Swaying Tree Component
 const SwayingTree = ({ delay, left, size, color }) => {
@@ -200,7 +201,7 @@ export default function About() {
                   reviewEn: "Bayer fungicides and the spray schedule from MA Pesticides saved my apple orchard from Scab!",
                   reviewUr: "ایم اے پیسٹیسائیڈز کے بائر فنگسائڈز اور اسپرے شیڈول نے میرے سیب کے باغ کو اسکیب سے بچایا!",
                   rating: 5,
-                  avatar: "👨‍🌾"
+                  avatar: hajiGhulamRasool
                 },
                 {
                   name: "Mohammad Yousuf",
@@ -236,7 +237,15 @@ export default function About() {
                   <Quote size={28} style={{ color: 'rgba(46, 125, 50, 0.08)', position: 'absolute', top: '10px', right: '10px' }} />
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.6rem' }}>
-                      <span style={{ fontSize: '1.5rem' }}>{review.avatar}</span>
+                      {review.avatar.length > 4 ? (
+                        <img 
+                          src={review.avatar} 
+                          alt={review.name} 
+                          style={{ width: '38px', height: '38px', borderRadius: '50%', objectFit: 'cover', border: '1px solid rgba(0,0,0,0.1)' }} 
+                        />
+                      ) : (
+                        <span style={{ fontSize: '1.5rem' }}>{review.avatar}</span>
+                      )}
                       <div>
                         <h4 style={{ margin: 0, color: 'var(--text-main)', fontSize: '0.95rem', fontWeight: 'bold' }}>{review.name}</h4>
                         <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{review.location}</span>
