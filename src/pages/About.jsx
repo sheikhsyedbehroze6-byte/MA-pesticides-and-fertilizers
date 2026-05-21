@@ -1,5 +1,5 @@
 import AnimatedSection from '../components/AnimatedSection';
-import { ShieldCheck, Award, Globe, TreeDeciduous } from 'lucide-react';
+import { ShieldCheck, Award, Globe, TreeDeciduous, Star, Quote } from 'lucide-react';
 import { motion } from 'framer-motion';
 import insectBefore from '../assets/Pest Management (Insect Control) before.png';
 import insectAfter from '../assets/Pest Management (Insect Control) after.png';
@@ -181,6 +181,85 @@ export default function About() {
             <p style={{ marginTop: '1.5rem', fontSize: '0.95rem', color: 'var(--text-muted)', textAlign: 'center' }}>
               * Always read the label and follow the recommended safety gear requirements before handling any chemicals.
             </p>
+          </AnimatedSection>
+
+          {/* Farmers Reviews Section */}
+          <AnimatedSection delay={0.6} style={{ background: 'rgba(255, 255, 255, 0.98)', backdropFilter: 'blur(10px)', padding: '2rem', borderRadius: '16px', boxShadow: '0 20px 50px rgba(0,0,0,0.15)', border: '1px solid rgba(255,255,255,0.5)', marginTop: '3rem' }}>
+            <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary-color)', marginBottom: '1rem', fontSize: '1.6rem' }}>
+              <Quote size={28} /> Farmers' Reviews
+            </h3>
+            <p style={{ fontSize: '1rem', marginBottom: '1.5rem', color: 'var(--text-main)' }}>
+              Real feedback from local Kashmiri orchardists who trust MA Pesticides.
+            </p>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.2rem' }}>
+              {[
+                {
+                  name: "Haji Ghulam Rasool",
+                  location: "Sopore (Apple Grower)",
+                  reviewEn: "Bayer fungicides and the spray schedule from MA Pesticides saved my apple orchard from Scab!",
+                  reviewUr: "ایم اے پیسٹیسائیڈز کے بائر فنگسائڈز اور اسپرے شیڈول نے میرے سیب کے باغ کو اسکیب سے بچایا!",
+                  rating: 5,
+                  avatar: "👨‍🌾"
+                },
+                {
+                  name: "Mohammad Yousuf",
+                  location: "Baramulla (Cherry Orchardist)",
+                  reviewEn: "Outstanding Syngenta products and guidance. The results on my cherry crop were incredible!",
+                  reviewUr: "شاندار سینجنٹا پروڈکٹس اور رہنمائی۔ میری چیری کی فصل پر نتائج واقعی لاجواب تھے!",
+                  rating: 5,
+                  avatar: "🧔"
+                },
+                {
+                  name: "Shabnam Ara",
+                  location: "Pulwama (Vegetable Grower)",
+                  reviewEn: "Their custom Proma Gro and NPK advice doubled my greenhouse potato and tomato yields!",
+                  reviewUr: "ان کی تجویز کردہ پروما گرو اور این پی کے کھاد نے گرین ہاؤس میں میری پیداوار کو دگنا کر دیا!",
+                  rating: 5,
+                  avatar: "👩‍🌾"
+                }
+              ].map((review, idx) => (
+                <div 
+                  key={idx} 
+                  style={{ 
+                    background: 'rgba(255, 255, 255, 0.75)', 
+                    border: '1px solid rgba(0,0,0,0.06)',
+                    padding: '1.2rem', 
+                    borderRadius: '12px', 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    justifyContent: 'space-between',
+                    position: 'relative',
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.02)'
+                  }}
+                >
+                  <Quote size={28} style={{ color: 'rgba(46, 125, 50, 0.08)', position: 'absolute', top: '10px', right: '10px' }} />
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.6rem' }}>
+                      <span style={{ fontSize: '1.5rem' }}>{review.avatar}</span>
+                      <div>
+                        <h4 style={{ margin: 0, color: 'var(--text-main)', fontSize: '0.95rem', fontWeight: 'bold' }}>{review.name}</h4>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{review.location}</span>
+                      </div>
+                    </div>
+                    
+                    <div style={{ display: 'flex', marginBottom: '0.6rem' }}>
+                      {[...Array(review.rating)].map((_, i) => (
+                        <Star key={i} size={13} fill="#ffc107" color="#ffc107" style={{ marginRight: '1px' }} />
+                      ))}
+                    </div>
+
+                    <p style={{ fontSize: '0.85rem', color: 'var(--text-main)', fontStyle: 'italic', marginBottom: '0.6rem', lineHeight: '1.4' }}>
+                      "{review.reviewEn}"
+                    </p>
+                  </div>
+                  
+                  <p className="urdu-text" style={{ fontSize: '0.9rem', color: '#1b5e20', borderTop: '1px dashed rgba(0,0,0,0.08)', paddingTop: '0.5rem', marginTop: '0.3rem', direction: 'rtl', textAlign: 'right', lineHeight: '1.5' }}>
+                    "{review.reviewUr}"
+                  </p>
+                </div>
+              ))}
+            </div>
           </AnimatedSection>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginTop: '3rem' }}>
