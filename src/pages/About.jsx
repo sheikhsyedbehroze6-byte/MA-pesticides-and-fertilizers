@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import insectBefore from '../assets/Pest Management (Insect Control) before.png';
 import insectAfter from '../assets/Pest Management (Insect Control) after.png';
 import hajiGhulamRasool from '../assets/haji_ghulam_rasool.png';
+import mohammadYousuf from '../assets/mohammad_yousuf.png';
 
 // Swaying Tree Component
 const SwayingTree = ({ delay, left, size, color }) => {
@@ -209,7 +210,7 @@ export default function About() {
                   reviewEn: "Outstanding Syngenta products and guidance. The results on my cherry crop were incredible!",
                   reviewUr: "شاندار سینجنٹا پروڈکٹس اور رہنمائی۔ میری چیری کی فصل پر نتائج واقعی لاجواب تھے!",
                   rating: 5,
-                  avatar: "🧔"
+                  avatar: mohammadYousuf
                 },
                 {
                   name: "Shabnam Ara",
