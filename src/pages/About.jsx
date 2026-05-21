@@ -5,6 +5,7 @@ import insectBefore from '../assets/Pest Management (Insect Control) before.png'
 import insectAfter from '../assets/Pest Management (Insect Control) after.png';
 import hajiGhulamRasool from '../assets/haji_ghulam_rasool.png';
 import mohammadYousuf from '../assets/mohammad_yousuf.png';
+import shabnamAra from '../assets/shabnam_ara.png';
 
 // Swaying Tree Component
 const SwayingTree = ({ delay, left, size, color }) => {
@@ -218,7 +219,7 @@ export default function About() {
                   reviewEn: "Their custom Proma Gro and NPK advice doubled my greenhouse potato and tomato yields!",
                   reviewUr: "ان کی تجویز کردہ پروما گرو اور این پی کے کھاد نے گرین ہاؤس میں میری پیداوار کو دگنا کر دیا!",
                   rating: 5,
-                  avatar: "👩‍🌾"
+                  avatar: shabnamAra
                 }
               ].map((review, idx) => (
                 <div 
