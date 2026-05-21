@@ -203,7 +203,8 @@ export default function About() {
                   reviewEn: "Bayer fungicides and the spray schedule from MA Pesticides saved my apple orchard from Scab!",
                   reviewUr: "ایم اے پیسٹیسائیڈز کے بائر فنگسائڈز اور اسپرے شیڈول نے میرے سیب کے باغ کو اسکیب سے بچایا!",
                   rating: 5,
-                  avatar: hajiGhulamRasool
+                  avatar: hajiGhulamRasool,
+                  date: "2 weeks ago"
                 },
                 {
                   name: "Mohammad Yousuf",
@@ -211,7 +212,8 @@ export default function About() {
                   reviewEn: "Outstanding Syngenta products and guidance. The results on my cherry crop were incredible!",
                   reviewUr: "شاندار سینجنٹا پروڈکٹس اور رہنمائی۔ میری چیری کی فصل پر نتائج واقعی لاجواب تھے!",
                   rating: 5,
-                  avatar: mohammadYousuf
+                  avatar: mohammadYousuf,
+                  date: "1 month ago"
                 },
                 {
                   name: "Shabnam Ara",
@@ -219,14 +221,17 @@ export default function About() {
                   reviewEn: "Their custom Proma Gro and NPK advice doubled my greenhouse potato and tomato yields!",
                   reviewUr: "ان کی تجویز کردہ پروما گرو اور این پی کے کھاد نے گرین ہاؤس میں میری پیداوار کو دگنا کر دیا!",
                   rating: 5,
-                  avatar: shabnamAra
+                  avatar: shabnamAra,
+                  date: "3 weeks ago"
                 }
               ].map((review, idx) => (
-                <div 
+                <motion.div 
                   key={idx} 
+                  whileHover={{ y: -5, boxShadow: '0 8px 25px rgba(46, 125, 50, 0.1)' }}
+                  transition={{ type: "spring", stiffness: 300 }}
                   style={{ 
-                    background: 'rgba(255, 255, 255, 0.75)', 
-                    border: '1px solid rgba(0,0,0,0.06)',
+                    background: 'rgba(255, 255, 255, 0.78)', 
+                    border: '1px solid rgba(46, 125, 50, 0.1)',
                     padding: '1.2rem', 
                     borderRadius: '12px', 
                     display: 'flex', 
@@ -236,21 +241,33 @@ export default function About() {
                     boxShadow: '0 4px 15px rgba(0,0,0,0.02)'
                   }}
                 >
-                  <Quote size={28} style={{ color: 'rgba(46, 125, 50, 0.08)', position: 'absolute', top: '10px', right: '10px' }} />
+                  <Quote size={24} style={{ color: 'rgba(46, 125, 50, 0.06)', position: 'absolute', top: '10px', right: '10px' }} />
                   <div>
+                    {/* Verified and Date Header */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '0.6rem' }}>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#2e7d32', fontWeight: 'bold' }}>
+                        <span style={{ display: 'inline-block', width: '6px', height: '6px', backgroundColor: '#2e7d32', borderRadius: '50%' }}></span>
+                        Verified Customer
+                      </span>
+                      <span>{review.date}</span>
+                    </div>
+
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.6rem' }}>
                       {review.avatar.length > 4 ? (
                         <img 
                           src={review.avatar} 
                           alt={review.name} 
-                          style={{ width: '38px', height: '38px', borderRadius: '50%', objectFit: 'cover', border: '1px solid rgba(0,0,0,0.1)' }} 
+                          style={{ width: '38px', height: '38px', borderRadius: '50%', objectFit: 'cover', border: '1.5px solid #2e7d32' }} 
                         />
                       ) : (
                         <span style={{ fontSize: '1.5rem' }}>{review.avatar}</span>
                       )}
                       <div>
-                        <h4 style={{ margin: 0, color: 'var(--text-main)', fontSize: '0.95rem', fontWeight: 'bold' }}>{review.name}</h4>
-                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{review.location}</span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
+                          <h4 style={{ margin: 0, color: 'var(--text-main)', fontSize: '0.9rem', fontWeight: 'bold' }}>{review.name}</h4>
+                          <span title="Verified Account" style={{ color: '#2e7d32', fontSize: '0.8rem', fontWeight: 'bold' }}>✓</span>
+                        </div>
+                        <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{review.location}</span>
                       </div>
                     </div>
                     
@@ -265,10 +282,10 @@ export default function About() {
                     </p>
                   </div>
                   
-                  <p className="urdu-text" style={{ fontSize: '0.9rem', color: '#1b5e20', borderTop: '1px dashed rgba(0,0,0,0.08)', paddingTop: '0.5rem', marginTop: '0.3rem', direction: 'rtl', textAlign: 'right', lineHeight: '1.5' }}>
+                  <p className="urdu-text" style={{ fontSize: '0.9rem', color: '#1b5e20', borderTop: '1px dashed rgba(46,125,50,0.15)', paddingTop: '0.5rem', marginTop: '0.3rem', direction: 'rtl', textAlign: 'right', lineHeight: '1.5' }}>
                     "{review.reviewUr}"
                   </p>
-                </div>
+                </motion.div>
               ))}
             </div>
           </AnimatedSection>
