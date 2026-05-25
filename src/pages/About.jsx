@@ -1,8 +1,6 @@
 import AnimatedSection from '../components/AnimatedSection';
 import { ShieldCheck, Award, Globe, TreeDeciduous, Star, Quote } from 'lucide-react';
 import { motion } from 'framer-motion';
-import insectBefore from '../assets/Pest Management (Insect Control) before.png';
-import insectAfter from '../assets/Pest Management (Insect Control) after.png';
 import hajiGhulamRasool from '../assets/haji_ghulam_rasool.png';
 import mohammadYousuf from '../assets/mohammad_yousuf.png';
 import shabnamAra from '../assets/shabnam_ara.png';
@@ -58,13 +56,13 @@ export default function About() {
             </p>
 
             {/* Product Images Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginTop: '1rem' }}>
+            <div className="product-img-grid">
               <div style={{ textAlign: 'center' }}>
                 <motion.img 
                   src="/antracol.jpg" 
                   alt="Bayer Antracol" 
                   onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1592982537447-6f23f0bf7123?w=800&q=80"; }}
-                  style={{ width: '100%', height: '250px', objectFit: 'contain', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'white', padding: '10px' }}
+                  style={{ width: '100%', height: '220px', objectFit: 'contain', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'white', padding: '10px' }}
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: "spring" }}
                 />
@@ -75,7 +73,7 @@ export default function About() {
                   src="/alika.png" 
                   alt="Syngenta Alika" 
                   onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1628352081506-83c43123ed6d?w=800&q=80"; }}
-                  style={{ width: '100%', height: '250px', objectFit: 'contain', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'white', padding: '10px' }}
+                  style={{ width: '100%', height: '220px', objectFit: 'contain', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'white', padding: '10px' }}
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: "spring" }}
                 />
@@ -118,48 +116,50 @@ export default function About() {
               
               {/* Case 1: Fertilizer Impact */}
               <div>
-                <h4 style={{ marginBottom: '1rem', color: 'var(--primary-color)', fontSize: '1.3rem' }}>1. Fertilizer Efficacy (Nutrient Recovery)</h4>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <h4 style={{ marginBottom: '1rem', color: 'var(--primary-color)', fontSize: '1.2rem' }}>1. Fertilizer Efficacy (Nutrient Recovery)</h4>
+                <div className="before-after-grid">
                   <div style={{ position: 'relative' }}>
-                    <img src="/before-neut.png" alt="Nutrient Deficiency (Before)" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
-                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(0,0,0,0.7)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>BEFORE</span>
+                    <img src="/before-neut.png" alt="Nutrient Deficiency (Before)" style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <span className="img-label img-label-before">BEFORE</span>
                   </div>
                   <div style={{ position: 'relative' }}>
-                    <img src="/after-neut.png" alt="Healthy Yield (After)" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
-                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'var(--primary-color)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>AFTER</span>
+                    <img src="/after-neut.png" alt="Healthy Yield (After)" style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <span className="img-label img-label-after">AFTER</span>
                   </div>
                 </div>
-                <p style={{ marginTop: '0.8rem', fontSize: '0.95rem', color: 'var(--text-muted)' }}>Stunted growth and yellowing (chlorosis) vs. lush, vibrant green growth after targeted NPK & micronutrient application.</p>
+                <p style={{ marginTop: '0.8rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Stunted growth and yellowing (chlorosis) vs. lush, vibrant green growth after targeted NPK & micronutrient application.</p>
               </div>
 
               {/* Case 2: Pesticide/Fungicide Impact */}
               <div>
-                <h4 style={{ marginBottom: '1rem', color: 'var(--primary-color)', fontSize: '1.3rem' }}>2. Disease Control (Fungal Prevention)</h4>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <h4 style={{ marginBottom: '1rem', color: 'var(--primary-color)', fontSize: '1.2rem' }}>2. Disease Control (Fungal Prevention)</h4>
+                <div className="before-after-grid">
                   <div style={{ position: 'relative' }}>
-                    <img src="/before-fungal.png" alt="Fungal Disease (Before)" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
-                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(0,0,0,0.7)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>BEFORE</span>
+                    <img src="/before-fungal.png" alt="Fungal Disease (Before)" style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <span className="img-label img-label-before">BEFORE</span>
                   </div>
                   <div style={{ position: 'relative' }}>
-                    <img src="/after-fungal.png" alt="Healthy Harvest (After)" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
-                    <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'var(--primary-color)', color: 'white', padding: '4px 10px', borderRadius: '4px', fontSize: '0.8rem', fontWeight: 'bold' }}>AFTER</span>
+                    <img src="/after-fungal.png" alt="Healthy Harvest (After)" style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <span className="img-label img-label-after">AFTER</span>
                   </div>
                 </div>
-                <p style={{ marginTop: '0.8rem', fontSize: '0.95rem', color: 'var(--text-muted)' }}>Severe leaf spots and fungal infection vs. clean, export-quality healthy fruit after systematic fungicide treatment.</p>
+                <p style={{ marginTop: '0.8rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Severe leaf spots and fungal infection vs. clean, export-quality healthy fruit after systematic fungicide treatment.</p>
               </div>
 
               {/* Case 3: Insecticide Impact */}
               <div>
-                <h4 style={{ marginBottom: '1rem', color: 'var(--primary-color)', fontSize: '1.3rem' }}>3. Pest Management (Insect Control)</h4>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <h4 style={{ marginBottom: '1rem', color: 'var(--primary-color)', fontSize: '1.2rem' }}>3. Pest Management (Insect Control)</h4>
+                <div className="before-after-grid">
                   <div style={{ position: 'relative' }}>
-                    <img src={insectBefore} alt="Pest Damage (Before)" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <img src="/before-insect.png" alt="Pest Damage (Before)" style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <span className="img-label img-label-before">BEFORE</span>
                   </div>
                   <div style={{ position: 'relative' }}>
-                    <img src={insectAfter} alt="Protected Crop (After)" style={{ width: '100%', height: '250px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <img src="/after-insect.png" alt="Protected Crop (After)" style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '12px' }} />
+                    <span className="img-label img-label-after">AFTER</span>
                   </div>
                 </div>
-                <p style={{ marginTop: '0.8rem', fontSize: '0.95rem', color: 'var(--text-muted)' }}>Heavy insect damage and holes vs. healthy, resilient foliage after using broad-spectrum insecticides.</p>
+                <p style={{ marginTop: '0.8rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Heavy insect damage and holes vs. healthy, resilient foliage after using broad-spectrum insecticides.</p>
               </div>
 
             </div>
