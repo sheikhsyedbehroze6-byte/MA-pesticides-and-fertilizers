@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import BottomNav from './components/BottomNav';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import DiseaseGuide from './pages/DiseaseGuide';
@@ -16,11 +17,11 @@ function App() {
   useEffect(() => {
     const handleScroll = () => {
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (window.scrollY / totalScroll) * 100;
+      const progress = totalScroll > 0 ? (window.scrollY / totalScroll) * 100 : 0;
       setScrollProgress(progress);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -28,8 +29,9 @@ function App() {
     <Router>
       <div className="App">
         <div className="scroll-progress" style={{ width: `${scrollProgress}%` }} />
-        
+
         <Header />
+
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -40,7 +42,9 @@ function App() {
             <Route path="/contact" element={<Contact />} />
           </Routes>
         </main>
+
         <Footer />
+        <BottomNav />
       </div>
     </Router>
   );

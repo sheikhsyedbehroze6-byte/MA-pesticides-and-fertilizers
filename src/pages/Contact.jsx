@@ -108,7 +108,7 @@ export default function Contact() {
             <input type="text" name="website" value={formData.website} onChange={handleChange} style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
 
             <input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} required />
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            <div className="contact-two-col">
               <input type="email" name="email" placeholder="Your Email (Optional)" value={formData.email} onChange={handleChange} />
               <input type="tel" name="phone" placeholder="Your Phone (Optional)" value={formData.phone} onChange={handleChange} />
             </div>
