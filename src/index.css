@@ -623,10 +623,37 @@ footer p {
 /* ===================== MOBILE FIRST BREAKPOINTS ===================== */
 @media (max-width: 768px) {
 
-  /* Show bottom nav */
+  /* Show bottom nav and optimize layout for 6 items */
   .bottom-nav {
     display: flex;
     align-items: center;
+    padding: 0;
+  }
+
+  .bottom-nav ul {
+    width: 100%;
+    justify-content: space-evenly;
+  }
+
+  .bottom-nav li {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .bottom-nav li a {
+    min-width: auto;
+    width: 100%;
+    padding: 0.35rem 0.15rem;
+    font-size: 0.55rem;
+    letter-spacing: -0.2px;
+    gap: 2px;
+    border-radius: 8px;
+  }
+
+  .bottom-nav li a svg {
+    width: 18px;
+    height: 18px;
   }
 
   /* Hide hamburger when bottom nav is present */
