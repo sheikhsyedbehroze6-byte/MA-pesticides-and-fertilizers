@@ -202,38 +202,30 @@ export default function Home() {
           <p style={{ fontSize: '1.2rem' }}>We supply premium products from the world's leading agricultural companies like Bayer, Syngenta, and many more.</p>
         </AnimatedSection>
         
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center', 
-          gap: '3rem 5rem', 
-          flexWrap: 'wrap',
-          marginBottom: '6rem',
-          opacity: 1
-        }}>
+        <div className="partners-logos-container">
           {/* Specific User Provided Logos */}
-          <motion.div whileHover={{ scale: 1.1 }} style={{ textAlign: 'center' }}>
-            <img src="/bayer.png" alt="Bayer" style={{ height: '80px', objectFit: 'contain' }} />
+          <motion.div whileHover={{ scale: 1.1 }} className="partner-logo-item">
+            <img src="/bayer.png" alt="Bayer" />
           </motion.div>
           
-          <motion.div whileHover={{ scale: 1.1 }} style={{ textAlign: 'center' }}>
-            <img src="/syngenta.png" alt="Syngenta" style={{ height: '80px', objectFit: 'contain' }} />
+          <motion.div whileHover={{ scale: 1.1 }} className="partner-logo-item">
+            <img src="/syngenta.png" alt="Syngenta" />
           </motion.div>
 
-          <motion.div whileHover={{ scale: 1.1 }} style={{ textAlign: 'center' }}>
-            <img src="/ipl.png" alt="IPL Biologicals" style={{ height: '80px', objectFit: 'contain' }} />
+          <motion.div whileHover={{ scale: 1.1 }} className="partner-logo-item">
+            <img src="/ipl.png" alt="IPL Biologicals" />
           </motion.div>
 
-          <motion.div whileHover={{ scale: 1.1 }} style={{ textAlign: 'center' }}>
-            <img src="/willowood.avif" alt="Willowood" style={{ height: '80px', objectFit: 'contain' }} />
+          <motion.div whileHover={{ scale: 1.1 }} className="partner-logo-item">
+            <img src="/willowood.avif" alt="Willowood" />
           </motion.div>
 
-          <motion.div whileHover={{ scale: 1.1 }} style={{ textAlign: 'center' }}>
-            <img src="/fil.png" alt="FIL Industries" style={{ height: '80px', objectFit: 'contain' }} />
+          <motion.div whileHover={{ scale: 1.1 }} className="partner-logo-item">
+            <img src="/fil.png" alt="FIL Industries" />
           </motion.div>
 
-          <motion.div whileHover={{ scale: 1.1 }} style={{ textAlign: 'center' }}>
-            <h3 style={{ color: 'var(--primary-color)', fontSize: '2rem', fontWeight: '900', margin: 0 }}>& MORE</h3>
+          <motion.div whileHover={{ scale: 1.1 }} className="partner-logo-item partner-logo-text">
+            <h3 style={{ color: 'var(--primary-color)', fontSize: '1.8rem', fontWeight: '900', margin: 0 }}>& MORE</h3>
             <p style={{ margin: 0, fontSize: '0.8rem', color: '#666' }}>Quality First</p>
           </motion.div>
         </div>

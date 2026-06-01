@@ -120,31 +120,25 @@ export default function Contact() {
         </AnimatedSection>
       </div>
       <AnimatedSection delay={0.6} style={{ marginTop: '4rem' }}>
+        <h3 style={{ marginBottom: '1.5rem', color: 'var(--primary-color)', fontSize: '1.5rem' }}>Our Shop Location</h3>
         <div style={{ 
           position: 'relative', 
           height: '400px', 
           borderRadius: '20px', 
           overflow: 'hidden',
-          boxShadow: '0 20px 40px rgba(0,0,0,0.1)'
+          boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+          border: '1px solid var(--border-color)'
         }}>
-          <img 
-            src="https://images.unsplash.com/photo-1444858291040-58f756a3bdd6?w=1600&q=80" 
-            alt="Wheat Fields" 
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
-          <div style={{ 
-            position: 'absolute', 
-            inset: 0, 
-            background: 'linear-gradient(to top, rgba(26, 93, 26, 0.8), transparent)',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-end',
-            padding: '3rem',
-            color: 'white'
-          }}>
-            <h3 style={{ color: 'white', fontSize: '2rem', marginBottom: '0.5rem' }}>Supporting a Bountiful Harvest</h3>
-            <p style={{ fontSize: '1.2rem', maxWidth: '600px' }}>Our products are designed to protect your hard work and ensure the highest quality yield for your fields.</p>
-          </div>
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.5134789504825!2d74.8028711767355!3d34.056345873155186!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38e18f2f53d10db9%3A0xc3f83732db441e8f!2sCrime%20Branch%20Srinagar%20J%26K!5e0!3m2!1sen!2sin!4v1716942000000!5m2!1sen!2sin" 
+            width="100%" 
+            height="100%" 
+            style={{ border: 0 }} 
+            allowFullScreen="" 
+            loading="lazy" 
+            referrerPolicy="no-referrer-when-downgrade"
+            title="MA Pesticides Srinagar Lal Chowk Map Location"
+          ></iframe>
         </div>
       </AnimatedSection>
     </div>
