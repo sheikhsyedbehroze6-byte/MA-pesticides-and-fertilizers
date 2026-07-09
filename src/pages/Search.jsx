@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
 import ProductCard from '../components/ProductCard';
@@ -14,17 +14,41 @@ export default function Search() {
   
   const [query, setQuery] = useState(initialQuery);
 
+  // Sync state with URL query parameter when browser navigation (back/forward) occurs
+  useEffect(() => {
+    const currentParams = new URLSearchParams(location.search);
+    const qInUrl = currentParams.get('q') || '';
+    if (qInUrl !== query) {
+      setQuery(qInUrl);
+    }
+  }, [location.search]);
+
+  // Perform real-time URL update as user types (replacing history state to avoid back button pollution)
+  const handleInputChange = (e) => {
+    const val = e.target.value;
+    setQuery(val);
+    
+    const trimmed = val.trim();
+    if (trimmed) {
+      navigate(`/search?q=${encodeURIComponent(trimmed)}`, { replace: true });
+    } else {
+      navigate('/search', { replace: true });
+    }
+  };
+
   const handleSearch = (e) => {
     e.preventDefault();
-    if (query.trim()) {
-      navigate(`/search?q=${encodeURIComponent(query.trim())}`);
+    const trimmed = query.trim();
+    if (trimmed) {
+      // Force a push state on explicit submit/enter to save search checkpoint
+      navigate(`/search?q=${encodeURIComponent(trimmed)}`);
     } else {
       navigate('/search');
     }
   };
 
   const results = useMemo(() => {
-    const q = initialQuery.toLowerCase().trim();
+    const q = query.toLowerCase().trim();
     if (!q) return { matchedDiseases: [], matchedProducts: [] };
 
     // Find diseases that match the query
@@ -51,7 +75,7 @@ export default function Search() {
     );
 
     return { matchedDiseases, matchedProducts };
-  }, [initialQuery]);
+  }, [query]);
 
   return (
     <div className="container" style={{ minHeight: '60vh' }}>
@@ -64,7 +88,7 @@ export default function Search() {
             <input 
               type="text" 
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={handleInputChange}
               placeholder="Search for a disease or symptom..."
               style={{
                 width: '100%',
@@ -101,9 +125,9 @@ export default function Search() {
         </form>
       </AnimatedSection>
 
-      {initialQuery && results.matchedDiseases.length === 0 && results.matchedProducts.length === 0 && (
+      {query.trim() && results.matchedDiseases.length === 0 && results.matchedProducts.length === 0 && (
         <div style={{ textAlign: 'center', marginTop: '2rem', padding: '3rem', background: '#f5f5f5', borderRadius: '12px' }}>
-          <h3 style={{ color: '#555' }}>No diseases or products found matching "{initialQuery}"</h3>
+          <h3 style={{ color: '#555' }}>No diseases or products found matching "{query}"</h3>
           <p style={{ color: '#777' }}>Try searching for a different term, symptom, or product name.</p>
         </div>
       )}
