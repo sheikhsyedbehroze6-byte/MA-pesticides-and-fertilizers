@@ -211,12 +211,13 @@ export default function DiseaseGuide() {
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.3 }}
               className={`disease-card bilingual-card ${disease.severity === 'High' ? 'severity-high' : ''}`}
+              style={{ padding: '1rem' }}
             >
               <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                 {disease.image && (
                   <div 
                     className="disease-image-container" 
-                    style={{ margin: '-1.5rem -1.5rem 1.5rem -1.5rem', height: '200px', overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#f5f5f5', borderBottom: '1px solid var(--border-color)' }}
+                    style={{ margin: '-1rem -1rem 0.8rem -1rem', height: '130px', overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#f5f5f5', borderBottom: '1px solid var(--border-color)' }}
                   >
                     <img 
                       src={disease.image} 
@@ -228,43 +229,49 @@ export default function DiseaseGuide() {
                 )}
                 
                 <div className="disease-header">
-                  <span className="crop-badge"><Leaf size={14} style={{marginRight: '4px'}}/> {disease.crop}</span>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: '1rem', gap: '1rem' }}>
-                    <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '6px', fontSize: '1.25rem' }}>
-                      <AlertTriangle size={18} style={{color: disease.severity === 'High' ? 'var(--accent-color)' : 'orange'}}/> {disease.name}
+                  <span className="crop-badge" style={{ padding: '0.2rem 0.6rem', fontSize: '0.75rem' }}>
+                    <Leaf size={12} style={{marginRight: '4px'}}/> {disease.crop}
+                  </span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: '0.6rem', gap: '0.8rem' }}>
+                    <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '6px', fontSize: '1.15rem' }}>
+                      <AlertTriangle size={16} style={{color: disease.severity === 'High' ? 'var(--accent-color)' : 'orange'}}/> {disease.name}
                     </h3>
-                    <h3 className="urdu-text" dir="rtl" style={{ margin: 0, fontSize: '1.15rem', color: 'var(--primary-color)' }}>{disease.nameUrdu}</h3>
+                    <h3 className="urdu-text" dir="rtl" style={{ margin: 0, fontSize: '1.05rem', color: 'var(--primary-color)' }}>{disease.nameUrdu}</h3>
                   </div>
                 </div>
-
-                <div className="disease-content" style={{ flex: 1, margin: '1.5rem 0' }}>
+ 
+                <div className="disease-content" style={{ flex: 1, margin: '0.8rem 0' }}>
                   <div className="english-side">
-                    <p style={{ lineHeight: '1.5', color: 'var(--text-main)' }}><strong>Symptoms:</strong> {disease.symptoms}</p>
-                    <p style={{ marginTop: '0.8rem' }}><strong>Severity:</strong> <span style={{ 
+                    <p style={{ lineHeight: '1.4', color: 'var(--text-main)', fontSize: '0.85rem', margin: 0 }}><strong>Symptoms:</strong> {disease.symptoms}</p>
+                    <p style={{ marginTop: '0.4rem', margin: '0.4rem 0 0 0', fontSize: '0.85rem' }}><strong>Severity:</strong> <span style={{ 
                       color: disease.severity === 'High' ? '#ff1744' : 'orange',
                       fontWeight: 'bold',
                       textTransform: 'uppercase',
-                      fontSize: '0.85rem'
+                      fontSize: '0.8rem'
                     }}>{disease.severity}</span></p>
                   </div>
                   <div className="urdu-side urdu-text" dir="rtl">
-                    <p style={{ lineHeight: '1.8', color: '#1b5e20' }}><strong>علامات:</strong> {disease.symptomsUrdu}</p>
+                    <p style={{ lineHeight: '1.6', color: '#1b5e20', fontSize: '0.95rem', margin: 0 }}><strong>علامات:</strong> {disease.symptomsUrdu}</p>
                   </div>
                 </div>
                 
                 <div 
                   className="disease-cure" 
-                  style={{ background: 'rgba(26, 93, 26, 0.04)', padding: '1rem', borderRadius: '12px', border: '1px solid rgba(26, 93, 26, 0.12)', marginTop: 'auto' }}
+                  style={{ background: 'rgba(26, 93, 26, 0.04)', padding: '0.6rem 0.8rem', borderRadius: '8px', border: '1px solid rgba(26, 93, 26, 0.12)', marginTop: 'auto', gap: '1rem' }}
                 >
                   <div className="english-side">
-                    <p><CheckCircle size={16} color="var(--primary-color)" style={{ verticalAlign: 'middle', marginRight: '5px' }}/>
-                    <strong>Recommended Cure:</strong> {disease.cure}</p>
-                    <p style={{ marginTop: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}><strong>Dosage:</strong> {disease.dosage}</p>
+                    <p style={{ margin: 0, fontSize: '0.82rem', lineHeight: '1.3' }}>
+                      <CheckCircle size={14} color="var(--primary-color)" style={{ verticalAlign: 'middle', marginRight: '5px' }}/>
+                      <strong>Cure:</strong> {disease.cure}
+                    </p>
+                    <p style={{ margin: '0.3rem 0 0 0', fontSize: '0.8rem', color: 'var(--text-muted)' }}><strong>Dosage:</strong> {disease.dosage}</p>
                   </div>
                   <div className="urdu-side urdu-text" dir="rtl" style={{ borderLeft: 'none' }}>
-                    <p><CheckCircle size={16} color="var(--primary-color)" style={{ verticalAlign: 'middle', marginLeft: '5px' }}/>
-                    <strong>علاج:</strong> {disease.cureUrdu}</p>
-                    <p style={{ marginTop: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}><strong>مقدار:</strong> {disease.dosageUrdu}</p>
+                    <p style={{ margin: 0, fontSize: '0.9rem', lineHeight: '1.5' }}>
+                      <CheckCircle size={14} color="var(--primary-color)" style={{ verticalAlign: 'middle', marginLeft: '5px' }}/>
+                      <strong>علاج:</strong> {disease.cureUrdu}
+                    </p>
+                    <p style={{ margin: '0.3rem 0 0 0', fontSize: '0.85rem', color: 'var(--text-muted)' }}><strong>مقدار:</strong> {disease.dosageUrdu}</p>
                   </div>
                 </div>
               </div>
