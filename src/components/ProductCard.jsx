@@ -1,9 +1,22 @@
-import { motion } from 'framer-motion';
-import { ShieldCheck, Droplets } from 'lucide-react';
+import { ShieldCheck, Droplets, MessageCircle } from 'lucide-react';
 
 export default function ProductCard({ product }) {
   // Strip redundant "20% discount on print price." prefix from benefits text
   const cleanBenefits = product.benefits.replace(/^20%\s*discount\s*on\s*print\s*price\.\s*/i, '');
+
+  const handleEnquiry = () => {
+    const message =
+      `🌿 *Product Enquiry — MA Pesticides*\n\n` +
+      `*Product:* ${product.name}\n` +
+      (product.composition ? `*Composition:* ${product.composition}\n` : '') +
+      `*Type:* ${product.type}\n` +
+      `*Dosage:* ${product.dosage}\n` +
+      `*Used For:* ${product.uses}\n\n` +
+      `I would like to know more about this product and its availability. Please assist me.`;
+
+    const url = `https://wa.me/919906541321?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  };
 
   return (
     <div className="product-card">
@@ -49,6 +62,15 @@ export default function ProductCard({ product }) {
             <span key={disease} className="disease-tag">{disease}</span>
           ))}
         </div>
+
+        <button
+          onClick={handleEnquiry}
+          className="product-enquiry-btn"
+          aria-label={`Enquire about ${product.name} on WhatsApp`}
+        >
+          <MessageCircle size={16} />
+          Enquire on WhatsApp
+        </button>
       </div>
     </div>
   );
