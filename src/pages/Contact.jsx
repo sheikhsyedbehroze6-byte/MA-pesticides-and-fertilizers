@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import AnimatedSection from '../components/AnimatedSection';
-import { MapPin, Phone, Mail, Clock, CheckCircle } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, CheckCircle, Navigation } from 'lucide-react';
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '', website: '' });
@@ -58,7 +58,7 @@ export default function Contact() {
             <div className="info-icon"><MapPin size={24} /></div>
             <div>
               <strong>Address</strong>
-              <p>Ground Floor, Opposite Fly Over, near Crime Branch, Srinagar, J&K</p>
+              <p>Near, Exhibition Road, opposite High Court Complex, Hari Singh High Street, Shergarhi, Srinagar, 190001</p>
             </div>
           </div>
 
@@ -119,26 +119,113 @@ export default function Contact() {
           </form>
         </AnimatedSection>
       </div>
+
       <AnimatedSection delay={0.6} style={{ marginTop: '4rem' }}>
-        <h3 style={{ marginBottom: '1.5rem', color: 'var(--primary-color)', fontSize: '1.5rem' }}>Our Shop Location</h3>
-        <div style={{ 
-          position: 'relative', 
-          height: '400px', 
-          borderRadius: '20px', 
-          overflow: 'hidden',
-          boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
-          border: '1px solid var(--border-color)'
+        <h3 style={{ marginBottom: '0.5rem', color: 'var(--primary-color)', fontSize: '1.5rem' }}>Our Shop Location</h3>
+        <p style={{ marginBottom: '1.5rem', fontSize: '1.05rem', color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span>📍</span> <strong>Near, Exhibition Road, opposite High Court Complex, Hari Singh High Street, Shergarhi, Srinagar, 190001</strong>
+        </p>
+        
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '2.5rem',
+          alignItems: 'start',
+          marginTop: '1.5rem'
         }}>
-          <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.5134789504825!2d74.8028711767355!3d34.056345873155186!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38e18f2f53d10db9%3A0xc3f83732db441e8f!2sCrime%20Branch%20Srinagar%20J%26K!5e0!3m2!1sen!2sin!4v1716942000000!5m2!1sen!2sin" 
-            width="100%" 
-            height="100%" 
-            style={{ border: 0 }} 
-            allowFullScreen="" 
-            loading="lazy" 
-            referrerPolicy="no-referrer-when-downgrade"
-            title="MA Pesticides Srinagar Lal Chowk Map Location"
-          ></iframe>
+          {/* Left Column: Map & Get Directions */}
+          <div>
+            <div style={{ 
+              position: 'relative', 
+              width: '100%',
+              maxWidth: '400px',
+              aspectRatio: '1 / 1',
+              borderRadius: '20px', 
+              overflow: 'hidden',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+              border: '1px solid var(--border-color)',
+              marginBottom: '1.5rem'
+            }}>
+              <iframe 
+                src="https://www.google.com/maps?q=34.071645658322105,74.80247470803405&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+                width="100%" 
+                height="100%" 
+                style={{ border: 0 }} 
+                allowFullScreen="" 
+                loading="lazy" 
+                referrerPolicy="no-referrer-when-downgrade"
+                title="MA Pesticides Srinagar Lal Chowk Map Location"
+              ></iframe>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+              <a 
+                href="https://www.google.com/maps/dir/?api=1&destination=34.071645658322105,74.80247470803405" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '0.75rem 1.5rem',
+                  backgroundColor: 'var(--primary-color)',
+                  color: 'white',
+                  textDecoration: 'none',
+                  borderRadius: '10px',
+                  fontWeight: '600',
+                  fontSize: '0.95rem',
+                  boxShadow: '0 4px 12px var(--primary-glow)',
+                  transition: 'transform 0.2s ease, opacity 0.2s ease'
+                }}
+                onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                onMouseOut={(e) => { e.currentTarget.style.transform = 'none'; }}
+              >
+                <Navigation size={18} />
+                Get Directions
+              </a>
+            </div>
+          </div>
+
+          {/* Right Column: Store info / landmarks / notes */}
+          <div style={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            gap: '1.5rem',
+            backgroundColor: 'var(--bg-card)', 
+            padding: '2rem', 
+            borderRadius: '20px',
+            border: '1px solid var(--border-color)',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
+            transition: 'var(--theme-transition)'
+          }}>
+            <h4 style={{ color: 'var(--primary-color)', margin: 0, fontSize: '1.25rem', fontWeight: 'bold' }}>Visiting Our Store</h4>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: '1.6', margin: 0 }}>
+              Located right in the heart of Srinagar, opposite the High Court Complex. Our specialists are on-site daily to assist you with any agricultural challenges.
+            </p>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', marginTop: '0.5rem' }}>
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                <span style={{ fontSize: '1.2rem', color: 'var(--primary-color)', lineHeight: '1' }}>💡</span>
+                <div>
+                  <strong style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-main)', marginBottom: '0.2rem' }}>Key Landmark</strong>
+                  <span style={{ fontSize: '0.88rem', color: 'var(--text-muted)' }}>Near the Exhibition Road crossing, opposite the Main High Court Gate.</span>
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                <span style={{ fontSize: '1.2rem', color: 'var(--primary-color)', lineHeight: '1' }}>🚗</span>
+                <div>
+                  <strong style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-main)', marginBottom: '0.2rem' }}>Parking Available</strong>
+                  <span style={{ fontSize: '0.88rem', color: 'var(--text-muted)' }}>Roadside parking and designated public parking lots nearby.</span>
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                <span style={{ fontSize: '1.2rem', color: 'var(--primary-color)', lineHeight: '1' }}>📋</span>
+                <div>
+                  <strong style={{ display: 'block', fontSize: '0.95rem', color: 'var(--text-main)', marginBottom: '0.2rem' }}>Expert Consultations</strong>
+                  <span style={{ fontSize: '0.88rem', color: 'var(--text-muted)' }}>Bring infected crop samples to our store for a free on-the-spot diagnosis.</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </AnimatedSection>
     </div>

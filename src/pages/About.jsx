@@ -1,320 +1,211 @@
 import AnimatedSection from '../components/AnimatedSection';
-import { ShieldCheck, Award, Globe, TreeDeciduous, Star, Quote } from 'lucide-react';
+import { ShieldCheck, Award, Globe, TreeDeciduous, Star, Quote, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import hajiGhulamRasool from '../assets/haji_ghulam_rasool.png';
 import mohammadYousuf from '../assets/mohammad_yousuf.png';
 import shabnamAra from '../assets/shabnam_ara.png';
 
-// Swaying Tree Component
-const SwayingTree = ({ delay, left, size, color }) => {
-  return (
-    <motion.div
-      style={{ position: 'absolute', bottom: '0', left: left, zIndex: 0, originY: 1 }}
-      initial={{ scale: 0, opacity: 0 }}
-      animate={{ scale: 1, opacity: 0.3 }}
-      transition={{ type: "spring", stiffness: 40, delay: delay, duration: 2 }}
-    >
-      <motion.div
-        animate={{ rotate: [-2, 4, -3, 2, -2] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: delay }}
-        style={{ originY: 1 }}
-      >
-        <TreeDeciduous size={size} color={color} strokeWidth={1} />
-      </motion.div>
-    </motion.div>
-  );
-};
-
 export default function About() {
   return (
-    <div className="animated-vibrant-bg" style={{ position: 'relative', overflow: 'hidden', minHeight: '80vh', paddingBottom: '4rem' }}>
-      
-      {/* Animated Orchard Background */}
-      <SwayingTree delay={0.2} left="5%" size={250} color="var(--primary-color)" />
-      <SwayingTree delay={1.5} left="15%" size={180} color="var(--primary-color)" />
-      <SwayingTree delay={0.8} left="80%" size={300} color="var(--primary-color)" />
-      <SwayingTree delay={2.0} left="70%" size={200} color="var(--primary-color)" />
+    <div className="about-layout">
+      {/* Simple Hero */}
+      <AnimatedSection className="section-header" style={{ paddingTop: '2rem' }}>
+        <h2>About MA Pesticides</h2>
+        <p>Genuine agricultural solutions for Kashmiri farmers since generations.</p>
+      </AnimatedSection>
 
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-        <AnimatedSection className="section-header">
-          <h2 style={{ fontSize: '3rem', color: 'white' }}>About MA Pesticides</h2>
-          <p style={{ color: '#e0e0e0', fontSize: '1.2rem' }}>Providing the highest quality agricultural solutions to Kashmiri farmers.</p>
-          
-          
+
+        {/* Brands */}
+        <AnimatedSection className="about-card" style={{ marginTop: 0 }}>
+          <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary-color)', marginBottom: '1rem' }}>
+            <Award size={24} /> Premium Brands
+          </h3>
+          <p style={{ fontSize: '1.05rem', marginBottom: '1.5rem', color: 'var(--text-muted)', lineHeight: '1.7' }}>
+            We supply 100% genuine products from <strong>Bayer</strong>, <strong>Syngenta</strong>, and other world-class agricultural companies — directly to Kashmir.
+          </p>
+
+          <div className="product-img-grid">
+            <div className="brand-card">
+              <div className="brand-card-img-container">
+                <img src="/antracol.jpg" alt="Bayer Antracol" onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1592982537447-6f23f0bf7123?w=800&q=80"; }} />
+              </div>
+              <h4 style={{ marginTop: '0.8rem', color: 'var(--text-main)' }}>Bayer Antracol</h4>
+            </div>
+            <div className="brand-card">
+              <div className="brand-card-img-container">
+                <img src="/alika.png" alt="Syngenta Alika" onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1628352081506-83c43123ed6d?w=800&q=80"; }} />
+              </div>
+              <h4 style={{ marginTop: '0.8rem', color: 'var(--text-main)' }}>Syngenta Alika</h4>
+            </div>
+          </div>
         </AnimatedSection>
 
-        <div style={{ display: 'grid', gap: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
-          <AnimatedSection delay={0.1} style={{ background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(10px)', padding: '2rem', borderRadius: '12px', boxShadow: '0 15px 40px rgba(0,0,0,0.1)' }}>
-            <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary-color)', marginBottom: '1rem' }}>
-              <Award size={28} /> Premium Foreign Brands
-            </h3>
-            <p style={{ fontSize: '1.1rem', marginBottom: '1rem' }}>
-              At MA Pesticides, we believe that the health of your crops directly translates to the prosperity of our community. That is why we refuse to compromise on quality. 
-            </p>
-            <p style={{ fontSize: '1.1rem', marginBottom: '2rem' }}>
-              We specialize in providing <strong>100% genuine, foreign-branded products</strong> from world-renowned agricultural science companies like <strong>Bayer</strong>, <strong>Syngenta</strong> and many more. By bringing these international standards directly to Lal Chowk, we ensure that you get the most effective, research-backed solutions available globally.
-            </p>
-
-            {/* Product Images Grid */}
-            <div className="product-img-grid">
-              <div style={{ textAlign: 'center' }}>
-                <motion.img 
-                  src="/antracol.jpg" 
-                  alt="Bayer Antracol" 
-                  onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1592982537447-6f23f0bf7123?w=800&q=80"; }}
-                  style={{ width: '100%', height: '220px', objectFit: 'contain', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'white', padding: '10px' }}
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ type: "spring" }}
-                />
-                <h4 style={{ marginTop: '0.8rem', color: 'var(--text-main)' }}>Bayer Antracol</h4>
-              </div>
-              <div style={{ textAlign: 'center' }}>
-                <motion.img 
-                  src="/alika.png" 
-                  alt="Syngenta Alika" 
-                  onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1628352081506-83c43123ed6d?w=800&q=80"; }}
-                  style={{ width: '100%', height: '220px', objectFit: 'contain', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'white', padding: '10px' }}
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ type: "spring" }}
-                />
-                <h4 style={{ marginTop: '0.8rem', color: 'var(--text-main)' }}>Syngenta Alika</h4>
-              </div>
-            </div>
-          </AnimatedSection>
-
-          {/* Apple Growth Stages Chart */}
-          <AnimatedSection delay={0.2} style={{ background: 'rgba(255, 255, 255, 0.98)', backdropFilter: 'blur(10px)', padding: '2.5rem', borderRadius: '16px', boxShadow: '0 20px 50px rgba(0,0,0,0.15)', border: '1px solid rgba(255,255,255,0.5)', marginTop: '3rem' }}>
-            <h3 style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--primary-color)', marginBottom: '1.5rem', fontSize: '1.8rem' }}>
-              <TreeDeciduous size={32} /> Apple Phenological Stages
-            </h3>
-            <p style={{ fontSize: '1.1rem', marginBottom: '2rem', color: 'var(--text-main)' }}>
-              Understanding the different growth stages of apple trees is crucial for timely application of fertilizers and pesticides. Use this guide to identify the exact stage of your orchard for the most effective results.
-            </p>
-            
-            <div style={{ position: 'relative', width: '100%', borderRadius: '12px', overflow: 'hidden', border: '1px solid #eee' }}>
-              <img 
-                src="/apple-stages.png" 
-                alt="Apple Phenological Stages Chart" 
-                style={{ width: '100%', height: 'auto', display: 'block' }}
-              />
-            </div>
-            <p style={{ marginTop: '1.5rem', fontSize: '0.95rem', color: 'var(--text-muted)', fontStyle: 'italic', textAlign: 'center' }}>
-              * Consult with our experts at MA Pesticides for specific spray schedules based on these stages.
-            </p>
-          </AnimatedSection>
-
-          {/* Treatment Results: Before & After Section */}
-          <AnimatedSection delay={0.4} style={{ background: 'rgba(255, 255, 255, 0.98)', backdropFilter: 'blur(10px)', padding: '2.5rem', borderRadius: '16px', boxShadow: '0 20px 50px rgba(0,0,0,0.15)', border: '1px solid rgba(255,255,255,0.5)', marginTop: '3rem' }}>
-            <h3 style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'var(--primary-color)', marginBottom: '1.5rem', fontSize: '1.8rem' }}>
-              <Globe size={32} /> Treatment Results: Before & After
-            </h3>
-            <p style={{ fontSize: '1.1rem', marginBottom: '2.5rem', color: 'var(--text-main)' }}>
-              See the real-world impact of using MA Pesticides' premium solutions. These results showcase the difference that quality chemicals and expert advice make in crop health and yield.
-            </p>
-
-            <div style={{ display: 'grid', gap: '3rem' }}>
-              
-              {/* Case 1: Fertilizer Impact */}
-              <div>
-                <h4 style={{ marginBottom: '1rem', color: 'var(--primary-color)', fontSize: '1.2rem' }}>1. Fertilizer Efficacy (Nutrient Recovery)</h4>
-                <div className="before-after-grid">
-                  <div style={{ position: 'relative' }}>
-                    <img src="/before-neut.png" alt="Nutrient Deficiency (Before)" style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '12px' }} />
-                    <span className="img-label img-label-before">BEFORE</span>
-                  </div>
-                  <div style={{ position: 'relative' }}>
-                    <img src="/after-neut.png" alt="Healthy Yield (After)" style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '12px' }} />
-                    <span className="img-label img-label-after">AFTER</span>
-                  </div>
-                </div>
-                <p style={{ marginTop: '0.8rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Stunted growth and yellowing (chlorosis) vs. lush, vibrant green growth after targeted NPK & micronutrient application.</p>
-              </div>
-
-              {/* Case 2: Pesticide/Fungicide Impact */}
-              <div>
-                <h4 style={{ marginBottom: '1rem', color: 'var(--primary-color)', fontSize: '1.2rem' }}>2. Disease Control (Fungal Prevention)</h4>
-                <div className="before-after-grid">
-                  <div style={{ position: 'relative' }}>
-                    <img src="/before-fungal.png" alt="Fungal Disease (Before)" style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '12px' }} />
-                    <span className="img-label img-label-before">BEFORE</span>
-                  </div>
-                  <div style={{ position: 'relative' }}>
-                    <img src="/after-fungal.png" alt="Healthy Harvest (After)" style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '12px' }} />
-                    <span className="img-label img-label-after">AFTER</span>
-                  </div>
-                </div>
-                <p style={{ marginTop: '0.8rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Severe leaf spots and fungal infection vs. clean, export-quality healthy fruit after systematic fungicide treatment.</p>
-              </div>
-
-              {/* Case 3: Insecticide Impact */}
-              <div>
-                <h4 style={{ marginBottom: '1rem', color: 'var(--primary-color)', fontSize: '1.2rem' }}>3. Pest Management (Insect Control)</h4>
-                <div className="before-after-grid">
-                  <div style={{ position: 'relative' }}>
-                    <img src="/before-insect.png" alt="Pest Damage (Before)" style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '12px' }} />
-                    <span className="img-label img-label-before">BEFORE</span>
-                  </div>
-                  <div style={{ position: 'relative' }}>
-                    <img src="/after-insect.png" alt="Protected Crop (After)" style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '12px' }} />
-                    <span className="img-label img-label-after">AFTER</span>
-                  </div>
-                </div>
-                <p style={{ marginTop: '0.8rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Heavy insect damage and holes vs. healthy, resilient foliage after using broad-spectrum insecticides.</p>
-              </div>
-
-            </div>
-          </AnimatedSection>
-
-          {/* Pesticide Safety Guide Section */}
-          <AnimatedSection delay={0.5} style={{ background: 'rgba(255, 255, 255, 0.98)', backdropFilter: 'blur(10px)', padding: '2.5rem', borderRadius: '16px', boxShadow: '0 20px 50px rgba(0,0,0,0.15)', border: '1px solid rgba(255,255,255,0.5)', marginTop: '3rem' }}>
-            <h3 style={{ display: 'flex', alignItems: 'center', gap: '12px', color: '#ff5722', marginBottom: '1.5rem', fontSize: '1.8rem' }}>
-              <ShieldCheck size={32} /> Pesticide Safety & Guidelines
-            </h3>
-            <p style={{ fontSize: '1.1rem', marginBottom: '2rem', color: 'var(--text-main)' }}>
-              Safety is our top priority. Following proper instructions and safety protocols not only protects your crops but also ensures the health of the farmers and the environment.
-            </p>
-            
-            <div style={{ position: 'relative', width: '100%', borderRadius: '12px', overflow: 'hidden', border: '1px solid #eee' }}>
-              <img 
-                src="/safety-guide.png" 
-                alt="Pesticide Application Safety Guide" 
-                style={{ width: '100%', height: 'auto', display: 'block' }}
-              />
-            </div>
-            <p style={{ marginTop: '1.5rem', fontSize: '0.95rem', color: 'var(--text-muted)', textAlign: 'center' }}>
-              * Always read the label and follow the recommended safety gear requirements before handling any chemicals.
-            </p>
-          </AnimatedSection>
-
-          {/* Farmers Reviews Section */}
-          <AnimatedSection delay={0.6} style={{ background: 'rgba(255, 255, 255, 0.98)', backdropFilter: 'blur(10px)', padding: '2rem', borderRadius: '16px', boxShadow: '0 20px 50px rgba(0,0,0,0.15)', border: '1px solid rgba(255,255,255,0.5)', marginTop: '3rem' }}>
-            <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary-color)', marginBottom: '1rem', fontSize: '1.6rem' }}>
-              <Quote size={28} /> Farmers' Reviews
-            </h3>
-            <p style={{ fontSize: '1rem', marginBottom: '1.5rem', color: 'var(--text-main)' }}>
-              Real feedback from local Kashmiri orchardists who trust MA Pesticides.
-            </p>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.2rem' }}>
-              {[
-                {
-                  name: "Haji Ghulam Rasool",
-                  location: "Sopore (Apple Grower)",
-                  reviewEn: "Bayer fungicides and the spray schedule from MA Pesticides saved my apple orchard from Scab!",
-                  reviewUr: "ایم اے پیسٹیسائیڈز کے بائر فنگسائڈز اور اسپرے شیڈول نے میرے سیب کے باغ کو اسکیب سے بچایا!",
-                  rating: 5,
-                  avatar: hajiGhulamRasool,
-                  date: "2 weeks ago"
-                },
-                {
-                  name: "Mohammad Yousuf",
-                  location: "Baramulla (Cherry Orchardist)",
-                  reviewEn: "Outstanding Syngenta products and guidance. The results on my cherry crop were incredible!",
-                  reviewUr: "شاندار سینجنٹا پروڈکٹس اور رہنمائی۔ میری چیری کی فصل پر نتائج واقعی لاجواب تھے!",
-                  rating: 5,
-                  avatar: mohammadYousuf,
-                  date: "1 month ago"
-                },
-                {
-                  name: "Shabnam Ara",
-                  location: "Pulwama (Vegetable Grower)",
-                  reviewEn: "Their custom Proma Gro and NPK advice doubled my greenhouse potato and tomato yields!",
-                  reviewUr: "ان کی تجویز کردہ پروما گرو اور این پی کے کھاد نے گرین ہاؤس میں میری پیداوار کو دگنا کر دیا!",
-                  rating: 5,
-                  avatar: shabnamAra,
-                  date: "3 weeks ago"
-                }
-              ].map((review, idx) => (
-                <motion.div 
-                  key={idx} 
-                  whileHover={{ y: -5, boxShadow: '0 8px 25px rgba(46, 125, 50, 0.1)' }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                  style={{ 
-                    background: 'rgba(255, 255, 255, 0.78)', 
-                    border: '1px solid rgba(46, 125, 50, 0.1)',
-                    padding: '1.2rem', 
-                    borderRadius: '12px', 
-                    display: 'flex', 
-                    flexDirection: 'column', 
-                    justifyContent: 'space-between',
-                    position: 'relative',
-                    boxShadow: '0 4px 15px rgba(0,0,0,0.02)'
-                  }}
-                >
-                  <Quote size={24} style={{ color: 'rgba(46, 125, 50, 0.06)', position: 'absolute', top: '10px', right: '10px' }} />
-                  <div>
-                    {/* Verified and Date Header */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '0.6rem' }}>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#2e7d32', fontWeight: 'bold' }}>
-                        <span style={{ display: 'inline-block', width: '6px', height: '6px', backgroundColor: '#2e7d32', borderRadius: '50%' }}></span>
-                        Verified Customer
-                      </span>
-                      <span>{review.date}</span>
-                    </div>
-
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.6rem' }}>
-                      {review.avatar.length > 4 ? (
-                        <img 
-                          src={review.avatar} 
-                          alt={review.name} 
-                          style={{ width: '38px', height: '38px', borderRadius: '50%', objectFit: 'cover', border: '1.5px solid #2e7d32' }} 
-                        />
-                      ) : (
-                        <span style={{ fontSize: '1.5rem' }}>{review.avatar}</span>
-                      )}
-                      <div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
-                          <h4 style={{ margin: 0, color: 'var(--text-main)', fontSize: '0.9rem', fontWeight: 'bold' }}>{review.name}</h4>
-                          <span title="Verified Account" style={{ color: '#2e7d32', fontSize: '0.8rem', fontWeight: 'bold' }}>✓</span>
-                        </div>
-                        <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{review.location}</span>
-                      </div>
-                    </div>
-                    
-                    <div style={{ display: 'flex', marginBottom: '0.6rem' }}>
-                      {[...Array(review.rating)].map((_, i) => (
-                        <Star key={i} size={13} fill="#ffc107" color="#ffc107" style={{ marginRight: '1px' }} />
-                      ))}
-                    </div>
-
-                    <p style={{ fontSize: '0.85rem', color: 'var(--text-main)', fontStyle: 'italic', marginBottom: '0.6rem', lineHeight: '1.4' }}>
-                      "{review.reviewEn}"
-                    </p>
-                  </div>
-                  
-                  <p className="urdu-text" style={{ fontSize: '0.9rem', color: '#1b5e20', borderTop: '1px dashed rgba(46,125,50,0.15)', paddingTop: '0.5rem', marginTop: '0.3rem', direction: 'rtl', textAlign: 'right', lineHeight: '1.5' }}>
-                    "{review.reviewUr}"
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </AnimatedSection>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginTop: '3rem' }}>
-            <AnimatedSection className="glow-card" delay={0.3} style={{ background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(10px)', padding: '2rem', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.05)', border: '1px solid var(--border-color)', textAlign: 'center' }}>
-              <div style={{ background: '#2c3e50', padding: '1.5rem', borderRadius: '12px', marginBottom: '1.5rem', display: 'flex', justifyContent: 'center' }}>
-                <img 
-                  src="/global-standards.svg" 
-                  alt="Global Standards Logo" 
-                  style={{ height: '80px', objectFit: 'contain' }} 
-                />
-              </div>
-              <h3 style={{ color: 'var(--primary-color)', marginBottom: '0.5rem' }}>Global Standards</h3>
-              <p style={{ color: 'var(--text-muted)' }}>We import and supply products that meet rigorous international testing standards, ensuring maximum efficacy against local Kashmiri crop diseases.</p>
-            </AnimatedSection>
-
-            <AnimatedSection className="glow-card" delay={0.4} style={{ background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(10px)', padding: '2rem', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.05)', border: '1px solid var(--border-color)', textAlign: 'center' }}>
-              <div style={{ background: 'transparent', padding: '1rem', borderRadius: '12px', marginBottom: '1.5rem', display: 'flex', justifyContent: 'center' }}>
-                <img 
-                  src="/trusted-seller.svg" 
-                  alt="Trusted Seller Badge" 
-                  style={{ height: '140px', objectFit: 'contain' }} 
-                />
-              </div>
-              <h3 style={{ color: 'var(--primary-color)', marginBottom: '0.5rem' }}>Guaranteed Authenticity</h3>
-              <p style={{ color: 'var(--text-muted)' }}>Counterfeit pesticides can destroy an entire season's harvest. We guarantee the authenticity of every Bayer and Syngenta product you purchase from us.</p>
-            </AnimatedSection>
+        {/* Apple Growth Stages — simple image */}
+        <AnimatedSection className="about-card">
+          <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary-color)', marginBottom: '1rem' }}>
+            <TreeDeciduous size={24} /> Apple Growth Stages
+          </h3>
+          <p style={{ fontSize: '1.05rem', marginBottom: '1.5rem', color: 'var(--text-muted)', lineHeight: '1.7' }}>
+            Timely spraying at each phenological stage is the key to a healthy harvest. Use this chart to identify your orchard's current stage.
+          </p>
+          <div style={{ borderRadius: '10px', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
+            <img src="/apple-stages.png" alt="Apple Phenological Stages Chart" style={{ width: '100%', display: 'block' }} />
           </div>
+          <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: 'var(--text-muted)', fontStyle: 'italic', textAlign: 'center' }}>
+            Consult our experts for spray schedules tailored to each stage.
+          </p>
+        </AnimatedSection>
+
+        {/* Treatment Results — all 3 shown flat */}
+        <AnimatedSection className="about-card">
+          <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary-color)', marginBottom: '1rem' }}>
+            <Globe size={24} /> Treatment Results
+          </h3>
+          <p style={{ fontSize: '1.05rem', marginBottom: '2rem', color: 'var(--text-muted)', lineHeight: '1.7' }}>
+            Real outcomes from local orchards using our products.
+          </p>
+
+          <div style={{ display: 'grid', gap: '2rem' }}>
+            {[
+              { title: "Nutrient Recovery", beforeImg: "/before-neut.png", afterImg: "/after-neut.png", desc: "Chlorosis reversed with targeted NPK & Proma Gro application." },
+              { title: "Fungal Prevention", beforeImg: "/before-fungal.png", afterImg: "/after-fungal.png", desc: "Scab eliminated with Bayer Antracol and Dodine sprays." },
+              { title: "Insect Control", beforeImg: "/before-insect.png", afterImg: "/after-insect.png", desc: "Aphid infestation cleared using Syngenta Alika." }
+            ].map((item, idx) => (
+              <div key={idx} className="before-after-case">
+                <h4 style={{ marginBottom: '1rem', fontSize: '1.1rem' }}>{idx + 1}. {item.title}</h4>
+                <div className="before-after-grid">
+                  <div style={{ position: 'relative' }}>
+                    <img src={item.beforeImg} alt={`Before — ${item.title}`} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '10px' }} />
+                    <span className="img-label img-label-before">Before</span>
+                  </div>
+                  <div style={{ position: 'relative' }}>
+                    <img src={item.afterImg} alt={`After — ${item.title}`} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '10px' }} />
+                    <span className="img-label img-label-after">After</span>
+                  </div>
+                </div>
+                <p style={{ marginTop: '0.8rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </AnimatedSection>
+
+        {/* Safety Guide — simple image */}
+        <AnimatedSection className="about-card">
+          <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--accent-color)', marginBottom: '1rem' }}>
+            <ShieldCheck size={24} /> Safety Guidelines
+          </h3>
+          <p style={{ fontSize: '1.05rem', marginBottom: '1.5rem', color: 'var(--text-muted)', lineHeight: '1.7' }}>
+            Always read the label, wear protective gear, and follow recommended dosages.
+          </p>
+          <div style={{ borderRadius: '10px', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
+            <img src="/safety-guide.png" alt="Pesticide Safety Guide" style={{ width: '100%', display: 'block' }} />
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '1.5rem' }}>
+            {[
+              "Read labels & follow dosage instructions",
+              "Wear gloves, goggles & respirator mask",
+              "Never spray in high winds or before rain",
+              "Wash hands thoroughly after handling"
+            ].map((tip, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                <CheckCircle2 size={16} style={{ color: 'var(--accent-color)', flexShrink: 0, marginTop: '3px' }} />
+                <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>{tip}</span>
+              </div>
+            ))}
+          </div>
+        </AnimatedSection>
+
+        {/* Reviews */}
+        <AnimatedSection className="about-card">
+          <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary-color)', marginBottom: '1rem' }}>
+            <Quote size={24} /> Farmer Reviews
+          </h3>
+
+          <div className="review-grid">
+            {[
+              {
+                name: "Haji Ghulam Rasool",
+                location: "Sopore (Apple Grower)",
+                reviewEn: "Bayer fungicides and the spray schedule from MA Pesticides saved my apple orchard from Scab!",
+                reviewUr: "ایم اے پیسٹیسائیڈز کے بائر فنگسائڈز اور اسپرے شیڈول نے میرے سیب کے باغ کو اسکیب سے بچایا!",
+                rating: 5, avatar: hajiGhulamRasool, date: "2 weeks ago"
+              },
+              {
+                name: "Mohammad Yousuf",
+                location: "Baramulla (Cherry Orchardist)",
+                reviewEn: "Outstanding Syngenta products and guidance. The results on my cherry crop were incredible!",
+                reviewUr: "شاندار سینجنٹا پروڈکٹس اور رہنمائی۔ میری چیری کی فصل پر نتائج واقعی لاجواب تھے!",
+                rating: 5, avatar: mohammadYousuf, date: "1 month ago"
+              },
+              {
+                name: "Shabnam Ara",
+                location: "Pulwama (Vegetable Grower)",
+                reviewEn: "Their custom Proma Gro and NPK advice doubled my greenhouse potato and tomato yields!",
+                reviewUr: "ان کی تجویز کردہ پروما گرو اور این پی کے کھاد نے گرین ہاؤس میں میری پیداوار کو دگنا کر دیا!",
+                rating: 5, avatar: shabnamAra, date: "3 weeks ago"
+              }
+            ].map((review, idx) => (
+              <motion.div key={idx} className="review-card">
+                <Quote size={24} style={{ color: 'rgba(46, 125, 50, 0.06)', position: 'absolute', top: '10px', right: '10px' }} />
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.7rem', color: 'var(--text-muted)', marginBottom: '0.6rem' }}>
+                    <span className="review-verified-badge">
+                      <span className="review-verified-dot"></span>
+                      Verified Customer
+                    </span>
+                    <span>{review.date}</span>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.6rem' }}>
+                    {review.avatar.length > 4 ? (
+                      <img src={review.avatar} alt={review.name} className="review-author-img" />
+                    ) : (
+                      <span style={{ fontSize: '1.5rem' }}>{review.avatar}</span>
+                    )}
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
+                        <h4 style={{ margin: 0, color: 'var(--text-main)', fontSize: '0.9rem', fontWeight: 'bold' }}>{review.name}</h4>
+                        <span title="Verified Account" style={{ color: '#2e7d32', fontSize: '0.8rem', fontWeight: 'bold' }}>✓</span>
+                      </div>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{review.location}</span>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', marginBottom: '0.6rem' }}>
+                    {[...Array(review.rating)].map((_, i) => (
+                      <Star key={i} size={13} fill="#ffc107" color="#ffc107" style={{ marginRight: '1px' }} />
+                    ))}
+                  </div>
+
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-main)', fontStyle: 'italic', marginBottom: '0.6rem', lineHeight: '1.4' }}>
+                    "{review.reviewEn}"
+                  </p>
+                </div>
+                <p className="urdu-text">"{review.reviewUr}"</p>
+              </motion.div>
+            ))}
+          </div>
+        </AnimatedSection>
+
+        {/* Bottom feature cards */}
+        <div className="about-features-grid">
+          <AnimatedSection className="about-feature-card" delay={0.1}>
+            <div className="about-feature-img-wrapper">
+              <img src="/global-standards.svg" alt="Global Standards" />
+            </div>
+            <h3 style={{ color: 'var(--primary-color)', marginBottom: '0.5rem' }}>Global Standards</h3>
+            <p style={{ color: 'var(--text-muted)' }}>Products meeting international agricultural guidelines for maximum efficacy.</p>
+          </AnimatedSection>
+
+          <AnimatedSection className="about-feature-card" delay={0.2}>
+            <div className="about-feature-img-wrapper" style={{ padding: '0.5rem' }}>
+              <img src="/trusted-seller.svg" alt="Trusted Seller" style={{ height: '110px' }} />
+            </div>
+            <h3 style={{ color: 'var(--primary-color)', marginBottom: '0.5rem' }}>Guaranteed Authenticity</h3>
+            <p style={{ color: 'var(--text-muted)' }}>100% genuine Bayer and Syngenta products — no counterfeits.</p>
+          </AnimatedSection>
         </div>
       </div>
     </div>

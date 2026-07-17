@@ -92,41 +92,45 @@ export default function Search() {
               placeholder="Search for a disease or symptom..."
               style={{
                 width: '100%',
-                padding: '1rem 1.5rem',
+                padding: '0.9rem 1.2rem',
                 paddingRight: '4rem',
-                fontSize: '1.1rem',
-                borderRadius: '50px',
-                border: '2px solid var(--primary-color)',
+                fontSize: '1rem',
+                borderRadius: '12px',
+                border: '1.5px solid var(--border-color)',
                 outline: 'none',
-                boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                background: 'var(--bg-card)',
+                color: 'var(--text-main)',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.01)',
+                transition: 'border-color 0.2s ease',
               }}
             />
             <button 
               type="submit" 
               style={{
                 position: 'absolute',
-                right: '5px',
-                top: '5px',
-                bottom: '5px',
+                right: '6px',
+                top: '6px',
+                bottom: '6px',
                 background: 'var(--primary-color)',
-                color: 'white',
+                color: 'var(--bg-card)',
                 border: 'none',
-                borderRadius: '50%',
-                width: '45px',
+                borderRadius: '8px',
+                width: '38px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                transition: 'background-color 0.2s ease'
               }}
             >
-              <SearchIcon size={20} />
+              <SearchIcon size={18} />
             </button>
           </div>
         </form>
       </AnimatedSection>
 
       {query.trim() && results.matchedDiseases.length === 0 && results.matchedProducts.length === 0 && (
-        <div style={{ textAlign: 'center', marginTop: '2rem', padding: '3rem', background: '#f5f5f5', borderRadius: '12px' }}>
+        <div style={{ textAlign: 'center', marginTop: '2rem', padding: '3rem', background: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '12px' }}>
           <h3 style={{ color: '#555' }}>No diseases or products found matching "{query}"</h3>
           <p style={{ color: '#777' }}>Try searching for a different term, symptom, or product name.</p>
         </div>

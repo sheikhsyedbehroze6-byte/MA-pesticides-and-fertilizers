@@ -4,74 +4,15 @@ import { ArrowRight, Leaf, Shield, HeartHandshake, Sprout, Flower2 } from 'lucid
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
-// Falling Leaf Component
-const FallingLeaf = ({ delay, left, duration, size, color }) => {
-  return (
-    <motion.div
-      style={{ position: 'absolute', left: left, top: '-10%', zIndex: 1, opacity: 0.6 }}
-      animate={{ 
-        y: ['0vh', '110vh'], 
-        rotate: [0, 200, -100, 360],
-        x: [0, 50, -50, 20]
-      }}
-      transition={{
-        duration: duration,
-        repeat: Infinity,
-        ease: "linear",
-        delay: delay
-      }}
-    >
-      <Leaf size={size} color={color} />
-    </motion.div>
-  );
-};
-
-// Growing Plant Component
-const GrowingPlant = ({ delay, left, size, color, Icon }) => {
-  return (
-    <motion.div
-      style={{ position: 'absolute', bottom: '-10px', left: left, zIndex: 1, originY: 1 }}
-      initial={{ scale: 0, opacity: 0 }}
-      animate={{ scale: 1, opacity: 0.9 }}
-      transition={{ type: "spring", stiffness: 50, delay: delay, duration: 2 }}
-    >
-      <Icon size={size} color={color} strokeWidth={1.5} />
-    </motion.div>
-  );
-};
-
 export default function Home() {
-  // Generate random leaves
-  const leaves = Array.from({ length: 15 }).map((_, i) => ({
-    id: i,
-    left: `${Math.random() * 100}%`,
-    delay: Math.random() * 5,
-    duration: 8 + Math.random() * 7,
-    size: 20 + Math.random() * 25,
-    color: ['#a5d6a7', '#81c784', '#c8e6c9', '#4caf50'][Math.floor(Math.random() * 4)]
-  }));
-
   return (
     <div>
       <section className="hero animated-vibrant-bg" style={{ position: 'relative', overflow: 'hidden' }}>
-        
-        {/* Falling Leaves Effect */}
-        {leaves.map(leaf => (
-          <FallingLeaf key={leaf.id} {...leaf} />
-        ))}
-
-        {/* Growing Plants at the bottom */}
-        <GrowingPlant Icon={Sprout} delay={0.5} left="5%" size={80} color="#81c784" />
-        <GrowingPlant Icon={Flower2} delay={1.2} left="15%" size={60} color="#fce043" />
-        <GrowingPlant Icon={Sprout} delay={0.8} left="85%" size={100} color="#4caf50" />
-        <GrowingPlant Icon={Flower2} delay={1.5} left="75%" size={50} color="#ffab91" />
-        <GrowingPlant Icon={Sprout} delay={2.0} left="45%" size={70} color="#a5d6a7" />
-
         <div className="hero-content" style={{ position: 'relative', zIndex: 2 }}>
-          <AnimatedSection delay={0.2} className="hero-text" style={{ padding: '2rem', background: 'rgba(26, 93, 26, 0.4)', backdropFilter: 'blur(10px)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.2)' }}>
-            <h1 style={{ color: 'white', marginBottom: '0.5rem' }}>𝑾𝑬𝑳𝑪𝑶𝑴𝑬 𝑻𝑶 𝑴𝑨 𝑷𝑬𝑺𝑻𝑰𝑪𝑰𝑫𝑬𝑺</h1>
-            <p style={{ fontSize: '0.9rem', color: '#81c784', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '3px', marginBottom: '1.5rem' }}>Kashmir's First Modern & Trusted Agricultural Platform</p>
-            <p>Your premier destination for high-quality products, farming equipment, and digital expert guidance for a healthier crop and a better harvest.</p>
+          <AnimatedSection delay={0.2} className="hero-text" style={{ padding: '2.5rem', background: 'rgba(13, 37, 21, 0.85)', borderRadius: '12px', border: '1px solid rgba(196, 160, 84, 0.2)' }}>
+            <h1 style={{ color: 'white', marginBottom: '0.75rem', fontFamily: "'Playfair Display', Georgia, serif", fontSize: '2.8rem', letterSpacing: '0.5px' }}>Welcome to M.A. Pesticides</h1>
+            <p style={{ fontSize: '0.9rem', color: '#c4a054', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1.5rem' }}>Kashmir's First Modern & Trusted Agricultural Platform</p>
+            <p style={{ color: '#e2f0e6', fontSize: '1.05rem', lineHeight: '1.6' }}>Your premier destination for high-quality products, farming equipment, and digital expert guidance for a healthier crop and a better harvest.</p>
             <Link to="/products" className="cta-button" style={{ marginTop: '2rem' }}>
               Explore Our Products <ArrowRight size={20} />
             </Link>
@@ -83,9 +24,9 @@ export default function Home() {
               alt="M.A. Pesticides - Premier Agricultural Solutions" 
               className="hero-image" 
               onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1592982537447-6f23f0bf7123?w=800&q=80"; }} 
-              whileHover={{ scale: 1.05, rotate: 2 }}
-              transition={{ type: "spring", stiffness: 300 }}
-              style={{ border: '6px solid white', borderRadius: '20px', boxShadow: '0 25px 50px rgba(0,0,0,0.5)' }}
+              whileHover={{ scale: 1.03 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              style={{ border: '4px solid rgba(196, 160, 84, 0.3)', borderRadius: '16px', boxShadow: '0 20px 40px rgba(0,0,0,0.3)' }}
             />
           </AnimatedSection>
         </div>

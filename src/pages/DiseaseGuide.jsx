@@ -70,10 +70,10 @@ export default function DiseaseGuide() {
 
       {/* Search and Filters panel */}
       <AnimatedSection delay={0.1} style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+        background: 'var(--bg-card)', 
+        borderRadius: '12px', 
         padding: '1.5rem', 
-        boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
+        boxShadow: '0 8px 30px rgba(0,0,0,0.02)',
         border: '1px solid var(--border-color)',
         marginBottom: '2.5rem'
       }}>
@@ -125,8 +125,8 @@ export default function DiseaseGuide() {
                       key={crop.id}
                       onClick={() => setActiveCrop(crop.id)}
                       style={{
-                        background: isActive ? 'var(--primary-color)' : 'rgba(26, 93, 26, 0.05)',
-                        color: isActive ? 'white' : 'var(--primary-color)',
+                        background: isActive ? 'var(--primary-color)' : 'var(--primary-glow)',
+                        color: isActive ? 'var(--bg-card)' : 'var(--primary-color)',
                         border: 'none',
                         padding: '0.4rem 0.8rem',
                         borderRadius: '30px',
@@ -162,8 +162,8 @@ export default function DiseaseGuide() {
                       key={sev}
                       onClick={() => setSeverityFilter(sev)}
                       style={{
-                        background: isActive ? (sev === 'High' ? 'var(--accent-color)' : 'var(--primary-color)') : 'rgba(0,0,0,0.05)',
-                        color: isActive ? 'white' : 'var(--text-muted)',
+                        background: isActive ? (sev === 'High' ? 'var(--accent-color)' : 'var(--primary-color)') : 'var(--primary-glow)',
+                        color: isActive ? 'var(--bg-card)' : 'var(--text-muted)',
                         border: 'none',
                         padding: '0.5rem 1rem',
                         borderRadius: '8px',

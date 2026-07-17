@@ -39,10 +39,10 @@ export default function Products() {
 
       {/* Professional Search and Filter Bar Container */}
       <AnimatedSection delay={0.1} style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+        background: 'var(--bg-card)', 
+        borderRadius: '12px', 
         padding: '1.5rem', 
-        boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
+        boxShadow: '0 8px 30px rgba(0,0,0,0.02)',
         border: '1px solid var(--border-color)',
         marginBottom: '2.5rem'
       }}>
@@ -102,8 +102,8 @@ export default function Products() {
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
                     style={{
-                      background: isActive ? 'var(--primary-color)' : 'rgba(26, 93, 26, 0.05)',
-                      color: isActive ? 'white' : 'var(--primary-color)',
+                      background: isActive ? 'var(--primary-color)' : 'var(--primary-glow)',
+                      color: isActive ? 'var(--bg-card)' : 'var(--primary-color)',
                       border: 'none',
                       padding: '0.5rem 1.2rem',
                       borderRadius: '30px',
