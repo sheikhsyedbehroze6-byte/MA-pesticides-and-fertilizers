@@ -1,8 +1,14 @@
 import { Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
-import { ArrowRight, Leaf, Shield, HeartHandshake, Sprout, Flower2 } from 'lucide-react';
+import { ArrowRight, Leaf, Shield, HeartHandshake, Sprout, Package, Users, Store } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+
+const STATS = [
+  { icon: Package,  value: '80+',   label: 'Products in Stock' },
+  { icon: Store,    value: '15+',   label: 'Years in Business' },
+  { icon: Users,    value: '500+',  label: 'Farmers Served' },
+  { icon: Leaf,     value: '10+',   label: 'Trusted Brands' },
+];
 
 export default function Home() {
   return (
@@ -13,9 +19,14 @@ export default function Home() {
             <h1 style={{ color: 'white', marginBottom: '0.75rem', fontFamily: "'Playfair Display', Georgia, serif", fontSize: '2.8rem', letterSpacing: '0.5px' }}>Welcome to M.A. Pesticides</h1>
             <p style={{ fontSize: '0.9rem', color: '#c4a054', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1.5rem' }}>Kashmir's First Modern & Trusted Agricultural Platform</p>
             <p style={{ color: '#e2f0e6', fontSize: '1.05rem', lineHeight: '1.6' }}>Your premier destination for high-quality products, farming equipment, and digital expert guidance for a healthier crop and a better harvest.</p>
-            <Link to="/products" className="cta-button" style={{ marginTop: '2rem' }}>
-              Explore Our Products <ArrowRight size={20} />
-            </Link>
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '2rem' }}>
+              <Link to="/products" className="cta-button">
+                Explore Products <ArrowRight size={20} />
+              </Link>
+              <Link to="/disease-guide" className="cta-button-ghost">
+                Disease Guide
+              </Link>
+            </div>
           </AnimatedSection>
           
           <AnimatedSection delay={0.6} className="hero-image-container">
@@ -31,6 +42,17 @@ export default function Home() {
           </AnimatedSection>
         </div>
       </section>
+
+      {/* Stats Strip */}
+      <div className="home-stats-strip">
+        {STATS.map(({ icon: Icon, value, label }) => (
+          <div className="home-stat-item" key={label}>
+            <Icon size={22} />
+            <strong>{value}</strong>
+            <span>{label}</span>
+          </div>
+        ))}
+      </div>
 
       <div className="container">
         <AnimatedSection className="section-header" delay={0.1}>

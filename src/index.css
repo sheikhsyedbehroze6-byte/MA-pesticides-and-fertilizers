@@ -49,8 +49,8 @@
   background: rgba(13, 18, 14, 0.97);
 }
 
-[data-theme="dark"] footer {
-  background-color: #0b0f0c;
+[data-theme="dark"] .site-footer {
+  background-color: #080e09;
 }
 
 [data-theme="dark"] .product-card,
@@ -262,18 +262,240 @@ main {
 }
 
 /* ===================== FOOTER ===================== */
-footer {
-  background-color: #113f11;
-  color: #a5d6a7;
-  text-align: center;
-  padding: 1.5rem 1rem;
+.site-footer {
+  background-color: #0e2414;
+  color: #a5c8b0;
   margin-top: auto;
-  font-size: 0.9rem;
+  padding-top: 4rem;
 }
 
-footer p {
-  margin: 0.4rem 0;
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem 3rem;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 3rem;
 }
+
+.footer-brand .footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.footer-tagline {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: #7aaa8a;
+  margin-bottom: 1.5rem;
+}
+
+.footer-whatsapp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #25d366;
+  color: white;
+  padding: 0.55rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.footer-whatsapp-btn:hover {
+  background: #1ebe5d;
+}
+
+.footer-heading {
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin: 0 0 1.1rem;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.footer-links a {
+  color: #7aaa8a;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #fff;
+}
+
+.footer-contact-item {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  font-size: 0.86rem;
+  color: #7aaa8a;
+  margin-bottom: 0.85rem;
+  line-height: 1.5;
+}
+
+.footer-contact-item svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #52b788;
+}
+
+.footer-contact-item a {
+  color: #7aaa8a;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s;
+}
+
+.footer-contact-item a:hover {
+  color: #fff;
+}
+
+.footer-hours {
+  font-size: 0.83rem;
+  color: #5e8a6e;
+  margin-top: 0.5rem;
+  line-height: 1.6;
+}
+
+.footer-hours span {
+  color: #4a7260;
+}
+
+.footer-bottom {
+  border-top: 1px solid #1a3520;
+  padding: 1.2rem 2rem;
+  text-align: center;
+  font-size: 0.82rem;
+  color: #4a7260;
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.footer-bottom-sep {
+  opacity: 0.4;
+}
+
+@media (max-width: 900px) {
+  .footer-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .footer-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===================== HOME PAGE STATS STRIP ===================== */
+.home-stats-strip {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.home-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 1.5rem 2.5rem;
+  flex: 1;
+  border-right: 1px solid var(--border-color);
+  transition: background 0.2s;
+}
+
+.home-stat-item:last-child {
+  border-right: none;
+}
+
+.home-stat-item svg {
+  color: var(--primary-color);
+  margin-bottom: 2px;
+}
+
+.home-stat-item strong {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  line-height: 1;
+}
+
+.home-stat-item span {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .home-stats-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .home-stat-item {
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.2rem 1rem;
+  }
+  .home-stat-item:nth-child(2),
+  .home-stat-item:nth-child(4) {
+    border-right: none;
+  }
+}
+
+/* ===================== GHOST CTA BUTTON ===================== */
+.cta-button-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.8rem 1.8rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  border: 2px solid rgba(255,255,255,0.5);
+  color: #fff;
+  background: transparent;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.cta-button-ghost:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: #fff;
+}
+
+
 
 /* ===================== HERO ===================== */
 .hero {
