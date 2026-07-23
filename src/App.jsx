@@ -8,6 +8,7 @@ import BackToTop from './components/BackToTop';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import DiseaseGuide from './pages/DiseaseGuide';
+import SprayCalendar from './pages/SprayCalendar';
 import Contact from './pages/Contact';
 import About from './pages/About';
 import Search from './pages/Search';
@@ -44,6 +45,7 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/products" element={<Products />} />
               <Route path="/disease-guide" element={<DiseaseGuide />} />
+              <Route path="/spray-calendar" element={<SprayCalendar />} />
               <Route path="/search" element={<Search />} />
               <Route path="/contact" element={<Contact />} />
             </Routes>

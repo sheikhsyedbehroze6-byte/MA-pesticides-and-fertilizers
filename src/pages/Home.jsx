@@ -14,8 +14,8 @@ const SERVICES = [
     icon: TreeDeciduous,
     title: 'Stage-wise Spray Schedules',
     desc: 'Customized fungicide and insecticide spray timing for Apple, Cherry, Walnut, and Saffron crops across all growth stages.',
-    linkText: 'View Disease Guide',
-    linkUrl: '/disease-guide'
+    linkText: 'View Spray Calendar',
+    linkUrl: '/spray-calendar'
   },
   {
     icon: ShieldCheck,
