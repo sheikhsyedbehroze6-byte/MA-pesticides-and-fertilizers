@@ -1,11 +1,8 @@
 import { NavLink } from 'react-router-dom';
-import { Sprout, Menu, X, Moon, Sun, Phone, MapPin, MessageCircle, Clock } from 'lucide-react';
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Sprout, Moon, Sun, Phone, MapPin, MessageCircle, Clock } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
 
   return (
@@ -35,24 +32,24 @@ export default function Header() {
           >
             <MessageCircle size={13} />
             <span className="top-bar-hide-mobile">Direct WhatsApp Inquiry</span>
-            <span className="desktop-only" style={{ display: 'none' }}>WhatsApp</span>
+            <span className="mobile-only-text">WhatsApp</span>
           </a>
         </div>
       </div>
 
-      {/* Main Header */}
-      <header>
-        <div className="logo-container">
-          <Sprout color="var(--secondary-color)" size={30} />
+      {/* Main Header Header Bar */}
+      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <NavLink to="/" style={{ textDecoration: 'none', color: 'inherit' }} className="logo-container">
+          <Sprout color="var(--secondary-color)" size={28} />
           <div>
-            <h1 style={{ lineHeight: '1.1' }}>MA Pesticides</h1>
-            <span style={{ fontSize: '0.65rem', color: '#c4a054', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: '700', display: 'block' }}>
+            <h1 style={{ lineHeight: '1.1', fontSize: '1.2rem', margin: 0 }}>MA Pesticides</h1>
+            <span style={{ fontSize: '0.62rem', color: '#c4a054', textTransform: 'uppercase', letterSpacing: '0.8px', fontWeight: '700', display: 'block' }}>
               & Fertilizers &bull; Srinagar
             </span>
           </div>
-        </div>
+        </NavLink>
 
-        {/* Desktop Nav */}
+        {/* Desktop Navigation Links */}
         <nav className="desktop-nav">
           <ul className="nav-links">
             <li><NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')}>Home</NavLink></li>
@@ -64,60 +61,28 @@ export default function Header() {
           </ul>
         </nav>
 
-      {/* Dark Mode Toggle (Desktop) */}
-      <button
-        className="theme-toggle desktop-only"
-        onClick={toggleTheme}
-        title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
-        aria-label="Toggle dark mode"
-      >
-        {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-      </button>
-
-      {/* Mobile Menu Toggle */}
-      <div className="mobile-toggle" onClick={() => setIsOpen(!isOpen)} style={{ display: 'none', cursor: 'pointer' }}>
-        {isOpen ? <X size={32} /> : <Menu size={32} />}
-      </div>
-
-      {/* Mobile Nav Overlay */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            style={{
-              position: 'fixed', top: '70px', right: 0, bottom: 0, left: 0,
-              background: 'rgba(22, 62, 36, 0.98)', backdropFilter: 'blur(10px)',
-              zIndex: 999, display: 'flex', flexDirection: 'column', padding: '2rem'
-            }}
-          >
-            <ul className="nav-links-mobile" style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-              <li><NavLink to="/" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', color: 'white' }}>Home</NavLink></li>
-              <li><NavLink to="/about" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', color: 'white' }}>About Us</NavLink></li>
-              <li><NavLink to="/products" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', color: 'white' }}>Products</NavLink></li>
-              <li><NavLink to="/disease-guide" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', color: 'white' }}>Disease Guide</NavLink></li>
-              <li><NavLink to="/search" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', color: 'white' }}>Search</NavLink></li>
-              <li><NavLink to="/contact" onClick={() => setIsOpen(false)} style={{ fontSize: '1.5rem', color: 'white' }}>Contact</NavLink></li>
-              {/* Dark mode toggle inside mobile menu */}
-              <li>
-                <button
-                  onClick={toggleTheme}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: '0.75rem',
-                    fontSize: '1.5rem', color: 'white', background: 'none',
-                    border: 'none', cursor: 'pointer', padding: 0
-                  }}
-                >
-                  {theme === 'light' ? <Moon size={24} /> : <Sun size={24} />}
-                  {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
-                </button>
-              </li>
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        {/* Theme Switcher Toggle Button (Visible on both Mobile & Desktop) */}
+        <button
+          className="theme-toggle"
+          onClick={toggleTheme}
+          title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+          aria-label="Toggle dark mode"
+          style={{
+            background: 'rgba(22, 62, 36, 0.08)',
+            border: '1px solid var(--border-color)',
+            borderRadius: '50%',
+            width: '38px',
+            height: '38px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--primary-color)',
+            cursor: 'pointer',
+            flexShrink: 0
+          }}
+        >
+          {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+        </button>
       </header>
     </div>
   );

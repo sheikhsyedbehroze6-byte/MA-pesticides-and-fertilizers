@@ -272,13 +272,18 @@ header {
   left: 0;
   right: 0;
   z-index: 1000;
-  background: rgba(26, 93, 26, 0.97);
+  background: var(--bg-card);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
-  height: var(--bottom-nav-height);
-  padding: 0 0.5rem;
+  border-top: 1px solid var(--border-color);
+  box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.08);
+  height: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+[data-theme="dark"] .bottom-nav {
+  background: rgba(25, 32, 26, 0.96);
+  border-top-color: rgba(255, 255, 255, 0.08);
 }
 
 .bottom-nav ul {
@@ -287,33 +292,61 @@ header {
   justify-content: space-around;
   align-items: center;
   height: 100%;
+  padding: 0 0.25rem;
+  margin: 0;
+}
+
+.bottom-nav li {
+  flex: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .bottom-nav li a {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 3px;
-  color: rgba(255,255,255,0.6);
-  font-size: 0.65rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 0.4rem 0.7rem;
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  padding: 0.35rem 0.2rem;
   border-radius: 12px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bottom-nav-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 26px;
+  border-radius: 16px;
   transition: all 0.2s ease;
-  min-width: 52px;
 }
 
-.bottom-nav li a.active,
-.bottom-nav li a:hover {
-  color: var(--secondary-color);
-  background: rgba(255,255,255,0.08);
+.bottom-nav li a.active {
+  color: var(--primary-color);
+  font-weight: 800;
 }
 
-.bottom-nav li a svg {
-  width: 22px;
-  height: 22px;
+.bottom-nav li a.active .bottom-nav-icon-wrapper {
+  background: rgba(22, 62, 36, 0.12);
+  color: var(--primary-color);
+}
+
+[data-theme="dark"] .bottom-nav li a.active {
+  color: #52b788;
+}
+
+[data-theme="dark"] .bottom-nav li a.active .bottom-nav-icon-wrapper {
+  background: rgba(82, 183, 136, 0.18);
+  color: #52b788;
 }
 
 /* ===================== LAYOUT ===================== */

@@ -1,10 +1,9 @@
 import { NavLink } from 'react-router-dom';
-import { Home, Info, Package, Bug, Search, Phone } from 'lucide-react';
+import { Home, Package, Bug, Search, Phone } from 'lucide-react';
 
 export default function BottomNav() {
   const links = [
     { to: '/', label: 'Home', Icon: Home },
-    { to: '/about', label: 'About', Icon: Info },
     { to: '/products', label: 'Products', Icon: Package },
     { to: '/disease-guide', label: 'Diseases', Icon: Bug },
     { to: '/search', label: 'Search', Icon: Search },
@@ -12,7 +11,7 @@ export default function BottomNav() {
   ];
 
   return (
-    <nav className="bottom-nav">
+    <nav className="bottom-nav" aria-label="Mobile Navigation">
       <ul>
         {links.map(({ to, label, Icon }) => (
           <li key={to}>
@@ -21,7 +20,9 @@ export default function BottomNav() {
               end={to === '/'}
               className={({ isActive }) => (isActive ? 'active' : '')}
             >
-              <Icon size={22} />
+              <div className="bottom-nav-icon-wrapper">
+                <Icon size={20} />
+              </div>
               <span>{label}</span>
             </NavLink>
           </li>
