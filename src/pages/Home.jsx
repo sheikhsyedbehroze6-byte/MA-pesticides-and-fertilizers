@@ -4,10 +4,10 @@ import { ArrowRight, Leaf, Shield, HeartHandshake, Sprout, Package, Users, Store
 import { motion } from 'framer-motion';
 
 const STATS = [
-  { icon: Package,  value: '80+',   label: 'Products in Stock' },
+  { icon: Package,  value: '100+',  label: 'Products in Stock' },
   { icon: Store,    value: '15+',   label: 'Years in Business' },
   { icon: Users,    value: '500+',  label: 'Farmers Served' },
-  { icon: Leaf,     value: '10+',   label: 'Trusted Brands' },
+  { icon: Leaf,     value: '50+',   label: 'Trusted Brands' },
 ];
 
 export default function Home() {
