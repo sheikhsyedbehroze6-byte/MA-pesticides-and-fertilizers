@@ -1,52 +1,84 @@
 import { Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
-import { ArrowRight, Leaf, Shield, HeartHandshake, Sprout, Package, Users, Store, Sparkles, Stethoscope, FlaskConical, CalendarCheck, CheckCircle2 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ArrowRight, Leaf, ShieldCheck, TreeDeciduous, FlaskConical, Award, Package, Users, Store, Phone, MessageCircle } from 'lucide-react';
 
 const STATS = [
   { icon: Package,  value: '100+',  label: 'Products in Stock' },
-  { icon: Store,    value: '15+',   label: 'Years in Business' },
+  { icon: Store,    value: '15+',   label: 'Years in Srinagar' },
   { icon: Users,    value: '500+',  label: 'Farmers Served' },
   { icon: Leaf,     value: '50+',   label: 'Trusted Brands' },
+];
+
+const SERVICES = [
+  {
+    icon: TreeDeciduous,
+    title: 'Stage-wise Spray Schedules',
+    desc: 'Customized fungicide and insecticide spray timing for Apple, Cherry, Walnut, and Saffron crops across all growth stages.',
+    linkText: 'View Disease Guide',
+    linkUrl: '/disease-guide'
+  },
+  {
+    icon: ShieldCheck,
+    title: '100% Genuine Brand Inventory',
+    desc: 'Authorized dealer of Bayer (Antracol), Syngenta (Alika), IPL Biologicals, Willowood, and FIL Industries formulations.',
+    linkText: 'Browse Catalog',
+    linkUrl: '/products'
+  },
+  {
+    icon: FlaskConical,
+    title: 'On-Site Leaf & Disease Diagnosis',
+    desc: 'Bring infected leaf or crop samples to our Srinagar store for scientific chemical identification by Sheikh Mohammad Ayoub, M.Sc.',
+    linkText: 'Contact Store',
+    linkUrl: '/contact'
+  },
+  {
+    icon: Award,
+    title: 'Fair Pricing & Bulk Availability',
+    desc: 'Transparent pricing with up to 20% discount on print rates for orchardists, greenhouse growers, and local farming cooperatives.',
+    linkText: 'Search Formulations',
+    linkUrl: '/search'
+  }
 ];
 
 export default function Home() {
   return (
     <div>
-      <section className="hero animated-vibrant-bg" style={{ position: 'relative', overflow: 'hidden' }}>
+      {/* Grounded Editorial Hero */}
+      <section className="hero" style={{ position: 'relative', overflow: 'hidden' }}>
         <div className="hero-content" style={{ position: 'relative', zIndex: 2 }}>
-          <AnimatedSection delay={0.2} className="hero-text" style={{ padding: '2.5rem', background: 'rgba(13, 37, 21, 0.85)', borderRadius: '12px', border: '1px solid rgba(196, 160, 84, 0.2)' }}>
-            <div className="hero-badge-trust">
-              <Sparkles size={14} /> Authentic Agrochemicals & Scientific Consultation
-            </div>
-            <h1 style={{ color: 'white', marginBottom: '0.75rem', fontFamily: "'Playfair Display', Georgia, serif", fontSize: '2.8rem', letterSpacing: '0.5px' }}>Welcome to M.A. Pesticides</h1>
-            <p style={{ fontSize: '0.9rem', color: '#c4a054', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1.5rem' }}>Kashmir's First Modern & Trusted Agricultural Platform</p>
-            <p style={{ color: '#e2f0e6', fontSize: '1.05rem', lineHeight: '1.6' }}>Your premier destination for high-quality products, farming equipment, and digital expert guidance for a healthier crop and a better harvest.</p>
-            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '2rem' }}>
+          <AnimatedSection delay={0.2} className="hero-text" style={{ padding: '2.5rem', background: 'rgba(11, 31, 18, 0.88)', borderRadius: '14px', border: '1px solid rgba(196, 160, 84, 0.25)' }}>
+            <span style={{ fontSize: '0.82rem', color: '#c4a054', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '0.6rem' }}>
+              Hari Singh High Street &bull; Srinagar, Kashmir
+            </span>
+            <h1 style={{ color: 'white', marginBottom: '1rem', fontFamily: "'Playfair Display', Georgia, serif", fontSize: '2.7rem', letterSpacing: '0.2px', lineHeight: '1.2' }}>
+              M.A. Pesticides & Fertilizers
+            </h1>
+            <p style={{ color: '#e2f0e6', fontSize: '1.05rem', lineHeight: '1.7', marginBottom: '2rem' }}>
+              Genuine pesticides, fungicides, and chemical guidance for Kashmir's apple growers and farmers. Founded by Senior Chemistry Lecturer Sheikh Mohammad Ayoub to bring scientific crop protection directly to your orchard.
+            </p>
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
               <Link to="/products" className="cta-button">
-                Explore Products <ArrowRight size={20} />
+                Explore Products <ArrowRight size={18} />
               </Link>
               <Link to="/disease-guide" className="cta-button-ghost">
-                Disease Guide
+                Disease & Spray Guide
               </Link>
             </div>
           </AnimatedSection>
           
-          <AnimatedSection delay={0.6} className="hero-image-container">
-            <motion.img 
+          <AnimatedSection delay={0.4} className="hero-image-container">
+            <img 
               src="/hero-image.png" 
-              alt="M.A. Pesticides - Premier Agricultural Solutions" 
+              alt="M.A. Pesticides Store & Crop Protection Srinagar" 
               className="hero-image" 
               onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1592982537447-6f23f0bf7123?w=800&q=80"; }} 
-              whileHover={{ scale: 1.03 }}
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              style={{ border: '4px solid rgba(196, 160, 84, 0.3)', borderRadius: '16px', boxShadow: '0 20px 40px rgba(0,0,0,0.3)' }}
+              style={{ border: '2px solid rgba(196, 160, 84, 0.3)', borderRadius: '14px', boxShadow: '0 15px 35px rgba(0,0,0,0.3)' }}
             />
           </AnimatedSection>
         </div>
       </section>
 
-      {/* Stats Strip */}
+      {/* Clean Stats Strip */}
       <div className="home-stats-strip">
         {STATS.map(({ icon: Icon, value, label }) => (
           <div className="home-stat-item" key={label}>
@@ -57,178 +89,168 @@ export default function Home() {
         ))}
       </div>
 
+      {/* Main Content Container */}
       <div className="container">
+        {/* Core Store Offerings */}
         <AnimatedSection className="section-header" delay={0.1}>
-          <h2>Why Choose Us?</h2>
-          <p>We provide scientifically proven solutions for all your crop problems.</p>
+          <h2>Agricultural Services & Store Solutions</h2>
+          <p>We combine organic chemistry knowledge with real farming experience to protect your crops against scab, aphid, and nutrient deficiencies.</p>
         </AnimatedSection>
 
-        <div className="products-grid" style={{ marginBottom: '4rem' }}>
-          <AnimatedSection className="glow-card" delay={0.2} style={{ 
-            position: 'relative', overflow: 'hidden', borderRadius: '16px', height: '320px',
-            boxShadow: '0 15px 30px rgba(0,0,0,0.1)'
-          }}>
-            <motion.img 
-              src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=800&q=80" 
-              alt="Quality Products"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0, zIndex: 0 }} 
-              whileHover={{ scale: 1.1 }}
-              transition={{ duration: 0.5 }}
-            />
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.2))', zIndex: 1, pointerEvents: 'none' }}></div>
-            <div style={{ position: 'relative', zIndex: 2, padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', height: '100%', color: 'white', pointerEvents: 'none' }}>
-              <Leaf size={40} color="#fce043" style={{ marginBottom: '1rem' }} />
-              <h3 style={{ color: 'white', fontSize: '1.5rem', marginBottom: '0.5rem' }}>Quality Products</h3>
-              <p style={{ color: '#e0e0e0', fontSize: '0.95rem' }}>100% genuine pesticides and fertilizers specifically suited for Kashmiri soil.</p>
-            </div>
-          </AnimatedSection>
-
-          <AnimatedSection className="glow-card" delay={0.4} style={{ 
-            position: 'relative', overflow: 'hidden', borderRadius: '16px', height: '320px',
-            boxShadow: '0 15px 30px rgba(0,0,0,0.1)'
-          }}>
-            <motion.img 
-              src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80" 
-              alt="Disease Protection"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0, zIndex: 0 }} 
-              whileHover={{ scale: 1.1 }}
-              transition={{ duration: 0.5 }}
-            />
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.2))', zIndex: 1, pointerEvents: 'none' }}></div>
-            <div style={{ position: 'relative', zIndex: 2, padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', height: '100%', color: 'white', pointerEvents: 'none' }}>
-              <Shield size={40} color="#fce043" style={{ marginBottom: '1rem' }} />
-              <h3 style={{ color: 'white', fontSize: '1.5rem', marginBottom: '0.5rem' }}>Disease Protection</h3>
-              <p style={{ color: '#e0e0e0', fontSize: '0.95rem' }}>Expert guidance on preventing and curing common diseases like Apple Scab.</p>
-            </div>
-          </AnimatedSection>
-
-          <AnimatedSection className="glow-card" delay={0.6} style={{ 
-            position: 'relative', overflow: 'hidden', borderRadius: '16px', height: '320px',
-            boxShadow: '0 15px 30px rgba(0,0,0,0.1)'
-          }}>
-            <motion.img 
-              src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&q=80" 
-              alt="Local Expertise"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0, zIndex: 0 }} 
-              whileHover={{ scale: 1.1 }}
-              transition={{ duration: 0.5 }}
-            />
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.2))', zIndex: 1, pointerEvents: 'none' }}></div>
-            <div style={{ position: 'relative', zIndex: 2, padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', height: '100%', color: 'white', pointerEvents: 'none' }}>
-              <HeartHandshake size={40} color="#fce043" style={{ marginBottom: '1rem' }} />
-              <h3 style={{ color: 'white', fontSize: '1.5rem', marginBottom: '0.5rem' }}>Local Expertise</h3>
-              <p style={{ color: '#e0e0e0', fontSize: '0.95rem' }}>Conveniently located near Lal Chowk. We understand local farming challenges.</p>
-            </div>
-          </AnimatedSection>
-
-          {/* Promotional Card 1: Complete Protection */}
-          <AnimatedSection className="glow-card" delay={0.8} style={{ 
-            position: 'relative', overflow: 'hidden', borderRadius: '16px', height: '320px',
-            boxShadow: '0 15px 30px rgba(0,0,0,0.1)'
-          }}>
-            <motion.img 
-              src="/ma-card.png" 
-              alt="Complete Protection"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0, zIndex: 0 }} 
-              whileHover={{ scale: 1.1 }}
-              transition={{ duration: 0.5 }}
-            />
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.2))', zIndex: 1, pointerEvents: 'none' }}></div>
-            <div style={{ position: 'relative', zIndex: 2, padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', height: '100%', color: 'white', pointerEvents: 'none' }}>
-              <Shield size={40} color="#fce043" style={{ marginBottom: '1rem' }} />
-              <h3 style={{ color: 'white', fontSize: '1.5rem', marginBottom: '0.5rem' }}>Complete Protection</h3>
-              <p style={{ color: '#e0e0e0', fontSize: '0.95rem' }}>Your harvest, our protection, total satisfaction – every step of the way.</p>
-            </div>
-          </AnimatedSection>
-
-          {/* Promotional Card 2: Awareness Initiative */}
-          <AnimatedSection className="glow-card" delay={1.0} style={{ 
-            position: 'relative', overflow: 'hidden', borderRadius: '16px', height: '320px',
-            boxShadow: '0 15px 30px rgba(0,0,0,0.1)'
-          }}>
-            <motion.img 
-              src="/awareness-camps.png" 
-              alt="Awareness Initiative"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0, zIndex: 0 }} 
-              whileHover={{ scale: 1.1 }}
-              transition={{ duration: 0.5 }}
-            />
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.2))', zIndex: 1, pointerEvents: 'none' }}></div>
-            <div style={{ position: 'relative', zIndex: 2, padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', height: '100%', color: 'white', pointerEvents: 'none' }}>
-              <Sprout size={40} color="#fce043" style={{ marginBottom: '1rem' }} />
-              <h3 style={{ color: 'white', fontSize: '1.5rem', marginBottom: '0.5rem' }}>Awareness Initiative</h3>
-              <p style={{ color: '#e0e0e0', fontSize: '0.95rem' }}>Regular camps to empower farmers with knowledge on modern sustainable practices.</p>
-            </div>
-          </AnimatedSection>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(270px, 1fr))', gap: '1.5rem', marginBottom: '4rem' }}>
+          {SERVICES.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <AnimatedSection 
+                key={item.title} 
+                delay={0.1 * (index + 1)}
+                className="card-glass"
+                style={{
+                  padding: '1.8rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <div>
+                  <div style={{
+                    width: '44px',
+                    height: '44px',
+                    borderRadius: '10px',
+                    background: 'var(--primary-glow)',
+                    color: 'var(--primary-color)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: '1.2rem'
+                  }}>
+                    <Icon size={22} />
+                  </div>
+                  <h3 style={{ fontSize: '1.2rem', marginBottom: '0.6rem', color: 'var(--primary-color)' }}>
+                    {item.title}
+                  </h3>
+                  <p style={{ fontSize: '0.92rem', color: 'var(--text-muted)', lineHeight: '1.65', marginBottom: '1.5rem' }}>
+                    {item.desc}
+                  </p>
+                </div>
+                <Link 
+                  to={item.linkUrl} 
+                  style={{
+                    color: 'var(--primary-color)',
+                    fontWeight: '700',
+                    fontSize: '0.88rem',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    textDecoration: 'none'
+                  }}
+                >
+                  {item.linkText} <ArrowRight size={14} />
+                </Link>
+              </AnimatedSection>
+            );
+          })}
         </div>
 
-        {/* 3-Step Scientific Consultation Section */}
-        <AnimatedSection className="section-header" delay={0.1} style={{ marginTop: '5rem', marginBottom: '1.5rem' }}>
-          <h2>Our 3-Step Crop Protection Process</h2>
-          <p>How we help Kashmiri orchardists and farmers achieve healthier yields through chemistry and science.</p>
+        {/* Store Location & Direct Contact Banner */}
+        <AnimatedSection 
+          delay={0.2}
+          style={{
+            background: 'var(--primary-color)',
+            color: 'white',
+            borderRadius: '16px',
+            padding: '2.5rem',
+            marginBottom: '5rem',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '2rem'
+          }}
+        >
+          <div style={{ maxWidth: '650px' }}>
+            <span style={{ fontSize: '0.8rem', color: 'var(--secondary-color)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px', display: 'block', marginBottom: '0.4rem' }}>
+              VISIT OUR SHOP IN SRINAGAR
+            </span>
+            <h3 style={{ color: 'white', fontSize: '1.8rem', marginBottom: '0.8rem' }}>
+              Need Expert Advice for Your Apple Orchard?
+            </h3>
+            <p style={{ color: '#d8ebe0', fontSize: '0.98rem', lineHeight: '1.6', margin: 0 }}>
+              Visit our central outlet near Exhibition Road, opposite High Court Gate, Hari Singh High Street, Srinagar. Or send infected leaf pictures directly to our WhatsApp.
+            </p>
+          </div>
+
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            <a 
+              href="tel:+919906541321" 
+              style={{
+                background: 'var(--secondary-color)',
+                color: 'var(--primary-color)',
+                padding: '0.8rem 1.4rem',
+                borderRadius: '8px',
+                fontWeight: '700',
+                fontSize: '0.9rem',
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              <Phone size={16} /> Call +91 99065 41321
+            </a>
+            <a 
+              href="https://wa.me/919906541321" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{
+                background: '#25d366',
+                color: 'white',
+                padding: '0.8rem 1.4rem',
+                borderRadius: '8px',
+                fontWeight: '700',
+                fontSize: '0.9rem',
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              <MessageCircle size={16} /> WhatsApp Inquiry
+            </a>
+          </div>
         </AnimatedSection>
 
-        <div className="workflow-grid" style={{ marginBottom: '5rem' }}>
-          <AnimatedSection className="workflow-step-card" delay={0.2}>
-            <div className="workflow-step-number">01</div>
-            <div className="workflow-step-icon">
-              <Stethoscope size={26} />
-            </div>
-            <h3>Symptom & Crop Diagnosis</h3>
-            <p>Visit our Srinagar outlet or send crop photos via WhatsApp. We analyze leaves, roots, and symptoms for precise pathological identification.</p>
-          </AnimatedSection>
-
-          <AnimatedSection className="workflow-step-card" delay={0.4}>
-            <div className="workflow-step-number">02</div>
-            <div className="workflow-step-icon">
-              <FlaskConical size={26} />
-            </div>
-            <h3>Scientific Formulation Match</h3>
-            <p>Backed by M.Sc. Organic Chemistry expertise, we match exact active ingredients (e.g. Propineb, Dodine, Chlorpyrifos) to target the specific pest or fungus.</p>
-          </AnimatedSection>
-
-          <AnimatedSection className="workflow-step-card" delay={0.6}>
-            <div className="workflow-step-number">03</div>
-            <div className="workflow-step-icon">
-              <CalendarCheck size={26} />
-            </div>
-            <h3>Dosage & Spray Schedule</h3>
-            <p>Receive step-by-step dosage instructions, weather window guidelines, and phenological stage spray advice for maximum crop recovery.</p>
-          </AnimatedSection>
-        </div>
-
-        {/* Trusted Partners Section */}
-        <AnimatedSection className="section-header" delay={0.1} style={{ marginTop: '4rem', marginBottom: '3rem' }}>
-          <h2 style={{ fontSize: '2.5rem', color: 'var(--primary-color)' }}>Our Trusted Partners</h2>
-          <p style={{ fontSize: '1.2rem' }}>We supply premium products from the world's leading agricultural companies like Bayer, Syngenta, and many more.</p>
+        {/* Trusted Brand Partners */}
+        <AnimatedSection className="section-header" delay={0.1} style={{ marginBottom: '2.5rem' }}>
+          <h2 style={{ fontSize: '2.2rem', color: 'var(--primary-color)' }}>Authorized Brand Distributors</h2>
+          <p style={{ fontSize: '1.05rem' }}>We supply 100% genuine products sourced directly from world-class agricultural manufacturers.</p>
         </AnimatedSection>
         
         <div className="partners-logos-container">
-          {/* Specific User Provided Logos */}
-          <motion.div whileHover={{ scale: 1.1 }} className="partner-logo-item">
-            <img src="/bayer.png" alt="Bayer" />
-          </motion.div>
+          <div className="partner-logo-item">
+            <img src="/bayer.png" alt="Bayer Crop Science" />
+          </div>
           
-          <motion.div whileHover={{ scale: 1.1 }} className="partner-logo-item">
+          <div className="partner-logo-item">
             <img src="/syngenta.png" alt="Syngenta" />
-          </motion.div>
+          </div>
 
-          <motion.div whileHover={{ scale: 1.1 }} className="partner-logo-item">
+          <div className="partner-logo-item">
             <img src="/ipl.png" alt="IPL Biologicals" />
-          </motion.div>
+          </div>
 
-          <motion.div whileHover={{ scale: 1.1 }} className="partner-logo-item">
+          <div className="partner-logo-item">
             <img src="/willowood.avif" alt="Willowood" />
-          </motion.div>
+          </div>
 
-          <motion.div whileHover={{ scale: 1.1 }} className="partner-logo-item">
+          <div className="partner-logo-item">
             <img src="/fil.png" alt="FIL Industries" />
-          </motion.div>
+          </div>
 
-          <motion.div whileHover={{ scale: 1.1 }} className="partner-logo-item partner-logo-text">
-            <h3 style={{ color: 'var(--primary-color)', fontSize: '1.8rem', fontWeight: '900', margin: 0 }}>& MORE</h3>
-            <p style={{ margin: 0, fontSize: '0.8rem', color: '#666' }}>Quality First</p>
-          </motion.div>
+          <div className="partner-logo-item partner-logo-text">
+            <h3 style={{ color: 'var(--primary-color)', fontSize: '1.5rem', fontWeight: '800', margin: 0 }}>& MORE</h3>
+            <p style={{ margin: 0, fontSize: '0.78rem', color: 'var(--text-muted)' }}>Genuine Formulations</p>
+          </div>
         </div>
       </div>
     </div>
