@@ -1,5 +1,5 @@
 import AnimatedSection from '../components/AnimatedSection';
-import { ShieldCheck, Award, Globe, TreeDeciduous, Star, Quote, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, Award, Globe, TreeDeciduous, Star, Quote, CheckCircle2, GraduationCap, Target, Compass, BookOpen, HeartHandshake, Sprout } from 'lucide-react';
 import { motion } from 'framer-motion';
 import hajiGhulamRasool from '../assets/haji_ghulam_rasool.png';
 import mohammadYousuf from '../assets/mohammad_yousuf.png';
@@ -10,14 +10,87 @@ export default function About() {
     <div className="about-layout">
       {/* Simple Hero */}
       <AnimatedSection className="section-header" style={{ paddingTop: '2rem' }}>
-        <h2>About MA Pesticides</h2>
-        <p>Genuine agricultural solutions for Kashmiri farmers since generations.</p>
+        <h2>About MA Pesticides & Fertilizers</h2>
+        <p>Bridging science and agriculture to empower Kashmir's farming community.</p>
       </AnimatedSection>
 
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
 
-        {/* Brands */}
+        {/* Our Story & Founder */}
         <AnimatedSection className="about-card" style={{ marginTop: 0 }}>
+          <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary-color)', marginBottom: '1.2rem', fontSize: '1.4rem' }}>
+            <BookOpen size={24} /> Our Story & Founder
+          </h3>
+          
+          <p style={{ fontSize: '1.05rem', color: 'var(--text-main)', lineHeight: '1.8', marginBottom: '1.8rem', fontWeight: '500' }}>
+            MA Pesticides & Fertilizers was founded with a simple mission: to empower farmers with quality agricultural products, trusted guidance, and modern farming solutions.
+          </p>
+
+          <div style={{
+            background: 'var(--bg-main)',
+            border: '1px solid var(--border-color)',
+            borderRadius: '12px',
+            padding: '1.8rem',
+            marginBottom: '1.5rem',
+            boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.01)'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '1rem', flexWrap: 'wrap' }}>
+              <div style={{
+                background: 'rgba(46, 125, 50, 0.1)',
+                color: 'var(--primary-color)',
+                padding: '10px',
+                borderRadius: '10px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <GraduationCap size={28} />
+              </div>
+              <div>
+                <h4 style={{ margin: 0, fontSize: '1.25rem', color: 'var(--primary-color)', fontWeight: '700' }}>
+                  Sheikh Mohammad Ayoub
+                </h4>
+                <p style={{ margin: '3px 0 0 0', fontSize: '0.88rem', color: 'var(--secondary-color)', fontWeight: '600' }}>
+                  Founder & Managing Director &bull; M.Sc. (Organic Chemistry), B.Ed. (University of Kashmir)
+                </p>
+              </div>
+            </div>
+
+            <p style={{ fontSize: '0.98rem', color: 'var(--text-muted)', lineHeight: '1.7', marginBottom: '1rem' }}>
+              Before venturing into agriculture, Sheikh Mohammad Ayoub dedicated his career to education as a Senior Lecturer in Chemistry where he inspired and mentored countless students with his passion for teaching and scientific excellence.
+            </p>
+            <p style={{ fontSize: '0.98rem', color: 'var(--text-muted)', lineHeight: '1.7', marginBottom: '1rem' }}>
+              Driven by a deep commitment to serving the farming community, Sheikh Mohammad Ayoub chose to apply his scientific knowledge to agriculture. Recognizing the challenges faced by farmers, he established MA Pesticides & Fertilizers to provide genuine pesticides, quality fertilizers, expert guidance, and reliable crop protection solutions.
+            </p>
+            <p style={{ fontSize: '0.98rem', color: 'var(--text-muted)', lineHeight: '1.7', margin: 0 }}>
+              Today, MA Pesticides & Fertilizers is committed to bridging the gap between science and agriculture by combining years of academic expertise with practical farming knowledge. Our goal is to help farmers achieve healthier crops, higher yields, and sustainable agricultural practices through trusted products and innovative solutions.
+            </p>
+          </div>
+        </AnimatedSection>
+
+        {/* Vision & Mission */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginTop: '1.5rem' }}>
+          <AnimatedSection className="about-card" style={{ marginTop: 0 }}>
+            <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary-color)', marginBottom: '1rem' }}>
+              <Compass size={24} style={{ color: 'var(--primary-color)' }} /> Our Vision
+            </h3>
+            <p style={{ fontSize: '1rem', color: 'var(--text-muted)', lineHeight: '1.7', margin: 0 }}>
+              To become Kashmir's most trusted agricultural partner by delivering quality products, expert advice, and technology-driven solutions that empower every farmer to grow with confidence.
+            </p>
+          </AnimatedSection>
+
+          <AnimatedSection className="about-card" style={{ marginTop: 0 }}>
+            <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary-color)', marginBottom: '1rem' }}>
+              <Target size={24} style={{ color: 'var(--accent-color)' }} /> Our Mission
+            </h3>
+            <p style={{ fontSize: '1rem', color: 'var(--text-muted)', lineHeight: '1.7', margin: 0 }}>
+              To support farmers with authentic agricultural inputs, scientific expertise, and modern innovations that promote productive, sustainable, and profitable farming.
+            </p>
+          </AnimatedSection>
+        </div>
+
+        {/* Brands */}
+        <AnimatedSection className="about-card">
           <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary-color)', marginBottom: '1rem' }}>
             <Award size={24} /> Premium Brands
           </h3>
