@@ -1,12 +1,12 @@
 import { NavLink } from 'react-router-dom';
-import { Home, Package, Bug, Search, Phone } from 'lucide-react';
+import { Home, Package, Bug, Calendar, Phone } from 'lucide-react';
 
 export default function BottomNav() {
   const links = [
     { to: '/', label: 'Home', Icon: Home },
     { to: '/products', label: 'Products', Icon: Package },
     { to: '/disease-guide', label: 'Diseases', Icon: Bug },
-    { to: '/search', label: 'Search', Icon: Search },
+    { to: '/spray-calendar', label: 'Calendar', Icon: Calendar },
     { to: '/contact', label: 'Contact', Icon: Phone },
   ];
 
