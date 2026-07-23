@@ -6,12 +6,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import './urdu.css';
 
 const SYMPTOM_PICKERS = [
-  { id: 'scab_spots', label: 'Black / Olive Spots', labelUrdu: 'سیاہ یا زیتونی دھبے', icon: '🍂' },
-  { id: 'powdery', label: 'White Powdery Coating', labelUrdu: 'سفید سفوف (پاؤڈر)', icon: '🌫️' },
-  { id: 'insects', label: 'Insects & Aphids', labelUrdu: 'کیڑے اور تیلہ', icon: '🐛' },
-  { id: 'curling', label: 'Curling / Twisted Leaves', labelUrdu: 'پتوں کا مڑنا', icon: '🍃' },
-  { id: 'blight', label: 'Blight & Rotting', labelUrdu: 'جھلساؤ اور سڑن', icon: '🟤' },
-  { id: 'yellowing', label: 'Yellowing & Deficiency', labelUrdu: 'پتوں کا پیلا ہونا', icon: '🟡' },
+  { id: 'scab_spots', label: 'Black / Olive Spots', labelUrdu: 'سیاہ یا زیتونی دھبے' },
+  { id: 'powdery', label: 'White Powdery Coating', labelUrdu: 'سفید سفوف (پاؤڈر)' },
+  { id: 'insects', label: 'Insects & Aphids', labelUrdu: 'کیڑے اور تیلہ' },
+  { id: 'curling', label: 'Curling / Twisted Leaves', labelUrdu: 'پتوں کا مڑنا' },
+  { id: 'blight', label: 'Blight & Rotting', labelUrdu: 'جھلساؤ اور سڑن' },
+  { id: 'yellowing', label: 'Yellowing & Deficiency', labelUrdu: 'پتوں کا پیلا ہونا' },
 ];
 
 export default function DiseaseGuide() {
@@ -251,7 +251,6 @@ export default function DiseaseGuide() {
                     boxShadow: isSelected ? '0 4px 12px var(--primary-glow)' : 'none'
                   }}
                 >
-                  <span>{item.icon}</span>
                   <span>{item.label}</span>
                   <span className="urdu-text" style={{ fontSize: '0.75rem', opacity: isSelected ? 0.9 : 0.7, marginLeft: '2px' }}>
                     ({item.labelUrdu})

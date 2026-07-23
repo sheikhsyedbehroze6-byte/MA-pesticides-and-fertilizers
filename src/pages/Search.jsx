@@ -7,14 +7,14 @@ import { Search as SearchIcon, AlertTriangle, CheckCircle, Leaf, X, Microscope, 
 import './urdu.css';
 
 const QUICK_CHIPS = [
-  { label: 'Apple Scab', emoji: '🍎' },
-  { label: 'Fungicide', emoji: '🍄' },
-  { label: 'Aphids', emoji: '🐛' },
-  { label: 'Powdery Mildew', emoji: '🌫️' },
-  { label: 'Blight', emoji: '🌿' },
-  { label: 'Fertilizer', emoji: '🌱' },
-  { label: 'Insecticide', emoji: '🦟' },
-  { label: 'Antracol', emoji: '💊' },
+  'Apple Scab',
+  'Fungicide',
+  'Aphids',
+  'Powdery Mildew',
+  'Blight',
+  'Fertilizer',
+  'Insecticide',
+  'Antracol',
 ];
 
 export default function Search() {
@@ -130,11 +130,11 @@ export default function Search() {
           <span className="search-chips-label">Popular:</span>
           {QUICK_CHIPS.map(chip => (
             <button
-              key={chip.label}
-              className={`search-chip ${query === chip.label ? 'active' : ''}`}
-              onClick={() => handleChip(chip.label)}
+              key={chip}
+              className={`search-chip ${query === chip ? 'active' : ''}`}
+              onClick={() => handleChip(chip)}
             >
-              {chip.emoji} {chip.label}
+              {chip}
             </button>
           ))}
         </div>
