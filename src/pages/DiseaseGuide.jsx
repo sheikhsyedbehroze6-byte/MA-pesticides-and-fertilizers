@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import AnimatedSection from '../components/AnimatedSection';
 import { diseases } from '../data/agricultureData';
-import { AlertTriangle, CheckCircle, Leaf, Search, Filter, X } from 'lucide-react';
+import { AlertTriangle, CheckCircle, Leaf, Search, Filter, X, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './urdu.css'; // Import special styles for Urdu fonts
 
@@ -274,6 +274,35 @@ export default function DiseaseGuide() {
                     <p style={{ margin: '0.3rem 0 0 0', fontSize: '0.85rem', color: 'var(--text-muted)' }}><strong>مقدار:</strong> {disease.dosageUrdu}</p>
                   </div>
                 </div>
+
+                <a
+                  href={`https://wa.me/919906541321?text=${encodeURIComponent(
+                    `🌿 *Crop Disease Consultation — MA Pesticides*\n\n` +
+                    `*Crop:* ${disease.crop}\n` +
+                    `*Disease:* ${disease.name} (${disease.nameUrdu})\n` +
+                    `*Symptoms:* ${disease.symptoms}\n\n` +
+                    `I need guidance on pesticide spray recommendation and dosage for this disease.`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '6px',
+                    background: '#25d366',
+                    color: 'white',
+                    padding: '0.5rem',
+                    borderRadius: '8px',
+                    fontWeight: '700',
+                    fontSize: '0.82rem',
+                    textDecoration: 'none',
+                    marginTop: '0.75rem'
+                  }}
+                >
+                  <MessageCircle size={15} />
+                  Ask Cure & Spray Advice on WhatsApp
+                </a>
               </div>
             </motion.div>
           ))}
