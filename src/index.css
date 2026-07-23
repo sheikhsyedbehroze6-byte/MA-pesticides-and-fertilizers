@@ -126,6 +126,72 @@ a {
   transition: color 0.3s ease;
 }
 
+/* ===================== TOP CONTACT BAR ===================== */
+.top-contact-bar {
+  background-color: #0b1f12;
+  color: #a5c8b0;
+  font-size: 0.82rem;
+  padding: 0.4rem 4%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-weight: 500;
+}
+
+.top-bar-items {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.top-bar-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #b5d5bf;
+}
+
+.top-bar-item svg {
+  color: var(--secondary-color);
+  flex-shrink: 0;
+}
+
+.top-bar-item a {
+  color: #b5d5bf;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.top-bar-item a:hover {
+  color: #fff;
+}
+
+.top-bar-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #25d366;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.top-bar-cta:hover {
+  color: #34e775;
+}
+
+@media (max-width: 768px) {
+  .top-contact-bar {
+    font-size: 0.76rem;
+    padding: 0.35rem 3%;
+  }
+  .top-bar-hide-mobile {
+    display: none;
+  }
+}
+
 /* ===================== HEADER ===================== */
 header {
   position: sticky;
@@ -472,6 +538,100 @@ main {
   .home-stat-item:nth-child(4) {
     border-right: none;
   }
+}
+
+/* ===================== HERO TRUST BADGE & WORKFLOW ===================== */
+.hero-badge-trust {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(196, 160, 84, 0.15);
+  border: 1px solid rgba(196, 160, 84, 0.4);
+  color: var(--secondary-color);
+  padding: 0.4rem 1.1rem;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  backdrop-filter: blur(10px);
+}
+
+.consultation-workflow-section {
+  padding: 4rem 0;
+  background: var(--bg-main);
+}
+
+.workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+
+.workflow-step-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 2rem;
+  position: relative;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.02);
+}
+
+.workflow-step-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(22, 62, 36, 0.08);
+  border-color: var(--primary-color);
+}
+
+[data-theme="dark"] .workflow-step-card:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.workflow-step-number {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--primary-glow);
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.workflow-step-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(22, 62, 36, 0.06);
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+}
+
+[data-theme="dark"] .workflow-step-icon {
+  background: rgba(82, 183, 136, 0.12);
+}
+
+.workflow-step-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.6rem;
+  color: var(--primary-color);
+}
+
+.workflow-step-card p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.65;
 }
 
 /* ===================== GHOST CTA BUTTON ===================== */

@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { Sprout, Menu, X, Moon, Sun } from 'lucide-react';
+import { Sprout, Menu, X, Moon, Sun, Phone, MapPin, MessageCircle, Clock } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
@@ -9,23 +9,60 @@ export default function Header() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <header style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
-      <div className="logo-container">
-        <Sprout color="var(--secondary-color)" size={32} />
-        <h1>MA Pesticides</h1>
+    <div style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
+      {/* Top Contact Bar */}
+      <div className="top-contact-bar">
+        <div className="top-bar-items">
+          <div className="top-bar-item">
+            <Phone size={13} />
+            <a href="tel:+919906541321">+91 99065 41321</a>
+          </div>
+          <div className="top-bar-item top-bar-hide-mobile">
+            <MapPin size={13} />
+            <span>Hari Singh High Street, Srinagar</span>
+          </div>
+          <div className="top-bar-item top-bar-hide-mobile">
+            <Clock size={13} />
+            <span>Mon–Sat: 9 AM–7 PM</span>
+          </div>
+        </div>
+        <div>
+          <a
+            href="https://wa.me/919906541321"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="top-bar-cta"
+          >
+            <MessageCircle size={13} />
+            <span className="top-bar-hide-mobile">Direct WhatsApp Inquiry</span>
+            <span className="desktop-only" style={{ display: 'none' }}>WhatsApp</span>
+          </a>
+        </div>
       </div>
 
-      {/* Desktop Nav */}
-      <nav className="desktop-nav">
-        <ul className="nav-links">
-          <li><NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')}>Home</NavLink></li>
-          <li><NavLink to="/about" className={({ isActive }) => (isActive ? 'active' : '')}>About Us</NavLink></li>
-          <li><NavLink to="/products" className={({ isActive }) => (isActive ? 'active' : '')}>Products</NavLink></li>
-          <li><NavLink to="/disease-guide" className={({ isActive }) => (isActive ? 'active' : '')}>Disease Guide</NavLink></li>
-          <li><NavLink to="/search" className={({ isActive }) => (isActive ? 'active' : '')}>Search</NavLink></li>
-          <li><NavLink to="/contact" className={({ isActive }) => (isActive ? 'active' : '')}>Contact</NavLink></li>
-        </ul>
-      </nav>
+      {/* Main Header */}
+      <header>
+        <div className="logo-container">
+          <Sprout color="var(--secondary-color)" size={30} />
+          <div>
+            <h1 style={{ lineHeight: '1.1' }}>MA Pesticides</h1>
+            <span style={{ fontSize: '0.65rem', color: '#c4a054', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: '700', display: 'block' }}>
+              & Fertilizers &bull; Srinagar
+            </span>
+          </div>
+        </div>
+
+        {/* Desktop Nav */}
+        <nav className="desktop-nav">
+          <ul className="nav-links">
+            <li><NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')}>Home</NavLink></li>
+            <li><NavLink to="/about" className={({ isActive }) => (isActive ? 'active' : '')}>About Us</NavLink></li>
+            <li><NavLink to="/products" className={({ isActive }) => (isActive ? 'active' : '')}>Products</NavLink></li>
+            <li><NavLink to="/disease-guide" className={({ isActive }) => (isActive ? 'active' : '')}>Disease Guide</NavLink></li>
+            <li><NavLink to="/search" className={({ isActive }) => (isActive ? 'active' : '')}>Search</NavLink></li>
+            <li><NavLink to="/contact" className={({ isActive }) => (isActive ? 'active' : '')}>Contact</NavLink></li>
+          </ul>
+        </nav>
 
       {/* Dark Mode Toggle (Desktop) */}
       <button
@@ -81,6 +118,7 @@ export default function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+      </header>
+    </div>
   );
 }

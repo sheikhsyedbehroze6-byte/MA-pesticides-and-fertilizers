@@ -1,4 +1,4 @@
-import { ShieldCheck, Droplets, MessageCircle } from 'lucide-react';
+import { ShieldCheck, Droplets, MessageCircle, CheckCircle2 } from 'lucide-react';
 
 export default function ProductCard({ product }) {
   // Strip redundant "20% discount on print price." prefix from benefits text
@@ -34,6 +34,22 @@ export default function ProductCard({ product }) {
         </span>
       </div>
       <div className="product-info">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '0.4rem' }}>
+          <span style={{
+            fontSize: '0.7rem',
+            fontWeight: '700',
+            color: '#2e7d32',
+            background: 'rgba(46, 125, 50, 0.08)',
+            padding: '2px 8px',
+            borderRadius: '12px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '4px'
+          }}>
+            <CheckCircle2 size={12} /> Authentic Stock
+          </span>
+        </div>
+
         <h3>
           {product.name}
         </h3>

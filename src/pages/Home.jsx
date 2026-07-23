@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
-import { ArrowRight, Leaf, Shield, HeartHandshake, Sprout, Package, Users, Store } from 'lucide-react';
+import { ArrowRight, Leaf, Shield, HeartHandshake, Sprout, Package, Users, Store, Sparkles, Stethoscope, FlaskConical, CalendarCheck, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const STATS = [
@@ -16,6 +16,9 @@ export default function Home() {
       <section className="hero animated-vibrant-bg" style={{ position: 'relative', overflow: 'hidden' }}>
         <div className="hero-content" style={{ position: 'relative', zIndex: 2 }}>
           <AnimatedSection delay={0.2} className="hero-text" style={{ padding: '2.5rem', background: 'rgba(13, 37, 21, 0.85)', borderRadius: '12px', border: '1px solid rgba(196, 160, 84, 0.2)' }}>
+            <div className="hero-badge-trust">
+              <Sparkles size={14} /> Authentic Agrochemicals & Scientific Consultation
+            </div>
             <h1 style={{ color: 'white', marginBottom: '0.75rem', fontFamily: "'Playfair Display', Georgia, serif", fontSize: '2.8rem', letterSpacing: '0.5px' }}>Welcome to M.A. Pesticides</h1>
             <p style={{ fontSize: '0.9rem', color: '#c4a054', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '1.5rem' }}>Kashmir's First Modern & Trusted Agricultural Platform</p>
             <p style={{ color: '#e2f0e6', fontSize: '1.05rem', lineHeight: '1.6' }}>Your premier destination for high-quality products, farming equipment, and digital expert guidance for a healthier crop and a better harvest.</p>
@@ -159,8 +162,43 @@ export default function Home() {
           </AnimatedSection>
         </div>
 
+        {/* 3-Step Scientific Consultation Section */}
+        <AnimatedSection className="section-header" delay={0.1} style={{ marginTop: '5rem', marginBottom: '1.5rem' }}>
+          <h2>Our 3-Step Crop Protection Process</h2>
+          <p>How we help Kashmiri orchardists and farmers achieve healthier yields through chemistry and science.</p>
+        </AnimatedSection>
+
+        <div className="workflow-grid" style={{ marginBottom: '5rem' }}>
+          <AnimatedSection className="workflow-step-card" delay={0.2}>
+            <div className="workflow-step-number">01</div>
+            <div className="workflow-step-icon">
+              <Stethoscope size={26} />
+            </div>
+            <h3>Symptom & Crop Diagnosis</h3>
+            <p>Visit our Srinagar outlet or send crop photos via WhatsApp. We analyze leaves, roots, and symptoms for precise pathological identification.</p>
+          </AnimatedSection>
+
+          <AnimatedSection className="workflow-step-card" delay={0.4}>
+            <div className="workflow-step-number">02</div>
+            <div className="workflow-step-icon">
+              <FlaskConical size={26} />
+            </div>
+            <h3>Scientific Formulation Match</h3>
+            <p>Backed by M.Sc. Organic Chemistry expertise, we match exact active ingredients (e.g. Propineb, Dodine, Chlorpyrifos) to target the specific pest or fungus.</p>
+          </AnimatedSection>
+
+          <AnimatedSection className="workflow-step-card" delay={0.6}>
+            <div className="workflow-step-number">03</div>
+            <div className="workflow-step-icon">
+              <CalendarCheck size={26} />
+            </div>
+            <h3>Dosage & Spray Schedule</h3>
+            <p>Receive step-by-step dosage instructions, weather window guidelines, and phenological stage spray advice for maximum crop recovery.</p>
+          </AnimatedSection>
+        </div>
+
         {/* Trusted Partners Section */}
-        <AnimatedSection className="section-header" delay={0.1} style={{ marginTop: '6rem', marginBottom: '3rem' }}>
+        <AnimatedSection className="section-header" delay={0.1} style={{ marginTop: '4rem', marginBottom: '3rem' }}>
           <h2 style={{ fontSize: '2.5rem', color: 'var(--primary-color)' }}>Our Trusted Partners</h2>
           <p style={{ fontSize: '1.2rem' }}>We supply premium products from the world's leading agricultural companies like Bayer, Syngenta, and many more.</p>
         </AnimatedSection>

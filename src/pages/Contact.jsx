@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import AnimatedSection from '../components/AnimatedSection';
-import { MapPin, Phone, Mail, Clock, CheckCircle, Navigation } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, CheckCircle, Navigation, MessageCircle } from 'lucide-react';
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '', website: '' });
@@ -50,9 +50,48 @@ export default function Contact() {
       <div className="contact-grid">
         <AnimatedSection delay={0.2} className="contact-info">
           <h3>Shop Information</h3>
-          <p style={{ marginBottom: '2rem', color: 'var(--text-muted)' }}>
+          <p style={{ marginBottom: '1.5rem', color: 'var(--text-muted)' }}>
             We are centrally located in Srinagar. Drop by for expert advice on pesticides and fertilizers.
           </p>
+
+          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
+            <a
+              href="tel:+919906541321"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '0.6rem 1.1rem',
+                backgroundColor: 'var(--primary-color)',
+                color: 'white',
+                borderRadius: '8px',
+                fontWeight: '600',
+                fontSize: '0.85rem',
+                textDecoration: 'none'
+              }}
+            >
+              <Phone size={14} /> Call Now
+            </a>
+            <a
+              href="https://wa.me/919906541321"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '0.6rem 1.1rem',
+                backgroundColor: '#25d366',
+                color: 'white',
+                borderRadius: '8px',
+                fontWeight: '600',
+                fontSize: '0.85rem',
+                textDecoration: 'none'
+              }}
+            >
+              <MessageCircle size={14} /> WhatsApp Chat
+            </a>
+          </div>
 
           <div className="info-item">
             <div className="info-icon"><MapPin size={24} /></div>
