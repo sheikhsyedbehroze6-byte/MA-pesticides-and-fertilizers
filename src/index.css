@@ -2537,4 +2537,301 @@ img[src*="safety-guide"] {
   .search-divider { width: 70%; }
 }
 
+/* ===================== DOSAGE CALCULATOR ===================== */
+.dosage-calculator-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.8rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.03);
+}
+
+.dosage-calc-header {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.dosage-calc-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: rgba(22, 62, 36, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dosage-calc-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.dosage-calc-field label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.4rem;
+}
+
+.dosage-calc-select, .dosage-calc-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-main);
+  color: var(--text-main);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.dosage-calc-select:focus, .dosage-calc-input:focus {
+  border-color: var(--primary-color);
+}
+
+.dosage-calc-mode-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  background: var(--bg-main);
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.dosage-mode-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0.6rem 0.8rem;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.82rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dosage-mode-btn.active {
+  background: var(--primary-color);
+  color: white;
+}
+
+.preset-btn {
+  padding: 0.45rem 0.85rem;
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-main);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.preset-btn.active {
+  background: rgba(22, 62, 36, 0.12);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.dosage-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.field-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+  display: block;
+}
+
+.dosage-result-box {
+  background: rgba(22, 62, 36, 0.05);
+  border: 1.5px solid rgba(22, 62, 36, 0.15);
+  border-radius: 10px;
+  padding: 1.2rem;
+  margin-top: 0.5rem;
+}
+
+.dosage-result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed rgba(22, 62, 36, 0.12);
+}
+
+.dosage-result-row.highlight {
+  border-bottom: none;
+  padding-top: 0.8rem;
+}
+
+.result-label {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.result-value {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.result-value-big {
+  font-size: 1.3rem;
+  color: var(--primary-color);
+  font-weight: 800;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.dosage-whatsapp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.75rem 1.2rem;
+  background: #25d366;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  width: 100%;
+  justify-content: center;
+}
+
+.dosage-whatsapp-btn:hover {
+  opacity: 0.9;
+}
+
+.dosage-safety-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  color: #795548;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+[data-theme="dark"] .dosage-safety-note {
+  background: rgba(255, 248, 225, 0.08);
+  border-color: rgba(255, 224, 130, 0.2);
+  color: #ffe082;
+}
+
+/* ===================== WEATHER ALERT ===================== */
+.weather-alert-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+}
+
+.weather-alert-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.weather-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.4rem 0.85rem;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.weather-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.8rem;
+  background: var(--bg-main);
+  padding: 0.85rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 0.8rem;
+}
+
+.weather-metric {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.metric-icon {
+  color: var(--secondary-color);
+  flex-shrink: 0;
+}
+
+.metric-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metric-val {
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+
+.weather-advisory-text {
+  font-size: 0.83rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .weather-metrics-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .dosage-two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===================== PRINT STYLES ===================== */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 11pt !important;
+  }
+  header, footer, .top-contact-bar, .notice-ticker-bar, .no-print, .back-to-top, button, .theme-toggle {
+    display: none !important;
+  }
+  .container {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+  .section-header h2 {
+    color: black !important;
+    font-size: 18pt !important;
+  }
+}
+
 

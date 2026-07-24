@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import AnimatedSection from '../components/AnimatedSection';
+import WeatherSprayAlert from '../components/WeatherSprayAlert';
+import DosageCalculator from '../components/DosageCalculator';
 import { products } from '../data/agricultureData';
-import { Calendar, CheckCircle2, MessageCircle, AlertTriangle, ChevronRight, Droplets, Shield, Thermometer, CloudRain, Sun, Snowflake, Wind } from 'lucide-react';
+import { Calendar, CheckCircle2, MessageCircle, AlertTriangle, ChevronRight, Droplets, Shield, Thermometer, CloudRain, Sun, Snowflake, Wind, Printer } from 'lucide-react';
 import './urdu.css';
 
 // Kashmir Climate Info
@@ -616,12 +618,43 @@ export default function SprayCalendar() {
         <p>Scientific SKUAST-K extension timelines tailored to <strong>Kashmir's climate</strong> — covering winter dormancy, spring scab season, summer mite pressure, and autumn harvest protection.</p>
 
         {/* Kashmir Climate Strip */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem', justifyContent: 'center', marginTop: '1rem' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem', justifyContent: 'center', marginTop: '1rem', marginBottom: '1.2rem' }}>
           {Object.entries(KASHMIR_SEASONS).map(([key, s]) => (
             <SeasonBadge key={key} season={key} />
           ))}
         </div>
+
+        {/* Print Schedule Button */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '0.5rem' }}>
+          <button
+            onClick={() => window.print()}
+            className="no-print"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '0.55rem 1.2rem',
+              backgroundColor: 'var(--primary-color)',
+              color: '#ffffff',
+              border: 'none',
+              borderRadius: '20px',
+              fontWeight: '600',
+              fontSize: '0.85rem',
+              cursor: 'pointer',
+              boxShadow: '0 4px 12px rgba(22, 62, 36, 0.2)'
+            }}
+          >
+            <Printer size={16} /> Print / Save Schedule Cheat-Sheet (PDF)
+          </button>
+        </div>
       </AnimatedSection>
+
+      {/* Srinagar Live Weather & Spray Advisory */}
+      <AnimatedSection delay={0.05} style={{ marginBottom: '2rem' }} className="no-print">
+        <WeatherSprayAlert />
+      </AnimatedSection>
+
+      {/* Control Panel Card */}
 
       {/* Control Panel Card */}
       <AnimatedSection delay={0.1} style={{ 
@@ -911,6 +944,11 @@ export default function SprayCalendar() {
         </div>
 
       </div>
+
+      {/* Orchard Spray Dosage & Tank Calculator */}
+      <AnimatedSection delay={0.2} style={{ marginTop: '3.5rem' }} className="no-print">
+        <DosageCalculator />
+      </AnimatedSection>
     </div>
   );
 }
