@@ -37,6 +37,17 @@ export default function Header() {
         </div>
       </div>
 
+      {/* Seasonal Notice Ticker Bar */}
+      <div className="notice-ticker-bar">
+        <span className="notice-badge">JULY NOTICE</span>
+        <div className="notice-content">
+          <span>Summer peak — Codling Moth 2nd generation active in apple orchards. Syngenta Alika &amp; Bayer Calypso in stock.</span>
+          <a href="https://wa.me/919906541321" target="_blank" rel="noopener noreferrer" className="notice-link">
+            WhatsApp for dosage guide →
+          </a>
+        </div>
+      </div>
+
       {/* Main Header Header Bar */}
       <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <NavLink to="/" style={{ textDecoration: 'none', color: 'inherit' }} className="logo-container">

@@ -180,38 +180,6 @@ export default function Home() {
         `}</style>
       </section>
 
-      {/* ─── SEASONAL NOTICE TICKER ─── */}
-      <div style={{
-        background: '#b8923f',
-        padding: '0.6rem 1.5rem',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '1rem',
-        overflowX: 'auto'
-      }}>
-        <span style={{
-          background: '#08150d',
-          color: '#b8923f',
-          padding: '0.2rem 0.6rem',
-          fontSize: '0.65rem',
-          fontWeight: '800',
-          textTransform: 'uppercase',
-          letterSpacing: '1.5px',
-          flexShrink: 0
-        }}>JULY NOTICE</span>
-        <p style={{
-          fontFamily: 'var(--font-hand)',
-          fontSize: '1rem',
-          color: '#08150d',
-          margin: 0,
-          whiteSpace: 'nowrap'
-        }}>
-          Summer peak — Codling Moth 2nd generation active in apple orchards. Syngenta Alika &amp; Bayer Calypso in stock.&nbsp;
-          <a href="https://wa.me/919906541321" style={{ color: '#08150d', fontWeight: '700', textDecoration: 'underline' }}>
-            WhatsApp for dosage guide →
-          </a>
-        </p>
-      </div>
 
       {/* ─── SERVICES: editorial mixed layout ─── */}
       <div style={{ background: 'var(--bg-main)', padding: '4rem 0 2rem' }}>
