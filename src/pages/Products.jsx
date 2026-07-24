@@ -34,12 +34,28 @@ export default function Products() {
 
   return (
     <div className="container" style={{ paddingBottom: '5rem' }}>
-      <AnimatedSection className="section-header">
-        <h2>Our Agricultural Products</h2>
-        <p className="urdu-text" style={{ fontSize: '1.3rem', color: 'var(--primary-color)', margin: '0.4rem 0 0.8rem 0', fontWeight: 'bold' }}>
+      {/* Page Header — left-aligned editorial header */}
+      <AnimatedSection style={{ marginBottom: '2.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1.5rem' }}>
+        <p style={{
+          fontSize: '0.78rem',
+          fontWeight: '700',
+          textTransform: 'uppercase',
+          letterSpacing: '1.2px',
+          color: 'var(--secondary-color)',
+          marginBottom: '0.4rem'
+        }}>
+          AUTHORIZED AGRICULTURAL CATALOGUE
+        </p>
+        
+        <h2 style={{ fontSize: '2.2rem', color: 'var(--primary-color)', margin: '0 0 0.4rem 0', fontFamily: "'Playfair Display', Georgia, serif" }}>
+          Agricultural Products & Chemical Formulations
+        </h2>
+        <p className="urdu-text" style={{ fontSize: '1.2rem', color: 'var(--primary-color)', margin: '0.2rem 0 0.8rem 0', fontWeight: 'bold' }}>
           ہمارے زرعی پروڈکٹس اور معیاری ادویات
         </p>
-        <p>Premium solutions from Bayer, Syngenta, and global brands to maximize your yield and protect your crops.</p>
+        <p style={{ maxWidth: '680px', fontSize: '0.98rem', color: 'var(--text-muted)', lineHeight: '1.6', margin: 0 }}>
+          Genuine formulations from Bayer, Syngenta, FMC, and Willowood stocked at our Srinagar shop opposite High Court Complex.
+        </p>
       </AnimatedSection>
 
       {/* Search, Language Toggle, and Filter Bar Container */}

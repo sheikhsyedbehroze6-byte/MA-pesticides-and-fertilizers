@@ -93,13 +93,25 @@ export default function Search() {
   return (
     <div className="container" style={{ minHeight: '60vh' }}>
 
-      {/* Hero Search Section */}
-      <AnimatedSection className="search-hero">
-        <div className="search-hero-icon">
-          <SearchIcon size={28} strokeWidth={2.5} />
-        </div>
-        <h2>Find Your Solution</h2>
-        <p>Search diseases, symptoms, products or active ingredients</p>
+      {/* Hero Search Section — left-aligned editorial header */}
+      <AnimatedSection style={{ marginBottom: '2.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1.5rem' }}>
+        <p style={{
+          fontSize: '0.78rem',
+          fontWeight: '700',
+          textTransform: 'uppercase',
+          letterSpacing: '1.2px',
+          color: 'var(--secondary-color)',
+          marginBottom: '0.4rem'
+        }}>
+          INSTANT DIAGNOSTIC & PRODUCT SEARCH
+        </p>
+        
+        <h2 style={{ fontSize: '2.2rem', color: 'var(--primary-color)', margin: '0 0 0.4rem 0', fontFamily: "'Playfair Display', Georgia, serif" }}>
+          Find Agricultural Solutions
+        </h2>
+        <p style={{ maxWidth: '600px', fontSize: '0.98rem', color: 'var(--text-muted)', lineHeight: '1.6', margin: '0 0 1.5rem 0' }}>
+          Search Kashmir crop diseases, symptoms, spray schedules, chemical formulations, or active ingredients.
+        </p>
 
         <form onSubmit={handleSearch} className="search-form-wrapper">
           <div className={`search-input-box ${isFocused ? 'focused' : ''}`}>

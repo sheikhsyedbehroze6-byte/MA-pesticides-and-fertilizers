@@ -118,29 +118,26 @@ export default function DiseaseGuide() {
   return (
     <div className="container" style={{ paddingBottom: '5rem' }}>
       
-      {/* Header Banner */}
-      <AnimatedSection className="section-header" style={{ marginBottom: '2rem' }}>
-        <div style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '6px',
-          background: 'rgba(22, 62, 36, 0.08)',
-          color: 'var(--primary-color)',
-          padding: '6px 14px',
-          borderRadius: '20px',
-          fontSize: '0.82rem',
+      {/* Header Banner — left-aligned editorial header */}
+      <AnimatedSection style={{ marginBottom: '2.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1.5rem' }}>
+        <p style={{
+          fontSize: '0.78rem',
           fontWeight: '700',
-          marginBottom: '0.8rem',
-          letterSpacing: '0.5px'
+          textTransform: 'uppercase',
+          letterSpacing: '1.2px',
+          color: 'var(--secondary-color)',
+          marginBottom: '0.4rem'
         }}>
-          <Stethoscope size={15} /> SCIENTIFIC CROP PROTECTION GUIDE
-        </div>
+          SCIENTIFIC CROP DIAGNOSIS DIRECTORY
+        </p>
         
-        <h2>Plant Disease & Solution Guide</h2>
-        <p className="urdu-text" style={{ fontSize: '1.4rem', color: 'var(--primary-color)', margin: '0.4rem 0 0.8rem 0', fontWeight: 'bold' }}>
+        <h2 style={{ fontSize: '2.2rem', color: 'var(--primary-color)', margin: '0 0 0.4rem 0', fontFamily: "'Playfair Display', Georgia, serif" }}>
+          Kashmir Disease & Cure Guide
+        </h2>
+        <p className="urdu-text" style={{ fontSize: '1.2rem', color: 'var(--primary-color)', margin: '0.2rem 0 0.8rem 0', fontWeight: 'bold' }}>
           پودوں کی بیماریوں اور سائنسی علاج کی جامع رہنمائی
         </p>
-        <p style={{ maxWidth: '750px', margin: '0 auto', fontSize: '1.02rem', color: 'var(--text-muted)' }}>
+        <p style={{ maxWidth: '680px', fontSize: '0.98rem', color: 'var(--text-muted)', lineHeight: '1.6', margin: 0 }}>
           Identify common Kashmir orchard & field crop diseases and access exact chemical formulations, spray schedules, and dosages verified by <strong>Sheikh Mohammad Ayoub (M.Sc. Organic Chemistry)</strong>.
         </p>
       </AnimatedSection>
@@ -455,16 +452,15 @@ export default function DiseaseGuide() {
                       onError={(e) => { e.target.parentNode.style.display = 'none'; }}
                     />
                     
-                    {/* Floating Crop Badge */}
+                    {/* Solid Crop Badge */}
                     <div style={{
                       position: 'absolute',
                       top: '12px',
                       left: '12px',
-                      background: 'rgba(22, 62, 36, 0.88)',
-                      backdropFilter: 'blur(6px)',
+                      background: '#163e24',
                       color: '#ffffff',
                       padding: '4px 10px',
-                      borderRadius: '20px',
+                      borderRadius: '4px',
                       fontSize: '0.75rem',
                       fontWeight: '700',
                       display: 'flex',
@@ -474,16 +470,15 @@ export default function DiseaseGuide() {
                       <Leaf size={12} /> {disease.crop}
                     </div>
 
-                    {/* Floating Severity Tag */}
+                    {/* Solid Severity Tag */}
                     <div style={{
                       position: 'absolute',
                       top: '12px',
                       right: '12px',
-                      background: disease.severity === 'High' ? 'rgba(176, 58, 46, 0.9)' : 'rgba(196, 160, 84, 0.9)',
-                      backdropFilter: 'blur(6px)',
+                      background: disease.severity === 'High' ? '#b03a2e' : '#b8923f',
                       color: '#ffffff',
                       padding: '4px 10px',
-                      borderRadius: '20px',
+                      borderRadius: '4px',
                       fontSize: '0.72rem',
                       fontWeight: '700',
                       display: 'flex',
