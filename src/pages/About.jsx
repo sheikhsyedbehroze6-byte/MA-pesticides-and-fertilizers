@@ -101,13 +101,13 @@ export default function About() {
           <div className="product-img-grid">
             <div className="brand-card">
               <div className="brand-card-img-container">
-                <img src="/antracol.jpg" alt="Bayer Antracol" onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1592982537447-6f23f0bf7123?w=800&q=80"; }} />
+                <img src="/antracol.jpg" alt="Bayer Antracol" loading="lazy" decoding="async" onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1592982537447-6f23f0bf7123?w=800&q=80"; }} />
               </div>
               <h4 style={{ marginTop: '0.8rem', color: 'var(--text-main)' }}>Bayer Antracol</h4>
             </div>
             <div className="brand-card">
               <div className="brand-card-img-container">
-                <img src="/alika.png" alt="Syngenta Alika" onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1628352081506-83c43123ed6d?w=800&q=80"; }} />
+                <img src="/alika.png" alt="Syngenta Alika" loading="lazy" decoding="async" onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1628352081506-83c43123ed6d?w=800&q=80"; }} />
               </div>
               <h4 style={{ marginTop: '0.8rem', color: 'var(--text-main)' }}>Syngenta Alika</h4>
             </div>
@@ -123,7 +123,7 @@ export default function About() {
             Timely spraying at each phenological stage is the key to a healthy harvest. Use this chart to identify your orchard's current stage.
           </p>
           <div style={{ borderRadius: '10px', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
-            <img src="/apple-stages.png" alt="Apple Phenological Stages Chart" style={{ width: '100%', display: 'block' }} />
+            <img src="/apple-stages.webp" alt="Apple Phenological Stages Chart" loading="lazy" decoding="async" style={{ width: '100%', display: 'block' }} />
           </div>
           <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: 'var(--text-muted)', fontStyle: 'italic', textAlign: 'center' }}>
             Consult our experts for spray schedules tailored to each stage.
@@ -141,9 +141,9 @@ export default function About() {
 
           <div style={{ display: 'grid', gap: '2rem' }}>
             {[
-              { title: "Nutrient Recovery", beforeImg: "/before-neut.png", afterImg: "/after-neut.png", desc: "Chlorosis reversed with targeted NPK & Proma Gro application." },
-              { title: "Fungal Prevention", beforeImg: "/before-fungal.png", afterImg: "/after-fungal.png", desc: "Scab eliminated with Bayer Antracol and Dodine sprays." },
-              { title: "Insect Control", beforeImg: "/before-insect.png", afterImg: "/after-insect.png", desc: "Aphid infestation cleared using Syngenta Alika." }
+              { title: "Nutrient Recovery", beforeImg: "/before-neut.webp", afterImg: "/after-neut.webp", desc: "Chlorosis reversed with targeted NPK & Proma Gro application." },
+              { title: "Fungal Prevention", beforeImg: "/before-fungal.webp", afterImg: "/after-fungal.webp", desc: "Scab eliminated with Bayer Antracol and Dodine sprays." },
+              { title: "Insect Control", beforeImg: "/before-insect.webp", afterImg: "/after-insect.webp", desc: "Aphid infestation cleared using Syngenta Alika." }
             ].map((item, idx) => (
               <div key={idx} className="before-after-case">
                 <h4 style={{ marginBottom: '1rem', fontSize: '1.1rem' }}>{idx + 1}. {item.title}</h4>
@@ -172,7 +172,7 @@ export default function About() {
             Always read the label, wear protective gear, and follow recommended dosages.
           </p>
           <div style={{ borderRadius: '10px', overflow: 'hidden', border: '1px solid var(--border-color)' }}>
-            <img src="/safety-guide.png" alt="Pesticide Safety Guide" style={{ width: '100%', display: 'block' }} />
+            <img src="/safety-guide.webp" alt="Pesticide Safety Guide" loading="lazy" decoding="async" style={{ width: '100%', display: 'block' }} />
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '1.5rem' }}>

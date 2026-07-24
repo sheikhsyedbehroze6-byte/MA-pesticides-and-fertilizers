@@ -41,6 +41,8 @@ export default function ProductCard({ product, langMode = 'both' }) {
           src={product.image} 
           alt={product.name} 
           className="product-image"
+          loading="lazy"
+          decoding="async"
         />
         <span className="product-discount-badge">
           20% OFF

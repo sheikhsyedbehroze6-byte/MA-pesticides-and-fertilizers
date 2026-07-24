@@ -107,7 +107,7 @@ export const products = [
     diseases: ["Fruit Borer", "Shoot Borer", "Sucking Pests"],
     benefits: "20% discount on print price.  Advanced ZC formulation for superior performance and stability.",
     composition: "Thiamethoxam + Lambda-Cyhalothrin ZC",
-    image: "/tingo.png",
+    image: "/tingo.webp",
   },
   {
     id: 11,
@@ -587,7 +587,7 @@ export const diseases = [
     dosage: "1g Dodine or 2.5g Antracol per Litre of water. Spray every 10-14 days.",
     dosageUrdu: "1 گرام ڈوڈائن یا 2.5 گرام اینٹراکول فی لیٹر پانی۔ ہر 10-14 دن بعد۔",
     severity: "High",
-    image: "/apple-scab.png"
+    image: "/apple-scab.webp"
   },
   {
     id: "d2",

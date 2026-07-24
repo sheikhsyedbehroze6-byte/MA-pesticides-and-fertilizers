@@ -12,6 +12,7 @@ import SprayCalendar from './pages/SprayCalendar';
 import Contact from './pages/Contact';
 import About from './pages/About';
 import Search from './pages/Search';
+import NotFound from './pages/NotFound';
 import { ThemeProvider } from './context/ThemeContext';
 import './App.css';
 
@@ -48,6 +49,7 @@ function App() {
               <Route path="/spray-calendar" element={<SprayCalendar />} />
               <Route path="/search" element={<Search />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
 

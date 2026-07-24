@@ -1,0 +1,39 @@
+{
+  "name": "MA Pesticides & Fertilizers",
+  "short_name": "MA Pesticides",
+  "description": "Genuine pesticides, fungicides and expert crop protection for Kashmir farmers. Authorized dealer of Bayer, Syngenta, IPL Biologicals — Srinagar.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f5f0",
+  "theme_color": "#163e24",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Spray Calendar",
+      "short_name": "Calendar",
+      "description": "View Kashmir crop spray schedules",
+      "url": "/spray-calendar"
+    },
+    {
+      "name": "Browse Products",
+      "short_name": "Products",
+      "description": "Browse our pesticide catalog",
+      "url": "/products"
+    },
+    {
+      "name": "Contact Us",
+      "short_name": "Contact",
+      "description": "Call or WhatsApp MA Pesticides",
+      "url": "/contact"
+    }
+  ]
+}

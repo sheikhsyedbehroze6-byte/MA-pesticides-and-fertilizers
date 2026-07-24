@@ -70,7 +70,7 @@ export default function Home() {
 
           <AnimatedSection delay={0.4} className="hero-image-container">
             <img
-              src="/hero-image.png"
+            src="/hero-image.webp"
               alt="M.A. Pesticides Store Srinagar"
               className="hero-image"
               onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1592982537447-6f23f0bf7123?w=800&q=80"; }}
@@ -336,19 +336,19 @@ export default function Home() {
 
         <div className="partners-logos-container" style={{ marginBottom: '1rem' }}>
           <div className="partner-logo-item">
-            <img src="/bayer.png" alt="Bayer Crop Science" />
+            <img src="/bayer.png" alt="Bayer Crop Science" loading="lazy" decoding="async" />
           </div>
           <div className="partner-logo-item">
-            <img src="/syngenta.png" alt="Syngenta" />
+            <img src="/syngenta.png" alt="Syngenta" loading="lazy" decoding="async" />
           </div>
           <div className="partner-logo-item">
-            <img src="/ipl.png" alt="IPL Biologicals" />
+            <img src="/ipl.png" alt="IPL Biologicals" loading="lazy" decoding="async" />
           </div>
           <div className="partner-logo-item">
             <img src="/willowood.avif" alt="Willowood" />
           </div>
           <div className="partner-logo-item">
-            <img src="/fil.png" alt="FIL Industries" />
+            <img src="/fil.png" alt="FIL Industries" loading="lazy" decoding="async" />
           </div>
           <div className="partner-logo-item partner-logo-text">
             <h3 style={{ color: 'var(--primary-color)', fontSize: '1.4rem', fontWeight: '800', margin: 0 }}>& MORE</h3>
