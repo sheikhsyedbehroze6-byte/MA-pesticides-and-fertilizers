@@ -1,21 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Noto+Nastaliq+Urdu:wght@400;700&family=Caveat:wght@400;600;700&display=swap');
 
 :root {
   --primary-color: #163e24; /* Deep Forest Green */
-  --primary-glow: rgba(22, 62, 36, 0.15);
-  --secondary-color: #c4a054; /* Antique Gold */
-  --accent-color: #b03a2e; /* Rust Red */
-  --bg-main: #faf9f6; /* Warm Alabaster */
-  --bg-card: #ffffff; /* Pure white card */
-  --glass-border: #ebeae5; /* Thin warm gray border */
+  --primary-glow: rgba(22, 62, 36, 0.12);
+  --secondary-color: #b8923f; /* Worn Antique Gold */
+  --accent-color: #943228; /* Faded Rust Red */
+  --bg-main: #f7f5f0; /* Old paper warm */
+  --bg-card: #fdfcf8; /* Slightly warm white */
+  --glass-border: #e0ddd6; /* Aged warm gray */
   --text-main: #1c241e; /* Charcoal green */
-  --text-muted: #5e6b61; /* Muted slate green */
-  --border-color: #ebeae5;
+  --text-muted: #6a7868; /* Muted slate */
+  --border-color: #e0ddd6;
   --vibrant-green: #2d6a4f;
-  --vibrant-yellow: #c4a054;
+  --vibrant-yellow: #b8923f;
   --vibrant-blue: #2c3e50;
-  --vibrant-pink: #a94442;
-  --vibrant-orange: #d35400;
+  --vibrant-pink: #943228;
+  --vibrant-orange: #c84e00;
+  --font-hand: 'Caveat', cursive; /* Handwritten accent */
   /* Bottom nav height for spacing */
   --bottom-nav-height: 70px;
   /* Dark mode toggle transition */
@@ -105,6 +106,8 @@ html {
 body {
   font-family: 'Inter', sans-serif;
   background-color: var(--bg-main);
+  /* Subtle paper grain texture */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   color: var(--text-main);
   line-height: 1.6;
   overflow-x: hidden;
@@ -606,17 +609,17 @@ main {
 .workflow-step-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: 16px;
+  border-radius: 10px 16px 12px 14px; /* intentionally uneven */
   padding: 2rem;
   position: relative;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.02);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 2px 3px 0px rgba(22, 62, 36, 0.06);
 }
 
 .workflow-step-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(22, 62, 36, 0.08);
-  border-color: var(--primary-color);
+  transform: translateY(-3px) rotate(-0.3deg);
+  box-shadow: 4px 8px 20px rgba(22, 62, 36, 0.1);
+  border-color: var(--secondary-color);
 }
 
 [data-theme="dark"] .workflow-step-card:hover {
@@ -767,16 +770,16 @@ main {
 .card-glass {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
-  transition: all 0.3s ease;
+  box-shadow: 2px 3px 0 rgba(22, 62, 36, 0.05);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
   position: relative;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 8px 14px 10px 12px; /* slightly organic corners */
 }
 
 .card-glass:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(22, 62, 36, 0.06);
+  transform: translateY(-3px) rotate(0.2deg);
+  box-shadow: 3px 9px 22px rgba(22, 62, 36, 0.09);
   border-color: var(--secondary-color);
 }
 
@@ -987,19 +990,21 @@ main {
   font-size: 2.2rem;
   position: relative;
   display: inline-block;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
 }
 
+/* Wavy hand-drawn underline — more human, less template */
 .section-header h2::after {
   content: '';
   position: absolute;
-  bottom: -8px;
+  bottom: -10px;
   left: 50%;
   transform: translateX(-50%);
-  width: 50px;
-  height: 4px;
-  background-color: var(--secondary-color);
-  border-radius: 2px;
+  width: 70px;
+  height: 6px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='6'%3E%3Cpath d='M0 4 Q8 1 16 4 Q24 7 32 4 Q40 1 48 4 Q56 7 64 4 Q68 2 70 3' stroke='%23b8923f' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 70px 6px;
 }
 
 /* ===================== CONTACT ===================== */
