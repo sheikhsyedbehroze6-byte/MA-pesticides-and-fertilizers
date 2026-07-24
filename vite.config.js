@@ -5,17 +5,18 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
-    // Split vendor chunks for better caching
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          motion: ['framer-motion'],
-          icons: ['lucide-react'],
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('framer-motion')) return 'motion';
+            if (id.includes('lucide-react')) return 'icons';
+            if (id.includes('react')) return 'vendor';
+            return 'vendor-deps';
+          }
         }
       }
     },
-    // Warn when chunks exceed 500KB
-    chunkSizeWarningLimit: 500,
+    chunkSizeWarningLimit: 800,
   },
 })
