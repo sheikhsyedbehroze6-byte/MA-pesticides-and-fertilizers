@@ -696,7 +696,7 @@ main {
 /* ===================== HERO ===================== */
 .hero {
   min-height: 75vh;
-  background: linear-gradient(rgba(26, 93, 26, 0.6), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1586771107445-d3af2c9eb92f?w=1600&q=80') center/cover;
+  background: #08150d;
   display: flex;
   align-items: center;
   color: white;
@@ -770,17 +770,18 @@ main {
 .card-glass {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  box-shadow: 2px 3px 0 rgba(22, 62, 36, 0.05);
+  box-shadow: 1px 2px 0 rgba(22, 62, 36, 0.04);
   transition: transform 0.22s ease, box-shadow 0.22s ease;
   position: relative;
   overflow: hidden;
-  border-radius: 8px 14px 10px 12px; /* slightly organic corners */
+  /* Clean corners — humans don't alternate corner radii on every card */
+  border-radius: 4px;
 }
 
 .card-glass:hover {
-  transform: translateY(-3px) rotate(0.2deg);
-  box-shadow: 3px 9px 22px rgba(22, 62, 36, 0.09);
-  border-color: var(--secondary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(22, 62, 36, 0.08);
+  border-color: rgba(184, 146, 63, 0.4);
 }
 
 /* ===================== PRODUCT & DISEASE GRIDS ===================== */
@@ -993,18 +994,17 @@ main {
   margin-bottom: 1.2rem;
 }
 
-/* Wavy hand-drawn underline — more human, less template */
+/* Only apply wavy underline when section-header is centered */
 .section-header h2::after {
   content: '';
   position: absolute;
   bottom: -10px;
   left: 50%;
   transform: translateX(-50%);
-  width: 70px;
-  height: 6px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='6'%3E%3Cpath d='M0 4 Q8 1 16 4 Q24 7 32 4 Q40 1 48 4 Q56 7 64 4 Q68 2 70 3' stroke='%23b8923f' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-size: 70px 6px;
+  width: 50px;
+  height: 3px;
+  background: var(--secondary-color);
+  opacity: 0.6;
 }
 
 /* ===================== CONTACT ===================== */
