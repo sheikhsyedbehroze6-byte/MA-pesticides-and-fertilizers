@@ -558,36 +558,84 @@ const SPRAY_SCHEDULES = {
   }
 };
 
-// Season badge component
-const SeasonBadge = ({ season }) => {
+// Season badge component (Clickable & Interactive)
+const SeasonBadge = ({ season, isActive, onClick, isClickable = true }) => {
   const s = KASHMIR_SEASONS[season];
   if (!s) return null;
   const colors = {
-    winter: { bg: 'rgba(147,210,255,0.15)', color: '#2980b9' },
-    spring: { bg: 'rgba(120,200,120,0.15)', color: '#27ae60' },
-    summer: { bg: 'rgba(255,200,100,0.15)', color: '#e67e22' },
-    autumn: { bg: 'rgba(230,140,60,0.15)',  color: '#c0392b' },
+    winter: { bg: 'rgba(147,210,255,0.15)', activeBg: '#2980b9', color: '#2980b9' },
+    spring: { bg: 'rgba(120,200,120,0.15)', activeBg: '#27ae60', color: '#27ae60' },
+    summer: { bg: 'rgba(255,200,100,0.15)', activeBg: '#e67e22', color: '#e67e22' },
+    autumn: { bg: 'rgba(230,140,60,0.15)',  activeBg: '#c0392b', color: '#c0392b' },
   };
   const c = colors[season] || colors.spring;
+
+  if (!isClickable) {
+    return (
+      <span style={{
+        fontSize: '0.72rem', fontWeight: '700',
+        background: c.bg, color: c.color,
+        padding: '2px 9px', borderRadius: '20px',
+        display: 'inline-flex', alignItems: 'center', gap: '4px',
+        border: `1px solid ${c.color}33`
+      }}>
+        {s.icon} {s.label}
+      </span>
+    );
+  }
+
   return (
-    <span style={{
-      fontSize: '0.72rem', fontWeight: '700',
-      background: c.bg, color: c.color,
-      padding: '2px 9px', borderRadius: '20px',
-      display: 'inline-flex', alignItems: 'center', gap: '4px',
-      border: `1px solid ${c.color}33`
-    }}>
-      {s.icon} {s.label}
-    </span>
+    <button
+      onClick={onClick}
+      type="button"
+      title={`Click to filter ${s.label} spray stages`}
+      style={{
+        fontSize: '0.82rem',
+        fontWeight: '700',
+        background: isActive ? c.activeBg : c.bg,
+        color: isActive ? '#ffffff' : c.color,
+        padding: '0.45rem 1.1rem',
+        borderRadius: '24px',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '6px',
+        border: isActive ? `2px solid ${c.activeBg}` : `1px solid ${c.color}44`,
+        cursor: 'pointer',
+        boxShadow: isActive ? `0 4px 14px ${c.activeBg}44` : '0 2px 6px rgba(0,0,0,0.03)',
+        transition: 'all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        transform: isActive ? 'scale(1.05)' : 'scale(1)'
+      }}
+    >
+      <span>{s.icon}</span>
+      <span>{s.label}</span>
+    </button>
   );
 };
 
 export default function SprayCalendar() {
   const [selectedCrop, setSelectedCrop] = useState('apple');
   const [langMode, setLangMode] = useState('both'); // 'both', 'en', 'ur'
+  const [selectedSeasonFilter, setSelectedSeasonFilter] = useState('all');
   const [activeStageId, setActiveStageId] = useState(SPRAY_SCHEDULES.apple.stages[0].id);
 
   const cropData = SPRAY_SCHEDULES[selectedCrop];
+
+  // Filter stages based on selected season
+  const visibleStages = selectedSeasonFilter === 'all'
+    ? cropData.stages
+    : cropData.stages.filter(s => s.season === selectedSeasonFilter);
+
+  const handleSeasonClick = (seasonKey) => {
+    if (selectedSeasonFilter === seasonKey) {
+      setSelectedSeasonFilter('all');
+    } else {
+      setSelectedSeasonFilter(seasonKey);
+      const matching = cropData.stages.filter(s => s.season === seasonKey);
+      if (matching.length > 0) {
+        setActiveStageId(matching[0].id);
+      }
+    }
+  };
 
   const getProductDetails = (productName) => {
     return products.find(p => p.name.toLowerCase().includes(productName.toLowerCase()) || productName.toLowerCase().includes(p.name.toLowerCase()));
@@ -617,10 +665,33 @@ export default function SprayCalendar() {
         </p>
         <p>Scientific SKUAST-K extension timelines tailored to <strong>Kashmir's climate</strong> — covering winter dormancy, spring scab season, summer mite pressure, and autumn harvest protection.</p>
 
-        {/* Kashmir Climate Strip */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem', justifyContent: 'center', marginTop: '1rem', marginBottom: '1.2rem' }}>
-          {Object.entries(KASHMIR_SEASONS).map(([key, s]) => (
-            <SeasonBadge key={key} season={key} />
+        {/* Kashmir Climate Strip (Clickable Season Filters) */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', justifyContent: 'center', marginTop: '1.2rem', marginBottom: '1.2rem' }}>
+          {selectedSeasonFilter !== 'all' && (
+            <button
+              onClick={() => setSelectedSeasonFilter('all')}
+              style={{
+                fontSize: '0.8rem',
+                fontWeight: '700',
+                background: 'var(--primary-color)',
+                color: '#ffffff',
+                padding: '0.45rem 1rem',
+                borderRadius: '24px',
+                border: 'none',
+                cursor: 'pointer',
+                boxShadow: '0 4px 12px rgba(22, 62, 36, 0.2)'
+              }}
+            >
+              🌿 Show All Seasons
+            </button>
+          )}
+          {Object.entries(KASHMIR_SEASONS).map(([key]) => (
+            <SeasonBadge
+              key={key}
+              season={key}
+              isActive={selectedSeasonFilter === key}
+              onClick={() => handleSeasonClick(key)}
+            />
           ))}
         </div>
 
@@ -742,7 +813,7 @@ export default function SprayCalendar() {
             <Calendar size={18} /> Schedule Stages / مراحل
           </h3>
 
-          {cropData.stages.map((stage, idx) => {
+          {visibleStages.map((stage, idx) => {
             const isActive = activeStageId === stage.id;
             return (
               <div
@@ -763,7 +834,7 @@ export default function SprayCalendar() {
                     Stage {idx + 1} &bull; {stage.timing}
                   </span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <SeasonBadge season={stage.season} />
+                    <SeasonBadge season={stage.season} isClickable={false} />
                     {isActive && <ChevronRight size={16} color="var(--primary-color)" />}
                   </div>
                 </div>

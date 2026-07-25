@@ -571,6 +571,18 @@ export const products = [
     composition: "Copper Carbonate + Red Lead + Specialized Dressing Oil",
     image: "https://tivishaenterprises.in/wp-content/uploads/2024/03/Screenshot-2024-03-12-at-1.49.01-PM-300x300.png.webp",
   },
+
+  {
+    id: 53,
+    name: "Syngenta Alika (Insecticide)",
+    type: "Insecticide",
+    uses: "Thiamethoxam 12.6% + Lambda-cyhalothrin 9.5% ZC. Advanced dual-action systemic and contact insecticide for sucking & chewing pests.",
+    dosage: "0.5 ml per Litre of water (100 ml per 200 Litres).",
+    diseases: ["Codling Moth", "Aphids", "Jassids", "Thrips", "Fruit Borer", "Caterpillars"],
+    benefits: "20% discount on print price. Instant knockdown plus long-lasting systemic protection against codling moth and sucking pests.",
+    composition: "Thiamethoxam 12.6% + Lambda-cyhalothrin 9.5% ZC",
+    image: "/alika.png",
+  },
 ];
 
 

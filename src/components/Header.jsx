@@ -1,62 +1,77 @@
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Sprout, Moon, Sun, Phone, MapPin, MessageCircle, Clock } from 'lucide-react';
+import { Sprout, Moon, Sun, Phone, MapPin, Sparkles, ShieldCheck, FlaskConical } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+
+const ANNOUNCEMENTS = [
+  {
+    icon: <Phone size={13} color="#b8923f" />,
+    text: "+91 99065 41321",
+    detail: "Hari Singh High Street, Srinagar • Mon–Sat: 9 AM–7 PM",
+    tag: "HELPLINE"
+  },
+  {
+    icon: <Sparkles size={13} color="#25d366" />,
+    text: "Codling Moth (2nd Gen) Spray Window Active",
+    detail: "100% SKUAST-K Stage Schedule Compliant",
+    tag: "LIVE ADVISORY"
+  },
+  {
+    icon: <FlaskConical size={13} color="#b8923f" />,
+    text: "Free On-the-Spot Chemical Leaf & Soil Sample Testing",
+    detail: "Guided by Sheikh Mohammad Ayoub (M.Sc. Chemistry)",
+    tag: "EXPERT CHEMIST"
+  },
+  {
+    icon: <ShieldCheck size={13} color="#25d366" />,
+    text: "Authorized Stockist for Bayer, Syngenta, FIL & Willowood",
+    detail: "Up to 20% Discount Below MRP • 100% Authentic",
+    tag: "AUTHENTIC STOCK"
+  }
+];
 
 export default function Header() {
   const { theme, toggleTheme } = useTheme();
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % ANNOUNCEMENTS.length);
+    }, 3800);
+    return () => clearInterval(interval);
+  }, []);
+
+  const activeMsg = ANNOUNCEMENTS[index];
 
   return (
     <div style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
-      {/* Top Contact Bar */}
+      {/* Animated Top Contact & Advisory Bar */}
       <div className="top-contact-bar">
-        <div className="top-bar-items">
-          <div className="top-bar-item">
-            <Phone size={13} />
-            <a href="tel:+919906541321">+91 99065 41321</a>
-          </div>
-          <div className="top-bar-item top-bar-hide-mobile">
-            <MapPin size={13} />
-            <span>Hari Singh High Street, Srinagar</span>
-          </div>
-          <div className="top-bar-item top-bar-hide-mobile">
-            <Clock size={13} />
-            <span>Mon–Sat: 9 AM–7 PM</span>
-          </div>
-        </div>
-        <div>
-          <a
-            href="https://wa.me/919906541321"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="top-bar-cta"
-          >
-            <MessageCircle size={13} />
-            <span className="top-bar-hide-mobile">Direct WhatsApp Inquiry</span>
-            <span className="mobile-only-text">WhatsApp</span>
-          </a>
-        </div>
-      </div>
+        <div key={index} className="top-bar-animated-item">
+          <span style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '4px',
+            background: 'rgba(184, 146, 63, 0.18)',
+            color: '#b8923f',
+            fontSize: '0.65rem',
+            fontWeight: '800',
+            padding: '0.15rem 0.5rem',
+            borderRadius: '10px',
+            letterSpacing: '0.5px',
+            border: '1px solid rgba(184, 146, 63, 0.3)'
+          }}>
+            {activeMsg.tag}
+          </span>
 
-      {/* Seasonal Notice Ticker Bar */}
-      <div className="notice-ticker-bar">
-        <span className="notice-badge">JULY NOTICE</span>
-        <div className="notice-marquee-track">
-          <div className="notice-marquee-content">
-            <span className="notice-text">
-              Summer peak — Codling Moth 2nd generation active in apple orchards. Syngenta Alika &amp; Bayer Calypso in stock.&nbsp;
-              <a href="https://wa.me/919906541321" target="_blank" rel="noopener noreferrer" className="notice-link">
-                WhatsApp for dosage guide →
-              </a>
-            </span>
-            <span className="notice-text-divider">&bull;</span>
-            <span className="notice-text">
-              Summer peak — Codling Moth 2nd generation active in apple orchards. Syngenta Alika &amp; Bayer Calypso in stock.&nbsp;
-              <a href="https://wa.me/919906541321" target="_blank" rel="noopener noreferrer" className="notice-link">
-                WhatsApp for dosage guide →
-              </a>
-            </span>
-            <span className="notice-text-divider">&bull;</span>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontWeight: '700', color: '#ffffff', fontSize: '0.78rem' }}>
+            {activeMsg.icon}
+            <span>{activeMsg.text}</span>
           </div>
+
+          <span className="top-bar-hide-mobile" style={{ color: '#8fae98', fontSize: '0.74rem' }}>
+            • {activeMsg.detail}
+          </span>
         </div>
       </div>
 
