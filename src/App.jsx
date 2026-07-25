@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import BottomNav from './components/BottomNav';
 import BackToTop from './components/BackToTop';
 import Home from './pages/Home';
 import Products from './pages/Products';
@@ -54,7 +53,6 @@ function App() {
           </main>
 
           <Footer />
-          <BottomNav />
 
           {/* Global Floating WhatsApp Support Widget */}
           <a 

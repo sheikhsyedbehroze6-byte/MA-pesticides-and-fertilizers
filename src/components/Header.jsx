@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Sprout, Moon, Sun, Phone, MapPin, Sparkles, ShieldCheck, FlaskConical } from 'lucide-react';
+import { Sprout, Moon, Sun, Phone, MapPin, Sparkles, ShieldCheck, FlaskConical, Menu, X } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 const ANNOUNCEMENTS = [
@@ -33,6 +33,7 @@ const ANNOUNCEMENTS = [
 export default function Header() {
   const { theme, toggleTheme } = useTheme();
   const [index, setIndex] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -77,7 +78,7 @@ export default function Header() {
 
       {/* Main Header Header Bar */}
       <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <NavLink to="/" style={{ textDecoration: 'none', color: 'inherit' }} className="logo-container">
+        <NavLink to="/" style={{ textDecoration: 'none', color: 'inherit' }} className="logo-container" onClick={() => setIsMobileMenuOpen(false)}>
           <Sprout color="var(--secondary-color)" size={28} />
           <div>
             <h1 style={{ lineHeight: '1.1', fontSize: '1.2rem', margin: 0 }}>MA Pesticides</h1>
@@ -100,29 +101,69 @@ export default function Header() {
           </ul>
         </nav>
 
-        {/* Theme Switcher Toggle Button (Visible on both Mobile & Desktop) */}
-        <button
-          className="theme-toggle"
-          onClick={toggleTheme}
-          title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
-          aria-label="Toggle dark mode"
-          style={{
-            background: 'rgba(22, 62, 36, 0.08)',
-            border: '1px solid var(--border-color)',
-            borderRadius: '50%',
-            width: '38px',
-            height: '38px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'var(--primary-color)',
-            cursor: 'pointer',
-            flexShrink: 0
-          }}
-        >
-          {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-        </button>
+        {/* Header Actions (Theme switcher and Hamburger) */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {/* Theme Switcher Toggle Button */}
+          <button
+            className="theme-toggle"
+            onClick={toggleTheme}
+            title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+            aria-label="Toggle dark mode"
+            style={{
+              background: 'rgba(22, 62, 36, 0.08)',
+              border: '1px solid var(--border-color)',
+              borderRadius: '50%',
+              width: '38px',
+              height: '38px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'var(--primary-color)',
+              cursor: 'pointer',
+              flexShrink: 0
+            }}
+          >
+            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+          </button>
+
+          {/* Hamburger Mobile Menu Toggle Button */}
+          <button
+            className="hamburger-toggle"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle Navigation Menu"
+            style={{
+              background: 'rgba(22, 62, 36, 0.08)',
+              border: '1px solid var(--border-color)',
+              borderRadius: '8px',
+              width: '38px',
+              height: '38px',
+              display: 'none',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'var(--primary-color)',
+              cursor: 'pointer',
+              flexShrink: 0
+            }}
+          >
+            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </header>
+
+      {/* Mobile Navigation Drawer Panel */}
+      {isMobileMenuOpen && (
+        <nav className="mobile-nav">
+          <ul className="mobile-nav-links">
+            <li><NavLink to="/" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Home</NavLink></li>
+            <li><NavLink to="/about" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>About Us</NavLink></li>
+            <li><NavLink to="/products" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Products</NavLink></li>
+            <li><NavLink to="/disease-guide" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Disease Guide</NavLink></li>
+            <li><NavLink to="/spray-calendar" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Spray Calendar</NavLink></li>
+            <li><NavLink to="/search" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Search</NavLink></li>
+            <li><NavLink to="/contact" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Contact</NavLink></li>
+          </ul>
+        </nav>
+      )}
     </div>
   );
 }
