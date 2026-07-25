@@ -362,6 +362,118 @@ a {
   }
 }
 
+/* ===================== OUR SERVICES SECTION OVERHAUL ===================== */
+.services-section {
+  background: var(--bg-main);
+  padding: 4.5rem 0 3rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.8rem;
+  align-items: stretch;
+}
+
+.services-secondary-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.service-card-featured {
+  background: linear-gradient(145deg, #0a2414 0%, #163e24 60%, #0c2b18 100%);
+  color: #ffffff;
+  border-radius: 16px;
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(8, 26, 15, 0.25);
+  border: 1px solid rgba(184, 146, 63, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+.service-card-featured::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(184, 146, 63, 0.15) 0%, rgba(0,0,0,0) 70%);
+  pointer-events: none;
+}
+
+.service-card-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 1.6rem;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+.service-card-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  border-color: rgba(184, 146, 63, 0.4);
+}
+
+.pricing-note-strip {
+  padding: 1.4rem 1.8rem;
+  background: rgba(184, 146, 63, 0.08);
+  border: 1px solid rgba(184, 146, 63, 0.25);
+  border-left: 4px solid var(--secondary-color);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.find-us-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .services-section {
+    padding: 3rem 0 2rem !important;
+  }
+  .services-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+  .service-card-featured {
+    padding: 1.6rem !important;
+    border-radius: 14px !important;
+  }
+  .service-card-item {
+    padding: 1.35rem !important;
+    border-radius: 12px !important;
+  }
+  .pricing-note-strip {
+    padding: 1.2rem 1.25rem !important;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem !important;
+  }
+  .find-us-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+}
+
 /* ===================== HEADER ===================== */
 header {
   position: sticky;

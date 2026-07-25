@@ -813,15 +813,15 @@ export default function Home() {
       </section>
 
 
-      {/* ─── SERVICES: editorial mixed layout ─── */}
-      <div style={{ background: 'var(--bg-main)', padding: '4rem 0 2rem' }}>
+      {/* ─── SERVICES: REDESIGNED EDITORIAL MIXED LAYOUT ─── */}
+      <section className="services-section">
         <div className="container" style={{ paddingTop: 0, paddingBottom: 0 }}>
 
-          {/* Section label — left aligned, no centered wavy underline */}
+          {/* Section Header */}
           <div style={{ marginBottom: '2.5rem' }}>
             <span style={{
               fontFamily: 'var(--font-hand)',
-              fontSize: '1rem',
+              fontSize: '1.05rem',
               color: 'var(--secondary-color)',
               display: 'block',
               marginBottom: '0.2rem'
@@ -835,108 +835,145 @@ export default function Home() {
             }}>Our Services</h2>
           </div>
 
-          {/* Big spray calendar card + two stacked right */}
-          <div style={{ display: 'grid', gridTemplateColumns: '3fr 2fr', gap: '1rem', marginBottom: '1rem' }}>
+          {/* Services Grid (Responsive Stack on Mobile) */}
+          <div className="services-grid">
 
-            {/* Featured wide card */}
-            <AnimatedSection delay={0.1} style={{
-              background: 'var(--primary-color)',
-              padding: '2.5rem',
-              position: 'relative',
-              overflow: 'hidden'
-            }}>
-              <div style={{
-                position: 'absolute', right: '1.5rem', top: '1.5rem',
-                fontFamily: 'var(--font-hand)', fontSize: '5rem', opacity: 0.06, color: 'white', lineHeight: '1'
-              }}>🗓</div>
-              <span style={{ fontFamily: 'var(--font-hand)', fontSize: '0.88rem', color: '#b8923f', display: 'block', marginBottom: '0.5rem' }}>
-                most used →
-              </span>
-              <h3 style={{ color: 'white', fontSize: 'clamp(1.3rem, 2vw, 1.7rem)', marginBottom: '0.8rem', lineHeight: '1.25' }}>
-                Stage-wise Spray Calendar
-              </h3>
-              <p style={{ color: '#b0cdb8', fontSize: '0.92rem', lineHeight: '1.7', marginBottom: '2rem', maxWidth: '380px' }}>
-                Not generic advice. Real spray timings for <strong style={{ color: '#d0e4d8' }}>Apple, Pear, Cherry, Walnut, Almond and Saffron</strong> — matched to Kashmir's actual seasons and phenological stages.
-              </p>
-              <Link to="/spray-calendar" style={{
-                background: '#b8923f', color: '#0a1c10',
-                padding: '0.65rem 1.4rem',
-                fontWeight: '700', fontSize: '0.88rem', textDecoration: 'none',
-                display: 'inline-flex', alignItems: 'center', gap: '6px'
-              }}>
-                Open Calendar <ArrowRight size={14} />
-              </Link>
+            {/* Featured Hero Service Card: Stage-wise Spray Calendar */}
+            <AnimatedSection delay={0.1} className="service-card-featured">
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.2rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                  <span style={{
+                    fontFamily: 'var(--font-hand)',
+                    fontSize: '0.95rem',
+                    color: '#b8923f'
+                  }}>
+                    most used service →
+                  </span>
+                  <span style={{
+                    background: 'rgba(184, 146, 63, 0.2)',
+                    border: '1px solid rgba(184, 146, 63, 0.4)',
+                    color: '#b8923f',
+                    fontSize: '0.68rem',
+                    fontWeight: '800',
+                    padding: '0.25rem 0.65rem',
+                    borderRadius: '12px',
+                    letterSpacing: '0.8px',
+                    textTransform: 'uppercase'
+                  }}>
+                    SKUAST-K COMPLIANT
+                  </span>
+                </div>
+
+                <h3 style={{ color: '#ffffff', fontSize: 'clamp(1.4rem, 2.2vw, 1.85rem)', marginBottom: '0.85rem', lineHeight: '1.25' }}>
+                  Stage-wise Spray Calendar
+                </h3>
+
+                <p style={{ color: '#b0cdb8', fontSize: '0.92rem', lineHeight: '1.7', marginBottom: '1.5rem', maxWidth: '420px' }}>
+                  Not generic advice. Real spray timings for <strong style={{ color: '#ffffff' }}>Apple, Pear, Cherry, Walnut, Almond & Saffron</strong> — calibrated to Kashmir's real-time weather & phenological stages.
+                </p>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '2rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.82rem', color: '#d0e4d8' }}>
+                    <CheckCircle2 size={15} color="#25d366" style={{ flexShrink: 0 }} />
+                    <span>Apple Scab, Codling Moth & Red Spider Mite spray windows</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.82rem', color: '#d0e4d8' }}>
+                    <CheckCircle2 size={15} color="#25d366" style={{ flexShrink: 0 }} />
+                    <span>Calculated dosage per 200 Litre orchard spray tank</span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <Link to="/spray-calendar" style={{
+                  background: '#b8923f',
+                  color: '#08150d',
+                  padding: '0.75rem 1.5rem',
+                  borderRadius: '8px',
+                  fontWeight: '800',
+                  fontSize: '0.9rem',
+                  textDecoration: 'none',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  boxShadow: '0 6px 16px rgba(184, 146, 63, 0.25)',
+                  width: 'fit-content'
+                }}>
+                  Open Stage Spray Calendar <ArrowRight size={15} />
+                </Link>
+              </div>
             </AnimatedSection>
 
-            {/* Two stacked smaller cards */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <AnimatedSection delay={0.2} style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border-color)',
-                padding: '1.5rem',
-                flex: 1
-              }}>
-                <ShieldCheck size={22} color="var(--primary-color)" style={{ marginBottom: '0.75rem' }} />
-                <h3 style={{ fontSize: '1rem', marginBottom: '0.4rem', color: 'var(--primary-color)' }}>
-                  Genuine Stock Only
-                </h3>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: '1.6', margin: 0 }}>
-                  Authorized dealer of Bayer, Syngenta, IPL, Willowood and FIL — sourced direct, no substitutes.
-                </p>
-                <Link to="/products" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: '1rem', color: 'var(--primary-color)', fontWeight: '600', fontSize: '0.82rem', textDecoration: 'none' }}>
-                  Browse Products <ArrowRight size={12} />
+            {/* Secondary Services Column */}
+            <div className="services-secondary-col">
+
+              {/* Card 1: Genuine Stock Only */}
+              <AnimatedSection delay={0.2} className="service-card-item">
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.8rem' }}>
+                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(22, 62, 36, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <ShieldCheck size={22} color="var(--primary-color)" />
+                    </div>
+                    <span style={{ fontSize: '0.65rem', fontWeight: '800', color: 'var(--primary-color)', background: 'rgba(22, 62, 36, 0.08)', padding: '0.2rem 0.55rem', borderRadius: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                      DIRECT DISTRIBUTOR
+                    </span>
+                  </div>
+                  <h3 style={{ fontSize: '1.1rem', marginBottom: '0.45rem', color: 'var(--primary-color)', fontWeight: '700' }}>
+                    Genuine Stock Only
+                  </h3>
+                  <p style={{ fontSize: '0.86rem', color: 'var(--text-muted)', lineHeight: '1.6', margin: 0 }}>
+                    Authorized dealer of Bayer, Syngenta, IPL, Willowood and FIL — sourced direct from factories with zero counterfeit risk.
+                  </p>
+                </div>
+                <Link to="/products" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginTop: '1.2rem', color: 'var(--primary-color)', fontWeight: '700', fontSize: '0.85rem', textDecoration: 'none' }}>
+                  Browse Authentic Stock <ArrowRight size={13} />
                 </Link>
               </AnimatedSection>
 
-              <AnimatedSection delay={0.3} style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border-color)',
-                borderLeft: '3px solid var(--accent-color)',
-                padding: '1.5rem',
-                flex: 1
-              }}>
-                <FlaskConical size={22} color="var(--accent-color)" style={{ marginBottom: '0.75rem' }} />
-                <h3 style={{ fontSize: '1rem', marginBottom: '0.4rem', color: 'var(--primary-color)' }}>
-                  Free Leaf Diagnosis
-                </h3>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: '1.6', margin: 0 }}>
-                  Bring infected leaves or soil samples. Sheikh Mohammad Ayoub identifies the problem on the spot — no charge.
-                </p>
-                <Link to="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: '1rem', color: 'var(--accent-color)', fontWeight: '600', fontSize: '0.82rem', textDecoration: 'none' }}>
-                  Find the Store <ArrowRight size={12} />
+              {/* Card 2: Free In-Store Leaf & Soil Diagnosis */}
+              <AnimatedSection delay={0.3} className="service-card-item" style={{ borderLeft: '4px solid var(--accent-color)' }}>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.8rem' }}>
+                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(148, 50, 40, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <FlaskConical size={22} color="var(--accent-color)" />
+                    </div>
+                    <span style={{ fontSize: '0.65rem', fontWeight: '800', color: 'var(--accent-color)', background: 'rgba(148, 50, 40, 0.08)', padding: '0.2rem 0.55rem', borderRadius: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                      EXPERT CONSULTATION
+                    </span>
+                  </div>
+                  <h3 style={{ fontSize: '1.1rem', marginBottom: '0.45rem', color: 'var(--primary-color)', fontWeight: '700' }}>
+                    Free Leaf & Soil Diagnosis
+                  </h3>
+                  <p style={{ fontSize: '0.86rem', color: 'var(--text-muted)', lineHeight: '1.6', margin: 0 }}>
+                    Bring infected leaves or soil samples. Sheikh Mohammad Ayoub (M.Sc., Ex-Senior Lecturer) identifies issues on the spot — zero charge.
+                  </p>
+                </div>
+                <Link to="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginTop: '1.2rem', color: 'var(--accent-color)', fontWeight: '700', fontSize: '0.85rem', textDecoration: 'none' }}>
+                  Visit Srinagar Store <ArrowRight size={13} />
                 </Link>
               </AnimatedSection>
+
             </div>
           </div>
 
-          {/* Pricing strip — not a banner, just a note */}
-          <AnimatedSection delay={0.35} style={{
-            padding: '1.2rem 1.5rem',
-            background: 'rgba(184, 146, 63, 0.07)',
-            borderLeft: '3px solid var(--secondary-color)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: '0.8rem',
-            marginBottom: '4rem'
-          }}>
-            <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-              <span style={{ fontFamily: 'var(--font-hand)', fontSize: '1rem', color: 'var(--secondary-color)', marginRight: '6px' }}>fair pricing —</span>
-              Up to 20% below MRP for orchardists. Same price on 1 bag or 100. No haggling, no surprises.
+          {/* Pricing strip — note note */}
+          <AnimatedSection delay={0.35} className="pricing-note-strip" style={{ marginBottom: '3.5rem' }}>
+            <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+              <span style={{ fontFamily: 'var(--font-hand)', fontSize: '1.05rem', color: 'var(--secondary-color)', marginRight: '6px', fontWeight: '700' }}>fair pricing —</span>
+              Up to 20% below MRP for Kashmir orchardists. Same transparent price on 1 bag or 100 bags. No hidden markups.
             </p>
-            <Link to="/search" style={{ color: 'var(--primary-color)', fontWeight: '700', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px', whiteSpace: 'nowrap' }}>
-              Search Products <ArrowRight size={13} />
+            <Link to="/search" style={{ color: 'var(--primary-color)', fontWeight: '800', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '5px', whiteSpace: 'nowrap' }}>
+              Search Product Prices <ArrowRight size={13} />
             </Link>
           </AnimatedSection>
 
         </div>
-      </div>
+      </section>
 
-      {/* ─── FIND US ─── */}
+      {/* ─── FIND US: RESPONSIVE GRID ─── */}
       <div style={{ background: 'var(--bg-card)', borderTop: '1px solid var(--border-color)', padding: '3.5rem 0' }}>
         <div className="container" style={{ paddingTop: 0, paddingBottom: 0 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center' }}>
+          <div className="find-us-grid">
 
             <div>
               <span style={{ fontFamily: 'var(--font-hand)', fontSize: '1rem', color: 'var(--secondary-color)', display: 'block', marginBottom: '0.3rem' }}>
@@ -954,14 +991,16 @@ export default function Home() {
                 <a href="tel:+919906541321" style={{
                   background: 'var(--primary-color)', color: 'white',
                   padding: '0.7rem 1.3rem', fontWeight: '700', fontSize: '0.88rem',
-                  textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '7px'
+                  textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '7px',
+                  borderRadius: '6px'
                 }}>
                   <Phone size={15} /> +91 99065 41321
                 </a>
                 <a href="https://wa.me/919906541321" target="_blank" rel="noopener noreferrer" style={{
-                  background: '#25d366', color: 'white',
-                  padding: '0.7rem 1.3rem', fontWeight: '700', fontSize: '0.88rem',
-                  textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '7px'
+                  background: '#25d366', color: '#08150d',
+                  padding: '0.7rem 1.3rem', fontWeight: '800', fontSize: '0.88rem',
+                  textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '7px',
+                  borderRadius: '6px'
                 }}>
                   <MessageCircle size={15} /> WhatsApp
                 </a>
