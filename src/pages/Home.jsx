@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
 import { ArrowRight, ShieldCheck, TreeDeciduous, FlaskConical, Phone, MessageCircle, Calendar, Clock, Bell, CheckCircle2, Sparkles } from 'lucide-react';
