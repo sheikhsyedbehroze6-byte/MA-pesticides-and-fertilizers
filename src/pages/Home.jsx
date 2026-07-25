@@ -244,6 +244,7 @@ export default function Home() {
 
   // Auto-rotating 3D Hero Cards Carousel (0: Product Browser, 1: Chemist Desk, 2: Farmers Advisory)
   const [activeHeroCard, setActiveHeroCard] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -251,6 +252,24 @@ export default function Home() {
     }, 4500);
     return () => clearInterval(timer);
   }, []);
+
+  const handleTouchStart = (e) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e) => {
+    if (touchStartX === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX - touchEndX;
+    if (diff > 35) {
+      // Swiped left -> next card
+      setActiveHeroCard((prev) => (prev + 1) % 3);
+    } else if (diff < -35) {
+      // Swiped right -> prev card
+      setActiveHeroCard((prev) => (prev - 1 + 3) % 3);
+    }
+    setTouchStartX(null);
+  };
 
   const getCardStyle = (cardIndex) => {
     const relPos = (cardIndex - activeHeroCard + 3) % 3;
@@ -269,20 +288,20 @@ export default function Home() {
       // RIGHT BACK
       return {
         zIndex: 3,
-        transform: 'translateX(-15%) rotate(7deg) scale(0.88) translateY(-15px)',
-        opacity: 0.82,
+        transform: 'translateX(var(--hero-card-right-x, -18%)) rotate(var(--hero-card-right-rot, 6deg)) scale(var(--hero-card-back-scale, 0.88)) translateY(-12px)',
+        opacity: 0.75,
         boxShadow: '0 15px 30px rgba(0, 0, 0, 0.35)',
-        filter: 'brightness(0.85)',
+        filter: 'brightness(0.82)',
         cursor: 'pointer'
       };
     } else {
       // LEFT BACK
       return {
         zIndex: 2,
-        transform: 'translateX(-85%) rotate(-7deg) scale(0.88) translateY(-15px)',
-        opacity: 0.82,
+        transform: 'translateX(var(--hero-card-left-x, -82%)) rotate(var(--hero-card-left-rot, -6deg)) scale(var(--hero-card-back-scale, 0.88)) translateY(-12px)',
+        opacity: 0.75,
         boxShadow: '0 15px 30px rgba(0, 0, 0, 0.35)',
-        filter: 'brightness(0.85)',
+        filter: 'brightness(0.82)',
         cursor: 'pointer'
       };
     }
@@ -441,9 +460,13 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column — 3D Stacked Layered Cards (Auto-Rotating Carousel) */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <div className="hero-cards-stack">
+            {/* Right Column — 3D Stacked Layered Cards (Auto-Rotating Carousel & Mobile Touch Swipe) */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', overflow: 'hidden' }}>
+              <div
+                className="hero-cards-stack"
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+              >
 
                 {/* Card 0: Product Browser Window Mockup Card */}
                 <div
@@ -464,7 +487,7 @@ export default function Home() {
                   </div>
 
                   {/* Catalogue Banner */}
-                  <div style={{ position: 'relative', height: '115px', overflow: 'hidden', flexShrink: 0 }}>
+                  <div style={{ position: 'relative', height: '110px', overflow: 'hidden', flexShrink: 0 }}>
                     <img
                       src="/kashmir-orchard-banner.png"
                       alt="Authentic Crop Catalogue Banner"
@@ -481,7 +504,7 @@ export default function Home() {
                   {/* Product Grid (2 Cards) */}
                   <div style={{ padding: '0.65rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', background: '#f8f9fa', flex: 1 }}>
                     <div style={{ background: '#ffffff', borderRadius: '8px', padding: '0.5rem', border: '1px solid #eef0f2', boxShadow: '0 2px 6px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                      <div style={{ background: '#f5f7f6', borderRadius: '6px', padding: '0.25rem', marginBottom: '0.3rem', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <div style={{ background: '#f5f7f6', borderRadius: '6px', padding: '0.25rem', marginBottom: '0.3rem', height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <img src="/alika.png" alt="Syngenta Alika" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
                       </div>
                       <div style={{ fontSize: '0.72rem', fontWeight: '700', color: '#163e24', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Syngenta Alika</div>
@@ -489,7 +512,7 @@ export default function Home() {
                     </div>
 
                     <div style={{ background: '#ffffff', borderRadius: '8px', padding: '0.5rem', border: '1px solid #eef0f2', boxShadow: '0 2px 6px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                      <div style={{ background: '#f5f7f6', borderRadius: '6px', padding: '0.25rem', marginBottom: '0.3rem', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <div style={{ background: '#f5f7f6', borderRadius: '6px', padding: '0.25rem', marginBottom: '0.3rem', height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <img src="/antracol.jpg" alt="Bayer Antracol" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
                       </div>
                       <div style={{ fontSize: '0.72rem', fontWeight: '700', color: '#163e24', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Bayer Antracol</div>
@@ -571,7 +594,7 @@ export default function Home() {
               </div>
 
               {/* Interactive Rotation Indicator Dots */}
-              <div style={{ display: 'flex', gap: '8px', marginTop: '1rem', zIndex: 10 }}>
+              <div style={{ display: 'flex', gap: '8px', marginTop: '1.2rem', zIndex: 10 }}>
                 {[
                   { id: 0, label: 'Catalogue' },
                   { id: 1, label: 'Chemist' },
@@ -581,15 +604,16 @@ export default function Home() {
                     key={dot.id}
                     onClick={() => setActiveHeroCard(dot.id)}
                     style={{
-                      background: activeHeroCard === dot.id ? '#b8923f' : 'rgba(255,255,255,0.2)',
-                      color: activeHeroCard === dot.id ? '#08150d' : '#a0c0ab',
-                      border: 'none',
-                      padding: '0.2rem 0.6rem',
-                      borderRadius: '12px',
-                      fontSize: '0.65rem',
+                      background: activeHeroCard === dot.id ? '#b8923f' : 'rgba(255,255,255,0.12)',
+                      color: activeHeroCard === dot.id ? '#08150d' : '#d0e4d8',
+                      border: activeHeroCard === dot.id ? '1px solid #b8923f' : '1px solid rgba(255,255,255,0.15)',
+                      padding: '0.35rem 0.85rem',
+                      borderRadius: '20px',
+                      fontSize: '0.72rem',
                       fontWeight: '800',
                       cursor: 'pointer',
-                      transition: 'all 0.3s ease'
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                      boxShadow: activeHeroCard === dot.id ? '0 4px 12px rgba(184, 146, 63, 0.35)' : 'none'
                     }}
                   >
                     {dot.label}

@@ -248,13 +248,19 @@ a {
 .hero-cards-stack {
   position: relative;
   width: 100%;
-  max-width: 500px;
-  height: 420px;
+  max-width: 480px;
+  height: 380px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
   perspective: 1000px;
+  touch-action: pan-y;
+  --hero-card-right-x: -18%;
+  --hero-card-left-x: -82%;
+  --hero-card-right-rot: 6deg;
+  --hero-card-left-rot: -6deg;
+  --hero-card-back-scale: 0.88;
 }
 
 /* Card Base Classes with Uniform Equal Height (340px) & 3D Carousel Transitions */
@@ -264,6 +270,7 @@ a {
   position: absolute;
   top: 10px;
   left: 50%;
+  width: 340px;
   height: 340px;
   display: flex;
   flex-direction: column;
@@ -275,21 +282,18 @@ a {
 }
 
 .hero-card-social {
-  width: 270px;
   background: #ffffff;
   color: #1c241e;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .hero-card-group {
-  width: 270px;
   background: #ffffff;
   color: #1c241e;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .hero-card-browser {
-  width: 360px;
   background: #ffffff;
   color: #1c241e;
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -304,26 +308,43 @@ a {
 @media (max-width: 900px) {
   .hero-redesign-grid {
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 2rem;
   }
   .hero-stats-strip {
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 1.5rem !important;
+    gap: 1.25rem !important;
   }
   .hero-cards-stack {
-    height: 370px;
+    height: 350px;
     max-width: 100%;
+    --hero-card-right-x: -25%;
+    --hero-card-left-x: -75%;
+    --hero-card-right-rot: 4deg;
+    --hero-card-left-rot: -4deg;
+    --hero-card-back-scale: 0.86;
   }
-  .hero-card-social {
-    width: 200px;
-    left: -5px;
-  }
-  .hero-card-group {
-    width: 205px;
-    right: -5px;
-  }
+  .hero-card-social,
+  .hero-card-group,
   .hero-card-browser {
-    width: 310px;
+    width: min(310px, 86vw);
+    height: 325px;
+  }
+}
+
+@media (max-width: 500px) {
+  .hero-cards-stack {
+    height: 330px;
+    --hero-card-right-x: -32%;
+    --hero-card-left-x: -68%;
+    --hero-card-right-rot: 3deg;
+    --hero-card-left-rot: -3deg;
+    --hero-card-back-scale: 0.84;
+  }
+  .hero-card-social,
+  .hero-card-group,
+  .hero-card-browser {
+    width: min(290px, 88vw);
+    height: 310px;
   }
 }
 
