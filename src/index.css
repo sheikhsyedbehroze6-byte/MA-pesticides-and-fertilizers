@@ -244,7 +244,7 @@ a {
   align-items: center;
 }
 
-/* 3D Layered Cards Stack Composition */
+/* 3D Layered Cards Stack Composition (Rotating Carousel) */
 .hero-cards-stack {
   position: relative;
   width: 100%;
@@ -254,72 +254,47 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  perspective: 1000px;
 }
 
-/* Card 1: Left Back (Instagram/Social Style) */
-.hero-card-social {
+/* Card Base Classes with Smooth 3D Carousel Transitions */
+.hero-card-social,
+.hero-card-group,
+.hero-card-browser {
   position: absolute;
-  left: 0;
-  top: 15px;
-  width: 250px;
-  background: #ffffff;
-  color: #1c241e;
+  top: 10px;
+  left: 50%;
   border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
-  transform: rotate(-6deg);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  z-index: 1;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), z-index 0.7s ease, opacity 0.5s ease, box-shadow 0.5s ease, filter 0.5s ease;
+  will-change: transform, opacity, z-index;
 }
 
-.hero-card-social:hover {
-  transform: rotate(-3deg) translateY(-8px);
-  z-index: 4;
-}
-
-/* Card 2: Right Back (Customer Advisory Group Style) */
-.hero-card-group {
-  position: absolute;
-  right: 0;
-  top: 0;
+.hero-card-social {
   width: 260px;
   background: #ffffff;
   color: #1c241e;
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
-  transform: rotate(6deg) translateY(-5px);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  z-index: 2;
-  overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.hero-card-group:hover {
-  transform: rotate(3deg) translateY(-10px);
-  z-index: 4;
-}
-
-/* Card 3: Center Front (Browser Window Mockup Style) */
-.hero-card-browser {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%) rotate(0deg);
-  width: 370px;
+.hero-card-group {
+  width: 265px;
   background: #ffffff;
   color: #1c241e;
-  border-radius: 16px;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  z-index: 3;
-  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hero-card-browser {
+  width: 360px;
+  background: #ffffff;
+  color: #1c241e;
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
+.hero-card-social:hover,
+.hero-card-group:hover,
 .hero-card-browser:hover {
-  transform: translateX(-50%) translateY(-8px);
-  z-index: 5;
+  filter: brightness(1.05) !important;
 }
 
 @media (max-width: 900px) {

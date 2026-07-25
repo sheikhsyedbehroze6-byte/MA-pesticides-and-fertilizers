@@ -242,6 +242,52 @@ export default function Home() {
   const currentRealMonth = new Date().getMonth(); // 0 to 11
   const [selectedMonthIndex, setSelectedMonthIndex] = useState(currentRealMonth);
 
+  // Auto-rotating 3D Hero Cards Carousel (0: Product Browser, 1: Chemist Desk, 2: Farmers Advisory)
+  const [activeHeroCard, setActiveHeroCard] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveHeroCard((prev) => (prev + 1) % 3);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, []);
+
+  const getCardStyle = (cardIndex) => {
+    const relPos = (cardIndex - activeHeroCard + 3) % 3;
+
+    if (relPos === 0) {
+      // CENTER FRONT
+      return {
+        zIndex: 5,
+        transform: 'translateX(-50%) rotate(0deg) scale(1) translateY(0)',
+        opacity: 1,
+        boxShadow: '0 25px 50px rgba(0, 0, 0, 0.45), 0 0 25px rgba(37, 211, 102, 0.2)',
+        filter: 'brightness(1)',
+        cursor: 'pointer'
+      };
+    } else if (relPos === 1) {
+      // RIGHT BACK
+      return {
+        zIndex: 3,
+        transform: 'translateX(-15%) rotate(7deg) scale(0.88) translateY(-15px)',
+        opacity: 0.82,
+        boxShadow: '0 15px 30px rgba(0, 0, 0, 0.35)',
+        filter: 'brightness(0.85)',
+        cursor: 'pointer'
+      };
+    } else {
+      // LEFT BACK
+      return {
+        zIndex: 2,
+        transform: 'translateX(-85%) rotate(-7deg) scale(0.88) translateY(-15px)',
+        opacity: 0.82,
+        boxShadow: '0 15px 30px rgba(0, 0, 0, 0.35)',
+        filter: 'brightness(0.85)',
+        cursor: 'pointer'
+      };
+    }
+  };
+
   const activeDiagnostic = QUICK_DIAGNOSTICS[selectedCrop]?.[selectedProblemIndex] || QUICK_DIAGNOSTICS[selectedCrop]?.[0];
   const activeAdvisory = MONTHLY_ADVISORIES[selectedMonthIndex] || MONTHLY_ADVISORIES[6];
 
@@ -395,112 +441,158 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column — 3D Stacked Layered Cards (Matching Reference Mockup) */}
-            <div className="hero-cards-stack">
+            {/* Right Column — 3D Stacked Layered Cards (Auto-Rotating Carousel) */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div className="hero-cards-stack">
 
-              {/* Card 1: Left Back (Senior Chemist & Store Verification Card) */}
-              <div className="hero-card-social" style={{ background: '#0a1d12', border: '1px solid rgba(184, 146, 63, 0.35)', color: '#ffffff' }}>
-                <div style={{ padding: '0.65rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', background: '#050f09' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: '#b8923f', color: '#08150d', fontSize: '0.65rem', fontWeight: '800', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🔬</div>
-                    <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#b8923f', letterSpacing: '0.5px' }}>EXPERT CHEMIST DESK</span>
-                  </div>
-                  <span style={{ fontSize: '0.65rem', background: 'rgba(37, 211, 102, 0.2)', color: '#25d366', fontWeight: '700', padding: '0.15rem 0.5rem', borderRadius: '10px' }}>VERIFIED</span>
-                </div>
-                
-                <div style={{ position: 'relative' }}>
-                  <img
-                    src="/awareness-camps.webp"
-                    alt="Sheikh Mohammad Ayoub at store"
-                    onError={(e) => { e.target.src = "/shop.jpg"; }}
-                    style={{ width: '100%', height: '135px', objectFit: 'cover' }}
-                  />
-                  <div style={{ position: 'absolute', bottom: 0, inset: 'auto 0 0 0', background: 'linear-gradient(to top, rgba(5,15,9,0.95), transparent)', padding: '0.4rem 0.8rem', fontSize: '0.68rem', color: '#d0e4d8', fontWeight: '600' }}>
-                    📍 Hari Singh High Street, Srinagar
-                  </div>
-                </div>
-
-                <div style={{ padding: '0.75rem 0.85rem' }}>
-                  <div style={{ fontSize: '0.82rem', fontWeight: '800', color: '#ffffff', marginBottom: '0.2rem' }}>
-                    Sheikh Mohammad Ayoub
-                  </div>
-                  <div style={{ fontSize: '0.7rem', color: '#b8923f', fontWeight: '600', marginBottom: '0.4rem' }}>
-                    M.Sc. Chemistry • Ex-Senior Lecturer
-                  </div>
-                  <p style={{ fontSize: '0.68rem', color: '#a0c0ab', lineHeight: '1.4', margin: 0 }}>
-                    Free chemical leaf & soil sample diagnosis in store.
-                  </p>
-                </div>
-              </div>
-
-              {/* Card 2: Right Back (Customer Group / WhatsApp Advisory) */}
-              <div className="hero-card-group">
-                <div style={{ background: '#0b3c1d', color: '#ffffff', padding: '0.6rem 0.8rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#25d366' }} />
-                  <span style={{ fontSize: '0.78rem', fontWeight: '700', letterSpacing: '0.3px' }}>Kashmir Farmers Advisory</span>
-                </div>
-                <div style={{ position: 'relative' }}>
-                  <img
-                    src="/kashmir-farmer-advisory.png"
-                    alt="Kashmir Farmers Advisory Group"
-                    onError={(e) => { e.target.src = "/awareness-camps.webp"; }}
-                    style={{ width: '100%', height: '170px', objectFit: 'cover' }}
-                  />
-                  <div style={{ position: 'absolute', bottom: '8px', left: '8px', right: '8px', background: 'rgba(8, 21, 13, 0.85)', backdropFilter: 'blur(4px)', color: '#ffffff', borderRadius: '6px', padding: '0.4rem 0.6rem', fontSize: '0.68rem', fontWeight: '600' }}>
-                    📢 2nd Gen Codling Moth Spray Window Active
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 3: Center Front (Browser Window Mockup Card) */}
-              <div className="hero-card-browser">
-                {/* Window Header */}
-                <div style={{ background: '#f5f5f7', padding: '0.4rem 0.7rem', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid #e5e5e7' }}>
-                  <div style={{ display: 'flex', gap: '4px' }}>
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ff5f56' }} />
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ffbd2e' }} />
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#27c93f' }} />
-                  </div>
-                  <div style={{ background: '#ffffff', borderRadius: '4px', padding: '0.2rem 0.6rem', fontSize: '0.68rem', color: '#666', width: '100%', border: '1px solid #e0e0e0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    https://www.mapesticides.com
-                  </div>
-                </div>
-
-                {/* Catalogue Banner */}
-                <div style={{ position: 'relative', height: '95px', overflow: 'hidden' }}>
-                  <img
-                    src="/kashmir-orchard-banner.png"
-                    alt="Authentic Crop Catalogue Banner"
-                    onError={(e) => { e.target.src = "/hero-image.webp"; }}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  />
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(8, 21, 13, 0.4) 0%, rgba(8, 21, 13, 0.75) 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span style={{ color: '#ffffff', fontSize: '0.75rem', fontWeight: '800', letterSpacing: '1.2px', textTransform: 'uppercase' }}>
-                      AUTHENTIC CROP CATALOGUE
-                    </span>
-                  </div>
-                </div>
-
-                {/* Product Grid (2 Cards) */}
-                <div style={{ padding: '0.75rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', background: '#f8f9fa' }}>
-                  <div style={{ background: '#ffffff', borderRadius: '8px', padding: '0.6rem', border: '1px solid #eef0f2', boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}>
-                    <div style={{ background: '#f5f7f6', borderRadius: '6px', padding: '0.3rem', marginBottom: '0.4rem', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <img src="/alika.png" alt="Syngenta Alika" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
+                {/* Card 0: Product Browser Window Mockup Card */}
+                <div
+                  className="hero-card-browser"
+                  onClick={() => setActiveHeroCard(0)}
+                  style={getCardStyle(0)}
+                >
+                  {/* Window Header */}
+                  <div style={{ background: '#f5f5f7', padding: '0.4rem 0.7rem', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid #e5e5e7' }}>
+                    <div style={{ display: 'flex', gap: '4px' }}>
+                      <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ff5f56' }} />
+                      <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ffbd2e' }} />
+                      <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#27c93f' }} />
                     </div>
-                    <div style={{ fontSize: '0.72rem', fontWeight: '700', color: '#163e24', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Syngenta Alika</div>
-                    <div style={{ fontSize: '0.68rem', color: '#b8923f', fontWeight: '800' }}>₹1,250</div>
+                    <div style={{ background: '#ffffff', borderRadius: '4px', padding: '0.2rem 0.6rem', fontSize: '0.68rem', color: '#666', width: '100%', border: '1px solid #e0e0e0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      https://www.mapesticides.com
+                    </div>
                   </div>
 
-                  <div style={{ background: '#ffffff', borderRadius: '8px', padding: '0.6rem', border: '1px solid #eef0f2', boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}>
-                    <div style={{ background: '#f5f7f6', borderRadius: '6px', padding: '0.3rem', marginBottom: '0.4rem', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <img src="/antracol.jpg" alt="Bayer Antracol" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
+                  {/* Catalogue Banner */}
+                  <div style={{ position: 'relative', height: '95px', overflow: 'hidden' }}>
+                    <img
+                      src="/kashmir-orchard-banner.png"
+                      alt="Authentic Crop Catalogue Banner"
+                      onError={(e) => { e.target.src = "/hero-image.webp"; }}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(8, 21, 13, 0.4) 0%, rgba(8, 21, 13, 0.75) 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span style={{ color: '#ffffff', fontSize: '0.75rem', fontWeight: '800', letterSpacing: '1.2px', textTransform: 'uppercase' }}>
+                        AUTHENTIC CROP CATALOGUE
+                      </span>
                     </div>
-                    <div style={{ fontSize: '0.72rem', fontWeight: '700', color: '#163e24', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Bayer Antracol</div>
-                    <div style={{ fontSize: '0.68rem', color: '#b8923f', fontWeight: '800' }}>₹700</div>
+                  </div>
+
+                  {/* Product Grid (2 Cards) */}
+                  <div style={{ padding: '0.75rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', background: '#f8f9fa' }}>
+                    <div style={{ background: '#ffffff', borderRadius: '8px', padding: '0.6rem', border: '1px solid #eef0f2', boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}>
+                      <div style={{ background: '#f5f7f6', borderRadius: '6px', padding: '0.3rem', marginBottom: '0.4rem', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <img src="/alika.png" alt="Syngenta Alika" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
+                      </div>
+                      <div style={{ fontSize: '0.72rem', fontWeight: '700', color: '#163e24', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Syngenta Alika</div>
+                      <div style={{ fontSize: '0.68rem', color: '#b8923f', fontWeight: '800' }}>₹1,250</div>
+                    </div>
+
+                    <div style={{ background: '#ffffff', borderRadius: '8px', padding: '0.6rem', border: '1px solid #eef0f2', boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}>
+                      <div style={{ background: '#f5f7f6', borderRadius: '6px', padding: '0.3rem', marginBottom: '0.4rem', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <img src="/antracol.jpg" alt="Bayer Antracol" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
+                      </div>
+                      <div style={{ fontSize: '0.72rem', fontWeight: '700', color: '#163e24', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Bayer Antracol</div>
+                      <div style={{ fontSize: '0.68rem', color: '#b8923f', fontWeight: '800' }}>₹700</div>
+                    </div>
                   </div>
                 </div>
+
+                {/* Card 1: Senior Chemist Verification Card */}
+                <div
+                  className="hero-card-social"
+                  onClick={() => setActiveHeroCard(1)}
+                  style={{
+                    background: '#0a1d12',
+                    border: '1px solid rgba(184, 146, 63, 0.35)',
+                    color: '#ffffff',
+                    ...getCardStyle(1)
+                  }}
+                >
+                  <div style={{ padding: '0.65rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', background: '#050f09' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: '#b8923f', color: '#08150d', fontSize: '0.65rem', fontWeight: '800', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🔬</div>
+                      <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#b8923f', letterSpacing: '0.5px' }}>EXPERT CHEMIST DESK</span>
+                    </div>
+                    <span style={{ fontSize: '0.65rem', background: 'rgba(37, 211, 102, 0.2)', color: '#25d366', fontWeight: '700', padding: '0.15rem 0.5rem', borderRadius: '10px' }}>VERIFIED</span>
+                  </div>
+                  
+                  <div style={{ position: 'relative' }}>
+                    <img
+                      src="/awareness-camps.webp"
+                      alt="Sheikh Mohammad Ayoub at store"
+                      onError={(e) => { e.target.src = "/shop.jpg"; }}
+                      style={{ width: '100%', height: '135px', objectFit: 'cover' }}
+                    />
+                    <div style={{ position: 'absolute', bottom: 0, inset: 'auto 0 0 0', background: 'linear-gradient(to top, rgba(5,15,9,0.95), transparent)', padding: '0.4rem 0.8rem', fontSize: '0.68rem', color: '#d0e4d8', fontWeight: '600' }}>
+                      📍 Hari Singh High Street, Srinagar
+                    </div>
+                  </div>
+
+                  <div style={{ padding: '0.75rem 0.85rem' }}>
+                    <div style={{ fontSize: '0.82rem', fontWeight: '800', color: '#ffffff', marginBottom: '0.2rem' }}>
+                      Sheikh Mohammad Ayoub
+                    </div>
+                    <div style={{ fontSize: '0.7rem', color: '#b8923f', fontWeight: '600', marginBottom: '0.4rem' }}>
+                      M.Sc., B.Ed. Chemistry • Ex-Senior Lecturer
+                    </div>
+                    <p style={{ fontSize: '0.68rem', color: '#a0c0ab', lineHeight: '1.4', margin: 0 }}>
+                      Free chemical leaf & soil sample diagnosis in store.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Card 2: Kashmir Farmers Advisory WhatsApp Group */}
+                <div
+                  className="hero-card-group"
+                  onClick={() => setActiveHeroCard(2)}
+                  style={getCardStyle(2)}
+                >
+                  <div style={{ background: '#0b3c1d', color: '#ffffff', padding: '0.6rem 0.8rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#25d366' }} />
+                    <span style={{ fontSize: '0.78rem', fontWeight: '700', letterSpacing: '0.3px' }}>Kashmir Farmers Advisory</span>
+                  </div>
+                  <div style={{ position: 'relative' }}>
+                    <img
+                      src="/kashmir-farmer-advisory.png"
+                      alt="Kashmir Farmers Advisory Group"
+                      onError={(e) => { e.target.src = "/awareness-camps.webp"; }}
+                      style={{ width: '100%', height: '170px', objectFit: 'cover' }}
+                    />
+                    <div style={{ position: 'absolute', bottom: '8px', left: '8px', right: '8px', background: 'rgba(8, 21, 13, 0.85)', backdropFilter: 'blur(4px)', color: '#ffffff', borderRadius: '6px', padding: '0.4rem 0.6rem', fontSize: '0.68rem', fontWeight: '600' }}>
+                      📢 2nd Gen Codling Moth Spray Window Active
+                    </div>
+                  </div>
+                </div>
+
               </div>
 
+              {/* Interactive Rotation Indicator Dots */}
+              <div style={{ display: 'flex', gap: '8px', marginTop: '1rem', zIndex: 10 }}>
+                {[
+                  { id: 0, label: 'Catalogue' },
+                  { id: 1, label: 'Chemist' },
+                  { id: 2, label: 'Advisory' }
+                ].map(dot => (
+                  <button
+                    key={dot.id}
+                    onClick={() => setActiveHeroCard(dot.id)}
+                    style={{
+                      background: activeHeroCard === dot.id ? '#b8923f' : 'rgba(255,255,255,0.2)',
+                      color: activeHeroCard === dot.id ? '#08150d' : '#a0c0ab',
+                      border: 'none',
+                      padding: '0.2rem 0.6rem',
+                      borderRadius: '12px',
+                      fontSize: '0.65rem',
+                      fontWeight: '800',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease'
+                    }}
+                  >
+                    {dot.label}
+                  </button>
+                ))}
+              </div>
             </div>
 
           </div>
