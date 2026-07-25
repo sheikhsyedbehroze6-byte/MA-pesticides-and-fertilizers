@@ -452,7 +452,7 @@ export default function Home() {
                   style={getCardStyle(0)}
                 >
                   {/* Window Header */}
-                  <div style={{ background: '#f5f5f7', padding: '0.4rem 0.7rem', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid #e5e5e7' }}>
+                  <div style={{ background: '#f5f5f7', padding: '0.4rem 0.7rem', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid #e5e5e7', height: '34px', boxSizing: 'border-box' }}>
                     <div style={{ display: 'flex', gap: '4px' }}>
                       <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ff5f56' }} />
                       <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ffbd2e' }} />
@@ -464,7 +464,7 @@ export default function Home() {
                   </div>
 
                   {/* Catalogue Banner */}
-                  <div style={{ position: 'relative', height: '95px', overflow: 'hidden' }}>
+                  <div style={{ position: 'relative', height: '115px', overflow: 'hidden', flexShrink: 0 }}>
                     <img
                       src="/kashmir-orchard-banner.png"
                       alt="Authentic Crop Catalogue Banner"
@@ -479,17 +479,17 @@ export default function Home() {
                   </div>
 
                   {/* Product Grid (2 Cards) */}
-                  <div style={{ padding: '0.75rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', background: '#f8f9fa' }}>
-                    <div style={{ background: '#ffffff', borderRadius: '8px', padding: '0.6rem', border: '1px solid #eef0f2', boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}>
-                      <div style={{ background: '#f5f7f6', borderRadius: '6px', padding: '0.3rem', marginBottom: '0.4rem', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ padding: '0.65rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', background: '#f8f9fa', flex: 1 }}>
+                    <div style={{ background: '#ffffff', borderRadius: '8px', padding: '0.5rem', border: '1px solid #eef0f2', boxShadow: '0 2px 6px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                      <div style={{ background: '#f5f7f6', borderRadius: '6px', padding: '0.25rem', marginBottom: '0.3rem', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <img src="/alika.png" alt="Syngenta Alika" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
                       </div>
                       <div style={{ fontSize: '0.72rem', fontWeight: '700', color: '#163e24', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Syngenta Alika</div>
                       <div style={{ fontSize: '0.68rem', color: '#b8923f', fontWeight: '800' }}>₹1,250</div>
                     </div>
 
-                    <div style={{ background: '#ffffff', borderRadius: '8px', padding: '0.6rem', border: '1px solid #eef0f2', boxShadow: '0 2px 6px rgba(0,0,0,0.04)' }}>
-                      <div style={{ background: '#f5f7f6', borderRadius: '6px', padding: '0.3rem', marginBottom: '0.4rem', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ background: '#ffffff', borderRadius: '8px', padding: '0.5rem', border: '1px solid #eef0f2', boxShadow: '0 2px 6px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                      <div style={{ background: '#f5f7f6', borderRadius: '6px', padding: '0.25rem', marginBottom: '0.3rem', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <img src="/antracol.jpg" alt="Bayer Antracol" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
                       </div>
                       <div style={{ fontSize: '0.72rem', fontWeight: '700', color: '#163e24', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Bayer Antracol</div>
@@ -509,34 +509,34 @@ export default function Home() {
                     ...getCardStyle(1)
                   }}
                 >
-                  <div style={{ padding: '0.65rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', background: '#050f09' }}>
+                  <div style={{ padding: '0.6rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', background: '#050f09', height: '36px', boxSizing: 'border-box' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: '#b8923f', color: '#08150d', fontSize: '0.65rem', fontWeight: '800', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🔬</div>
+                      <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#b8923f', color: '#08150d', fontSize: '0.6rem', fontWeight: '800', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🔬</div>
                       <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#b8923f', letterSpacing: '0.5px' }}>EXPERT CHEMIST DESK</span>
                     </div>
-                    <span style={{ fontSize: '0.65rem', background: 'rgba(37, 211, 102, 0.2)', color: '#25d366', fontWeight: '700', padding: '0.15rem 0.5rem', borderRadius: '10px' }}>VERIFIED</span>
+                    <span style={{ fontSize: '0.62rem', background: 'rgba(37, 211, 102, 0.2)', color: '#25d366', fontWeight: '700', padding: '0.15rem 0.5rem', borderRadius: '10px' }}>VERIFIED</span>
                   </div>
                   
-                  <div style={{ position: 'relative' }}>
+                  <div style={{ position: 'relative', flex: 1, overflow: 'hidden' }}>
                     <img
                       src="/awareness-camps.webp"
                       alt="Sheikh Mohammad Ayoub at store"
                       onError={(e) => { e.target.src = "/shop.jpg"; }}
-                      style={{ width: '100%', height: '135px', objectFit: 'cover' }}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
                     <div style={{ position: 'absolute', bottom: 0, inset: 'auto 0 0 0', background: 'linear-gradient(to top, rgba(5,15,9,0.95), transparent)', padding: '0.4rem 0.8rem', fontSize: '0.68rem', color: '#d0e4d8', fontWeight: '600' }}>
                       📍 Hari Singh High Street, Srinagar
                     </div>
                   </div>
 
-                  <div style={{ padding: '0.75rem 0.85rem' }}>
-                    <div style={{ fontSize: '0.82rem', fontWeight: '800', color: '#ffffff', marginBottom: '0.2rem' }}>
+                  <div style={{ padding: '0.75rem 0.85rem', background: '#08170e' }}>
+                    <div style={{ fontSize: '0.85rem', fontWeight: '800', color: '#ffffff', marginBottom: '0.15rem' }}>
                       Sheikh Mohammad Ayoub
                     </div>
-                    <div style={{ fontSize: '0.7rem', color: '#b8923f', fontWeight: '600', marginBottom: '0.4rem' }}>
+                    <div style={{ fontSize: '0.7rem', color: '#b8923f', fontWeight: '600', marginBottom: '0.3rem' }}>
                       M.Sc., B.Ed. Chemistry • Ex-Senior Lecturer
                     </div>
-                    <p style={{ fontSize: '0.68rem', color: '#a0c0ab', lineHeight: '1.4', margin: 0 }}>
+                    <p style={{ fontSize: '0.68rem', color: '#a0c0ab', lineHeight: '1.35', margin: 0 }}>
                       Free chemical leaf & soil sample diagnosis in store.
                     </p>
                   </div>
@@ -548,20 +548,23 @@ export default function Home() {
                   onClick={() => setActiveHeroCard(2)}
                   style={getCardStyle(2)}
                 >
-                  <div style={{ background: '#0b3c1d', color: '#ffffff', padding: '0.6rem 0.8rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <div style={{ background: '#0b3c1d', color: '#ffffff', padding: '0.6rem 0.8rem', display: 'flex', alignItems: 'center', gap: '8px', height: '36px', boxSizing: 'border-box' }}>
                     <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#25d366' }} />
                     <span style={{ fontSize: '0.78rem', fontWeight: '700', letterSpacing: '0.3px' }}>Kashmir Farmers Advisory</span>
                   </div>
-                  <div style={{ position: 'relative' }}>
+                  <div style={{ position: 'relative', flex: 1, overflow: 'hidden' }}>
                     <img
                       src="/kashmir-farmer-advisory.png"
                       alt="Kashmir Farmers Advisory Group"
                       onError={(e) => { e.target.src = "/awareness-camps.webp"; }}
-                      style={{ width: '100%', height: '170px', objectFit: 'cover' }}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
-                    <div style={{ position: 'absolute', bottom: '8px', left: '8px', right: '8px', background: 'rgba(8, 21, 13, 0.85)', backdropFilter: 'blur(4px)', color: '#ffffff', borderRadius: '6px', padding: '0.4rem 0.6rem', fontSize: '0.68rem', fontWeight: '600' }}>
+                    <div style={{ position: 'absolute', bottom: '8px', left: '8px', right: '8px', background: 'rgba(8, 21, 13, 0.88)', backdropFilter: 'blur(4px)', color: '#ffffff', borderRadius: '6px', padding: '0.5rem 0.7rem', fontSize: '0.7rem', fontWeight: '600' }}>
                       📢 2nd Gen Codling Moth Spray Window Active
                     </div>
+                  </div>
+                  <div style={{ padding: '0.65rem 0.8rem', background: '#06190c', color: '#a0c0ab', fontSize: '0.68rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                    🟢 Active SKUAST-K Spray Window Updates & Chemical Advice
                   </div>
                 </div>
 
