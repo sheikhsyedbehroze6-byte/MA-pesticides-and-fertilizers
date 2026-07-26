@@ -125,7 +125,6 @@ export default function Header() {
               borderRadius: '8px',
               width: '38px',
               height: '38px',
-              display: 'none',
               alignItems: 'center',
               justifyContent: 'center',
               color: 'var(--primary-color)',
