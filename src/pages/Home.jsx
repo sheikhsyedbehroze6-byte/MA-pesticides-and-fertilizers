@@ -448,7 +448,7 @@ export default function Home() {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: '#d0e4d8' }}>
                   <Sparkles size={16} color="#b8923f" style={{ flexShrink: 0 }} />
-                  <span><strong>AI Photo Scanner</strong>: Snap leaf photo for instant AI pest & disease diagnosis</span>
+                  <span><strong>Expert Store Consultation</strong>: Direct chemical & crop advice at Hari Singh High Street, Srinagar</span>
                 </div>
               </div>
 
