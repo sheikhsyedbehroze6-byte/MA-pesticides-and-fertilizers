@@ -199,10 +199,10 @@ a {
 .top-contact-bar {
   background: #050e08;
   border-bottom: 1px solid rgba(184, 146, 63, 0.25);
-  padding: 0.45rem 1rem;
+  padding: 0.35rem 0.75rem;
   overflow: hidden;
   position: relative;
-  min-height: 34px;
+  min-height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -232,10 +232,52 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   width: 100%;
   text-align: center;
   white-space: nowrap;
+}
+
+.top-bar-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 700;
+  color: #ffffff;
+  font-size: 0.76rem;
+}
+
+.top-bar-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(184, 146, 63, 0.18);
+  color: #b8923f;
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 0.12rem 0.45rem;
+  border-radius: 10px;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(184, 146, 63, 0.3);
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .top-contact-bar {
+    padding: 0.25rem 0.35rem;
+    min-height: 26px;
+  }
+  .top-bar-animated-item {
+    gap: 0.3rem;
+  }
+  .top-bar-text {
+    font-size: 0.65rem;
+  }
+  .top-bar-tag {
+    font-size: 0.54rem;
+    padding: 0.08rem 0.35rem;
+    letter-spacing: 0.3px;
+  }
 }
 .hero-redesign-grid {
   display: grid;
@@ -244,67 +286,117 @@ a {
   align-items: center;
 }
 
-/* 3D Layered Cards Stack Composition (Rotating Carousel) */
+/* 3D CoverFlow Hero Cards Composition */
 .hero-cards-stack {
   position: relative;
   width: 100%;
-  max-width: 480px;
-  height: 380px;
+  max-width: 650px;
+  height: 420px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
   perspective: 1000px;
+  perspective-origin: 50% 45%;
   touch-action: pan-y;
-  --hero-card-right-x: -18%;
-  --hero-card-left-x: -82%;
-  --hero-card-right-rot: 6deg;
-  --hero-card-left-rot: -6deg;
-  --hero-card-back-scale: 0.88;
+  --coverflow-spacing: 170px;
+  --coverflow-card-w: 320px;
+  --coverflow-card-h: 330px;
 }
 
-/* Card Base Classes with Uniform Equal Height (340px) & 3D Carousel Transitions */
-.hero-card-social,
-.hero-card-group,
-.hero-card-browser {
+/* 3D CoverFlow Stage Container */
+.hero-cube-stage {
+  position: relative;
+  width: var(--coverflow-card-w);
+  height: var(--coverflow-card-h);
+  transform-style: preserve-3d;
+  transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+  z-index: 2;
+}
+
+/* 3D CoverFlow Card Base with Glossy Floor Reflection */
+.hero-cube-card {
   position: absolute;
-  top: 10px;
-  left: 50%;
-  width: 340px;
-  height: 340px;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  border-radius: 16px;
+  top: 0;
+  left: 0;
+  width: var(--coverflow-card-w);
+  height: var(--coverflow-card-h);
+  border-radius: 18px;
   overflow: hidden;
-  transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), z-index 0.7s ease, opacity 0.5s ease, box-shadow 0.5s ease, filter 0.5s ease;
-  will-change: transform, opacity, z-index;
+  box-sizing: border-box;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.65s ease, filter 0.65s ease, box-shadow 0.65s ease, border-color 0.65s ease;
+  will-change: transform, opacity, filter;
+  transform-style: preserve-3d;
+
+  /* Glossy Floor Mirror Reflection (CoverFlow style) */
+  -webkit-box-reflect: below 8px linear-gradient(transparent 65%, rgba(255, 255, 255, 0.28) 100%);
 }
 
-.hero-card-social {
-  background: #ffffff;
-  color: #1c241e;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+/* Glass & Glossy shine overlay for 3D depth */
+.hero-cube-card-shine {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 45%, rgba(0,0,0,0.3) 100%);
+  z-index: 10;
 }
 
-.hero-card-group {
-  background: #ffffff;
-  color: #1c241e;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+/* Active / Non-active card states */
+.hero-cube-card.is-active {
+  box-shadow: 0 25px 55px rgba(0, 0, 0, 0.75), 0 0 35px rgba(184, 146, 63, 0.45);
+  border: 2px solid rgba(184, 146, 63, 0.7) !important;
 }
 
-.hero-card-browser {
-  background: #ffffff;
-  color: #1c241e;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+.hero-cube-card:not(.is-active) {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
 }
 
-.hero-card-social:hover,
-.hero-card-group:hover,
-.hero-card-browser:hover {
-  filter: brightness(1.05) !important;
+.hero-cube-card:not(.is-active):hover {
+  opacity: 0.92 !important;
+  filter: brightness(0.92) !important;
 }
 
+/* 3D Rotate Control Navigation Buttons */
+.hero-cube-nav-btn {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+  z-index: 25;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(8, 21, 13, 0.88);
+  border: 1px solid rgba(184, 146, 63, 0.5);
+  color: #b8923f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+}
+
+.hero-cube-nav-btn:hover {
+  background: #b8923f;
+  color: #08150d;
+  box-shadow: 0 0 25px rgba(184, 146, 63, 0.6);
+  transform: translateY(-50%) scale(1.12);
+}
+
+.hero-cube-nav-prev {
+  left: -20px;
+}
+
+.hero-cube-nav-next {
+  right: -20px;
+}
+
+/* Mobile & Tablet Responsiveness for CoverFlow */
 @media (max-width: 900px) {
   .hero-redesign-grid {
     grid-template-columns: 1fr;
@@ -315,36 +407,25 @@ a {
     gap: 1.25rem !important;
   }
   .hero-cards-stack {
-    height: 350px;
-    max-width: 100%;
-    --hero-card-right-x: -25%;
-    --hero-card-left-x: -75%;
-    --hero-card-right-rot: 4deg;
-    --hero-card-left-rot: -4deg;
-    --hero-card-back-scale: 0.86;
+    height: 380px;
+    --coverflow-spacing: 130px;
+    --coverflow-card-w: 280px;
+    --coverflow-card-h: 300px;
   }
-  .hero-card-social,
-  .hero-card-group,
-  .hero-card-browser {
-    width: min(310px, 86vw);
-    height: 325px;
+  .hero-cube-nav-prev {
+    left: 0px;
+  }
+  .hero-cube-nav-next {
+    right: 0px;
   }
 }
 
 @media (max-width: 500px) {
   .hero-cards-stack {
-    height: 330px;
-    --hero-card-right-x: -32%;
-    --hero-card-left-x: -68%;
-    --hero-card-right-rot: 3deg;
-    --hero-card-left-rot: -3deg;
-    --hero-card-back-scale: 0.84;
-  }
-  .hero-card-social,
-  .hero-card-group,
-  .hero-card-browser {
-    width: min(290px, 88vw);
-    height: 310px;
+    height: 350px;
+    --coverflow-spacing: 95px;
+    --coverflow-card-w: 245px;
+    --coverflow-card-h: 275px;
   }
 }
 

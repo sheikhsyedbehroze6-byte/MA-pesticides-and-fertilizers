@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
-import { ArrowRight, ShieldCheck, TreeDeciduous, FlaskConical, Phone, MessageCircle, Calendar, Clock, Bell, CheckCircle2, Sparkles } from 'lucide-react';
+import { ArrowRight, ShieldCheck, TreeDeciduous, FlaskConical, Phone, MessageCircle, Calendar, Clock, Bell, CheckCircle2, Sparkles, ChevronLeft, ChevronRight, Camera, Zap, FileText, CloudRain, Sun, Droplets, Wind, Users } from 'lucide-react';
 
 const QUICK_DIAGNOSTICS = {
   apple: [
@@ -242,69 +242,96 @@ export default function Home() {
   const currentRealMonth = new Date().getMonth(); // 0 to 11
   const [selectedMonthIndex, setSelectedMonthIndex] = useState(currentRealMonth);
 
-  // Auto-rotating 3D Hero Cards Carousel (0: Product Browser, 1: Chemist Desk, 2: Farmers Advisory)
-  const [activeHeroCard, setActiveHeroCard] = useState(0);
+  // Auto-rotating 3D Cover Flow Hero Cards (2.8s rotation delay)
+  const [rotationIndex, setRotationIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [touchStartX, setTouchStartX] = useState(null);
 
+  const TOTAL_CARDS = 4;
+  const activeHeroCard = ((rotationIndex % TOTAL_CARDS) + TOTAL_CARDS) % TOTAL_CARDS;
+
   useEffect(() => {
+    if (isHovered) return;
     const timer = setInterval(() => {
-      setActiveHeroCard((prev) => (prev + 1) % 3);
-    }, 4500);
+      setRotationIndex((prev) => prev + 1);
+    }, 2800);
     return () => clearInterval(timer);
-  }, []);
+  }, [isHovered]);
+
+  const goToCard = (targetIndex) => {
+    const currentActive = ((rotationIndex % TOTAL_CARDS) + TOTAL_CARDS) % TOTAL_CARDS;
+    let diff = (targetIndex - currentActive + TOTAL_CARDS) % TOTAL_CARDS;
+    if (diff === 3) diff = -1;
+    setRotationIndex((prev) => prev + diff);
+  };
+
+  const handleNextCard = () => {
+    setRotationIndex((prev) => prev + 1);
+  };
+
+  const handlePrevCard = () => {
+    setRotationIndex((prev) => prev - 1);
+  };
+
+  const getCoverFlowStyle = (cardIndex) => {
+    let offset = cardIndex - activeHeroCard;
+    if (offset > 2) offset -= 4;
+    if (offset < -2) offset += 4;
+
+    const isCenter = offset === 0;
+    const isRight = offset > 0;
+    const absOffset = Math.abs(offset);
+
+    const translateZ = isCenter ? 120 : -75 * absOffset;
+    const rotateY = isCenter ? (tilt.y * 0.4) : isRight ? (-36 + tilt.y * 0.2) : (36 + tilt.y * 0.2);
+    const scale = isCenter ? 1.04 : Math.max(0.72, 0.86 - absOffset * 0.14);
+    const opacity = isCenter ? 1 : Math.max(0.4, 0.82 - absOffset * 0.25);
+    const brightness = isCenter ? 1 : Math.max(0.5, 0.76 - absOffset * 0.2);
+    const zIndex = 10 - absOffset;
+
+    return {
+      transform: `translateX(calc(${offset} * var(--coverflow-spacing, 170px))) translateZ(${translateZ}px) rotateY(${rotateY}deg) rotateX(${isCenter ? tilt.x : 0}deg) scale(${scale})`,
+      opacity,
+      filter: `brightness(${brightness})`,
+      zIndex
+    };
+  };
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    const tiltX = (y / (rect.height / 2)) * -8;
+    const tiltY = (x / (rect.width / 2)) * 10;
+    setTilt({ x: tiltX, y: tiltY });
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    setTilt({ x: 0, y: 0 });
+  };
 
   const handleTouchStart = (e) => {
+    setIsHovered(true);
     setTouchStartX(e.touches[0].clientX);
   };
 
   const handleTouchEnd = (e) => {
+    setIsHovered(false);
     if (touchStartX === null) return;
     const touchEndX = e.changedTouches[0].clientX;
     const diff = touchStartX - touchEndX;
     if (diff > 35) {
-      // Swiped left -> next card
-      setActiveHeroCard((prev) => (prev + 1) % 3);
+      handleNextCard();
     } else if (diff < -35) {
-      // Swiped right -> prev card
-      setActiveHeroCard((prev) => (prev - 1 + 3) % 3);
+      handlePrevCard();
     }
     setTouchStartX(null);
-  };
-
-  const getCardStyle = (cardIndex) => {
-    const relPos = (cardIndex - activeHeroCard + 3) % 3;
-
-    if (relPos === 0) {
-      // CENTER FRONT
-      return {
-        zIndex: 5,
-        transform: 'translateX(-50%) rotate(0deg) scale(1) translateY(0)',
-        opacity: 1,
-        boxShadow: '0 25px 50px rgba(0, 0, 0, 0.45), 0 0 25px rgba(37, 211, 102, 0.2)',
-        filter: 'brightness(1)',
-        cursor: 'pointer'
-      };
-    } else if (relPos === 1) {
-      // RIGHT BACK
-      return {
-        zIndex: 3,
-        transform: 'translateX(var(--hero-card-right-x, -18%)) rotate(var(--hero-card-right-rot, 6deg)) scale(var(--hero-card-back-scale, 0.88)) translateY(-12px)',
-        opacity: 0.75,
-        boxShadow: '0 15px 30px rgba(0, 0, 0, 0.35)',
-        filter: 'brightness(0.82)',
-        cursor: 'pointer'
-      };
-    } else {
-      // LEFT BACK
-      return {
-        zIndex: 2,
-        transform: 'translateX(var(--hero-card-left-x, -82%)) rotate(var(--hero-card-left-rot, -6deg)) scale(var(--hero-card-back-scale, 0.88)) translateY(-12px)',
-        opacity: 0.75,
-        boxShadow: '0 15px 30px rgba(0, 0, 0, 0.35)',
-        filter: 'brightness(0.82)',
-        cursor: 'pointer'
-      };
-    }
   };
 
   const activeDiagnostic = QUICK_DIAGNOSTICS[selectedCrop]?.[selectedProblemIndex] || QUICK_DIAGNOSTICS[selectedCrop]?.[0];
@@ -442,7 +469,7 @@ export default function Home() {
                 }}>
                   <Phone size={16} /> Call +91 99065 41321
                 </a>
-                <a href="https://wa.me/919906541321" target="_blank" rel="noopener noreferrer" style={{
+                <a href="https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%20%28M.A.%20Pesticides%29%2C%20I%20want%20expert%20advice%20for%20my%20orchard%20crop%20spray%20schedule%20and%20authentic%20pesticide%20recommendations." target="_blank" rel="noopener noreferrer" style={{
                   background: 'rgba(37, 211, 102, 0.15)',
                   border: '1px solid rgba(37, 211, 102, 0.4)',
                   color: '#25d366',
@@ -460,149 +487,251 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column — 3D Stacked Layered Cards (Auto-Rotating Carousel & Mobile Touch Swipe) */}
+            {/* Right Column — 3D Cover Flow Revolving Track */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', overflow: 'hidden' }}>
               <div
                 className="hero-cards-stack"
+                onMouseMove={handleMouseMove}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
                 onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}
               >
-
-                {/* Card 0: Product Browser Window Mockup Card */}
-                <div
-                  className="hero-card-browser"
-                  onClick={() => setActiveHeroCard(0)}
-                  style={getCardStyle(0)}
+                {/* Prev/Next 3D Navigation Controls */}
+                <button
+                  className="hero-cube-nav-btn hero-cube-nav-prev"
+                  onClick={handlePrevCard}
+                  aria-label="Rotate Stage Left"
+                  title="Rotate Stage Left"
                 >
-                  {/* Window Header */}
-                  <div style={{ background: '#f5f5f7', padding: '0.4rem 0.7rem', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid #e5e5e7', height: '34px', boxSizing: 'border-box' }}>
-                    <div style={{ display: 'flex', gap: '4px' }}>
-                      <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ff5f56' }} />
-                      <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ffbd2e' }} />
-                      <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#27c93f' }} />
-                    </div>
-                    <div style={{ background: '#ffffff', borderRadius: '4px', padding: '0.2rem 0.6rem', fontSize: '0.68rem', color: '#666', width: '100%', border: '1px solid #e0e0e0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      https://www.mapesticides.com
-                    </div>
-                  </div>
-
-                  {/* Catalogue Banner */}
-                  <div style={{ position: 'relative', height: '110px', overflow: 'hidden', flexShrink: 0 }}>
-                    <img
-                      src="/kashmir-orchard-banner.png"
-                      alt="Authentic Crop Catalogue Banner"
-                      onError={(e) => { e.target.src = "/hero-image.webp"; }}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(8, 21, 13, 0.4) 0%, rgba(8, 21, 13, 0.75) 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <span style={{ color: '#ffffff', fontSize: '0.75rem', fontWeight: '800', letterSpacing: '1.2px', textTransform: 'uppercase' }}>
-                        AUTHENTIC CROP CATALOGUE
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Product Grid (2 Cards) */}
-                  <div style={{ padding: '0.65rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', background: '#f8f9fa', flex: 1 }}>
-                    <div style={{ background: '#ffffff', borderRadius: '8px', padding: '0.5rem', border: '1px solid #eef0f2', boxShadow: '0 2px 6px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                      <div style={{ background: '#f5f7f6', borderRadius: '6px', padding: '0.25rem', marginBottom: '0.3rem', height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <img src="/alika.png" alt="Syngenta Alika" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
-                      </div>
-                      <div style={{ fontSize: '0.72rem', fontWeight: '700', color: '#163e24', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Syngenta Alika</div>
-                      <div style={{ fontSize: '0.68rem', color: '#b8923f', fontWeight: '800' }}>₹1,250</div>
-                    </div>
-
-                    <div style={{ background: '#ffffff', borderRadius: '8px', padding: '0.5rem', border: '1px solid #eef0f2', boxShadow: '0 2px 6px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                      <div style={{ background: '#f5f7f6', borderRadius: '6px', padding: '0.25rem', marginBottom: '0.3rem', height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <img src="/antracol.jpg" alt="Bayer Antracol" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
-                      </div>
-                      <div style={{ fontSize: '0.72rem', fontWeight: '700', color: '#163e24', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Bayer Antracol</div>
-                      <div style={{ fontSize: '0.68rem', color: '#b8923f', fontWeight: '800' }}>₹700</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Card 1: Senior Chemist Verification Card */}
-                <div
-                  className="hero-card-social"
-                  onClick={() => setActiveHeroCard(1)}
-                  style={{
-                    background: '#0a1d12',
-                    border: '1px solid rgba(184, 146, 63, 0.35)',
-                    color: '#ffffff',
-                    ...getCardStyle(1)
-                  }}
+                  <ChevronLeft size={22} />
+                </button>
+                <button
+                  className="hero-cube-nav-btn hero-cube-nav-next"
+                  onClick={handleNextCard}
+                  aria-label="Rotate Stage Right"
+                  title="Rotate Stage Right"
                 >
-                  <div style={{ padding: '0.6rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', background: '#050f09', height: '36px', boxSizing: 'border-box' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#b8923f', color: '#08150d', fontSize: '0.6rem', fontWeight: '800', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🔬</div>
-                      <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#b8923f', letterSpacing: '0.5px' }}>EXPERT CHEMIST DESK</span>
-                    </div>
-                    <span style={{ fontSize: '0.62rem', background: 'rgba(37, 211, 102, 0.2)', color: '#25d366', fontWeight: '700', padding: '0.15rem 0.5rem', borderRadius: '10px' }}>VERIFIED</span>
-                  </div>
+                  <ChevronRight size={22} />
+                </button>
+
+                {/* 3D Cover Flow Stage Container */}
+                <div className="hero-cube-stage">
                   
-                  <div style={{ position: 'relative', flex: 1, overflow: 'hidden' }}>
-                    <img
-                      src="/awareness-camps.webp"
-                      alt="Sheikh Mohammad Ayoub at store"
-                      onError={(e) => { e.target.src = "/shop.jpg"; }}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                    <div style={{ position: 'absolute', bottom: 0, inset: 'auto 0 0 0', background: 'linear-gradient(to top, rgba(5,15,9,0.95), transparent)', padding: '0.4rem 0.8rem', fontSize: '0.68rem', color: '#d0e4d8', fontWeight: '600' }}>
-                      📍 Hari Singh High Street, Srinagar
+                  {/* Card 0: Product Browser Face */}
+                  <div
+                    className={`hero-cube-card hero-cube-card-0 ${activeHeroCard === 0 ? 'is-active' : ''}`}
+                    onClick={() => goToCard(0)}
+                    style={{ background: '#ffffff', color: '#1c241e', ...getCoverFlowStyle(0) }}
+                  >
+                    <div className="hero-cube-card-shine" />
+                    {/* Window Header */}
+                    <div style={{ background: '#f5f5f7', padding: '0.4rem 0.7rem', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid #e5e5e7', height: '34px', boxSizing: 'border-box' }}>
+                      <div style={{ display: 'flex', gap: '4px' }}>
+                        <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ff5f56' }} />
+                        <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ffbd2e' }} />
+                        <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#27c93f' }} />
+                      </div>
+                      <div style={{ background: '#ffffff', borderRadius: '4px', padding: '0.2rem 0.6rem', fontSize: '0.68rem', color: '#666', width: '100%', border: '1px solid #e0e0e0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        https://www.mapesticides.com
+                      </div>
+                    </div>
+
+                    {/* Catalogue Banner */}
+                    <div style={{ position: 'relative', height: '110px', overflow: 'hidden', flexShrink: 0 }}>
+                      <img
+                        src="/kashmir-orchard-banner.png"
+                        alt="Authentic Crop Catalogue Banner"
+                        onError={(e) => { e.target.src = "/hero-image.webp"; }}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(8, 21, 13, 0.4) 0%, rgba(8, 21, 13, 0.75) 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <span style={{ color: '#ffffff', fontSize: '0.75rem', fontWeight: '800', letterSpacing: '1.2px', textTransform: 'uppercase' }}>
+                          AUTHENTIC CROP CATALOGUE
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Product Grid */}
+                    <div style={{ padding: '0.65rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', background: '#f8f9fa', flex: 1 }}>
+                      <div style={{ background: '#ffffff', borderRadius: '8px', padding: '0.5rem', border: '1px solid #eef0f2', boxShadow: '0 2px 6px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                        <div style={{ background: '#f5f7f6', borderRadius: '6px', padding: '0.25rem', marginBottom: '0.3rem', height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <img src="/alika.png" alt="Syngenta Alika" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
+                        </div>
+                        <div style={{ fontSize: '0.72rem', fontWeight: '700', color: '#163e24', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Syngenta Alika</div>
+                        <div style={{ fontSize: '0.68rem', color: '#b8923f', fontWeight: '800' }}>₹1,250</div>
+                      </div>
+
+                      <div style={{ background: '#ffffff', borderRadius: '8px', padding: '0.5rem', border: '1px solid #eef0f2', boxShadow: '0 2px 6px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                        <div style={{ background: '#f5f7f6', borderRadius: '6px', padding: '0.25rem', marginBottom: '0.3rem', height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <img src="/antracol.jpg" alt="Bayer Antracol" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
+                        </div>
+                        <div style={{ fontSize: '0.72rem', fontWeight: '700', color: '#163e24', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Bayer Antracol</div>
+                        <div style={{ fontSize: '0.68rem', color: '#b8923f', fontWeight: '800' }}>₹700</div>
+                      </div>
                     </div>
                   </div>
 
-                  <div style={{ padding: '0.75rem 0.85rem', background: '#08170e' }}>
-                    <div style={{ fontSize: '0.85rem', fontWeight: '800', color: '#ffffff', marginBottom: '0.15rem' }}>
-                      Sheikh Mohammad Ayoub
+                  {/* Card 1: Senior Chemist Face */}
+                  <div
+                    className={`hero-cube-card hero-cube-card-1 ${activeHeroCard === 1 ? 'is-active' : ''}`}
+                    onClick={() => goToCard(1)}
+                    style={{
+                      background: '#0a1d12',
+                      border: '1px solid rgba(184, 146, 63, 0.35)',
+                      color: '#ffffff',
+                      ...getCoverFlowStyle(1)
+                    }}
+                  >
+                    <div className="hero-cube-card-shine" />
+                    <div style={{ padding: '0.6rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', background: '#050f09', height: '36px', boxSizing: 'border-box' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#b8923f', color: '#08150d', fontSize: '0.6rem', fontWeight: '800', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🔬</div>
+                        <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#b8923f', letterSpacing: '0.5px' }}>EXPERT CHEMIST DESK</span>
+                      </div>
+                      <span style={{ fontSize: '0.62rem', background: 'rgba(37, 211, 102, 0.2)', color: '#25d366', fontWeight: '700', padding: '0.15rem 0.5rem', borderRadius: '10px' }}>VERIFIED</span>
                     </div>
-                    <div style={{ fontSize: '0.7rem', color: '#b8923f', fontWeight: '600', marginBottom: '0.3rem' }}>
-                      M.Sc., B.Ed. Chemistry • Ex-Senior Lecturer
+                    
+                    <div style={{ position: 'relative', flex: 1, overflow: 'hidden' }}>
+                      <img
+                        src="/awareness-camps.webp"
+                        alt="Sheikh Mohammad Ayoub at store"
+                        onError={(e) => { e.target.src = "/shop.jpg"; }}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                      <div style={{ position: 'absolute', bottom: 0, inset: 'auto 0 0 0', background: 'linear-gradient(to top, rgba(5,15,9,0.95), transparent)', padding: '0.4rem 0.8rem', fontSize: '0.68rem', color: '#d0e4d8', fontWeight: '600' }}>
+                        📍 Hari Singh High Street, Srinagar
+                      </div>
                     </div>
-                    <p style={{ fontSize: '0.68rem', color: '#a0c0ab', lineHeight: '1.35', margin: 0 }}>
-                      Free chemical leaf & soil sample diagnosis in store.
-                    </p>
+
+                    <div style={{ padding: '0.75rem 0.85rem', background: '#08170e' }}>
+                      <div style={{ fontSize: '0.85rem', fontWeight: '800', color: '#ffffff', marginBottom: '0.15rem' }}>
+                        Sheikh Mohammad Ayoub
+                      </div>
+                      <div style={{ fontSize: '0.7rem', color: '#b8923f', fontWeight: '600', marginBottom: '0.3rem' }}>
+                        M.Sc., B.Ed. Chemistry • Ex-Senior Lecturer
+                      </div>
+                      <p style={{ fontSize: '0.68rem', color: '#a0c0ab', lineHeight: '1.35', margin: 0 }}>
+                        Free chemical leaf & soil sample diagnosis in store.
+                      </p>
+                    </div>
                   </div>
+
+                  {/* Card 2: SKUAST Spray & Weather Advisory Face */}
+                  <div
+                    className={`hero-cube-card hero-cube-card-2 ${activeHeroCard === 2 ? 'is-active' : ''}`}
+                    onClick={() => goToCard(2)}
+                    style={{ background: '#0c2415', border: '1px solid rgba(37, 211, 102, 0.35)', color: '#ffffff', ...getCoverFlowStyle(2) }}
+                  >
+                    <div className="hero-cube-card-shine" />
+                    
+                    {/* Header */}
+                    <div style={{ padding: '0.55rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#07170d', borderBottom: '1px solid rgba(255,255,255,0.08)', height: '36px', boxSizing: 'border-box' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <CloudRain size={16} color="#25d366" />
+                        <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#25d366', letterSpacing: '0.5px' }}>SKUAST & WEATHER ADVISORY</span>
+                      </div>
+                      <span style={{ fontSize: '0.62rem', background: 'rgba(37, 211, 102, 0.2)', color: '#25d366', fontWeight: '700', padding: '0.15rem 0.5rem', borderRadius: '10px' }}>LIVE SRINAGAR</span>
+                    </div>
+
+                    <div style={{ padding: '0.75rem 0.85rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: 'linear-gradient(180deg, #091b10 0%, #06130b 100%)' }}>
+                      
+                      {/* Integrated Srinagar Live Weather Bar */}
+                      <div style={{ background: 'rgba(37, 211, 102, 0.08)', border: '1px solid rgba(37, 211, 102, 0.25)', borderRadius: '10px', padding: '0.5rem 0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div>
+                          <div style={{ fontSize: '0.68rem', color: '#b8923f', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            📍 Srinagar Valley • Today
+                          </div>
+                          <div style={{ fontSize: '0.95rem', fontWeight: '800', color: '#ffffff', marginTop: '1px' }}>
+                            22°C <span style={{ fontSize: '0.72rem', color: '#25d366', fontWeight: '600' }}>• Light Rain Expected</span>
+                          </div>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '2px', fontSize: '0.65rem', color: '#a0c4ab' }}>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}><Droplets size={11} color="#38bdf8" /> 68% Humid</span>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}><Wind size={11} color="#25d366" /> 6 km/h Wind</span>
+                        </div>
+                      </div>
+
+                      {/* Stage Advisory & Recommendation */}
+                      <div style={{ marginTop: '0.4rem' }}>
+                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(184, 146, 63, 0.18)', border: '1px solid rgba(184, 146, 63, 0.35)', padding: '0.18rem 0.55rem', borderRadius: '12px', fontSize: '0.64rem', color: '#b8923f', fontWeight: '700', marginBottom: '0.4rem' }}>
+                          ⚡ STAGE: PINK BUD & PETAL FALL
+                        </div>
+                        <h4 style={{ color: '#ffffff', fontSize: '0.88rem', fontWeight: '800', marginBottom: '0.25rem', fontFamily: 'Inter, sans-serif' }}>
+                          Pre-Rain Ascospore Scab Protection
+                        </h4>
+                        <p style={{ color: '#a0c4ab', fontSize: '0.7rem', lineHeight: '1.4', margin: 0 }}>
+                          High fungal ascospore rain discharge window. Apply systemic fungicide within 24 hrs before expected rainfall.
+                        </p>
+                      </div>
+
+                      {/* Recommended Tank Mix */}
+                      <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '0.5rem 0.7rem' }}>
+                        <div style={{ fontSize: '0.63rem', color: '#b8923f', fontWeight: '800', letterSpacing: '0.5px', textTransform: 'uppercase', marginBottom: '0.15rem' }}>
+                          RECOMMENDED CHEMICAL TANK MIX
+                        </div>
+                        <div style={{ fontSize: '0.72rem', color: '#ffffff', fontWeight: '700' }}>
+                          Syngenta Score (0.5ml/L) + Boron 20% (1g/L)
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  {/* Card 3: Regular Farmer Awareness Camps Face */}
+                  <div
+                    className={`hero-cube-card hero-cube-card-3 ${activeHeroCard === 3 ? 'is-active' : ''}`}
+                    onClick={() => goToCard(3)}
+                    style={{ background: '#0a1d12', border: '1px solid rgba(184, 146, 63, 0.4)', color: '#ffffff', ...getCoverFlowStyle(3) }}
+                  >
+                    <div className="hero-cube-card-shine" />
+                    <div style={{ padding: '0.6rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#050f09', borderBottom: '1px solid rgba(255,255,255,0.08)', height: '36px', boxSizing: 'border-box' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <Users size={15} color="#b8923f" />
+                        <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#b8923f', letterSpacing: '0.5px' }}>FARMER AWARENESS CAMPS</span>
+                      </div>
+                      <span style={{ fontSize: '0.62rem', background: 'rgba(184, 146, 63, 0.25)', color: '#b8923f', fontWeight: '700', padding: '0.15rem 0.5rem', borderRadius: '10px' }}>VALLEY WIDE</span>
+                    </div>
+                    
+                    <div style={{ position: 'relative', flex: 1, overflow: 'hidden' }}>
+                      <img
+                        src="/awareness-camps.webp"
+                        alt="Regular Farmer Awareness Camps in Kashmir"
+                        onError={(e) => { e.target.src = "/shop.jpg"; }}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                      <div style={{ position: 'absolute', bottom: 0, inset: 'auto 0 0 0', background: 'linear-gradient(to top, rgba(5,15,9,0.95), transparent)', padding: '0.45rem 0.8rem', fontSize: '0.68rem', color: '#ffffff', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <span>⛺ Free Field Training & Spray Workshops</span>
+                      </div>
+                    </div>
+
+                    <div style={{ padding: '0.75rem 0.85rem', background: '#08170e' }}>
+                      <div style={{ fontSize: '0.85rem', fontWeight: '800', color: '#ffffff', marginBottom: '0.15rem' }}>
+                        Regular Field Awareness Camps
+                      </div>
+                      <div style={{ fontSize: '0.7rem', color: '#b8923f', fontWeight: '600', marginBottom: '0.3rem' }}>
+                        Scientific Dosage & Safe Chemical Practices
+                      </div>
+                      <p style={{ fontSize: '0.68rem', color: '#a0c0ab', lineHeight: '1.35', margin: 0 }}>
+                        On-the-spot leaf & soil sample testing conducted directly in orchard districts across Kashmir.
+                      </p>
+                    </div>
+                  </div>
+
                 </div>
-
-                {/* Card 2: Kashmir Farmers Advisory WhatsApp Group */}
-                <div
-                  className="hero-card-group"
-                  onClick={() => setActiveHeroCard(2)}
-                  style={getCardStyle(2)}
-                >
-                  <div style={{ background: '#0b3c1d', color: '#ffffff', padding: '0.6rem 0.8rem', display: 'flex', alignItems: 'center', gap: '8px', height: '36px', boxSizing: 'border-box' }}>
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#25d366' }} />
-                    <span style={{ fontSize: '0.78rem', fontWeight: '700', letterSpacing: '0.3px' }}>Kashmir Farmers Advisory</span>
-                  </div>
-                  <div style={{ position: 'relative', flex: 1, overflow: 'hidden' }}>
-                    <img
-                      src="/kashmir-farmer-advisory.png"
-                      alt="Kashmir Farmers Advisory Group"
-                      onError={(e) => { e.target.src = "/awareness-camps.webp"; }}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                    <div style={{ position: 'absolute', bottom: '8px', left: '8px', right: '8px', background: 'rgba(8, 21, 13, 0.88)', backdropFilter: 'blur(4px)', color: '#ffffff', borderRadius: '6px', padding: '0.5rem 0.7rem', fontSize: '0.7rem', fontWeight: '600' }}>
-                      📢 2nd Gen Codling Moth Spray Window Active
-                    </div>
-                  </div>
-                  <div style={{ padding: '0.65rem 0.8rem', background: '#06190c', color: '#a0c0ab', fontSize: '0.68rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                    🟢 Active SKUAST-K Spray Window Updates & Chemical Advice
-                  </div>
-                </div>
-
               </div>
 
-              {/* Interactive Rotation Indicator Dots */}
-              <div style={{ display: 'flex', gap: '8px', marginTop: '1.2rem', zIndex: 10 }}>
+              {/* Interactive 4-Card Navigation Indicators */}
+              <div style={{ display: 'flex', gap: '8px', marginTop: '1.2rem', zIndex: 10, flexWrap: 'wrap', justifyContent: 'center' }}>
                 {[
                   { id: 0, label: 'Catalogue' },
                   { id: 1, label: 'Chemist' },
-                  { id: 2, label: 'Advisory' }
+                  { id: 2, label: 'Advisories' },
+                  { id: 3, label: 'Awareness Camps' }
                 ].map(dot => (
                   <button
                     key={dot.id}
-                    onClick={() => setActiveHeroCard(dot.id)}
+                    onClick={() => goToCard(dot.id)}
                     style={{
                       background: activeHeroCard === dot.id ? '#b8923f' : 'rgba(255,255,255,0.12)',
                       color: activeHeroCard === dot.id ? '#08150d' : '#d0e4d8',
@@ -996,7 +1125,7 @@ export default function Home() {
                 }}>
                   <Phone size={15} /> +91 99065 41321
                 </a>
-                <a href="https://wa.me/919906541321" target="_blank" rel="noopener noreferrer" style={{
+                <a href="https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%20%28M.A.%20Pesticides%29%2C%20I%20want%20expert%20advice%20for%20my%20orchard%20crop%20spray%20schedule%20and%20authentic%20pesticide%20recommendations." target="_blank" rel="noopener noreferrer" style={{
                   background: '#25d366', color: '#08150d',
                   padding: '0.7rem 1.3rem', fontWeight: '800', fontSize: '0.88rem',
                   textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '7px',

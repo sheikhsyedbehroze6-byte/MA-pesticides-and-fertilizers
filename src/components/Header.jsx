@@ -49,28 +49,16 @@ export default function Header() {
       {/* Animated Top Contact & Advisory Bar */}
       <div className="top-contact-bar">
         <div key={index} className="top-bar-animated-item">
-          <span style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '4px',
-            background: 'rgba(184, 146, 63, 0.18)',
-            color: '#b8923f',
-            fontSize: '0.65rem',
-            fontWeight: '800',
-            padding: '0.15rem 0.5rem',
-            borderRadius: '10px',
-            letterSpacing: '0.5px',
-            border: '1px solid rgba(184, 146, 63, 0.3)'
-          }}>
+          <span className="top-bar-tag">
             {activeMsg.tag}
           </span>
 
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontWeight: '700', color: '#ffffff', fontSize: '0.78rem' }}>
+          <div className="top-bar-text">
             {activeMsg.icon}
             <span>{activeMsg.text}</span>
           </div>
 
-          <span className="top-bar-hide-mobile" style={{ color: '#8fae98', fontSize: '0.74rem' }}>
+          <span className="top-bar-hide-mobile" style={{ color: '#8fae98', fontSize: '0.72rem' }}>
             • {activeMsg.detail}
           </span>
         </div>

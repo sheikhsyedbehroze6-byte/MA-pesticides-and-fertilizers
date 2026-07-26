@@ -18,7 +18,7 @@ export default function Footer() {
             Kashmir's trusted source for genuine agricultural inputs since the beginning. We stock what works, and we know why.
           </p>
           <a
-            href="https://wa.me/919906541321"
+            href="https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%20%28M.A.%20Pesticides%29%2C%20I%20want%20expert%20advice%20for%20my%20orchard%20crop%20spray%20schedule%20and%20authentic%20pesticide%20recommendations."
             target="_blank"
             rel="noopener noreferrer"
             className="footer-whatsapp-btn"
@@ -67,7 +67,7 @@ export default function Footer() {
           </div>
           <div className="footer-contact-item">
             <MessageCircle size={15} />
-            <a href="https://wa.me/919906541321" target="_blank" rel="noopener noreferrer">
+            <a href="https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%20%28M.A.%20Pesticides%29%2C%20I%20want%20expert%20advice%20for%20my%20orchard%20crop%20spray%20schedule%20and%20authentic%20pesticide%20recommendations." target="_blank" rel="noopener noreferrer">
               WhatsApp Enquiry <ExternalLink size={11} />
             </a>
           </div>
