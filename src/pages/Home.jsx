@@ -378,6 +378,26 @@ export default function Home() {
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               
 
+              {/* Kicker Badge */}
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: 'rgba(184, 146, 63, 0.14)',
+                border: '1px solid rgba(184, 146, 63, 0.35)',
+                padding: '0.35rem 0.85rem',
+                borderRadius: '20px',
+                fontSize: '0.74rem',
+                fontWeight: '800',
+                color: '#b8923f',
+                letterSpacing: '0.6px',
+                width: 'fit-content',
+                marginBottom: '0.85rem'
+              }}>
+                <Sparkles size={14} color="#b8923f" />
+                <span>Kashmir's First AI-Powered Crop Care Platform</span>
+              </div>
+
               {/* Main Headline */}
               <h1 style={{
                 fontFamily: "'Playfair Display', Georgia, serif",
@@ -397,11 +417,30 @@ export default function Home() {
                 fontWeight: '400',
                 fontStyle: 'italic',
                 color: '#b8923f',
-                marginBottom: '1rem',
+                marginBottom: '0.6rem',
                 letterSpacing: '-0.5px'
               }}>
                 & Fertilizers • Srinagar
               </h2>
+
+              {/* Platform Features Subtitle */}
+              <div style={{
+                fontSize: 'clamp(0.85rem, 1.1vw, 0.95rem)',
+                fontWeight: '700',
+                color: '#25d366',
+                marginBottom: '1rem',
+                letterSpacing: '0.3px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                flexWrap: 'wrap'
+              }}>
+                <span>Instant Disease Detection</span>
+                <span style={{ color: '#b8923f' }}>•</span>
+                <span>Expert Recommendations</span>
+                <span style={{ color: '#b8923f' }}>•</span>
+                <span>Premium Agro Products</span>
+              </div>
 
               <p style={{
                 color: '#b0cdb8',
