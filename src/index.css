@@ -315,17 +315,17 @@ header {
   color: var(--secondary-color);
 }
 
+/* Hamburger toggle button - Always visible across Desktop & Mobile views */
 .hamburger-toggle {
-  display: none;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Responsive Navigation: Mobile vs Desktop Site Mode */
+/* Hide horizontal desktop nav links only on narrow mobile screens */
 @media (max-width: 860px) {
   .desktop-nav {
     display: none !important;
-  }
-  .hamburger-toggle {
-    display: flex !important;
   }
 }
 
