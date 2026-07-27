@@ -319,8 +319,8 @@ header {
   display: none;
 }
 
-/* Responsive Hamburger Toggle for Mobile (including Mobile Desktop Site mode) */
-@media (max-width: 1024px), (pointer: coarse) {
+/* Responsive Navigation: Mobile vs Desktop Site Mode */
+@media (max-width: 860px) {
   .desktop-nav {
     display: none !important;
   }
