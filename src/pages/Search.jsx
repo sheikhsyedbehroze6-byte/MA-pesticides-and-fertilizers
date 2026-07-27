@@ -7,14 +7,15 @@ import { Search as SearchIcon, AlertTriangle, CheckCircle, Leaf, X, Microscope, 
 import './urdu.css';
 
 const QUICK_CHIPS = [
-  'Apple Scab',
-  'Fungicide',
-  'Aphids',
-  'Powdery Mildew',
-  'Blight',
-  'Fertilizer',
-  'Insecticide',
-  'Antracol',
+  { label: 'Apple Scab', icon: '🍏' },
+  { label: 'Fungicide', icon: '🛡️' },
+  { label: 'Aphids', icon: '🐛' },
+  { label: 'Powdery Mildew', icon: '✨' },
+  { label: 'Blight', icon: '🍂' },
+  { label: 'Fertilizer', icon: '🌱' },
+  { label: 'Insecticide', icon: '⚡' },
+  { label: 'Antracol', icon: '📦' },
+  { label: 'Syngenta Alika', icon: '🔬' }
 ];
 
 export default function Search() {
@@ -139,14 +140,15 @@ export default function Search() {
 
         {/* Quick-search chips */}
         <div className="search-chips">
-          <span className="search-chips-label">Popular:</span>
+          <span className="search-chips-label">Popular Searches:</span>
           {QUICK_CHIPS.map(chip => (
             <button
-              key={chip}
-              className={`search-chip ${query === chip ? 'active' : ''}`}
-              onClick={() => handleChip(chip)}
+              key={chip.label}
+              className={`search-chip ${query === chip.label ? 'active' : ''}`}
+              onClick={() => handleChip(chip.label)}
             >
-              {chip}
+              <span>{chip.icon}</span>
+              <span>{chip.label}</span>
             </button>
           ))}
         </div>
@@ -183,24 +185,36 @@ export default function Search() {
 
       {/* Default empty state */}
       {!query.trim() && (
-        <AnimatedSection>
-          <div className="search-default-state">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem', maxWidth: '700px', margin: '0 auto' }}>
-              <div className="search-hint-card">
-                <Microscope size={28} style={{ color: 'var(--primary-color)', marginBottom: '0.75rem' }} />
-                <h4>Search by Disease</h4>
-                <p>Type a disease name like "Apple Scab" or a symptom like "yellowing leaves".</p>
-              </div>
-              <div className="search-hint-card">
-                <Package size={28} style={{ color: 'var(--accent-color)', marginBottom: '0.75rem' }} />
-                <h4>Search by Product</h4>
-                <p>Type a product name like "Antracol" or a type like "Fungicide" or "Insecticide".</p>
-              </div>
-              <div className="search-hint-card">
-                <Leaf size={28} style={{ color: '#4caf50', marginBottom: '0.75rem' }} />
-                <h4>Search by Crop</h4>
-                <p>Enter a crop like "Apple", "Cherry" or "Walnut" to find relevant solutions.</p>
-              </div>
+        <AnimatedSection style={{ marginBottom: '3.5rem' }}>
+          <div style={{ marginBottom: '1.5rem', textAlign: 'center' }}>
+            <h3 style={{ fontSize: '1.25rem', color: 'var(--primary-color)', margin: '0 0 0.4rem 0', fontFamily: "'Playfair Display', Georgia, serif" }}>
+              Explore Crop Solutions & Chemical Formulations
+            </h3>
+            <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', margin: 0 }}>
+              Click any category card below for an instant diagnostic search
+            </p>
+          </div>
+
+          <div className="search-hint-grid">
+            <div className="search-hint-card" onClick={() => handleChip('Apple Scab')}>
+              <Microscope size={28} style={{ color: 'var(--primary-color)' }} />
+              <h4>Search Crop Diseases</h4>
+              <p>Find diagnostic symptoms & SKUAST cures for Apple Scab, Alternaria, Mildew & Mites.</p>
+              <span className="search-chip" style={{ marginTop: '0.85rem', fontSize: '0.75rem' }}>🍏 Try "Apple Scab"</span>
+            </div>
+
+            <div className="search-hint-card" onClick={() => handleChip('Antracol')}>
+              <Package size={28} style={{ color: 'var(--secondary-color)' }} />
+              <h4>Search Chemical Products</h4>
+              <p>Look up formulations, active ingredients, dosages & prices for Bayer, Syngenta & IPL stock.</p>
+              <span className="search-chip" style={{ marginTop: '0.85rem', fontSize: '0.75rem' }}>📦 Try "Antracol"</span>
+            </div>
+
+            <div className="search-hint-card" onClick={() => handleChip('Fungicide')}>
+              <Leaf size={28} style={{ color: '#2d6a4f' }} />
+              <h4>Search Product Categories</h4>
+              <p>Filter by agricultural category — Fungicides, Insecticides, Bio-stimulants & PGRs.</p>
+              <span className="search-chip" style={{ marginTop: '0.85rem', fontSize: '0.75rem' }}>🛡️ Try "Fungicide"</span>
             </div>
           </div>
         </AnimatedSection>
