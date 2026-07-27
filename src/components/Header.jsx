@@ -114,25 +114,29 @@ export default function Header() {
             {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
           </button>
 
-          {/* Hamburger Mobile Menu Toggle Button */}
+          {/* Menu Toggle Button */}
           <button
             className="hamburger-toggle"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle Navigation Menu"
+            title="Toggle Menu"
             style={{
               background: 'rgba(22, 62, 36, 0.08)',
               border: '1px solid var(--border-color)',
               borderRadius: '8px',
-              width: '38px',
-              height: '38px',
+              padding: '0.4rem 0.75rem',
+              display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
+              gap: '6px',
               color: 'var(--primary-color)',
               cursor: 'pointer',
+              fontWeight: '800',
+              fontSize: '0.82rem',
               flexShrink: 0
             }}
           >
             {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            <span style={{ textTransform: 'uppercase', letterSpacing: '0.5px' }}>Menu</span>
           </button>
         </div>
       </header>
