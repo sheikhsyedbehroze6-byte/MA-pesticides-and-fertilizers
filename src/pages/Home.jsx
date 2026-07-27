@@ -377,25 +377,6 @@ export default function Home() {
             {/* Left Column — Brand Authority & Copy */}
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               
-              {/* Kicker Badge */}
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                background: 'rgba(184, 146, 63, 0.12)',
-                border: '1px solid rgba(184, 146, 63, 0.3)',
-                padding: '0.35rem 0.85rem',
-                borderRadius: '20px',
-                fontSize: '0.72rem',
-                fontWeight: '700',
-                color: '#b8923f',
-                letterSpacing: '0.8px',
-                width: 'fit-content',
-                marginBottom: '1rem'
-              }}>
-                <Sparkles size={13} color="#b8923f" />
-                SRINAGAR'S TRUSTED AGRICULTURAL HUB • ESTD. 2008
-              </div>
 
               {/* Main Headline */}
               <h1 style={{
