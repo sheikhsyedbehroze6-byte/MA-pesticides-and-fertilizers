@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { Sprout, Moon, Sun, Phone, MapPin, Sparkles, ShieldCheck, FlaskConical, Menu, X } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
@@ -32,6 +32,7 @@ const ANNOUNCEMENTS = [
 
 export default function Header() {
   const { theme, toggleTheme } = useTheme();
+  const location = useLocation();
   const [index, setIndex] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -41,6 +42,11 @@ export default function Header() {
     }, 3800);
     return () => clearInterval(interval);
   }, []);
+
+  // Auto-dismiss mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
 
   const activeMsg = ANNOUNCEMENTS[index];
 
@@ -141,19 +147,22 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Mobile Navigation Drawer Panel */}
+      {/* Mobile Navigation Drawer Panel & Smooth Backdrop */}
       {isMobileMenuOpen && (
-        <nav className="mobile-nav">
-          <ul className="mobile-nav-links">
-            <li><NavLink to="/" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Home</NavLink></li>
-            <li><NavLink to="/about" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>About Us</NavLink></li>
-            <li><NavLink to="/products" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Products</NavLink></li>
-            <li><NavLink to="/disease-guide" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Disease Guide</NavLink></li>
-            <li><NavLink to="/spray-calendar" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Spray Calendar</NavLink></li>
-            <li><NavLink to="/search" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Search</NavLink></li>
-            <li><NavLink to="/contact" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Contact</NavLink></li>
-          </ul>
-        </nav>
+        <>
+          <div className="mobile-nav-backdrop" onClick={() => setIsMobileMenuOpen(false)} />
+          <nav className="mobile-nav">
+            <ul className="mobile-nav-links">
+              <li><NavLink to="/" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Home</NavLink></li>
+              <li><NavLink to="/about" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>About Us</NavLink></li>
+              <li><NavLink to="/products" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Products</NavLink></li>
+              <li><NavLink to="/disease-guide" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Disease Guide</NavLink></li>
+              <li><NavLink to="/spray-calendar" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Spray Calendar</NavLink></li>
+              <li><NavLink to="/search" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Search</NavLink></li>
+              <li><NavLink to="/contact" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Contact</NavLink></li>
+            </ul>
+          </nav>
+        </>
       )}
     </div>
   );

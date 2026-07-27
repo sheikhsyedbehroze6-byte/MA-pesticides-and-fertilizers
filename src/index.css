@@ -329,18 +329,51 @@ header {
   }
 }
 
+/* Smooth Page Fade-In Animation */
+main {
+  animation: pageFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Glass Backdrop for Mobile Nav Drawer */
+.mobile-nav-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 21, 13, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 998;
+  animation: backdropFadeIn 0.2s ease-out forwards;
+}
+
+@keyframes backdropFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .mobile-nav {
+  position: relative;
+  z-index: 999;
   background: var(--bg-card);
   border-bottom: 1px solid var(--border-color);
-  padding: 1rem 1.5rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  animation: mobileNavSlideDown 0.25s ease-out forwards;
+  padding: 1.2rem 1.5rem;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+  animation: mobileNavSlideDown 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes mobileNavSlideDown {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-12px);
   }
   to {
     opacity: 1;
@@ -359,13 +392,13 @@ header {
 
 .mobile-nav-links a {
   display: block;
-  padding: 0.6rem 0.8rem;
+  padding: 0.65rem 0.9rem;
   font-weight: 700;
   font-size: 0.98rem;
   color: var(--text-main);
-  border-radius: 6px;
+  border-radius: 8px;
   text-decoration: none;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mobile-nav-links a.active,
