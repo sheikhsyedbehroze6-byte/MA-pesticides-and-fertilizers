@@ -1,9 +1,9 @@
 import AnimatedSection from '../components/AnimatedSection';
 import { ShieldCheck, Award, Globe, TreeDeciduous, Star, Quote, CheckCircle2, GraduationCap, Target, Compass, BookOpen, HeartHandshake, Sprout } from 'lucide-react';
 import { motion } from 'framer-motion';
-import hajiGhulamRasool from '../assets/haji_ghulam_rasool.png';
-import mohammadYousuf from '../assets/mohammad_yousuf.png';
-import shabnamAra from '../assets/shabnam_ara.png';
+import hajiGhulamRasool from '../assets/haji_ghulam_rasool.webp';
+import mohammadYousuf from '../assets/mohammad_yousuf.webp';
+import shabnamAra from '../assets/shabnam_ara.webp';
 
 export default function About() {
   return (

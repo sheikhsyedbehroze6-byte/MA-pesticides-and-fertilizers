@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
+import ScrollProgressBar from './components/ScrollProgressBar';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
@@ -16,26 +16,13 @@ import { ThemeProvider } from './context/ThemeContext';
 import './App.css';
 
 function App() {
-  const [scrollProgress, setScrollProgress] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = totalScroll > 0 ? (window.scrollY / totalScroll) * 100 : 0;
-      setScrollProgress(progress);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
     <ThemeProvider>
       <Router>
         <ScrollToTop />
         <BackToTop />
         <div className="App">
-          <div className="scroll-progress" style={{ width: `${scrollProgress}%` }} />
+          <ScrollProgressBar />
 
           <Header />
 

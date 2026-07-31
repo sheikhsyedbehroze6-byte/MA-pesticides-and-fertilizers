@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Sprout, Moon, Sun, Phone, MapPin, Sparkles, ShieldCheck, FlaskConical, Menu, X } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
@@ -30,7 +30,7 @@ const ANNOUNCEMENTS = [
   }
 ];
 
-export default function Header() {
+function Header() {
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
   const [index, setIndex] = useState(0);
@@ -51,7 +51,7 @@ export default function Header() {
   const activeMsg = ANNOUNCEMENTS[index];
 
   return (
-    <div style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
+    <div style={{ position: 'sticky', top: 0, zIndex: 1000, willChange: 'transform', transform: 'translateZ(0)' }}>
       {/* Animated Top Contact & Advisory Bar */}
       <div className="top-contact-bar">
         <div key={index} className="top-bar-animated-item">
@@ -167,3 +167,6 @@ export default function Header() {
     </div>
   );
 }
+
+export default memo(Header);
+

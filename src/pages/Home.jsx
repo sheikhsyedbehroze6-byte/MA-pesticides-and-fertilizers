@@ -560,7 +560,7 @@ export default function Home() {
                     {/* Catalogue Banner */}
                     <div style={{ position: 'relative', height: '110px', overflow: 'hidden', flexShrink: 0 }}>
                       <img
-                        src="/kashmir-orchard-banner.png"
+                        src="/kashmir-orchard-banner.webp"
                         alt="Authentic Crop Catalogue Banner"
                         onError={(e) => { e.target.src = "/hero-image.webp"; }}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}

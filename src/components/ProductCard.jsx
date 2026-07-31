@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { ShieldCheck, Droplets, MessageCircle, CheckCircle2 } from 'lucide-react';
 import '../pages/urdu.css';
 
@@ -15,7 +16,7 @@ const TYPE_URDU_MAP = {
   'Fungicidal Wound Dressing': 'درخت کا زخم بھرنے والا پیسٹ'
 };
 
-export default function ProductCard({ product, langMode = 'both' }) {
+function ProductCard({ product, langMode = 'both' }) {
   // Strip redundant "20% discount on print price." prefix from benefits text
   const cleanBenefits = product.benefits.replace(/^20%\s*discount\s*on\s*print\s*price\.\s*/i, '');
   const typeUrdu = TYPE_URDU_MAP[product.type] || 'زرعی دوا';
@@ -157,3 +158,6 @@ export default function ProductCard({ product, langMode = 'both' }) {
     </div>
   );
 }
+
+export default memo(ProductCard);
+

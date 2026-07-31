@@ -795,7 +795,7 @@ export const diseases = [
     dosage: "1 ml per Litre of water sprayed 2-3 weeks before cherry harvest.",
     dosageUrdu: "1 ملی لیٹر فی لیٹر پانی (چیری توڑنے سے 2-3 ہفتے پہلے)۔",
     severity: "High",
-    image: "/brown-rot.png"
+    image: "/brown-rot.webp"
   },
   {
     id: "d16",

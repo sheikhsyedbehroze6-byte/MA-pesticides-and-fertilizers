@@ -1,7 +1,8 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, MapPin, MessageCircle, ArrowRight, Leaf, ExternalLink } from 'lucide-react';
 
-export default function Footer() {
+function Footer() {
   const year = new Date().getFullYear();
 
   return (
@@ -86,3 +87,6 @@ export default function Footer() {
     </footer>
   );
 }
+
+export default memo(Footer);
+

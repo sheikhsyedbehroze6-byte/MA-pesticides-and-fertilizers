@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { CloudRain, Sun, Wind, Thermometer, ShieldCheck, AlertCircle, Droplets, RefreshCw } from 'lucide-react';
 
-export default function WeatherSprayAlert() {
+function WeatherSprayAlert() {
   const [loading, setLoading] = useState(true);
   const [isLive, setIsLive] = useState(false);
   const [weather, setWeather] = useState({
@@ -190,3 +190,6 @@ export default function WeatherSprayAlert() {
     </div>
   );
 }
+
+export default memo(WeatherSprayAlert);
+
