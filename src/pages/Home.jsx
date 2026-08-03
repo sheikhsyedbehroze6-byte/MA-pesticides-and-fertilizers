@@ -242,97 +242,7 @@ export default function Home() {
   const currentRealMonth = new Date().getMonth(); // 0 to 11
   const [selectedMonthIndex, setSelectedMonthIndex] = useState(currentRealMonth);
 
-  // Auto-rotating 3D Cover Flow Hero Cards (2.8s rotation delay)
-  const [rotationIndex, setRotationIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [touchStartX, setTouchStartX] = useState(null);
 
-  const TOTAL_CARDS = 4;
-  const activeHeroCard = ((rotationIndex % TOTAL_CARDS) + TOTAL_CARDS) % TOTAL_CARDS;
-
-  useEffect(() => {
-    if (isHovered) return;
-    const timer = setInterval(() => {
-      setRotationIndex((prev) => prev + 1);
-    }, 2800);
-    return () => clearInterval(timer);
-  }, [isHovered]);
-
-  const goToCard = (targetIndex) => {
-    const currentActive = ((rotationIndex % TOTAL_CARDS) + TOTAL_CARDS) % TOTAL_CARDS;
-    let diff = (targetIndex - currentActive + TOTAL_CARDS) % TOTAL_CARDS;
-    if (diff === 3) diff = -1;
-    setRotationIndex((prev) => prev + diff);
-  };
-
-  const handleNextCard = () => {
-    setRotationIndex((prev) => prev + 1);
-  };
-
-  const handlePrevCard = () => {
-    setRotationIndex((prev) => prev - 1);
-  };
-
-  const getCoverFlowStyle = (cardIndex) => {
-    let offset = cardIndex - activeHeroCard;
-    if (offset > 2) offset -= 4;
-    if (offset < -2) offset += 4;
-
-    const isCenter = offset === 0;
-    const isRight = offset > 0;
-    const absOffset = Math.abs(offset);
-
-    const translateZ = isCenter ? 120 : -75 * absOffset;
-    const rotateY = isCenter ? (tilt.y * 0.4) : isRight ? (-36 + tilt.y * 0.2) : (36 + tilt.y * 0.2);
-    const scale = isCenter ? 1.04 : Math.max(0.72, 0.86 - absOffset * 0.14);
-    const opacity = isCenter ? 1 : Math.max(0.4, 0.82 - absOffset * 0.25);
-    const brightness = isCenter ? 1 : Math.max(0.5, 0.76 - absOffset * 0.2);
-    const zIndex = 10 - absOffset;
-
-    return {
-      transform: `translateX(calc(${offset} * var(--coverflow-spacing, 170px))) translateZ(${translateZ}px) rotateY(${rotateY}deg) rotateX(${isCenter ? tilt.x : 0}deg) scale(${scale})`,
-      opacity,
-      filter: `brightness(${brightness})`,
-      zIndex
-    };
-  };
-
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    const tiltX = (y / (rect.height / 2)) * -8;
-    const tiltY = (x / (rect.width / 2)) * 10;
-    setTilt({ x: tiltX, y: tiltY });
-  };
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    setTilt({ x: 0, y: 0 });
-  };
-
-  const handleTouchStart = (e) => {
-    setIsHovered(true);
-    setTouchStartX(e.touches[0].clientX);
-  };
-
-  const handleTouchEnd = (e) => {
-    setIsHovered(false);
-    if (touchStartX === null) return;
-    const touchEndX = e.changedTouches[0].clientX;
-    const diff = touchStartX - touchEndX;
-    if (diff > 35) {
-      handleNextCard();
-    } else if (diff < -35) {
-      handlePrevCard();
-    }
-    setTouchStartX(null);
-  };
 
   const activeDiagnostic = QUICK_DIAGNOSTICS[selectedCrop]?.[selectedProblemIndex] || QUICK_DIAGNOSTICS[selectedCrop]?.[0];
   const activeAdvisory = MONTHLY_ADVISORIES[selectedMonthIndex] || MONTHLY_ADVISORIES[6];
@@ -561,6 +471,7 @@ export default function Home() {
             </div>
             <div>
               <div style={{ color: '#b8923f', fontWeight: '800', fontSize: '1.35rem', fontFamily: "'Lora', Georgia, serif" }}>50+</div>
+              <div style={{ color: '#7a9884', fontSize: '0.72rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Disease Guide</div>
             </div>
           </div>
 
