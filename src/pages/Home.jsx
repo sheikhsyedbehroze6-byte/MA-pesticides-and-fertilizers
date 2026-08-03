@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
-import { ArrowRight, ShieldCheck, TreeDeciduous, FlaskConical, Phone, MessageCircle, Calendar, Clock, Bell, CheckCircle2, ChevronLeft, ChevronRight, Camera, Zap, FileText, CloudRain, Sun, Droplets, Wind, Users } from 'lucide-react';
+import { ArrowRight, ShieldCheck, TreeDeciduous, FlaskConical, Phone, MessageCircle, Calendar, Clock, Bell, CheckCircle2, ChevronLeft, ChevronRight, Camera, Zap, FileText, CloudRain, Sun, Droplets, Wind, Users, MapPin } from 'lucide-react';
 
 const QUICK_DIAGNOSTICS = {
   apple: [
