@@ -1584,7 +1584,7 @@ main {
 
 .contact-map-frame {
   width: 100%;
-  aspect-ratio: 1 / 1;
+  height: 260px;
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid var(--border-color);
