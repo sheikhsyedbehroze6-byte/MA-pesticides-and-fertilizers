@@ -243,6 +243,69 @@ export default function Home() {
   const [selectedMonthIndex, setSelectedMonthIndex] = useState(currentRealMonth);
 
 
+  // Auto-rotating 3D Cover Flow Hero Cards
+  const [rotationIndex, setRotationIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [touchStartX, setTouchStartX] = useState(null);
+
+  const TOTAL_CARDS = 4;
+  const activeHeroCard = ((rotationIndex % TOTAL_CARDS) + TOTAL_CARDS) % TOTAL_CARDS;
+
+  useEffect(() => {
+    if (isHovered) return;
+    const timer = setInterval(() => {
+      setRotationIndex((prev) => prev + 1);
+    }, 2800);
+    return () => clearInterval(timer);
+  }, [isHovered]);
+
+  const goToCard = (targetIndex) => {
+    const currentActive = ((rotationIndex % TOTAL_CARDS) + TOTAL_CARDS) % TOTAL_CARDS;
+    let diff = (targetIndex - currentActive + TOTAL_CARDS) % TOTAL_CARDS;
+    if (diff === 3) diff = -1;
+    setRotationIndex((prev) => prev + diff);
+  };
+
+  const handleNextCard = () => setRotationIndex((prev) => prev + 1);
+  const handlePrevCard = () => setRotationIndex((prev) => prev - 1);
+
+  const getCoverFlowStyle = (cardIndex) => {
+    let offset = cardIndex - activeHeroCard;
+    if (offset > 2) offset -= 4;
+    if (offset < -2) offset += 4;
+    const isCenter = offset === 0;
+    const isRight = offset > 0;
+    const absOffset = Math.abs(offset);
+    const translateZ = isCenter ? 120 : -75 * absOffset;
+    const rotateY = isCenter ? (tilt.y * 0.4) : isRight ? (-36 + tilt.y * 0.2) : (36 + tilt.y * 0.2);
+    const scale = isCenter ? 1.04 : Math.max(0.72, 0.86 - absOffset * 0.14);
+    const opacity = isCenter ? 1 : Math.max(0.4, 0.82 - absOffset * 0.25);
+    const brightness = isCenter ? 1 : Math.max(0.5, 0.76 - absOffset * 0.2);
+    const zIndex = 10 - absOffset;
+    return {
+      transform: `translateX(calc(${offset} * var(--coverflow-spacing, 170px))) translateZ(${translateZ}px) rotateY(${rotateY}deg) rotateX(${isCenter ? tilt.x : 0}deg) scale(${scale})`,
+      opacity, filter: `brightness(${brightness})`, zIndex
+    };
+  };
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    setTilt({ x: (y / (rect.height / 2)) * -8, y: (x / (rect.width / 2)) * 10 });
+  };
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => { setIsHovered(false); setTilt({ x: 0, y: 0 }); };
+  const handleTouchStart = (e) => { setIsHovered(true); setTouchStartX(e.touches[0].clientX); };
+  const handleTouchEnd = (e) => {
+    setIsHovered(false);
+    if (touchStartX === null) return;
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (diff > 35) handleNextCard();
+    else if (diff < -35) handlePrevCard();
+    setTouchStartX(null);
+  };
 
   const activeDiagnostic = QUICK_DIAGNOSTICS[selectedCrop]?.[selectedProblemIndex] || QUICK_DIAGNOSTICS[selectedCrop]?.[0];
   const activeAdvisory = MONTHLY_ADVISORIES[selectedMonthIndex] || MONTHLY_ADVISORIES[6];
@@ -381,67 +444,156 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column — Shop credential card, real and grounded */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-              <div style={{
-                background: '#0e1f14',
-                border: '1px solid rgba(184, 146, 63, 0.25)',
-                borderRadius: '12px',
-                overflow: 'hidden',
-                width: '100%',
-                maxWidth: '380px',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.35)'
-              }}>
-                {/* Shop photo banner */}
-                <div style={{ position: 'relative', height: '160px', overflow: 'hidden', background: '#0a1a0f' }}>
-                  <img
-                    src="/shop.jpg"
-                    alt="MA Pesticides shop at Hari Singh High Street, Srinagar"
-                    onError={(e) => { e.target.style.display = 'none'; }}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }}
-                  />
-                  <div style={{ position: 'absolute', bottom: 0, inset: 'auto 0 0 0', background: 'linear-gradient(to top, #0e1f14 0%, transparent 100%)', height: '60px' }} />
-                  <span style={{
-                    position: 'absolute', top: '10px', left: '12px',
-                    background: 'rgba(8,21,13,0.8)',
-                    border: '1px solid rgba(184,146,63,0.4)',
-                    color: '#c4a054', fontSize: '0.68rem', fontWeight: '700',
-                    padding: '0.2rem 0.55rem', borderRadius: '4px',
-                    fontFamily: "'Caveat', cursive", letterSpacing: '0.3px', fontSize: '0.82rem'
-                  }}>Our Shop</span>
-                </div>
+            {/* Right Column — 3D rotating coverflow carousel */}
+            <div
+              style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', minHeight: '340px' }}
+              onMouseMove={handleMouseMove}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+            >
+              {/* Prev / Next Controls */}
+              <button
+                onClick={handlePrevCard}
+                aria-label="Previous card"
+                style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 20, background: 'rgba(14,31,20,0.85)', border: '1px solid rgba(184,146,63,0.35)', color: '#c4a054', borderRadius: '50%', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+              ><ChevronLeft size={20} /></button>
+              <button
+                onClick={handleNextCard}
+                aria-label="Next card"
+                style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 20, background: 'rgba(14,31,20,0.85)', border: '1px solid rgba(184,146,63,0.35)', color: '#c4a054', borderRadius: '50%', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+              ><ChevronRight size={20} /></button>
 
-                {/* Chemist credentials */}
-                <div style={{ padding: '1.1rem 1.2rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '1rem' }}>
-                    <div style={{ flexShrink: 0, width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(184,146,63,0.12)', border: '1px solid rgba(184,146,63,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <FlaskConical size={20} color="#c4a054" />
+              {/* Stage container */}
+              <div className="hero-cube-stage" style={{ perspective: '900px', width: '100%', height: '320px', position: 'relative', transformStyle: 'preserve-3d' }}>
+
+                {/* Card 0 — Product Browser */}
+                <div
+                  className={`hero-cube-card hero-cube-card-0${activeHeroCard === 0 ? ' is-active' : ''}`}
+                  onClick={() => goToCard(0)}
+                  style={{ background: '#ffffff', color: '#1c241e', ...getCoverFlowStyle(0), position: 'absolute', left: '50%', transform: getCoverFlowStyle(0).transform + ' translateX(-50%)', width: '260px', borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column', cursor: 'pointer', boxShadow: '0 16px 40px rgba(0,0,0,0.45)', transition: 'all 0.55s cubic-bezier(0.4,0,0.2,1)' }}
+                >
+                  <div style={{ background: '#f5f5f7', padding: '0.4rem 0.7rem', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid #e5e5e7', height: '34px', boxSizing: 'border-box' }}>
+                    <div style={{ display: 'flex', gap: '4px' }}>
+                      <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ff5f56' }} />
+                      <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ffbd2e' }} />
+                      <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#27c93f' }} />
                     </div>
-                    <div>
-                      <div style={{ fontWeight: '700', fontSize: '0.95rem', color: '#f0ece3', marginBottom: '2px' }}>Sheikh Mohammad Ayoub</div>
-                      <div style={{ fontSize: '0.75rem', color: '#7a9884', lineHeight: '1.5' }}>M.Sc. & B.Ed. Chemistry · Former Senior Lecturer<br/>Free crop diagnosis at the shop</div>
+                    <div style={{ background: '#fff', borderRadius: '4px', padding: '0.2rem 0.6rem', fontSize: '0.65rem', color: '#666', flex: 1, border: '1px solid #e0e0e0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>mapesticides.com</div>
+                  </div>
+                  <div style={{ position: 'relative', height: '100px', overflow: 'hidden', flexShrink: 0, background: '#163e24' }}>
+                    <img src="/kashmir-orchard-banner.webp" alt="Catalogue" onError={(e) => { e.target.src = '/hero-image.webp'; }} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }} />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(8,21,13,0.4) 0%, rgba(8,21,13,0.75) 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <span style={{ color: '#fff', fontSize: '0.7rem', fontWeight: '800', letterSpacing: '1px', textTransform: 'uppercase' }}>Authentic Crop Catalogue</span>
                     </div>
                   </div>
+                  <div style={{ padding: '0.6rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '7px', background: '#f8f9fa', flex: 1 }}>
+                    <div style={{ background: '#fff', borderRadius: '8px', padding: '0.45rem', border: '1px solid #eef0f2', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <img src="/alika.png" alt="Alika" style={{ height: '52px', objectFit: 'contain' }} />
+                      <div style={{ fontSize: '0.65rem', fontWeight: '700', color: '#163e24', marginTop: '3px' }}>Syngenta Alika</div>
+                      <div style={{ fontSize: '0.62rem', color: '#b8923f', fontWeight: '800' }}>₹1,250</div>
+                    </div>
+                    <div style={{ background: '#fff', borderRadius: '8px', padding: '0.45rem', border: '1px solid #eef0f2', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <img src="/antracol.jpg" alt="Antracol" style={{ height: '52px', objectFit: 'contain' }} />
+                      <div style={{ fontSize: '0.65rem', fontWeight: '700', color: '#163e24', marginTop: '3px' }}>Bayer Antracol</div>
+                      <div style={{ fontSize: '0.62rem', color: '#b8923f', fontWeight: '800' }}>₹700</div>
+                    </div>
+                  </div>
+                </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                    {[
-                      { label: 'Est.', value: '2008' },
-                      { label: 'Brands stocked', value: '12+' },
-                      { label: 'Products', value: '100+' },
-                      { label: 'Below MRP', value: 'Up to 20%' },
-                    ].map(stat => (
-                      <div key={stat.label} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '6px', padding: '0.5rem 0.65rem' }}>
-                        <div style={{ color: '#c4a054', fontWeight: '800', fontSize: '1rem', fontFamily: "'Lora', Georgia, serif" }}>{stat.value}</div>
-                        <div style={{ color: '#6a8a74', fontSize: '0.68rem', fontWeight: '600', marginTop: '1px' }}>{stat.label}</div>
+                {/* Card 1 — Senior Chemist */}
+                <div
+                  className={`hero-cube-card hero-cube-card-1${activeHeroCard === 1 ? ' is-active' : ''}`}
+                  onClick={() => goToCard(1)}
+                  style={{ background: '#0a1d12', border: '1px solid rgba(184,146,63,0.4)', color: '#fff', ...getCoverFlowStyle(1), position: 'absolute', left: '50%', transform: getCoverFlowStyle(1).transform + ' translateX(-50%)', width: '260px', borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column', cursor: 'pointer', boxShadow: '0 16px 40px rgba(0,0,0,0.45)', transition: 'all 0.55s cubic-bezier(0.4,0,0.2,1)' }}
+                >
+                  <div style={{ padding: '0.6rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#050f09', borderBottom: '1px solid rgba(255,255,255,0.08)', height: '36px', boxSizing: 'border-box' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <FlaskConical size={14} color="#b8923f" />
+                      <span style={{ fontSize: '0.68rem', fontWeight: '800', color: '#b8923f' }}>SENIOR CHEMIST</span>
+                    </div>
+                    <span style={{ fontSize: '0.6rem', background: 'rgba(37,211,102,0.2)', color: '#25d366', fontWeight: '700', padding: '0.12rem 0.45rem', borderRadius: '10px' }}>VERIFIED</span>
+                  </div>
+                  <div style={{ padding: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.6rem', flex: 1, justifyContent: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(184,146,63,0.15)', border: '1px solid #b8923f', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <FlaskConical size={18} color="#b8923f" />
                       </div>
-                    ))}
-                  </div>
-
-                  <div style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.75rem', color: '#7a9884' }}>
-                    <MapPin size={13} color="#7a9884" />
-                    <span>Near Exhibition Rd, opp. High Court, Srinagar — Mon–Sat 9 AM–7 PM</span>
+                      <div>
+                        <div style={{ fontWeight: '800', fontSize: '0.85rem', color: '#fff' }}>Sheikh Mohammad Ayoub</div>
+                        <div style={{ fontSize: '0.65rem', color: '#b8923f', fontWeight: '700' }}>M.Sc., B.Ed. Chemistry</div>
+                      </div>
+                    </div>
+                    <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '6px', padding: '0.55rem', border: '1px solid rgba(255,255,255,0.08)', fontSize: '0.68rem', color: '#d0e4d8', lineHeight: '1.45' }}>
+                      Former Senior Lecturer · 15+ years field experience in Kashmir soil & pesticide compatibility.
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5px' }}>
+                      <div style={{ background: 'rgba(37,211,102,0.1)', padding: '0.35rem', borderRadius: '6px', border: '1px solid rgba(37,211,102,0.2)', fontSize: '0.63rem', color: '#25d366', fontWeight: '700', textAlign: 'center' }}>Free Sample Testing</div>
+                      <div style={{ background: 'rgba(184,146,63,0.1)', padding: '0.35rem', borderRadius: '6px', border: '1px solid rgba(184,146,63,0.2)', fontSize: '0.63rem', color: '#b8923f', fontWeight: '700', textAlign: 'center' }}>In-Store Advice</div>
+                    </div>
                   </div>
                 </div>
+
+                {/* Card 2 — SKUAST Advisory */}
+                <div
+                  className={`hero-cube-card hero-cube-card-2${activeHeroCard === 2 ? ' is-active' : ''}`}
+                  onClick={() => goToCard(2)}
+                  style={{ background: '#09180e', border: '1px solid rgba(37,211,102,0.4)', color: '#fff', ...getCoverFlowStyle(2), position: 'absolute', left: '50%', transform: getCoverFlowStyle(2).transform + ' translateX(-50%)', width: '260px', borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column', cursor: 'pointer', boxShadow: '0 16px 40px rgba(0,0,0,0.45)', transition: 'all 0.55s cubic-bezier(0.4,0,0.2,1)' }}
+                >
+                  <div style={{ padding: '0.6rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#040b06', borderBottom: '1px solid rgba(255,255,255,0.08)', height: '36px', boxSizing: 'border-box' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Calendar size={14} color="#25d366" />
+                      <span style={{ fontSize: '0.68rem', fontWeight: '800', color: '#25d366' }}>SKUAST-K ADVISORIES</span>
+                    </div>
+                    <span style={{ fontSize: '0.6rem', background: '#25d366', color: '#040b06', fontWeight: '800', padding: '0.12rem 0.45rem', borderRadius: '10px' }}>ACTIVE</span>
+                  </div>
+                  <div style={{ padding: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.55rem', flex: 1, justifyContent: 'center' }}>
+                    <div style={{ background: 'rgba(37,211,102,0.08)', borderLeft: '3px solid #25d366', padding: '0.45rem 0.6rem', borderRadius: '0 6px 6px 0' }}>
+                      <div style={{ fontSize: '0.68rem', fontWeight: '800', color: '#25d366' }}>Codling Moth 2nd Gen Window</div>
+                      <div style={{ fontSize: '0.63rem', color: '#b0cdb8', marginTop: '2px' }}>Apply Syngenta Alika (0.5ml/L) before egg hatch peak.</div>
+                    </div>
+                    <div style={{ background: 'rgba(184,146,63,0.08)', borderLeft: '3px solid #b8923f', padding: '0.45rem 0.6rem', borderRadius: '0 6px 6px 0' }}>
+                      <div style={{ fontSize: '0.68rem', fontWeight: '800', color: '#b8923f' }}>Apple Scab Primary Protection</div>
+                      <div style={{ fontSize: '0.63rem', color: '#b0cdb8', marginTop: '2px' }}>Bayer Antracol (2.5g/L) post-rain spray recommended.</div>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.63rem', color: '#8fae98' }}>
+                      <span>Updated: August 2026</span>
+                      <span style={{ color: '#25d366', fontWeight: '700' }}>100% SKUAST Aligned</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card 3 — Awareness Camps */}
+                <div
+                  className={`hero-cube-card hero-cube-card-3${activeHeroCard === 3 ? ' is-active' : ''}`}
+                  onClick={() => goToCard(3)}
+                  style={{ background: '#0a1d12', border: '1px solid rgba(184,146,63,0.4)', color: '#fff', ...getCoverFlowStyle(3), position: 'absolute', left: '50%', transform: getCoverFlowStyle(3).transform + ' translateX(-50%)', width: '260px', borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column', cursor: 'pointer', boxShadow: '0 16px 40px rgba(0,0,0,0.45)', transition: 'all 0.55s cubic-bezier(0.4,0,0.2,1)' }}
+                >
+                  <div style={{ padding: '0.6rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#050f09', borderBottom: '1px solid rgba(255,255,255,0.08)', height: '36px', boxSizing: 'border-box' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Users size={14} color="#b8923f" />
+                      <span style={{ fontSize: '0.68rem', fontWeight: '800', color: '#b8923f' }}>AWARENESS CAMPS</span>
+                    </div>
+                    <span style={{ fontSize: '0.6rem', background: 'rgba(184,146,63,0.25)', color: '#b8923f', fontWeight: '700', padding: '0.12rem 0.45rem', borderRadius: '10px' }}>VALLEY WIDE</span>
+                  </div>
+                  <div style={{ position: 'relative', flex: 1, overflow: 'hidden', minHeight: '140px' }}>
+                    <img src="/awareness-camps.webp" alt="Farmer Awareness Camps" onError={(e) => { e.target.src = '/shop.jpg'; }} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <div style={{ position: 'absolute', bottom: 0, inset: 'auto 0 0 0', background: 'linear-gradient(to top, rgba(5,15,9,0.95), transparent)', padding: '0.4rem 0.8rem', fontSize: '0.65rem', color: '#fff', fontWeight: '700' }}>⛺ Free Field Training & Spray Workshops</div>
+                  </div>
+                  <div style={{ padding: '0.65rem 0.85rem', background: '#08170e' }}>
+                    <div style={{ fontSize: '0.8rem', fontWeight: '800', color: '#fff', marginBottom: '0.1rem' }}>Regular Field Awareness Camps</div>
+                    <div style={{ fontSize: '0.65rem', color: '#b8923f', fontWeight: '600' }}>Scientific Dosage & Safe Chemical Practices</div>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Dot nav */}
+              <div style={{ display: 'flex', gap: '8px', marginTop: '1rem', zIndex: 10 }}>
+                {[0,1,2,3].map(i => (
+                  <button key={i} onClick={() => goToCard(i)} style={{ width: activeHeroCard === i ? '28px' : '8px', height: '8px', borderRadius: '4px', background: activeHeroCard === i ? '#b8923f' : 'rgba(255,255,255,0.2)', border: 'none', cursor: 'pointer', transition: 'all 0.3s ease', padding: 0 }} />
+                ))}
               </div>
             </div>
 
