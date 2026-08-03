@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
-import { ArrowRight, ShieldCheck, TreeDeciduous, FlaskConical, Phone, MessageCircle, Calendar, Clock, Bell, CheckCircle2, Sparkles, ChevronLeft, ChevronRight, Camera, Zap, FileText, CloudRain, Sun, Droplets, Wind, Users } from 'lucide-react';
+import { ArrowRight, ShieldCheck, TreeDeciduous, FlaskConical, Phone, MessageCircle, Calendar, Clock, Bell, CheckCircle2, ChevronLeft, ChevronRight, Camera, Zap, FileText, CloudRain, Sun, Droplets, Wind, Users } from 'lucide-react';
 
 const QUICK_DIAGNOSTICS = {
   apple: [
@@ -353,22 +353,11 @@ export default function Home() {
         color: '#f0ece3',
         boxSizing: 'border-box'
       }}>
-        {/* Ambient lighting overlays */}
+        {/* Subtle grain texture overlay — no neon blobs */}
         <div style={{
-          position: 'absolute',
-          top: '-20%', right: '-10%',
-          width: '550px', height: '550px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(184, 146, 63, 0.14) 0%, rgba(0,0,0,0) 70%)',
-          pointerEvents: 'none'
-        }} />
-        <div style={{
-          position: 'absolute',
-          bottom: '-15%', left: '-5%',
-          width: '500px', height: '500px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(45, 106, 79, 0.22) 0%, rgba(0,0,0,0) 70%)',
-          pointerEvents: 'none'
+          position: 'absolute', inset: 0,
+          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.035\'/%3E%3C/svg%3E")',
+          pointerEvents: 'none', opacity: 0.6
         }} />
 
         <div className="container" style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem', position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -378,99 +367,74 @@ export default function Home() {
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               
 
-              {/* Kicker Badge */}
+              {/* Shop lineage — human, local, specific */}
               <div style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: 'rgba(184, 146, 63, 0.14)',
-                border: '1px solid rgba(184, 146, 63, 0.35)',
-                padding: '0.35rem 0.85rem',
-                borderRadius: '20px',
+                background: 'rgba(184, 146, 63, 0.1)',
+                border: '1px solid rgba(184, 146, 63, 0.3)',
+                padding: '0.3rem 0.8rem',
+                borderRadius: '4px',
                 fontSize: '0.74rem',
-                fontWeight: '800',
-                color: '#b8923f',
-                letterSpacing: '0.6px',
+                fontWeight: '600',
+                color: '#c4a054',
                 width: 'fit-content',
-                marginBottom: '0.85rem'
+                marginBottom: '0.85rem',
+                fontFamily: "'Caveat', cursive",
+                letterSpacing: '0.2px',
+                fontSize: '0.9rem'
               }}>
-                <Sparkles size={14} color="#b8923f" />
-                <span>Kashmir's First AI-Powered Crop Care Platform</span>
+                <FlaskConical size={14} color="#c4a054" />
+                <span>Hari Singh High Street, Srinagar — Est. 2008</span>
               </div>
 
               {/* Main Headline */}
               <h1 style={{
-                fontFamily: "'Playfair Display', Georgia, serif",
+                fontFamily: "'Lora', Georgia, serif",
                 fontSize: 'clamp(2.2rem, 3.8vw, 3.2rem)',
                 lineHeight: '1.08',
-                fontWeight: '800',
+                fontWeight: '700',
                 color: '#ffffff',
                 marginBottom: '0.1rem',
-                letterSpacing: '-1px'
+                letterSpacing: '-0.5px'
               }}>
                 M.A. Pesticides
               </h1>
               <h2 style={{
-                fontFamily: "'Playfair Display', Georgia, serif",
-                fontSize: 'clamp(1.2rem, 2.2vw, 1.8rem)',
+                fontFamily: "'Caveat', cursive",
+                fontSize: 'clamp(1.3rem, 2.2vw, 1.85rem)',
                 lineHeight: '1.2',
-                fontWeight: '400',
-                fontStyle: 'italic',
-                color: '#b8923f',
-                marginBottom: '0.6rem',
-                letterSpacing: '-0.5px'
+                fontWeight: '600',
+                color: '#c4a054',
+                marginBottom: '0.7rem',
+                letterSpacing: '0.2px'
               }}>
                 & Fertilizers • Srinagar
               </h2>
 
-              {/* Platform Features Subtitle */}
-              <div style={{
-                fontSize: 'clamp(0.85rem, 1.1vw, 0.95rem)',
-                fontWeight: '700',
-                color: '#25d366',
-                marginBottom: '1rem',
-                letterSpacing: '0.3px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                flexWrap: 'wrap'
-              }}>
-                <span>Instant Disease Detection</span>
-                <span style={{ color: '#b8923f' }}>•</span>
-                <span>Expert Recommendations</span>
-                <span style={{ color: '#b8923f' }}>•</span>
-                <span>Premium Agro Products</span>
-              </div>
-
               <p style={{
                 color: '#b0cdb8',
                 fontSize: 'clamp(0.88rem, 1.2vw, 1rem)',
-                lineHeight: '1.65',
-                marginBottom: '1.2rem',
+                lineHeight: '1.7',
+                marginBottom: '1.3rem',
                 maxWidth: '520px'
               }}>
-                Scientific crop protection & authentic chemicals for Kashmir's apple, walnut, pear, and saffron growers. Personally guided by <strong style={{ color: '#ffffff' }}>Sheikh Mohammad Ayoub</strong> — M.Sc., B.ed. Chemistry, former Senior Lecturer.
+                Genuine crop chemicals for Kashmir's apple, walnut, pear and saffron farmers — sold and advised in-person by <strong style={{ color: '#e8f0ea' }}>Sheikh Mohammad Ayoub</strong>, M.Sc. Chemistry and former senior lecturer.
               </p>
 
-              {/* Feature Highlights */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1.5rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: '#d0e4d8' }}>
-                  <CheckCircle2 size={16} color="#25d366" style={{ flexShrink: 0 }} />
-                  <span>Authorized distributor of Bayer, Syngenta, FIL, Willowood & IPL</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: '#d0e4d8' }}>
-                  <CheckCircle2 size={16} color="#25d366" style={{ flexShrink: 0 }} />
-                  <span>Free on-the-spot leaf & soil sample chemical diagnosis</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: '#d0e4d8' }}>
-                  <CheckCircle2 size={16} color="#25d366" style={{ flexShrink: 0 }} />
-                  <span>100% SKUAST-K Stage Spray Schedule compliance</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: '#d0e4d8' }}>
-                  <Sparkles size={16} color="#b8923f" style={{ flexShrink: 0 }} />
-                  <span><strong>Expert Store Consultation</strong>: Direct chemical & crop advice at Hari Singh High Street, Srinagar</span>
-                </div>
-              </div>
+              {/* 3 plain, specific facts — no icon bullets */}
+              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 1.5rem 0', display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
+                <li style={{ fontSize: '0.87rem', color: '#b0cdb8', paddingLeft: '1rem', borderLeft: '2px solid rgba(184,146,63,0.4)', lineHeight: '1.5' }}>
+                  Authorized stockist: Bayer, Syngenta, Willowood, FIL & IPL Biologicals
+                </li>
+                <li style={{ fontSize: '0.87rem', color: '#b0cdb8', paddingLeft: '1rem', borderLeft: '2px solid rgba(184,146,63,0.4)', lineHeight: '1.5' }}>
+                  Free leaf & soil sample testing at the shop — no appointment needed
+                </li>
+                <li style={{ fontSize: '0.87rem', color: '#b0cdb8', paddingLeft: '1rem', borderLeft: '2px solid rgba(184,146,63,0.4)', lineHeight: '1.5' }}>
+                  Up to 20% below MRP on most products — ask at the counter
+                </li>
+              </ul>
 
               {/* Call to Action Buttons */}
               <div style={{ display: 'flex', gap: '0.85rem', flexWrap: 'wrap', alignItems: 'center' }}>
@@ -507,267 +471,67 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column — 3D Cover Flow Revolving Track */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', overflow: 'hidden' }}>
-              <div
-                className="hero-cards-stack"
-                onMouseMove={handleMouseMove}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                onTouchStart={handleTouchStart}
-                onTouchEnd={handleTouchEnd}
-              >
-                {/* Prev/Next 3D Navigation Controls */}
-                <button
-                  className="hero-cube-nav-btn hero-cube-nav-prev"
-                  onClick={handlePrevCard}
-                  aria-label="Rotate Stage Left"
-                  title="Rotate Stage Left"
-                >
-                  <ChevronLeft size={22} />
-                </button>
-                <button
-                  className="hero-cube-nav-btn hero-cube-nav-next"
-                  onClick={handleNextCard}
-                  aria-label="Rotate Stage Right"
-                  title="Rotate Stage Right"
-                >
-                  <ChevronRight size={22} />
-                </button>
-
-                {/* 3D Cover Flow Stage Container */}
-                <div className="hero-cube-stage">
-                  
-                  {/* Card 0: Product Browser Face */}
-                  <div
-                    className={`hero-cube-card hero-cube-card-0 ${activeHeroCard === 0 ? 'is-active' : ''}`}
-                    onClick={() => goToCard(0)}
-                    style={{ background: '#ffffff', color: '#1c241e', ...getCoverFlowStyle(0) }}
-                  >
-                    <div className="hero-cube-card-shine" />
-                    {/* Window Header */}
-                    <div style={{ background: '#f5f5f7', padding: '0.4rem 0.7rem', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid #e5e5e7', height: '34px', boxSizing: 'border-box' }}>
-                      <div style={{ display: 'flex', gap: '4px' }}>
-                        <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ff5f56' }} />
-                        <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ffbd2e' }} />
-                        <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#27c93f' }} />
-                      </div>
-                      <div style={{ background: '#ffffff', borderRadius: '4px', padding: '0.2rem 0.6rem', fontSize: '0.68rem', color: '#666', width: '100%', border: '1px solid #e0e0e0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        https://www.mapesticides.com
-                      </div>
-                    </div>
-
-                    {/* Catalogue Banner */}
-                    <div style={{ position: 'relative', height: '110px', overflow: 'hidden', flexShrink: 0 }}>
-                      <img
-                        src="/kashmir-orchard-banner.webp"
-                        alt="Authentic Crop Catalogue Banner"
-                        onError={(e) => { e.target.src = "/hero-image.webp"; }}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
-                      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(8, 21, 13, 0.4) 0%, rgba(8, 21, 13, 0.75) 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <span style={{ color: '#ffffff', fontSize: '0.75rem', fontWeight: '800', letterSpacing: '1.2px', textTransform: 'uppercase' }}>
-                          AUTHENTIC CROP CATALOGUE
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Product Grid */}
-                    <div style={{ padding: '0.65rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', background: '#f8f9fa', flex: 1 }}>
-                      <div style={{ background: '#ffffff', borderRadius: '8px', padding: '0.5rem', border: '1px solid #eef0f2', boxShadow: '0 2px 6px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                        <div style={{ background: '#f5f7f6', borderRadius: '6px', padding: '0.25rem', marginBottom: '0.3rem', height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <img src="/alika.png" alt="Syngenta Alika" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
-                        </div>
-                        <div style={{ fontSize: '0.72rem', fontWeight: '700', color: '#163e24', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Syngenta Alika</div>
-                        <div style={{ fontSize: '0.68rem', color: '#b8923f', fontWeight: '800' }}>₹1,250</div>
-                      </div>
-
-                      <div style={{ background: '#ffffff', borderRadius: '8px', padding: '0.5rem', border: '1px solid #eef0f2', boxShadow: '0 2px 6px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                        <div style={{ background: '#f5f7f6', borderRadius: '6px', padding: '0.25rem', marginBottom: '0.3rem', height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <img src="/antracol.jpg" alt="Bayer Antracol" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
-                        </div>
-                        <div style={{ fontSize: '0.72rem', fontWeight: '700', color: '#163e24', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Bayer Antracol</div>
-                        <div style={{ fontSize: '0.68rem', color: '#b8923f', fontWeight: '800' }}>₹700</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Card 1: Senior Chemist Face */}
-                  <div
-                    className={`hero-cube-card hero-cube-card-1 ${activeHeroCard === 1 ? 'is-active' : ''}`}
-                    onClick={() => goToCard(1)}
-                    style={{
-                      background: '#0a1d12',
-                      border: '1px solid rgba(184, 146, 63, 0.35)',
-                      color: '#ffffff',
-                      ...getCoverFlowStyle(1)
-                    }}
-                  >
-                    <div className="hero-cube-card-shine" />
-                    <div style={{ padding: '0.6rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', background: '#050f09', height: '36px', boxSizing: 'border-box' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#b8923f', color: '#08150d', fontSize: '0.6rem', fontWeight: '800', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🔬</div>
-                        <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#b8923f', letterSpacing: '0.5px' }}>EXPERT CHEMIST DESK</span>
-                      </div>
-                      <span style={{ fontSize: '0.62rem', background: 'rgba(37, 211, 102, 0.2)', color: '#25d366', fontWeight: '700', padding: '0.15rem 0.5rem', borderRadius: '10px' }}>VERIFIED</span>
-                    </div>
-                    
-                    <div style={{ position: 'relative', flex: 1, overflow: 'hidden' }}>
-                      <img
-                        src="/awareness-camps.webp"
-                        alt="Sheikh Mohammad Ayoub at store"
-                        onError={(e) => { e.target.src = "/shop.jpg"; }}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
-                      <div style={{ position: 'absolute', bottom: 0, inset: 'auto 0 0 0', background: 'linear-gradient(to top, rgba(5,15,9,0.95), transparent)', padding: '0.4rem 0.8rem', fontSize: '0.68rem', color: '#d0e4d8', fontWeight: '600' }}>
-                        📍 Hari Singh High Street, Srinagar
-                      </div>
-                    </div>
-
-                    <div style={{ padding: '0.75rem 0.85rem', background: '#08170e' }}>
-                      <div style={{ fontSize: '0.85rem', fontWeight: '800', color: '#ffffff', marginBottom: '0.15rem' }}>
-                        Sheikh Mohammad Ayoub
-                      </div>
-                      <div style={{ fontSize: '0.7rem', color: '#b8923f', fontWeight: '600', marginBottom: '0.3rem' }}>
-                        M.Sc., B.Ed. Chemistry • Ex-Senior Lecturer
-                      </div>
-                      <p style={{ fontSize: '0.68rem', color: '#a0c0ab', lineHeight: '1.35', margin: 0 }}>
-                        Free chemical leaf & soil sample diagnosis in store.
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Card 2: SKUAST Spray & Weather Advisory Face */}
-                  <div
-                    className={`hero-cube-card hero-cube-card-2 ${activeHeroCard === 2 ? 'is-active' : ''}`}
-                    onClick={() => goToCard(2)}
-                    style={{ background: '#0c2415', border: '1px solid rgba(37, 211, 102, 0.35)', color: '#ffffff', ...getCoverFlowStyle(2) }}
-                  >
-                    <div className="hero-cube-card-shine" />
-                    
-                    {/* Header */}
-                    <div style={{ padding: '0.55rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#07170d', borderBottom: '1px solid rgba(255,255,255,0.08)', height: '36px', boxSizing: 'border-box' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <CloudRain size={16} color="#25d366" />
-                        <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#25d366', letterSpacing: '0.5px' }}>SKUAST & WEATHER ADVISORY</span>
-                      </div>
-                      <span style={{ fontSize: '0.62rem', background: 'rgba(37, 211, 102, 0.2)', color: '#25d366', fontWeight: '700', padding: '0.15rem 0.5rem', borderRadius: '10px' }}>LIVE SRINAGAR</span>
-                    </div>
-
-                    <div style={{ padding: '0.75rem 0.85rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: 'linear-gradient(180deg, #091b10 0%, #06130b 100%)' }}>
-                      
-                      {/* Integrated Srinagar Live Weather Bar */}
-                      <div style={{ background: 'rgba(37, 211, 102, 0.08)', border: '1px solid rgba(37, 211, 102, 0.25)', borderRadius: '10px', padding: '0.5rem 0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <div>
-                          <div style={{ fontSize: '0.68rem', color: '#b8923f', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            📍 Srinagar Valley • Today
-                          </div>
-                          <div style={{ fontSize: '0.95rem', fontWeight: '800', color: '#ffffff', marginTop: '1px' }}>
-                            22°C <span style={{ fontSize: '0.72rem', color: '#25d366', fontWeight: '600' }}>• Light Rain Expected</span>
-                          </div>
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '2px', fontSize: '0.65rem', color: '#a0c4ab' }}>
-                          <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}><Droplets size={11} color="#38bdf8" /> 68% Humid</span>
-                          <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}><Wind size={11} color="#25d366" /> 6 km/h Wind</span>
-                        </div>
-                      </div>
-
-                      {/* Stage Advisory & Recommendation */}
-                      <div style={{ marginTop: '0.4rem' }}>
-                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(184, 146, 63, 0.18)', border: '1px solid rgba(184, 146, 63, 0.35)', padding: '0.18rem 0.55rem', borderRadius: '12px', fontSize: '0.64rem', color: '#b8923f', fontWeight: '700', marginBottom: '0.4rem' }}>
-                          ⚡ STAGE: PINK BUD & PETAL FALL
-                        </div>
-                        <h4 style={{ color: '#ffffff', fontSize: '0.88rem', fontWeight: '800', marginBottom: '0.25rem', fontFamily: 'Inter, sans-serif' }}>
-                          Pre-Rain Ascospore Scab Protection
-                        </h4>
-                        <p style={{ color: '#a0c4ab', fontSize: '0.7rem', lineHeight: '1.4', margin: 0 }}>
-                          High fungal ascospore rain discharge window. Apply systemic fungicide within 24 hrs before expected rainfall.
-                        </p>
-                      </div>
-
-                      {/* Recommended Tank Mix */}
-                      <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '0.5rem 0.7rem' }}>
-                        <div style={{ fontSize: '0.63rem', color: '#b8923f', fontWeight: '800', letterSpacing: '0.5px', textTransform: 'uppercase', marginBottom: '0.15rem' }}>
-                          RECOMMENDED CHEMICAL TANK MIX
-                        </div>
-                        <div style={{ fontSize: '0.72rem', color: '#ffffff', fontWeight: '700' }}>
-                          Syngenta Score (0.5ml/L) + Boron 20% (1g/L)
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-
-                  {/* Card 3: Regular Farmer Awareness Camps Face */}
-                  <div
-                    className={`hero-cube-card hero-cube-card-3 ${activeHeroCard === 3 ? 'is-active' : ''}`}
-                    onClick={() => goToCard(3)}
-                    style={{ background: '#0a1d12', border: '1px solid rgba(184, 146, 63, 0.4)', color: '#ffffff', ...getCoverFlowStyle(3) }}
-                  >
-                    <div className="hero-cube-card-shine" />
-                    <div style={{ padding: '0.6rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#050f09', borderBottom: '1px solid rgba(255,255,255,0.08)', height: '36px', boxSizing: 'border-box' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <Users size={15} color="#b8923f" />
-                        <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#b8923f', letterSpacing: '0.5px' }}>FARMER AWARENESS CAMPS</span>
-                      </div>
-                      <span style={{ fontSize: '0.62rem', background: 'rgba(184, 146, 63, 0.25)', color: '#b8923f', fontWeight: '700', padding: '0.15rem 0.5rem', borderRadius: '10px' }}>VALLEY WIDE</span>
-                    </div>
-                    
-                    <div style={{ position: 'relative', flex: 1, overflow: 'hidden' }}>
-                      <img
-                        src="/awareness-camps.webp"
-                        alt="Regular Farmer Awareness Camps in Kashmir"
-                        onError={(e) => { e.target.src = "/shop.jpg"; }}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
-                      <div style={{ position: 'absolute', bottom: 0, inset: 'auto 0 0 0', background: 'linear-gradient(to top, rgba(5,15,9,0.95), transparent)', padding: '0.45rem 0.8rem', fontSize: '0.68rem', color: '#ffffff', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <span>⛺ Free Field Training & Spray Workshops</span>
-                      </div>
-                    </div>
-
-                    <div style={{ padding: '0.75rem 0.85rem', background: '#08170e' }}>
-                      <div style={{ fontSize: '0.85rem', fontWeight: '800', color: '#ffffff', marginBottom: '0.15rem' }}>
-                        Regular Field Awareness Camps
-                      </div>
-                      <div style={{ fontSize: '0.7rem', color: '#b8923f', fontWeight: '600', marginBottom: '0.3rem' }}>
-                        Scientific Dosage & Safe Chemical Practices
-                      </div>
-                      <p style={{ fontSize: '0.68rem', color: '#a0c0ab', lineHeight: '1.35', margin: 0 }}>
-                        On-the-spot leaf & soil sample testing conducted directly in orchard districts across Kashmir.
-                      </p>
-                    </div>
-                  </div>
-
+            {/* Right Column — Shop credential card, real and grounded */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+              <div style={{
+                background: '#0e1f14',
+                border: '1px solid rgba(184, 146, 63, 0.25)',
+                borderRadius: '12px',
+                overflow: 'hidden',
+                width: '100%',
+                maxWidth: '380px',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.35)'
+              }}>
+                {/* Shop photo banner */}
+                <div style={{ position: 'relative', height: '160px', overflow: 'hidden', background: '#0a1a0f' }}>
+                  <img
+                    src="/shop.jpg"
+                    alt="MA Pesticides shop at Hari Singh High Street, Srinagar"
+                    onError={(e) => { e.target.style.display = 'none'; }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }}
+                  />
+                  <div style={{ position: 'absolute', bottom: 0, inset: 'auto 0 0 0', background: 'linear-gradient(to top, #0e1f14 0%, transparent 100%)', height: '60px' }} />
+                  <span style={{
+                    position: 'absolute', top: '10px', left: '12px',
+                    background: 'rgba(8,21,13,0.8)',
+                    border: '1px solid rgba(184,146,63,0.4)',
+                    color: '#c4a054', fontSize: '0.68rem', fontWeight: '700',
+                    padding: '0.2rem 0.55rem', borderRadius: '4px',
+                    fontFamily: "'Caveat', cursive", letterSpacing: '0.3px', fontSize: '0.82rem'
+                  }}>Our Shop</span>
                 </div>
-              </div>
 
-              {/* Interactive 4-Card Navigation Indicators */}
-              <div style={{ display: 'flex', gap: '8px', marginTop: '1.2rem', zIndex: 10, flexWrap: 'wrap', justifyContent: 'center' }}>
-                {[
-                  { id: 0, label: 'Catalogue' },
-                  { id: 1, label: 'Chemist' },
-                  { id: 2, label: 'Advisories' },
-                  { id: 3, label: 'Awareness Camps' }
-                ].map(dot => (
-                  <button
-                    key={dot.id}
-                    onClick={() => goToCard(dot.id)}
-                    style={{
-                      background: activeHeroCard === dot.id ? '#b8923f' : 'rgba(255,255,255,0.12)',
-                      color: activeHeroCard === dot.id ? '#08150d' : '#d0e4d8',
-                      border: activeHeroCard === dot.id ? '1px solid #b8923f' : '1px solid rgba(255,255,255,0.15)',
-                      padding: '0.35rem 0.85rem',
-                      borderRadius: '20px',
-                      fontSize: '0.72rem',
-                      fontWeight: '800',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                      boxShadow: activeHeroCard === dot.id ? '0 4px 12px rgba(184, 146, 63, 0.35)' : 'none'
-                    }}
-                  >
-                    {dot.label}
-                  </button>
-                ))}
+                {/* Chemist credentials */}
+                <div style={{ padding: '1.1rem 1.2rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '1rem' }}>
+                    <div style={{ flexShrink: 0, width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(184,146,63,0.12)', border: '1px solid rgba(184,146,63,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <FlaskConical size={20} color="#c4a054" />
+                    </div>
+                    <div>
+                      <div style={{ fontWeight: '700', fontSize: '0.95rem', color: '#f0ece3', marginBottom: '2px' }}>Sheikh Mohammad Ayoub</div>
+                      <div style={{ fontSize: '0.75rem', color: '#7a9884', lineHeight: '1.5' }}>M.Sc. & B.Ed. Chemistry · Former Senior Lecturer<br/>Free crop diagnosis at the shop</div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                    {[
+                      { label: 'Est.', value: '2008' },
+                      { label: 'Brands stocked', value: '12+' },
+                      { label: 'Products', value: '100+' },
+                      { label: 'Below MRP', value: 'Up to 20%' },
+                    ].map(stat => (
+                      <div key={stat.label} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '6px', padding: '0.5rem 0.65rem' }}>
+                        <div style={{ color: '#c4a054', fontWeight: '800', fontSize: '1rem', fontFamily: "'Lora', Georgia, serif" }}>{stat.value}</div>
+                        <div style={{ color: '#6a8a74', fontSize: '0.68rem', fontWeight: '600', marginTop: '1px' }}>{stat.label}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.75rem', color: '#7a9884' }}>
+                    <MapPin size={13} color="#7a9884" />
+                    <span>Near Exhibition Rd, opp. High Court, Srinagar — Mon–Sat 9 AM–7 PM</span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -784,20 +548,19 @@ export default function Home() {
             textAlign: 'center'
           }} className="hero-stats-strip">
             <div>
-              <div style={{ color: '#b8923f', fontWeight: '800', fontSize: '1.35rem', fontFamily: "'Playfair Display', serif" }}>15+ Years</div>
+              <div style={{ color: '#b8923f', fontWeight: '800', fontSize: '1.35rem', fontFamily: "'Lora', Georgia, serif" }}>15+ Years</div>
               <div style={{ color: '#7a9884', fontSize: '0.72rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Trusted Service</div>
             </div>
             <div>
-              <div style={{ color: '#b8923f', fontWeight: '800', fontSize: '1.35rem', fontFamily: "'Playfair Display', serif" }}>100+ SKUs</div>
+              <div style={{ color: '#b8923f', fontWeight: '800', fontSize: '1.35rem', fontFamily: "'Lora', Georgia, serif" }}>100+ SKUs</div>
               <div style={{ color: '#7a9884', fontSize: '0.72rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Authentic Stock</div>
             </div>
             <div>
-              <div style={{ color: '#b8923f', fontWeight: '800', fontSize: '1.35rem', fontFamily: "'Playfair Display', serif" }}>Up to 20% Off</div>
+              <div style={{ color: '#b8923f', fontWeight: '800', fontSize: '1.35rem', fontFamily: "'Lora', Georgia, serif" }}>Up to 20% Off</div>
               <div style={{ color: '#7a9884', fontSize: '0.72rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Discount Below MRP</div>
             </div>
             <div>
-              <div style={{ color: '#b8923f', fontWeight: '800', fontSize: '1.35rem', fontFamily: "'Playfair Display', serif" }}>50+</div>
-              <div style={{ color: '#7a9884', fontSize: '0.72rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Disease Guide</div>
+              <div style={{ color: '#b8923f', fontWeight: '800', fontSize: '1.35rem', fontFamily: "'Lora', Georgia, serif" }}>50+</div>
             </div>
           </div>
 
@@ -815,7 +578,7 @@ export default function Home() {
                 <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#25d366', display: 'inline-block', boxShadow: '0 0 8px #25d366' }} />
                 {activeAdvisory.monthName.toUpperCase()} {selectedMonthIndex === currentRealMonth ? 'LIVE ADVISORY' : 'STAGE ADVISORY'}
               </div>
-              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.8rem, 3vw, 2.4rem)', color: 'var(--primary-color)', margin: 0, letterSpacing: '-0.5px' }}>
+              <h2 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 'clamp(1.8rem, 3vw, 2.4rem)', color: 'var(--primary-color)', margin: 0, letterSpacing: '-0.3px' }}>
                 Monthly Orchard Advisories & Seasonal Updates
               </h2>
             </div>
@@ -976,7 +739,7 @@ export default function Home() {
               marginBottom: '0.2rem'
             }}>what we offer —</span>
             <h2 style={{
-              fontFamily: "'Playfair Display', serif",
+              fontFamily: "'Lora', serif",
               fontSize: 'clamp(1.8rem, 3vw, 2.4rem)',
               color: 'var(--primary-color)',
               margin: 0,
@@ -1128,7 +891,7 @@ export default function Home() {
               <span style={{ fontFamily: 'var(--font-hand)', fontSize: '1rem', color: 'var(--secondary-color)', display: 'block', marginBottom: '0.3rem' }}>
                 come find us —
               </span>
-              <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(1.6rem, 2.5vw, 2rem)', color: 'var(--primary-color)', marginBottom: '1rem', letterSpacing: '-0.4px' }}>
+              <h2 style={{ fontFamily: "'Lora', serif", fontSize: 'clamp(1.6rem, 2.5vw, 2rem)', color: 'var(--primary-color)', marginBottom: '1rem', letterSpacing: '-0.4px' }}>
                 We're in the heart of Srinagar
               </h2>
               <p style={{ fontSize: '0.93rem', color: 'var(--text-muted)', lineHeight: '1.75', marginBottom: '1.5rem' }}>

@@ -1,32 +1,32 @@
 import React, { useState, useEffect, memo } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Sprout, Moon, Sun, Phone, MapPin, Sparkles, ShieldCheck, FlaskConical, Menu, X } from 'lucide-react';
+import { Sprout, Moon, Sun, Phone, MapPin, Leaf, ShieldCheck, FlaskConical, Menu, X } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 const ANNOUNCEMENTS = [
   {
     icon: <Phone size={13} color="#b8923f" />,
     text: "+91 99065 41321",
-    detail: "Hari Singh High Street, Srinagar • Mon–Sat: 9 AM–7 PM",
-    tag: "HELPLINE"
+    detail: "Hari Singh High Street, Srinagar · Mon–Sat: 9 AM–7 PM",
+    tag: null
   },
   {
-    icon: <Sparkles size={13} color="#25d366" />,
-    text: "Codling Moth (2nd Gen) Spray Window Active",
-    detail: "100% SKUAST-K Stage Schedule Compliant",
-    tag: "LIVE ADVISORY"
+    icon: <Leaf size={13} color="#52b788" />,
+    text: "Codling Moth spray window active — ask at the shop",
+    detail: "SKUAST-K stage schedule compliant",
+    tag: null
   },
   {
     icon: <FlaskConical size={13} color="#b8923f" />,
-    text: "Free On-the-Spot Chemical Leaf & Soil Sample Testing",
-    detail: "Guided by Sheikh Mohammad Ayoub (M.Sc. Chemistry)",
-    tag: "EXPERT CHEMIST"
+    text: "Free leaf & soil sample testing — no appointment needed",
+    detail: "Guided by Sheikh Mohammad Ayoub, M.Sc. Chemistry",
+    tag: null
   },
   {
-    icon: <ShieldCheck size={13} color="#25d366" />,
-    text: "Authorized Stockist for Bayer, Syngenta, FIL & Willowood",
-    detail: "Up to 20% Discount Below MRP • 100% Authentic",
-    tag: "AUTHENTIC STOCK"
+    icon: <ShieldCheck size={13} color="#52b788" />,
+    text: "Authorized: Bayer, Syngenta, FIL & Willowood — up to 20% below MRP",
+    detail: "100% authentic, zero counterfeits",
+    tag: null
   }
 ];
 
@@ -55,9 +55,11 @@ function Header() {
       {/* Animated Top Contact & Advisory Bar */}
       <div className="top-contact-bar">
         <div key={index} className="top-bar-animated-item">
-          <span className="top-bar-tag">
-            {activeMsg.tag}
-          </span>
+          {activeMsg.tag && (
+            <span className="top-bar-tag">
+              {activeMsg.tag}
+            </span>
+          )}
 
           <div className="top-bar-text">
             {activeMsg.icon}
@@ -65,7 +67,7 @@ function Header() {
           </div>
 
           <span className="top-bar-hide-mobile" style={{ color: '#8fae98', fontSize: '0.72rem' }}>
-            • {activeMsg.detail}
+            · {activeMsg.detail}
           </span>
         </div>
       </div>

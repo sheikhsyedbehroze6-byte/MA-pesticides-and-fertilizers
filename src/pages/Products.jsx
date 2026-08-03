@@ -47,7 +47,7 @@ export default function Products() {
           AUTHORIZED AGRICULTURAL CATALOGUE
         </p>
         
-        <h2 style={{ fontSize: '2.2rem', color: 'var(--primary-color)', margin: '0 0 0.4rem 0', fontFamily: "'Playfair Display', Georgia, serif" }}>
+        <h2 style={{ fontSize: '2.2rem', color: 'var(--primary-color)', margin: '0 0 0.4rem 0', fontFamily: "'Lora', Georgia, serif" }}>
           Agricultural Products & Chemical Formulations
         </h2>
         <p className="urdu-text" style={{ fontSize: '1.2rem', color: 'var(--primary-color)', margin: '0.2rem 0 0.8rem 0', fontWeight: 'bold' }}>

@@ -107,7 +107,7 @@ export default function Search() {
           INSTANT DIAGNOSTIC & PRODUCT SEARCH
         </p>
         
-        <h2 style={{ fontSize: '2.2rem', color: 'var(--primary-color)', margin: '0 0 0.4rem 0', fontFamily: "'Playfair Display', Georgia, serif" }}>
+        <h2 style={{ fontSize: '2.2rem', color: 'var(--primary-color)', margin: '0 0 0.4rem 0', fontFamily: "'Lora', Georgia, serif" }}>
           Find Agricultural Solutions
         </h2>
         <p style={{ maxWidth: '600px', fontSize: '0.98rem', color: 'var(--text-muted)', lineHeight: '1.6', margin: '0 0 1.5rem 0' }}>
@@ -187,7 +187,7 @@ export default function Search() {
       {!query.trim() && (
         <AnimatedSection style={{ marginBottom: '3.5rem' }}>
           <div style={{ marginBottom: '1.5rem', textAlign: 'center' }}>
-            <h3 style={{ fontSize: '1.25rem', color: 'var(--primary-color)', margin: '0 0 0.4rem 0', fontFamily: "'Playfair Display', Georgia, serif" }}>
+            <h3 style={{ fontSize: '1.25rem', color: 'var(--primary-color)', margin: '0 0 0.4rem 0', fontFamily: "'Lora', Georgia, serif" }}>
               Explore Crop Solutions & Chemical Formulations
             </h3>
             <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', margin: 0 }}>

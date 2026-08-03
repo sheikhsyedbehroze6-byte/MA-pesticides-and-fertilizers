@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import AnimatedSection from '../components/AnimatedSection';
 import { diseases, products } from '../data/agricultureData';
-import { AlertTriangle, CheckCircle, Leaf, Search, Filter, X, MessageCircle, Stethoscope, Sparkles, Droplets, ShieldAlert, ArrowRight } from 'lucide-react';
+import { AlertTriangle, CheckCircle, Leaf, Search, Filter, X, MessageCircle, Stethoscope, Droplets, ShieldAlert, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './urdu.css';
 
@@ -131,7 +131,7 @@ export default function DiseaseGuide() {
           SCIENTIFIC CROP DIAGNOSIS DIRECTORY
         </p>
         
-        <h2 style={{ fontSize: '2.2rem', color: 'var(--primary-color)', margin: '0 0 0.4rem 0', fontFamily: "'Playfair Display', Georgia, serif" }}>
+        <h2 style={{ fontSize: '2.2rem', color: 'var(--primary-color)', margin: '0 0 0.4rem 0', fontFamily: "'Lora', Georgia, serif" }}>
           Kashmir Disease & Cure Guide
         </h2>
         <p className="urdu-text" style={{ fontSize: '1.2rem', color: 'var(--primary-color)', margin: '0.2rem 0 0.8rem 0', fontWeight: 'bold' }}>
@@ -158,7 +158,7 @@ export default function DiseaseGuide() {
         }}>
           <div style={{ maxWidth: '650px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.4rem' }}>
-              <Sparkles size={18} style={{ color: '#c4a054' }} />
+              <Stethoscope size={18} style={{ color: '#c4a054' }} />
               <span style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: '700', color: '#c4a054' }}>
                 Instant Photo Diagnosis Service
               </span>

@@ -41,7 +41,7 @@ export default function NotFound() {
         </div>
 
         <h1 style={{
-          fontFamily: "'Playfair Display', serif",
+          fontFamily: "'Lora', serif",
           fontSize: 'clamp(1.6rem, 4vw, 2.2rem)',
           color: 'var(--primary-color)',
           marginBottom: '0.8rem'

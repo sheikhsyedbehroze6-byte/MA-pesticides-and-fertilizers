@@ -126,7 +126,7 @@ header, .top-contact-bar, .whatsapp-float-widget, .back-to-top, .bottom-nav {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Lora', Georgia, serif;
   color: var(--primary-color);
 }
 
@@ -715,7 +715,7 @@ header {
 }
 
 .logo-container h1 {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Lora', Georgia, serif;
   font-size: 1.3rem;
   font-weight: 700;
   letter-spacing: -0.5px;
@@ -2586,7 +2586,7 @@ img[src*="safety-guide"] {
   color: var(--primary-color);
   font-size: 1.25rem;
   margin-bottom: 1.2rem;
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Lora', Georgia, serif;
   font-weight: 700;
 }
 
@@ -2617,7 +2617,7 @@ img[src*="safety-guide"] {
 .founder-name {
   font-size: 1.3rem;
   color: var(--primary-color);
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Lora', Georgia, serif;
   margin-bottom: 0.3rem;
   font-weight: 700;
   line-height: 1.2;
@@ -3327,7 +3327,7 @@ img[src*="safety-guide"] {
   font-size: 1.3rem;
   color: var(--primary-color);
   font-weight: 800;
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Lora', Georgia, serif;
 }
 
 .dosage-whatsapp-btn {
