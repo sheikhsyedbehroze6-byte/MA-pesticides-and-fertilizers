@@ -1,22 +1,109 @@
-import { useState } from 'react';
-import { Calculator, Droplets, TreeDeciduous, ShieldAlert, MessageCircle, RotateCcw } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { Calculator, Droplets, TreeDeciduous, ShieldAlert, MessageCircle, Search, Filter } from 'lucide-react';
 
 const CALCULATOR_PRODUCTS = [
-  { id: 'antracol', name: 'Antracol (Propineb 70% WP)', type: 'Fungicide', ratePerLitre: 2.5, unit: 'g', defaultTank: 500 },
-  { id: 'luna', name: 'Luna Experience (Fluopyram + Tebuconazole)', type: 'Fungicide', ratePerLitre: 1.0, unit: 'ml', defaultTank: 500 },
-  { id: 'cyclone', name: 'Cyclone 505 (Chlorpyrifos + Cypermethrin)', type: 'Insecticide', ratePerLitre: 1.5, unit: 'ml', defaultTank: 500 },
-  { id: 'dodine', name: 'Superstar Dodine 65% WP', type: 'Fungicide', ratePerLitre: 1.5, unit: 'g', defaultTank: 500 },
-  { id: 'mitofix', name: 'Mitofix (Propargite 57% EC)', type: 'Acaricide/Mite', ratePerLitre: 1.5, unit: 'ml', defaultTank: 500 },
-  { id: 'alika', name: 'Syngenta Alika (Thiamethoxam + Lambda)', type: 'Insecticide', ratePerLitre: 0.5, unit: 'ml', defaultTank: 500 },
-  { id: 'hmo', name: 'Horticultural Mineral Oil (HMO)', type: 'Dormant Oil', ratePerLitre: 30.0, unit: 'ml', defaultTank: 500 },
+  // --- FUNGICIDES ---
+  { id: 'antracol', name: 'Antracol (Propineb 70% WP)', category: 'Fungicide', type: 'Contact Fungicide', ratePerLitre: 2.5, unit: 'g' },
+  { id: 'luna', name: 'Luna Experience (Fluopyram + Tebuconazole)', category: 'Fungicide', type: 'Systemic Fungicide', ratePerLitre: 1.0, unit: 'ml' },
+  { id: 'dodine', name: 'Superstar Dodine 65% WP', category: 'Fungicide', type: 'Contact Scab Fungicide', ratePerLitre: 1.0, unit: 'g' },
+  { id: 'captan', name: 'Captan 50% WP (Captaf / Fargo Super)', category: 'Fungicide', type: 'Contact Fungicide', ratePerLitre: 2.0, unit: 'g' },
+  { id: 'mancozeb', name: 'Mancozeb 75% WP (Indofil M-45)', category: 'Fungicide', type: 'Protective Fungicide', ratePerLitre: 2.5, unit: 'g' },
+  { id: 'difenoconazole', name: 'Difenoconazole 25% EC (Score / Willowood)', category: 'Fungicide', type: 'Systemic Fungicide', ratePerLitre: 0.5, unit: 'ml' },
+  { id: 'carmel', name: 'Willowood Carmel / Tropical (Carbendazim + Mancozeb)', category: 'Fungicide', type: 'Dual Action Fungicide', ratePerLitre: 2.0, unit: 'g' },
+  { id: 'myclobutanil', name: 'Myclobutanil 10% WP (Merrito / Index)', category: 'Fungicide', type: 'Systemic Fungicide', ratePerLitre: 0.4, unit: 'g' },
+  { id: 'hexaconazole', name: 'Hexaconazole 5% EC (Contaf 5EC)', category: 'Fungicide', type: 'Systemic Fungicide', ratePerLitre: 1.0, unit: 'ml' },
+  { id: 'copper_oxy', name: 'Copper Oxychloride 50% WP (Blitox / Cu-50)', category: 'Fungicide', type: 'Copper Fungicide', ratePerLitre: 3.0, unit: 'g' },
+  { id: 'bordeaux', name: 'Bordeaux Mixture 1% (Copper Sulphate + Lime)', category: 'Fungicide', type: 'Protective Copper', ratePerLitre: 10.0, unit: 'g' },
+  { id: 'ziram', name: 'Ziram 80% WP (Protective Fungicide)', category: 'Fungicide', type: 'Contact Fungicide', ratePerLitre: 2.0, unit: 'g' },
+  { id: 'kresoxim', name: 'Kresoxim-methyl 44.3% SC (Ergon / Strobilurin)', category: 'Fungicide', type: 'Systemic Fungicide', ratePerLitre: 0.6, unit: 'ml' },
+  { id: 'tebuconazole', name: 'Tebuconazole 25.9% EC (Folicur)', category: 'Fungicide', type: 'Systemic Fungicide', ratePerLitre: 0.75, unit: 'ml' },
+  { id: 'merivon', name: 'Merivon (Fluxapyroxad 250 + Pyraclostrobin 250 SC)', category: 'Fungicide', type: 'Advanced Fungicide', ratePerLitre: 0.4, unit: 'ml' },
+  { id: 'cabrio_top', name: 'Cabrio Top (Metiram 55% + Pyraclostrobin 5% WG)', category: 'Fungicide', type: 'Broad Spectrum', ratePerLitre: 2.0, unit: 'g' },
+  { id: 'flusilazole', name: 'Flusilazole 40% EC (Systemic Scab Control)', category: 'Fungicide', type: 'Systemic Fungicide', ratePerLitre: 0.2, unit: 'ml' },
+
+  // --- INSECTICIDES & ACARICIDES ---
+  { id: 'cyclone', name: 'Cyclone 505 (Chlorpyrifos 50% + Cypermethrin 5%)', category: 'Insecticide & Miticide', type: 'Broad Insecticide', ratePerLitre: 1.5, unit: 'ml' },
+  { id: 'thiamethoxam', name: 'Thiamethoxam 25% WG (Tagxone / Sucking Pests)', category: 'Insecticide & Miticide', type: 'Systemic Insecticide', ratePerLitre: 0.5, unit: 'g' },
+  { id: 'tingo', name: 'Tingo ZC / Syngenta Alika (Thiamethoxam + Lambda)', category: 'Insecticide & Miticide', type: 'Broad Insecticide', ratePerLitre: 0.4, unit: 'ml' },
+  { id: 'kozen', name: 'Kozen / Coragen (Chlorantraniliprole 18.5% SC)', category: 'Insecticide & Miticide', type: 'Systemic Insecticide', ratePerLitre: 0.4, unit: 'ml' },
+  { id: 'wilogore', name: 'Wilogore / Chlorpyrifos 20% EC (San Jose Scale / Woolly Aphid)', category: 'Insecticide & Miticide', type: 'Contact Insecticide', ratePerLitre: 2.0, unit: 'ml' },
+  { id: 'imidacloprid', name: 'Imidacloprid 17.8% SL (Confidor / Aphids)', category: 'Insecticide & Miticide', type: 'Systemic Insecticide', ratePerLitre: 0.5, unit: 'ml' },
+  { id: 'flubendiamide', name: 'Tata Takumi (Flubendiamide 20% WG)', category: 'Insecticide & Miticide', type: 'Lepidopteran Killer', ratePerLitre: 0.3, unit: 'g' },
+  { id: 'mitofix', name: 'Mitofix (Propargite 57% EC)', category: 'Insecticide & Miticide', type: 'Acaricide / Miticide', ratePerLitre: 1.5, unit: 'ml' },
+  { id: 'fenazaquin', name: 'Magister (Fenazaquin 10% EC)', category: 'Insecticide & Miticide', type: 'Acaricide / Miticide', ratePerLitre: 1.5, unit: 'ml' },
+  { id: 'spiromesifen', name: 'Oberon (Spiromesifen 22.9% SC)', category: 'Insecticide & Miticide', type: 'Acaricide / Miticide', ratePerLitre: 0.5, unit: 'ml' },
+  { id: 'hexythiazox', name: 'Maiden (Hexythiazox 5.45% EC)', category: 'Insecticide & Miticide', type: 'Mite Ovicide', ratePerLitre: 1.0, unit: 'ml' },
+  { id: 'abamectin', name: 'Abamectin 1.9% EC (Bio Miticide)', category: 'Insecticide & Miticide', type: 'Acaricide / Miticide', ratePerLitre: 0.5, unit: 'ml' },
+
+  // --- DORMANT OILS ---
+  { id: 'hmo', name: 'Horticultural Mineral Oil (HMO 99% / Dormant Oil)', category: 'Dormant Oil', type: 'Dormant Oil', ratePerLitre: 30.0, unit: 'ml' },
+  { id: 'servo_oil', name: 'Servo Orchard Spray Mineral Oil', category: 'Dormant Oil', type: 'Dormant Oil', ratePerLitre: 20.0, unit: 'ml' },
+
+  // --- BACTERICIDES ---
+  { id: 'streptocycline', name: 'Streptocycline (Streptomycin + Tetracycline)', category: 'Bactericide & Antibiotic', type: 'Bactericide', ratePerLitre: 0.5, unit: 'g' },
+
+  // --- FOLIAR NUTRITION, CALCIUM & PGRS ---
+  { id: 'calcium_nitrate', name: 'Calcium Nitrate (Bitter Pit Prevention & Fruit Quality)', category: 'Nutrition & PGRs', type: 'Foliar Calcium', ratePerLitre: 5.0, unit: 'g' },
+  { id: 'calcium_chloride', name: 'Calcium Chloride 95% (Foliar Calcium Spray)', category: 'Nutrition & PGRs', type: 'Foliar Calcium', ratePerLitre: 5.0, unit: 'g' },
+  { id: 'solubor', name: 'Solubor / Boric Acid (Boron 20% - Bloom Boost)', category: 'Nutrition & PGRs', type: 'Foliar Micronutrient', ratePerLitre: 1.0, unit: 'g' },
+  { id: 'zinc_sulphate', name: 'Zinc Sulphate 33% (Micronutrient Deficiency)', category: 'Nutrition & PGRs', type: 'Foliar Micronutrient', ratePerLitre: 2.0, unit: 'g' },
+  { id: 'potassium_nitrate', name: 'Multi-K / Potassium Nitrate (13-0-45 Foliar Spray)', category: 'Nutrition & PGRs', type: 'Foliar Fertilizer', ratePerLitre: 5.0, unit: 'g' },
+  { id: 'silixol', name: 'Silixol (Ortho Silicic Acid / Plant Strength)', category: 'Nutrition & PGRs', type: 'Plant Booster', ratePerLitre: 1.5, unit: 'ml' },
+  { id: 'heinekey', name: 'Heinekey (Humic Acid 12% + Fulvic Acid Tonic)', category: 'Nutrition & PGRs', type: 'Root/Leaf Tonic', ratePerLitre: 3.0, unit: 'ml' },
+  { id: 'ipl_5g', name: 'IPL 5G Neo+ (Bio-Stimulant & Yield Enhancer)', category: 'Nutrition & PGRs', type: 'Bio-Stimulant', ratePerLitre: 2.0, unit: 'ml' },
+  { id: 'ga3', name: 'Gibberellic Acid GA3 90% (Plant Growth Regulator)', category: 'Nutrition & PGRs', type: 'Growth Regulator', ratePerLitre: 0.05, unit: 'g' },
+
+  // --- HERBICIDES ---
+  { id: 'bragg', name: 'BRAGG (Paraquat Dichloride 24% SL)', category: 'Herbicide', type: 'Contact Herbicide', ratePerLitre: 5.0, unit: 'ml' },
+  { id: 'clear_cut', name: 'Clear Cut / Glyphosate 41% SL', category: 'Herbicide', type: 'Systemic Herbicide', ratePerLitre: 8.0, unit: 'ml' },
+  { id: 'amix', name: 'A-MIX (2,4-D Ethyl Ester 38% EC)', category: 'Herbicide', type: 'Selective Herbicide', ratePerLitre: 2.0, unit: 'ml' },
+
+  // --- BIO-PESTICIDES & PASTES ---
+  { id: 'neemkavach', name: 'IPL Neemkavach (Neem Oil 10000 PPM)', category: 'Bio-Pesticide & Wound Care', type: 'Bio-Insecticide', ratePerLitre: 3.0, unit: 'ml' },
+  { id: 'sanjeevni', name: 'IPL Sanjeevni (Trichoderma Viride)', category: 'Bio-Pesticide & Wound Care', type: 'Bio-Fungicide', ratePerLitre: 5.0, unit: 'g' },
+  { id: 'chaubatia', name: 'Chaubatia Tree Paste (Copper Wound Dressing)', category: 'Bio-Pesticide & Wound Care', type: 'Wound Paste', ratePerLitre: 5.0, unit: 'g' }
+];
+
+const CATEGORIES = [
+  'All',
+  'Fungicide',
+  'Insecticide & Miticide',
+  'Dormant Oil',
+  'Bactericide & Antibiotic',
+  'Nutrition & PGRs',
+  'Herbicide',
+  'Bio-Pesticide & Wound Care'
 ];
 
 export default function DosageCalculator() {
   const [selectedProductId, setSelectedProductId] = useState('antracol');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [searchTerm, setSearchTerm] = useState('');
   const [calcMode, setCalcMode] = useState('tank'); // 'tank' or 'land'
   const [tankLiters, setTankLiters] = useState(500); // Standard Kashmir 500L barrel
   const [kanals, setKanals] = useState(5); // 5 Kanals (~1/2 Acre)
   const [treeCount, setTreeCount] = useState(50); // 50 Apple Trees
+
+  // Filter products based on category & search term
+  const filteredProducts = useMemo(() => {
+    return CALCULATOR_PRODUCTS.filter(p => {
+      const matchCat = selectedCategory === 'All' || p.category === selectedCategory;
+      const matchSearch = searchTerm.trim() === '' || 
+        p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        p.type.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchCat && matchSearch;
+    });
+  }, [selectedCategory, searchTerm]);
+
+  // Group filtered products by category for <optgroup> rendering
+  const groupedProducts = useMemo(() => {
+    const groups = {};
+    filteredProducts.forEach(p => {
+      if (!groups[p.category]) groups[p.category] = [];
+      groups[p.category].push(p);
+    });
+    return groups;
+  }, [filteredProducts]);
 
   const product = CALCULATOR_PRODUCTS.find(p => p.id === selectedProductId) || CALCULATOR_PRODUCTS[0];
 
@@ -39,6 +126,7 @@ export default function DosageCalculator() {
   const handleWhatsAppShare = () => {
     const text = `*Orchard Spray Dosage Calculation*\n\n` +
       `*Product:* ${product.name}\n` +
+      `*Category:* ${product.category} (${product.type})\n` +
       `*Recommended Concentration:* ${product.ratePerLitre} ${product.unit} per Litre\n` +
       `*Total Spray Water Required:* ${totalWaterLiters} Liters\n` +
       `*Required Chemical Quantity:* ${chemicalInKgOrL}\n\n` +
@@ -60,26 +148,70 @@ export default function DosageCalculator() {
               Orchard Spray Dosage Calculator
             </h3>
             <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-              زرعی ادویات کی درست مقدار کا حساب لگائیں (SKUAST-K Standard)
+              زرعی ادویات کی درست مقدار کا حساب لگائیں ({CALCULATOR_PRODUCTS.length} SKUAST-K Approved Chemicals)
             </span>
           </div>
         </div>
       </div>
 
       <div className="dosage-calc-body">
-        {/* Step 1: Product Selection */}
+        {/* Step 1: Filter & Product Selection */}
         <div className="dosage-calc-field">
-          <label>Select Chemical / Product:</label>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+            <label style={{ margin: 0 }}>Select Chemical / Product ({filteredProducts.length} items):</label>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+              <Filter size={14} /> Filter & Search
+            </div>
+          </div>
+
+          {/* Search bar */}
+          <div style={{ position: 'relative', marginBottom: '0.6rem' }}>
+            <Search size={16} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+            <input
+              type="text"
+              placeholder="Quick search chemical name, brand, or active ingredient..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="dosage-calc-input"
+              style={{ paddingLeft: '32px', fontSize: '0.88rem' }}
+            />
+          </div>
+
+          {/* Category Filter Pills */}
+          <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
+            {CATEGORIES.map(cat => (
+              <button
+                key={cat}
+                type="button"
+                className={`preset-btn ${selectedCategory === cat ? 'active' : ''}`}
+                style={{ fontSize: '0.75rem', padding: '0.25rem 0.6rem', borderRadius: '15px' }}
+                onClick={() => setSelectedCategory(cat)}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          {/* Select Dropdown */}
           <select 
             value={selectedProductId} 
             onChange={(e) => setSelectedProductId(e.target.value)}
             className="dosage-calc-select"
+            style={{ fontSize: '0.92rem', fontWeight: '500' }}
           >
-            {CALCULATOR_PRODUCTS.map(p => (
-              <option key={p.id} value={p.id}>
-                {p.name} ({p.type} — {p.ratePerLitre} {p.unit}/L)
-              </option>
-            ))}
+            {Object.keys(groupedProducts).length > 0 ? (
+              Object.entries(groupedProducts).map(([catName, items]) => (
+                <optgroup key={catName} label={`-- ${catName} (${items.length}) --`}>
+                  {items.map(p => (
+                    <option key={p.id} value={p.id}>
+                      {p.name} — [{p.type}] ({p.ratePerLitre} {p.unit}/L)
+                    </option>
+                  ))}
+                </optgroup>
+              ))
+            ) : (
+              <option value="" disabled>No chemical matches your search filter</option>
+            )}
           </select>
         </div>
 
@@ -152,6 +284,12 @@ export default function DosageCalculator() {
         {/* Results Box */}
         <div className="dosage-result-box">
           <div className="dosage-result-row">
+            <span className="result-label">Selected Chemical / Category:</span>
+            <span className="result-value" style={{ fontWeight: '600', color: 'var(--primary-color)' }}>
+              {product.name} ({product.category})
+            </span>
+          </div>
+          <div className="dosage-result-row">
             <span className="result-label">Recommended Concentration:</span>
             <span className="result-value">{product.ratePerLitre} {product.unit} per Litre of water</span>
           </div>
@@ -185,3 +323,4 @@ export default function DosageCalculator() {
     </div>
   );
 }
+
