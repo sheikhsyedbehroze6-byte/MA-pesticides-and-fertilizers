@@ -1,19 +1,19 @@
 :root {
-  --primary-color: #163e24; /* Deep Forest Green */
-  --primary-glow: rgba(22, 62, 36, 0.12);
-  --secondary-color: #b8923f; /* Worn Antique Gold */
-  --accent-color: #943228; /* Faded Rust Red */
-  --bg-main: #f7f5f0; /* Old paper warm */
-  --bg-card: #fdfcf8; /* Slightly warm white */
-  --glass-border: #e0ddd6; /* Aged warm gray */
-  --text-main: #1c241e; /* Charcoal green */
-  --text-muted: #6a7868; /* Muted slate */
-  --border-color: #e0ddd6;
-  --vibrant-green: #2d6a4f;
-  --vibrant-yellow: #b8923f;
-  --vibrant-blue: #2c3e50;
-  --vibrant-pink: #943228;
-  --vibrant-orange: #c84e00;
+  --primary-color: #12361f; /* Deep Kashmir Pine */
+  --primary-glow: rgba(18, 54, 31, 0.15);
+  --secondary-color: #aa812f; /* Deep Worn Brass Gold */
+  --accent-color: #8c2e24; /* Faded Rust Red */
+  --bg-main: #f8f6f0; /* Old paper warm */
+  --bg-card: #ffffff; /* Crisp White */
+  --glass-border: #d4d0c5; /* Aged warm gray */
+  --text-main: #111a13; /* High-contrast Charcoal Green */
+  --text-muted: #38483a; /* High-contrast Muted Slate Green */
+  --border-color: #d4d0c5;
+  --vibrant-green: #235840;
+  --vibrant-yellow: #aa812f;
+  --vibrant-blue: #233446;
+  --vibrant-pink: #8c2e24;
+  --vibrant-orange: #b84600;
   --font-hand: 'Caveat', cursive; /* Handwritten accent */
   /* Bottom nav height for spacing */
   --bottom-nav-height: 70px;
@@ -25,14 +25,14 @@
 [data-theme="dark"] {
   --primary-color: #52b788;
   --primary-glow: rgba(82, 183, 136, 0.2);
-  --secondary-color: #c4a054;
+  --secondary-color: #d4ae5c;
   --accent-color: #e74c3c;
-  --bg-main: #111612;
-  --bg-card: #19201a;
-  --glass-border: #28332a;
-  --text-main: #f4f7f5;
-  --text-muted: #a3b8a8;
-  --border-color: #28332a;
+  --bg-main: #0d120e;
+  --bg-card: #151c16;
+  --glass-border: #222e24;
+  --text-main: #f7faf8;
+  --text-muted: #c2d8c9;
+  --border-color: #222e24;
 }
 
 [data-theme="dark"] body {
