@@ -639,7 +639,7 @@ export const products = [
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM8SVZBiX8PNhFXjsLsjAqpbRc38179heMyvFrsTCHKg&s=10",
   },
   {
-    id: 60,
+    id: 59,
     name: "Savera Systemic Insecticide",
     type: "Insecticide",
     uses: "Advanced systemic insecticide for internal plant protection against sucking pests, caterpillars, and borers.",
@@ -650,7 +650,7 @@ export const products = [
     image: "https://5.imimg.com/data5/SELLER/Default/2025/10/550505320/QX/OR/GJ/109535619/whatsapp-image-2025-10-03-at-11-11-08-am.jpeg",
   },
   {
-    id: 61,
+    id: 60,
     name: "Dawn 2000 (Systemic Insecticide)",
     type: "Insecticide",
     uses: "High-potency systemic insecticide formulation providing long-lasting internal protection against sucking pests, aphids, and whiteflies.",
