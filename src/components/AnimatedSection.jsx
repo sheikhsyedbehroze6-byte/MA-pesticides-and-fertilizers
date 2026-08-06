@@ -4,16 +4,19 @@ import { motion } from 'framer-motion';
 function AnimatedSection({ children, className = '', delay = 0, style }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.05 }}
+      viewport={{ once: true, margin: '-20px' }}
       transition={{ 
-        duration: 0.35, 
-        ease: [0.25, 0.1, 0.25, 1.0], 
+        duration: 0.28, 
+        ease: 'easeOut', 
         delay: delay 
       }}
       className={className}
-      style={style}
+      style={{
+        willChange: 'transform, opacity',
+        ...style
+      }}
     >
       {children}
     </motion.div>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
-import { ArrowRight, ShieldCheck, TreeDeciduous, FlaskConical, Phone, MessageCircle, Calendar, Clock, Bell, CheckCircle2, ChevronLeft, ChevronRight, Camera, Zap, FileText, CloudRain, Sun, Droplets, Wind, Users, MapPin } from 'lucide-react';
+import { ArrowRight, ShieldCheck, TreeDeciduous, Phone, MessageCircle, Calendar, Clock, Bell, CheckCircle2, ChevronLeft, ChevronRight, Camera, Zap, FileText, CloudRain, Sun, Droplets, Wind, Users, MapPin, FlaskConical } from 'lucide-react';
 
 const QUICK_DIAGNOSTICS = {
   apple: [
@@ -243,10 +243,9 @@ export default function Home() {
   const [selectedMonthIndex, setSelectedMonthIndex] = useState(currentRealMonth);
 
 
-  // Auto-rotating 3D Cover Flow Hero Cards
+  // Auto-rotating Hero CoverFlow Cards
   const [rotationIndex, setRotationIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [touchStartX, setTouchStartX] = useState(null);
 
   const TOTAL_CARDS = 4;
@@ -256,7 +255,7 @@ export default function Home() {
     if (isHovered) return;
     const timer = setInterval(() => {
       setRotationIndex((prev) => prev + 1);
-    }, 2800);
+    }, 3200);
     return () => clearInterval(timer);
   }, [isHovered]);
 
@@ -275,28 +274,20 @@ export default function Home() {
     if (offset > 2) offset -= 4;
     if (offset < -2) offset += 4;
     const isCenter = offset === 0;
-    const isRight = offset > 0;
     const absOffset = Math.abs(offset);
-    const translateZ = isCenter ? 120 : -75 * absOffset;
-    const rotateY = isCenter ? (tilt.y * 0.4) : isRight ? (-36 + tilt.y * 0.2) : (36 + tilt.y * 0.2);
-    const scale = isCenter ? 1.04 : Math.max(0.72, 0.86 - absOffset * 0.14);
-    const opacity = isCenter ? 1 : Math.max(0.4, 0.82 - absOffset * 0.25);
-    const brightness = isCenter ? 1 : Math.max(0.5, 0.76 - absOffset * 0.2);
+    const scale = isCenter ? 1.02 : Math.max(0.78, 0.88 - absOffset * 0.12);
+    const opacity = isCenter ? 1 : Math.max(0.45, 0.8 - absOffset * 0.25);
     const zIndex = 10 - absOffset;
     return {
-      transform: `translateX(calc(${offset} * var(--coverflow-spacing, 170px))) translateZ(${translateZ}px) rotateY(${rotateY}deg) rotateX(${isCenter ? tilt.x : 0}deg) scale(${scale})`,
-      opacity, filter: `brightness(${brightness})`, zIndex
+      transform: `translateX(calc(${offset} * var(--coverflow-spacing, 170px))) scale(${scale})`,
+      opacity,
+      zIndex,
+      willChange: 'transform, opacity'
     };
   };
 
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    setTilt({ x: (y / (rect.height / 2)) * -8, y: (x / (rect.width / 2)) * 10 });
-  };
   const handleMouseEnter = () => setIsHovered(true);
-  const handleMouseLeave = () => { setIsHovered(false); setTilt({ x: 0, y: 0 }); };
+  const handleMouseLeave = () => setIsHovered(false);
   const handleTouchStart = (e) => { setIsHovered(true); setTouchStartX(e.touches[0].clientX); };
   const handleTouchEnd = (e) => {
     setIsHovered(false);
@@ -313,55 +304,25 @@ export default function Home() {
   return (
     <div>
 
-      {/* ─── REDESIGNED HERO: Interactive Protection Desk (Contained in 100vh) ─── */}
+      {/* ─── REDESIGNED HERO: Lightweight & Responsive ─── */}
       <section style={{
         background: 'linear-gradient(165deg, #050d08 0%, #0c2014 65%, #06140b 100%)',
         minHeight: 'calc(100vh - 65px)',
         display: 'flex',
         flexDirection: 'column',
-        justify: 'center',
+        justifyContent: 'center',
         position: 'relative',
         overflow: 'hidden',
         borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
         color: '#f0ece3',
         boxSizing: 'border-box'
       }}>
-        {/* Subtle grain texture overlay — no neon blobs */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.035\'/%3E%3C/svg%3E")',
-          pointerEvents: 'none', opacity: 0.6
-        }} />
 
         <div className="container" style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem', position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <div className="hero-redesign-grid">
             
             {/* Left Column — Brand Authority & Copy */}
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              
-
-              {/* Shop lineage — human, local, specific */}
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                background: 'rgba(184, 146, 63, 0.1)',
-                border: '1px solid rgba(184, 146, 63, 0.3)',
-                padding: '0.3rem 0.8rem',
-                borderRadius: '4px',
-                fontSize: '0.74rem',
-                fontWeight: '600',
-                color: '#c4a054',
-                width: 'fit-content',
-                marginBottom: '0.85rem',
-                fontFamily: "'Caveat', cursive",
-                letterSpacing: '0.2px',
-                fontSize: '0.9rem'
-              }}>
-                <FlaskConical size={14} color="#c4a054" />
-                <span>Hari Singh High Street, Srinagar — Est. 2008</span>
-              </div>
-
               {/* Main Headline */}
               <h1 style={{
                 fontFamily: "'Lora', Georgia, serif",
@@ -447,7 +408,6 @@ export default function Home() {
             {/* Right Column — 3D rotating coverflow carousel */}
             <div
               style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', minHeight: '340px' }}
-              onMouseMove={handleMouseMove}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               onTouchStart={handleTouchStart}
@@ -466,13 +426,13 @@ export default function Home() {
               ><ChevronRight size={20} /></button>
 
               {/* Stage container */}
-              <div className="hero-cube-stage" style={{ perspective: '900px', width: '100%', height: '320px', position: 'relative', transformStyle: 'preserve-3d' }}>
+              <div className="hero-cube-stage" style={{ width: '100%', height: '320px', position: 'relative' }}>
 
                 {/* Card 0 — Product Browser */}
                 <div
                   className={`hero-cube-card hero-cube-card-0${activeHeroCard === 0 ? ' is-active' : ''}`}
                   onClick={() => goToCard(0)}
-                  style={{ background: '#ffffff', color: '#1c241e', ...getCoverFlowStyle(0), position: 'absolute', left: '50%', transform: getCoverFlowStyle(0).transform + ' translateX(-50%)', width: '260px', borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column', cursor: 'pointer', boxShadow: '0 16px 40px rgba(0,0,0,0.45)', transition: 'all 0.55s cubic-bezier(0.4,0,0.2,1)' }}
+                  style={{ background: '#ffffff', color: '#1c241e', ...getCoverFlowStyle(0), position: 'absolute', left: '50%', transform: getCoverFlowStyle(0).transform + ' translateX(-50%)', width: '260px', borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column', cursor: 'pointer' }}
                 >
                   <div style={{ background: '#f5f5f7', padding: '0.4rem 0.7rem', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid #e5e5e7', height: '34px', boxSizing: 'border-box' }}>
                     <div style={{ display: 'flex', gap: '4px' }}>
@@ -483,19 +443,19 @@ export default function Home() {
                     <div style={{ background: '#fff', borderRadius: '4px', padding: '0.2rem 0.6rem', fontSize: '0.65rem', color: '#666', flex: 1, border: '1px solid #e0e0e0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>mapesticides.com</div>
                   </div>
                   <div style={{ position: 'relative', height: '100px', overflow: 'hidden', flexShrink: 0, background: '#163e24' }}>
-                    <img src="/kashmir-orchard-banner.webp" alt="Catalogue" onError={(e) => { e.target.src = '/hero-image.webp'; }} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }} />
+                    <img src="/kashmir-orchard-banner.webp" alt="Catalogue" loading="lazy" decoding="async" onError={(e) => { e.target.src = '/hero-image.webp'; }} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }} />
                     <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(8,21,13,0.4) 0%, rgba(8,21,13,0.75) 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <span style={{ color: '#fff', fontSize: '0.7rem', fontWeight: '800', letterSpacing: '1px', textTransform: 'uppercase' }}>Authentic Crop Catalogue</span>
                     </div>
                   </div>
                   <div style={{ padding: '0.6rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '7px', background: '#f8f9fa', flex: 1 }}>
                     <div style={{ background: '#fff', borderRadius: '8px', padding: '0.45rem', border: '1px solid #eef0f2', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <img src="/alika.png" alt="Alika" style={{ height: '52px', objectFit: 'contain' }} />
+                      <img src="/alika.png" alt="Alika" loading="lazy" decoding="async" style={{ height: '52px', objectFit: 'contain' }} />
                       <div style={{ fontSize: '0.65rem', fontWeight: '700', color: '#163e24', marginTop: '3px' }}>Syngenta Alika</div>
                       <div style={{ fontSize: '0.62rem', color: '#b8923f', fontWeight: '800' }}>₹1,250</div>
                     </div>
                     <div style={{ background: '#fff', borderRadius: '8px', padding: '0.45rem', border: '1px solid #eef0f2', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <img src="/antracol.jpg" alt="Antracol" style={{ height: '52px', objectFit: 'contain' }} />
+                      <img src="/antracol.jpg" alt="Antracol" loading="lazy" decoding="async" style={{ height: '52px', objectFit: 'contain' }} />
                       <div style={{ fontSize: '0.65rem', fontWeight: '700', color: '#163e24', marginTop: '3px' }}>Bayer Antracol</div>
                       <div style={{ fontSize: '0.62rem', color: '#b8923f', fontWeight: '800' }}>₹700</div>
                     </div>
@@ -506,7 +466,7 @@ export default function Home() {
                 <div
                   className={`hero-cube-card hero-cube-card-1${activeHeroCard === 1 ? ' is-active' : ''}`}
                   onClick={() => goToCard(1)}
-                  style={{ background: '#0a1d12', border: '1px solid rgba(184,146,63,0.4)', color: '#fff', ...getCoverFlowStyle(1), position: 'absolute', left: '50%', transform: getCoverFlowStyle(1).transform + ' translateX(-50%)', width: '260px', borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column', cursor: 'pointer', boxShadow: '0 16px 40px rgba(0,0,0,0.45)', transition: 'all 0.55s cubic-bezier(0.4,0,0.2,1)' }}
+                  style={{ background: '#0a1d12', border: '1px solid rgba(184,146,63,0.4)', color: '#fff', ...getCoverFlowStyle(1), position: 'absolute', left: '50%', transform: getCoverFlowStyle(1).transform + ' translateX(-50%)', width: '260px', borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column', cursor: 'pointer' }}
                 >
                   <div style={{ padding: '0.6rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#050f09', borderBottom: '1px solid rgba(255,255,255,0.08)', height: '36px', boxSizing: 'border-box' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -539,7 +499,7 @@ export default function Home() {
                 <div
                   className={`hero-cube-card hero-cube-card-2${activeHeroCard === 2 ? ' is-active' : ''}`}
                   onClick={() => goToCard(2)}
-                  style={{ background: '#09180e', border: '1px solid rgba(37,211,102,0.4)', color: '#fff', ...getCoverFlowStyle(2), position: 'absolute', left: '50%', transform: getCoverFlowStyle(2).transform + ' translateX(-50%)', width: '260px', borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column', cursor: 'pointer', boxShadow: '0 16px 40px rgba(0,0,0,0.45)', transition: 'all 0.55s cubic-bezier(0.4,0,0.2,1)' }}
+                  style={{ background: '#09180e', border: '1px solid rgba(37,211,102,0.4)', color: '#fff', ...getCoverFlowStyle(2), position: 'absolute', left: '50%', transform: getCoverFlowStyle(2).transform + ' translateX(-50%)', width: '260px', borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column', cursor: 'pointer' }}
                 >
                   <div style={{ padding: '0.6rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#040b06', borderBottom: '1px solid rgba(255,255,255,0.08)', height: '36px', boxSizing: 'border-box' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -568,7 +528,7 @@ export default function Home() {
                 <div
                   className={`hero-cube-card hero-cube-card-3${activeHeroCard === 3 ? ' is-active' : ''}`}
                   onClick={() => goToCard(3)}
-                  style={{ background: '#0a1d12', border: '1px solid rgba(184,146,63,0.4)', color: '#fff', ...getCoverFlowStyle(3), position: 'absolute', left: '50%', transform: getCoverFlowStyle(3).transform + ' translateX(-50%)', width: '260px', borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column', cursor: 'pointer', boxShadow: '0 16px 40px rgba(0,0,0,0.45)', transition: 'all 0.55s cubic-bezier(0.4,0,0.2,1)' }}
+                  style={{ background: '#0a1d12', border: '1px solid rgba(184,146,63,0.4)', color: '#fff', ...getCoverFlowStyle(3), position: 'absolute', left: '50%', transform: getCoverFlowStyle(3).transform + ' translateX(-50%)', width: '260px', borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column', cursor: 'pointer' }}
                 >
                   <div style={{ padding: '0.6rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#050f09', borderBottom: '1px solid rgba(255,255,255,0.08)', height: '36px', boxSizing: 'border-box' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -578,7 +538,7 @@ export default function Home() {
                     <span style={{ fontSize: '0.6rem', background: 'rgba(184,146,63,0.25)', color: '#b8923f', fontWeight: '700', padding: '0.12rem 0.45rem', borderRadius: '10px' }}>VALLEY WIDE</span>
                   </div>
                   <div style={{ position: 'relative', flex: 1, overflow: 'hidden', minHeight: '140px' }}>
-                    <img src="/awareness-camps.webp" alt="Farmer Awareness Camps" onError={(e) => { e.target.src = '/shop.jpg'; }} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src="/awareness-camps.webp" alt="Farmer Awareness Camps" loading="lazy" decoding="async" onError={(e) => { e.target.src = '/shop.jpg'; }} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     <div style={{ position: 'absolute', bottom: 0, inset: 'auto 0 0 0', background: 'linear-gradient(to top, rgba(5,15,9,0.95), transparent)', padding: '0.4rem 0.8rem', fontSize: '0.65rem', color: '#fff', fontWeight: '700' }}>⛺ Free Field Training & Spray Workshops</div>
                   </div>
                   <div style={{ padding: '0.65rem 0.85rem', background: '#08170e' }}>

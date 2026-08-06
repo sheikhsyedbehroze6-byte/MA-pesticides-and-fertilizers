@@ -450,7 +450,7 @@ main {
   z-index: 2;
 }
 
-/* 3D CoverFlow Card Base with Glossy Floor Reflection */
+/* CoverFlow Card Base */
 .hero-cube-card {
   position: absolute;
   top: 0;
@@ -462,37 +462,29 @@ main {
   box-sizing: border-box;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.65s ease, filter 0.65s ease, box-shadow 0.65s ease, border-color 0.65s ease;
-  will-change: transform, opacity, filter;
-  transform-style: preserve-3d;
-
-  /* Glossy Floor Mirror Reflection (CoverFlow style) */
-  -webkit-box-reflect: below 8px linear-gradient(transparent 65%, rgba(255, 255, 255, 0.28) 100%);
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
-/* Glass & Glossy shine overlay for 3D depth */
+/* Glass & Glossy shine overlay for depth */
 .hero-cube-card-shine {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 45%, rgba(0,0,0,0.3) 100%);
+  background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 45%, rgba(0,0,0,0.2) 100%);
   z-index: 10;
 }
 
 /* Active / Non-active card states */
 .hero-cube-card.is-active {
-  box-shadow: 0 25px 55px rgba(0, 0, 0, 0.75), 0 0 35px rgba(184, 146, 63, 0.45);
-  border: 2px solid rgba(184, 146, 63, 0.7) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(184, 146, 63, 0.6) !important;
 }
 
 .hero-cube-card:not(.is-active) {
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-}
-
-.hero-cube-card:not(.is-active):hover {
-  opacity: 0.92 !important;
-  filter: brightness(0.92) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
 /* 3D Rotate Control Navigation Buttons */
