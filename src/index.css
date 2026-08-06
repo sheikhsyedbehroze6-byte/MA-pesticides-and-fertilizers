@@ -833,9 +833,83 @@ header {
   }
 }
 
-/* ===================== BOTTOM NAV (mobile) ===================== */
+/* ===================== BOTTOM NAV (mobile app tab bar) ===================== */
 .bottom-nav {
-  display: none !important;
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .bottom-nav {
+    display: flex !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 9999 !important;
+    background: rgba(10, 24, 15, 0.96) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-top: 1px solid rgba(184, 146, 63, 0.3) !important;
+    box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.4) !important;
+    padding: 0.35rem 0 calc(0.35rem + env(safe-area-inset-bottom)) 0 !important;
+  }
+
+  .bottom-nav ul {
+    display: flex !important;
+    width: 100% !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .bottom-nav li {
+    flex: 1 !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  .bottom-nav li a {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: rgba(255, 255, 255, 0.65) !important;
+    text-decoration: none !important;
+    font-size: 0.65rem !important;
+    font-weight: 600 !important;
+    padding: 0.3rem 0 !important;
+    transition: all 0.2s ease !important;
+    width: 100% !important;
+  }
+
+  .bottom-nav li a.active {
+    color: #d4ae5c !important;
+    font-weight: 800 !important;
+  }
+
+  .bottom-nav-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2px;
+  }
+
+  .bottom-nav-active-dot {
+    position: absolute;
+    top: -5px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #d4ae5c;
+    box-shadow: 0 0 6px #d4ae5c;
+  }
+
+  body {
+    padding-bottom: calc(65px + env(safe-area-inset-bottom)) !important;
+  }
 }
 
 /* ===================== LAYOUT ===================== */

@@ -20,10 +20,15 @@ export default function BottomNav() {
               end={to === '/'}
               className={({ isActive }) => (isActive ? 'active' : '')}
             >
-              <div className="bottom-nav-icon-wrapper">
-                <Icon size={20} />
-              </div>
-              <span>{label}</span>
+              {({ isActive }) => (
+                <>
+                  <div className="bottom-nav-icon-wrapper">
+                    <Icon size={20} />
+                    {isActive && <span className="bottom-nav-active-dot" />}
+                  </div>
+                  <span>{label}</span>
+                </>
+              )}
             </NavLink>
           </li>
         ))}
