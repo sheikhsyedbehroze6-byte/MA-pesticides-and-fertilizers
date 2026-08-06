@@ -306,7 +306,7 @@ export default function Home() {
 
       {/* ─── REDESIGNED HERO: Lightweight & Responsive ─── */}
       <section style={{
-        background: 'linear-gradient(165deg, #050d08 0%, #0c2014 65%, #06140b 100%)',
+        background: 'linear-gradient(165deg, #040a06 0%, #0c2014 65%, #05120a 100%)',
         minHeight: 'calc(100vh - 65px)',
         display: 'flex',
         flexDirection: 'column',
@@ -317,6 +317,28 @@ export default function Home() {
         color: '#f0ece3',
         boxSizing: 'border-box'
       }}>
+
+        {/* Ambient Lighting & Depth Overlays */}
+        <div style={{
+          position: 'absolute',
+          top: '-10%',
+          right: '10%',
+          width: '500px',
+          height: '500px',
+          background: 'radial-gradient(circle, rgba(184, 146, 63, 0.14) 0%, rgba(0,0,0,0) 70%)',
+          pointerEvents: 'none',
+          zIndex: 1
+        }} />
+        <div style={{
+          position: 'absolute',
+          bottom: '-10%',
+          left: '5%',
+          width: '450px',
+          height: '450px',
+          background: 'radial-gradient(circle, rgba(37, 211, 102, 0.09) 0%, rgba(0,0,0,0) 70%)',
+          pointerEvents: 'none',
+          zIndex: 1
+        }} />
 
         <div className="container" style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem', position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <div className="hero-redesign-grid">
