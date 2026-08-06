@@ -649,6 +649,17 @@ export const products = [
     composition: "Systemic Insecticide Formulation",
     image: "https://5.imimg.com/data5/SELLER/Default/2025/10/550505320/QX/OR/GJ/109535619/whatsapp-image-2025-10-03-at-11-11-08-am.jpeg",
   },
+  {
+    id: 61,
+    name: "Dawn 2000 (Systemic Insecticide)",
+    type: "Insecticide",
+    uses: "High-potency systemic insecticide formulation providing long-lasting internal protection against sucking pests, aphids, and whiteflies.",
+    dosage: "1 ml per Litre of water.",
+    diseases: ["Aphids", "Whiteflies", "Thrips", "Jassids"],
+    benefits: "20% discount on print price. High systemic translocation ensuring thorough plant protection.",
+    composition: "Systemic Insecticide Formulation",
+    image: "https://5.imimg.com/data5/SELLER/Default/2023/5/309172428/XU/YI/LN/48834927/insecticide-500x500.jpg",
+  },
 ];
 
 
