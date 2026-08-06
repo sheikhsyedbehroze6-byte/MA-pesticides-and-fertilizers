@@ -46,7 +46,7 @@ function ProductCard({ product, langMode = 'both' }) {
           decoding="async"
         />
         <span className="product-discount-badge">
-          20% OFF
+          20% BELOW MRP
         </span>
         <span className="product-type-badge">
           {product.type}
@@ -56,17 +56,15 @@ function ProductCard({ product, langMode = 'both' }) {
       <div className="product-info" style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
           <span style={{
-            fontSize: '0.7rem',
+            fontSize: '0.68rem',
             fontWeight: '700',
-            color: '#2e7d32',
-            background: 'rgba(46, 125, 50, 0.08)',
-            padding: '2px 8px',
-            borderRadius: '12px',
+            color: 'var(--primary-color)',
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '4px'
+            gap: '4px',
+            letterSpacing: '0.3px'
           }}>
-            <CheckCircle2 size={12} /> Authentic Stock
+            <CheckCircle2 size={12} color="var(--primary-color)" /> Genuine Store Stock
           </span>
 
           {(langMode === 'both' || langMode === 'ur') && (

@@ -336,15 +336,16 @@ export default function Home() {
                 M.A. Pesticides
               </h1>
               <h2 style={{
-                fontFamily: "'Caveat', cursive",
-                fontSize: 'clamp(1.3rem, 2.2vw, 1.85rem)',
-                lineHeight: '1.2',
-                fontWeight: '600',
+                fontFamily: "'Lora', Georgia, serif",
+                fontSize: 'clamp(0.85rem, 1.4vw, 1.1rem)',
+                lineHeight: '1.3',
+                fontWeight: '700',
                 color: '#c4a054',
-                marginBottom: '0.7rem',
-                letterSpacing: '0.2px'
+                marginBottom: '1rem',
+                letterSpacing: '1.8px',
+                textTransform: 'uppercase'
               }}>
-                & Fertilizers • Srinagar
+                & Fertilizers • Srinagar, Kashmir
               </h2>
 
               <p style={{
@@ -434,13 +435,12 @@ export default function Home() {
                   onClick={() => goToCard(0)}
                   style={{ background: '#ffffff', color: '#1c241e', ...getCoverFlowStyle(0), position: 'absolute', left: '50%', transform: getCoverFlowStyle(0).transform + ' translateX(-50%)', width: '260px', borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column', cursor: 'pointer' }}
                 >
-                  <div style={{ background: '#f5f5f7', padding: '0.4rem 0.7rem', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid #e5e5e7', height: '34px', boxSizing: 'border-box' }}>
-                    <div style={{ display: 'flex', gap: '4px' }}>
-                      <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ff5f56' }} />
-                      <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ffbd2e' }} />
-                      <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#27c93f' }} />
+                  <div style={{ background: '#122e1c', padding: '0.4rem 0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.1)', height: '34px', boxSizing: 'border-box' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <ShieldCheck size={13} color="#b8923f" />
+                      <span style={{ fontSize: '0.65rem', fontWeight: '800', color: '#b8923f', letterSpacing: '0.8px', textTransform: 'uppercase' }}>STORE CATALOGUE</span>
                     </div>
-                    <div style={{ background: '#fff', borderRadius: '4px', padding: '0.2rem 0.6rem', fontSize: '0.65rem', color: '#666', flex: 1, border: '1px solid #e0e0e0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>mapesticides.com</div>
+                    <span style={{ fontSize: '0.6rem', color: '#a0c4ac', fontWeight: '600' }}>SRINAGAR SHOP</span>
                   </div>
                   <div style={{ position: 'relative', height: '100px', overflow: 'hidden', flexShrink: 0, background: '#163e24' }}>
                     <img src="/kashmir-orchard-banner.webp" alt="Catalogue" loading="lazy" decoding="async" onError={(e) => { e.target.src = '/hero-image.webp'; }} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }} />
@@ -473,7 +473,7 @@ export default function Home() {
                       <FlaskConical size={14} color="#b8923f" />
                       <span style={{ fontSize: '0.68rem', fontWeight: '800', color: '#b8923f' }}>SENIOR CHEMIST</span>
                     </div>
-                    <span style={{ fontSize: '0.6rem', background: 'rgba(37,211,102,0.2)', color: '#25d366', fontWeight: '700', padding: '0.12rem 0.45rem', borderRadius: '10px' }}>VERIFIED</span>
+                    <span style={{ fontSize: '0.62rem', color: '#c4a054', fontWeight: '700', letterSpacing: '0.5px' }}>EX-SENIOR LECTURER</span>
                   </div>
                   <div style={{ padding: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.6rem', flex: 1, justifyContent: 'center' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -506,7 +506,7 @@ export default function Home() {
                       <Calendar size={14} color="#25d366" />
                       <span style={{ fontSize: '0.68rem', fontWeight: '800', color: '#25d366' }}>SKUAST-K ADVISORIES</span>
                     </div>
-                    <span style={{ fontSize: '0.6rem', background: '#25d366', color: '#040b06', fontWeight: '800', padding: '0.12rem 0.45rem', borderRadius: '10px' }}>ACTIVE</span>
+                    <span style={{ fontSize: '0.62rem', color: '#25d366', fontWeight: '700', letterSpacing: '0.5px' }}>OFFICIAL ADVISORY</span>
                   </div>
                   <div style={{ padding: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.55rem', flex: 1, justifyContent: 'center' }}>
                     <div style={{ background: 'rgba(37,211,102,0.08)', borderLeft: '3px solid #25d366', padding: '0.45rem 0.6rem', borderRadius: '0 6px 6px 0' }}>
