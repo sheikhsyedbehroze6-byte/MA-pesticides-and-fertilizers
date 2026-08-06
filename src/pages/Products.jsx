@@ -9,9 +9,11 @@ import './urdu.css';
 export default function Products() {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
+  const [activeCrop, setActiveCrop] = useState('All Crops');
   const [langMode, setLangMode] = useState('both'); // 'both', 'en', 'ur'
 
   const categories = ['All', 'Fungicide', 'Insecticide', 'Herbicide', 'Plant Tonic / Bio-Stimulant'];
+  const crops = ['All Crops', 'Apple', 'Pear', 'Walnut', 'Cherry', 'Saffron'];
 
   const filteredProducts = useMemo(() => {
     return products.filter(product => {
@@ -28,9 +30,15 @@ export default function Products() {
         (activeCategory === 'Herbicide' && product.type === 'Herbicide') ||
         (activeCategory === 'Plant Tonic / Bio-Stimulant' && (product.type === 'Plant Tonic' || product.type === 'Bio-Stimulant'));
 
-      return matchesSearch && matchesCategory;
+      const matchesCrop =
+        activeCrop === 'All Crops' ||
+        product.uses.toLowerCase().includes(activeCrop.toLowerCase()) ||
+        product.diseases.some(d => d.toLowerCase().includes(activeCrop.toLowerCase())) ||
+        (activeCrop === 'Apple' && (product.uses.toLowerCase().includes('scab') || product.uses.toLowerCase().includes('fruit')));
+
+      return matchesSearch && matchesCategory && matchesCrop;
     });
-  }, [searchTerm, activeCategory]);
+  }, [searchTerm, activeCategory, activeCrop]);
 
   return (
     <div className="container" style={{ paddingBottom: '5rem' }}>
@@ -161,6 +169,41 @@ export default function Products() {
                     }}
                   >
                     {cat === 'All' ? 'All Products' : cat === 'Plant Tonic / Bio-Stimulant' ? 'Tonics & Bio-Stimulants' : `${cat}s`}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Crop Filter Pills */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', paddingTop: '0.5rem', borderTop: '1px dashed var(--border-color)' }}>
+            <span style={{ fontSize: '0.82rem', fontWeight: 'bold', color: 'var(--secondary-color)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              🌱 Filter by Target Crop / فصل:
+            </span>
+            <div style={{ 
+              display: 'flex', 
+              gap: '0.4rem', 
+              flexWrap: 'wrap'
+            }}>
+              {crops.map(crop => {
+                const isActive = activeCrop === crop;
+                return (
+                  <button
+                    key={crop}
+                    onClick={() => setActiveCrop(crop)}
+                    style={{
+                      background: isActive ? 'var(--secondary-color)' : 'rgba(184, 146, 63, 0.08)',
+                      color: isActive ? '#08150d' : 'var(--primary-color)',
+                      border: '1px solid ' + (isActive ? 'var(--secondary-color)' : 'rgba(184, 146, 63, 0.3)'),
+                      padding: '0.35rem 0.85rem',
+                      borderRadius: '18px',
+                      fontWeight: '700',
+                      fontSize: '0.78rem',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    {crop === 'All Crops' ? '🌾 All Crops' : `🍏 ${crop}`}
                   </button>
                 );
               })}

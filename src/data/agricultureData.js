@@ -658,7 +658,7 @@ export const products = [
     diseases: ["Aphids", "Whiteflies", "Thrips", "Jassids"],
     benefits: "20% discount on print price. High systemic translocation ensuring thorough plant protection.",
     composition: "Systemic Insecticide Formulation",
-    image: "https://5.imimg.com/data5/SELLER/Default/2023/5/309172428/XU/YI/LN/48834927/insecticide-500x500.jpg",
+    image: "https://hronline.groupindogulf.com/up_imgs/product/pro_img_166.jpg",
   },
 ];
 
