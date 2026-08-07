@@ -39,7 +39,7 @@ const CROP_DATA = [
     id: 'Cherry',
     label: 'Cherry',
     labelUrdu: 'چیری',
-    image: 'https://images.unsplash.com/photo-1528825871115-3581a5387919?w=160&auto=format&fit=crop&q=85',
+    image: 'https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=160&auto=format&fit=crop&q=85',
     fallbackEmoji: '🍒'
   },
   {
