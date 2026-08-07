@@ -58,6 +58,32 @@ export default function Products() {
   const [langMode, setLangMode] = useState('both'); // 'both', 'en', 'ur'
 
   const categories = ['All', 'Fungicide', 'Insecticide', 'Herbicide', 'Plant Tonic / Bio-Stimulant'];
+
+  const categoryCounts = useMemo(() => {
+    const counts = { All: products.length };
+    products.forEach(p => {
+      let catKey = p.type;
+      if (p.type === 'Fungicide' || p.type === 'Bio-Fungicide') catKey = 'Fungicide';
+      else if (p.type === 'Plant Tonic' || p.type === 'Bio-Stimulant') catKey = 'Plant Tonic / Bio-Stimulant';
+      counts[catKey] = (counts[catKey] || 0) + 1;
+    });
+    return counts;
+  }, []);
+
+  const cropCounts = useMemo(() => {
+    const counts = { 'All Crops': products.length };
+    CROP_DATA.forEach(cropObj => {
+      if (cropObj.id === 'All Crops') return;
+      const cName = cropObj.id.toLowerCase();
+      const count = products.filter(p => 
+        p.uses.toLowerCase().includes(cName) || 
+        p.diseases.some(d => d.toLowerCase().includes(cName)) ||
+        (cName === 'apple' && (p.uses.toLowerCase().includes('scab') || p.uses.toLowerCase().includes('fruit')))
+      ).length;
+      counts[cropObj.id] = count;
+    });
+    return counts;
+  }, []);
   const crops = ['All Crops', 'Apple', 'Pear', 'Walnut', 'Cherry', 'Saffron'];
 
   const filteredProducts = useMemo(() => {
@@ -196,6 +222,7 @@ export default function Products() {
             }}>
               {categories.map(cat => {
                 const isActive = activeCategory === cat;
+                const count = categoryCounts[cat] || 0;
                 return (
                   <button
                     key={cat}
@@ -210,10 +237,23 @@ export default function Products() {
                       fontSize: '0.82rem',
                       cursor: 'pointer',
                       transition: 'all 0.2s ease',
-                      whiteSpace: 'nowrap'
+                      whiteSpace: 'nowrap',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px'
                     }}
                   >
-                    {cat === 'All' ? 'All Products' : cat === 'Plant Tonic / Bio-Stimulant' ? 'Tonics & Bio-Stimulants' : `${cat}s`}
+                    <span>{cat === 'All' ? 'All Products' : cat === 'Plant Tonic / Bio-Stimulant' ? 'Tonics & Bio-Stimulants' : `${cat}s`}</span>
+                    <span style={{
+                      fontSize: '0.72rem',
+                      background: isActive ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.06)',
+                      color: isActive ? '#ffffff' : 'var(--text-muted)',
+                      padding: '1px 6px',
+                      borderRadius: '10px',
+                      fontWeight: '700'
+                    }}>
+                      {count}
+                    </span>
                   </button>
                 );
               })}
@@ -233,6 +273,7 @@ export default function Products() {
             }}>
               {CROP_DATA.map(crop => {
                 const isActive = activeCrop === crop.id;
+                const cCount = cropCounts[crop.id] || 0;
                 return (
                   <button
                     key={crop.id}
@@ -271,6 +312,16 @@ export default function Products() {
                     <span>{crop.label}</span>
                     <span className="urdu-text" dir="rtl" style={{ fontSize: '0.75rem', opacity: isActive ? 0.95 : 0.75 }}>
                       ({crop.labelUrdu})
+                    </span>
+                    <span style={{
+                      fontSize: '0.7rem',
+                      background: isActive ? '#b8923f' : 'rgba(184, 146, 63, 0.12)',
+                      color: isActive ? '#08150d' : 'var(--primary-color)',
+                      padding: '1px 6px',
+                      borderRadius: '10px',
+                      fontWeight: '800'
+                    }}>
+                      {cCount}
                     </span>
                   </button>
                 );
