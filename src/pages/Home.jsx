@@ -587,14 +587,10 @@ export default function Home() {
             paddingTop: '1.2rem',
             borderTop: '1px solid rgba(255, 255, 255, 0.08)',
             display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
+            gridTemplateColumns: 'repeat(3, 1fr)',
             gap: '1rem',
             textAlign: 'center'
           }} className="hero-stats-strip">
-            <div>
-              <div style={{ color: '#b8923f', fontWeight: '800', fontSize: '1.35rem', fontFamily: "'Lora', Georgia, serif" }}>15+ Years</div>
-              <div style={{ color: '#7a9884', fontSize: '0.72rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Trusted Service</div>
-            </div>
             <div>
               <div style={{ color: '#b8923f', fontWeight: '800', fontSize: '1.35rem', fontFamily: "'Lora', Georgia, serif" }}>100+ Products</div>
               <div style={{ color: '#7a9884', fontSize: '0.72rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Authentic Stock</div>
