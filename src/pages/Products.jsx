@@ -6,6 +6,51 @@ import { Search, Filter, X, Languages } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './urdu.css';
 
+const CROP_DATA = [
+  {
+    id: 'All Crops',
+    label: 'All Crops',
+    labelUrdu: 'تمام فصلیں',
+    image: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=120&auto=format&fit=crop&q=80',
+    fallbackEmoji: '🌾'
+  },
+  {
+    id: 'Apple',
+    label: 'Apple',
+    labelUrdu: 'سیب',
+    image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=120&auto=format&fit=crop&q=80',
+    fallbackEmoji: '🍎'
+  },
+  {
+    id: 'Pear',
+    label: 'Pear',
+    labelUrdu: 'ناشپاتی',
+    image: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=120&auto=format&fit=crop&q=80',
+    fallbackEmoji: '🍐'
+  },
+  {
+    id: 'Walnut',
+    label: 'Walnut',
+    labelUrdu: 'اخروٹ',
+    image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=120&auto=format&fit=crop&q=80',
+    fallbackEmoji: '🌰'
+  },
+  {
+    id: 'Cherry',
+    label: 'Cherry',
+    labelUrdu: 'چیری',
+    image: 'https://images.unsplash.com/photo-1528825871115-3581a5387919?w=120&auto=format&fit=crop&q=80',
+    fallbackEmoji: '🍒'
+  },
+  {
+    id: 'Saffron',
+    label: 'Saffron',
+    labelUrdu: 'زعفران',
+    image: 'https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=120&auto=format&fit=crop&q=80',
+    fallbackEmoji: '🌸'
+  }
+];
+
 export default function Products() {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
@@ -175,35 +220,58 @@ export default function Products() {
             </div>
           </div>
 
-          {/* Crop Filter Pills */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', paddingTop: '0.5rem', borderTop: '1px dashed var(--border-color)' }}>
+          {/* Crop Filter Cards with Images */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', paddingTop: '0.6rem', borderTop: '1px dashed var(--border-color)' }}>
             <span style={{ fontSize: '0.82rem', fontWeight: 'bold', color: 'var(--secondary-color)', display: 'flex', alignItems: 'center', gap: '6px' }}>
               🌱 Filter by Target Crop / فصل:
             </span>
             <div style={{ 
               display: 'flex', 
-              gap: '0.4rem', 
-              flexWrap: 'wrap'
+              gap: '0.6rem', 
+              flexWrap: 'wrap',
+              alignItems: 'center'
             }}>
-              {crops.map(crop => {
-                const isActive = activeCrop === crop;
+              {CROP_DATA.map(crop => {
+                const isActive = activeCrop === crop.id;
                 return (
                   <button
-                    key={crop}
-                    onClick={() => setActiveCrop(crop)}
+                    key={crop.id}
+                    onClick={() => setActiveCrop(crop.id)}
                     style={{
-                      background: isActive ? 'var(--secondary-color)' : 'rgba(184, 146, 63, 0.08)',
-                      color: isActive ? '#08150d' : 'var(--primary-color)',
-                      border: '1px solid ' + (isActive ? 'var(--secondary-color)' : 'rgba(184, 146, 63, 0.3)'),
-                      padding: '0.35rem 0.85rem',
-                      borderRadius: '18px',
+                      background: isActive ? 'var(--primary-color)' : 'var(--bg-main)',
+                      color: isActive ? '#ffffff' : 'var(--text-main)',
+                      border: isActive ? '1.5px solid var(--secondary-color)' : '1px solid var(--border-color)',
+                      padding: '0.35rem 0.85rem 0.35rem 0.45rem',
+                      borderRadius: '25px',
                       fontWeight: '700',
-                      fontSize: '0.78rem',
+                      fontSize: '0.8rem',
                       cursor: 'pointer',
-                      transition: 'all 0.2s ease'
+                      transition: 'all 0.25s ease',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      boxShadow: isActive ? '0 4px 12px rgba(18, 54, 31, 0.25)' : 'none'
                     }}
                   >
-                    {crop === 'All Crops' ? '🌾 All Crops' : `🍏 ${crop}`}
+                    <img
+                      src={crop.image}
+                      alt={crop.label}
+                      loading="lazy"
+                      decoding="async"
+                      onError={(e) => { e.target.style.display = 'none'; }}
+                      style={{
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '50%',
+                        objectFit: 'cover',
+                        border: '1.5px solid ' + (isActive ? '#b8923f' : 'rgba(255,255,255,0.4)'),
+                        flexShrink: 0
+                      }}
+                    />
+                    <span>{crop.label}</span>
+                    <span className="urdu-text" dir="rtl" style={{ fontSize: '0.75rem', opacity: isActive ? 0.95 : 0.75 }}>
+                      ({crop.labelUrdu})
+                    </span>
                   </button>
                 );
               })}
