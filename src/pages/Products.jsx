@@ -25,7 +25,7 @@ const CROP_DATA = [
     id: 'Pear',
     label: 'Pear',
     labelUrdu: 'ناشپاتی',
-    image: 'https://images.unsplash.com/photo-1514756331096-5c0f352d0b5e?w=160&auto=format&fit=crop&q=85',
+    image: 'https://images.unsplash.com/photo-1631160299919-6a175aa6d189?w=160&auto=format&fit=crop&q=85',
     fallbackEmoji: '🍐'
   },
   {
