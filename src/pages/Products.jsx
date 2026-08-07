@@ -11,42 +11,42 @@ const CROP_DATA = [
     id: 'All Crops',
     label: 'All Crops',
     labelUrdu: 'تمام فصلیں',
-    image: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=120&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=160&auto=format&fit=crop&q=85',
     fallbackEmoji: '🌾'
   },
   {
     id: 'Apple',
     label: 'Apple',
     labelUrdu: 'سیب',
-    image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=120&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?w=160&auto=format&fit=crop&q=85',
     fallbackEmoji: '🍎'
   },
   {
     id: 'Pear',
     label: 'Pear',
     labelUrdu: 'ناشپاتی',
-    image: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=120&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1514756331096-5c0f352d0b5e?w=160&auto=format&fit=crop&q=85',
     fallbackEmoji: '🍐'
   },
   {
     id: 'Walnut',
     label: 'Walnut',
     labelUrdu: 'اخروٹ',
-    image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=120&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1543208541-0961a29a783b?w=160&auto=format&fit=crop&q=85',
     fallbackEmoji: '🌰'
   },
   {
     id: 'Cherry',
     label: 'Cherry',
     labelUrdu: 'چیری',
-    image: 'https://images.unsplash.com/photo-1528825871115-3581a5387919?w=120&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1528825871115-3581a5387919?w=160&auto=format&fit=crop&q=85',
     fallbackEmoji: '🍒'
   },
   {
     id: 'Saffron',
     label: 'Saffron',
     labelUrdu: 'زعفران',
-    image: 'https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=120&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1509358271058-acd05cc93219?w=160&auto=format&fit=crop&q=85',
     fallbackEmoji: '🌸'
   }
 ];
