@@ -32,7 +32,7 @@ const CROP_DATA = [
     id: 'Walnut',
     label: 'Walnut',
     labelUrdu: 'اخروٹ',
-    image: 'https://images.unsplash.com/photo-1543208541-0961a29a783b?w=160&auto=format&fit=crop&q=85',
+    image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=160&auto=format&fit=crop&q=85',
     fallbackEmoji: '🌰'
   },
   {
