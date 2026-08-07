@@ -46,7 +46,7 @@ const CROP_DATA = [
     id: 'Saffron',
     label: 'Saffron',
     labelUrdu: 'زعفران',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Saffron_Cropping.jpg/320px-Saffron_Cropping.jpg',
+    image: '/saffron.png',
     fallbackEmoji: '🌸'
   }
 ];
