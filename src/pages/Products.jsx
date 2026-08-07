@@ -46,7 +46,7 @@ const CROP_DATA = [
     id: 'Saffron',
     label: 'Saffron',
     labelUrdu: 'زعفران',
-    image: 'https://images.unsplash.com/photo-1509358271058-acd05cc93219?w=160&auto=format&fit=crop&q=85',
+    image: 'https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=160&auto=format&fit=crop&q=85',
     fallbackEmoji: '🌸'
   }
 ];
