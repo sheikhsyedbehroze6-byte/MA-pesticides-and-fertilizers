@@ -274,6 +274,16 @@ export default function AdvisorChatbot() {
     }
   }, [messages, isOpen]);
 
+  const handleResetChat = () => {
+    setMessages([
+      {
+        sender: 'bot',
+        text: "👋 Assalamu Alaikum! Chat reset cleanly.\n\nI am the **M.A. Pesticides AI Crop Advisor**. Ask me anything about orchard spray schedules, dosages, store inventory, or disease cures!",
+        urdu: "چیٹ کو دوبارہ شروع کر دیا گیا ہے۔"
+      }
+    ]);
+  };
+
   const handleSend = (textToSend) => {
     const queryText = textToSend || input;
     if (!queryText.trim()) return;
@@ -287,7 +297,7 @@ export default function AdvisorChatbot() {
       const response = getBotResponse(queryText);
       setMessages(prev => [...prev, { sender: 'bot', ...response }]);
       setIsTyping(false);
-    }, 450);
+    }, 150);
   };
 
   return (
@@ -383,18 +393,38 @@ export default function AdvisorChatbot() {
               </div>
             </div>
 
-            <button
-              onClick={() => setIsOpen(false)}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                color: 'rgba(255,255,255,0.7)',
-                cursor: 'pointer',
-                padding: '4px'
-              }}
-            >
-              <X size={20} />
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <button
+                onClick={handleResetChat}
+                title="Restart / Clear Chat"
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'rgba(255,255,255,0.7)',
+                  cursor: 'pointer',
+                  padding: '4px',
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
+              >
+                <RefreshCw size={16} />
+              </button>
+              <button
+                onClick={() => setIsOpen(false)}
+                aria-label="Close Chat"
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'rgba(255,255,255,0.7)',
+                  cursor: 'pointer',
+                  padding: '4px',
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
+              >
+                <X size={20} />
+              </button>
+            </div>
           </div>
 
           {/* Chat Messages Body */}
