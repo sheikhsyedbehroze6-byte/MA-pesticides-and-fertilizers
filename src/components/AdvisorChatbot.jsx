@@ -14,6 +14,24 @@ const QUICK_PROMPTS = [
 function getBotResponse(userText) {
   const query = userText.toLowerCase().trim();
 
+  // Greetings & Casual Interaction Handler
+  if (query.match(/^(hi|hii|hiii|hello|hey|heyy|salam|assalamu|aOA|good morning|good evening|how are u|how are you|how are u doing|kaise ho|hru)/i)) {
+    return {
+      text: "Hii! Hello! Assalamu Alaikum! 👋\n\nI am doing great and I am ready to assist you today! 🍏 How are your crops and orchard doing?\n\nFeel free to ask me anything about:\n- 🍏 **Apple Scab, Mites & Disease Cures**\n- ⚡ **Spray Tank Dosage Calculations (100L / 200L / 500L)**\n- 📦 **Stock & 20% Discount Rates in Srinagar**",
+      urdu: "السلام علیکم! میں آپ کی زرعی معلومات اور دواؤں کے بارے میں مدد کے لیے تیار ہوں۔",
+      actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20have%20a%20question%20about%20my%20crops."
+    };
+  }
+
+  // Price & Discount Inquiries
+  if (query.includes('price') || query.includes('rate') || query.includes('cost') || query.includes('discount') || query.includes('mrp') || query.includes('قیمت')) {
+    return {
+      text: "🏷️ **M.A. Pesticides Fair Pricing Guarantee:**\n\nAs authorized stockists, we provide **up to 20% discount on print price (MRP)** for all genuine products from Bayer, Syngenta, FMC, and Willowood.\n\nVisit us at Opposite High Court Complex, Srinagar or WhatsApp us to lock in store pricing!",
+      urdu: "تمام معیاری زرعی مصنوعات پر پرنٹ ریٹ سے 20% تک رعایت دستیاب ہے۔",
+      actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20want%20to%20inquire%20about%20product%20prices."
+    };
+  }
+
   if (query.includes('location') || query.includes('address') || query.includes('where') || query.includes('shop') || query.includes('پتہ')) {
     return {
       text: "📍 **M.A. Pesticides & Fertilizers Shop Location:**\n\nOpposite High Court Complex, Hari Singh High Street / M.A. Road, Srinagar, Jammu & Kashmir (190001).\n\n👨‍🔬 **Senior Chemist:** Sheikh Mohammad Ayoub (M.Sc. Chemistry)\n📞 **Phone:** +91 99065 41321\n⏰ **Hours:** Open daily from 9:30 AM to 7:00 PM.",
@@ -54,7 +72,7 @@ function getBotResponse(userText) {
     };
   }
 
-  // Search product matching
+  // Search product matching across database
   const matchedProd = products.find(p => p.name.toLowerCase().includes(query) || p.uses.toLowerCase().includes(query));
   if (matchedProd) {
     return {
@@ -64,11 +82,11 @@ function getBotResponse(userText) {
     };
   }
 
-  // Default helpful response
+  // Intelligent fallback for any question
   return {
-    text: `🌾 **M.A. Pesticides Advisory Service**\n\nI can help you with:\n1. Recommended dosages for Apple, Pear, Walnut, Cherry, & Saffron.\n2. Genuine Bayer, Syngenta, FMC & Willowood product availability.\n3. Spray tank calculations for 100L, 200L & 500L containers.\n\n*Would you like to connect directly with Sheikh Mohammad Ayoub on WhatsApp?*`,
+    text: `✨ **AI Crop Advisor Response:**\n\nI understand you are asking about: "${userText}".\n\nI can help you with:\n1. Recommended spray dosages for Apple, Pear, Walnut, Cherry, & Saffron.\n2. Genuine Bayer, Syngenta, FMC & Willowood product availability.\n3. Spray tank calculations for 100L, 200L & 500L containers.\n\n*Would you like to speak directly with Sheikh Mohammad Ayoub on WhatsApp for a personalized prescription?*`,
     urdu: "آپ سیب، ناشپاتی، اخروٹ اور زعفران کی بیماریوں اور دواؤں کے بارے میں پوچھ سکتے ہیں۔",
-    actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20have%20an%20inquiry%20about%20my%20crop."
+    actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, I have a query about: ${userText}`)}`
   };
 }
 
