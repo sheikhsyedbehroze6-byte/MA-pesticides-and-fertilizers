@@ -108,6 +108,58 @@ function getBotResponse(userText) {
     };
   }
 
+  // Thanks & Gratitude Micro-Questions
+  if (query.match(/^(thanks|thank you|thx|shukriya|jazakallah|shukria|شکریہ)/i)) {
+    return {
+      text: "You're very welcome! 😊 Glad I could help!\n\nIs there anything else you need regarding your orchard spray schedule, tank mixing ratios, or store inventory today?",
+      urdu: "آپ کا بہت شکریہ! اگر مزید کوئی معلومات چاہیے تو پوچھیے۔"
+    };
+  }
+
+  // Positive Acknowledgment Micro-Questions
+  if (query.match(/^(ok|okay|good|great|awesome|nice|perfect|fine|shukr|ثحیح)/i)) {
+    return {
+      text: "Awesome! 👍 Let me know whenever you need to calculate tank dosages or check product availability at our Srinagar shop!",
+      urdu: "بہترین! جب بھی دواؤں یا مقدار کی معلومات چاہیے، پوچھیے۔"
+    };
+  }
+
+  // Identity & Capabilities Micro-Questions
+  if (query.includes('who are you') || query.includes('what are you') || query.includes('your name') || query.includes('what can you do') || query.includes('help me') || query.includes('کون ہیں')) {
+    return {
+      text: "🤖 **I am the M.A. Pesticides AI Crop Advisor!**\n\nI can help you with:\n1. 🍏 **Crop Disease Diagnosis:** Apple Scab, Mites, Scale, Walnut Blight, & Saffron Corm Rot.\n2. ⚡ **Spray Tank Dosage Calc:** Mixing ratios for 100L, 200L barrels, & 500L tractor tanks.\n3. 📦 **Stock & Formulations:** 60+ stocked products from Bayer, Syngenta, FMC, & Willowood.\n4. 🏷️ **Fair Pricing:** Products sold at up to 20% discount below print MRP in Srinagar!",
+      urdu: "میں ایم اے پیسٹیسائیڈز کا اے آئی کراپ ایڈوائزری اسسٹنٹ ہوں۔",
+      actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20have%20an%20inquiry%20about%20my%20crops."
+    };
+  }
+
+  // Product Authenticity Micro-Questions
+  if (query.includes('genuine') || query.includes('original') || query.includes('duplicate') || query.includes('fake') || query.includes('real') || query.includes('authentic') || query.includes('اصلی')) {
+    return {
+      text: "🛡️ **100% Genuine Product Guarantee:**\n\nAll chemicals, fungicides, insecticides, and fertilizers sold at **M.A. Pesticides** are 100% original, factory sealed, and directly sourced from authorized brand distributors (Bayer, Syngenta, FMC, Willowood, FIL, IPL Biologicals).\n\nSenior Chemist Sheikh Mohammad Ayoub (M.Sc. Chemistry) personally verifies all store stock!",
+      urdu: "ہمارے پاس 100% اصل اور مصدقہ زرعی دوائیں دستیاب ہیں۔",
+      actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20want%20to%20confirm%20genuine%20product%20stock."
+    };
+  }
+
+  // Shop Opening Hours & Schedule Micro-Questions
+  if (query.includes('open') || query.includes('timing') || query.includes('time') || query.includes('hours') || query.includes('closed') || query.includes('sunday') || query.includes('کھلا')) {
+    return {
+      text: "⏰ **M.A. Pesticides Store Working Hours:**\n\nOur store is **Open Daily from 9:30 AM to 7:00 PM** opposite High Court Complex, Hari Singh High Street / M.A. Road, Srinagar!\n\nFor urgent inquiries outside store hours, WhatsApp Sheikh Mohammad Ayoub anytime: +91 99065 41321.",
+      urdu: "دکان روزانہ صبح 9:30 سے شام 7:00 بجے تک کھلی رہتی ہے۔",
+      actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20want%20to%20visit%20the%20shop%20today."
+    };
+  }
+
+  // Spray Safety & Mixing Rules Micro-Questions
+  if (query.includes('mix') || query.includes('tank mix') || query.includes('safety') || query.includes('precaution') || query.includes('combine')) {
+    return {
+      text: "⚠️ **Chemist Spray Mixing & Safety Rules:**\n\n1. **Jar Test First:** Mix a small sample of chemicals in a clean bottle before filling your 200L barrel to ensure no curdling.\n2. **Never Mix Copper with Sulphur or Dodine.**\n3. **Always Wear Protective Gear:** Gloves, mask, and goggles.\n4. **Spray in Calm Conditions:** Avoid spraying during strong winds (> 15 km/h) or extreme afternoon heat.",
+      urdu: "سپرے مکس کرتے وقت پہلے چھوٹی بوتل میں ٹیسٹ کریں۔ کاپر اور سلفر کو اکٹھا مکس نہ کریں۔",
+      actionLink: "https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%2C%20can%20I%20mix%20these%20two%20pesticides%20together%3F"
+    };
+  }
+
   // Price & Discount Inquiries
   if (query.includes('price') || query.includes('rate') || query.includes('cost') || query.includes('discount') || query.includes('mrp') || query.includes('قیمت')) {
     return {
