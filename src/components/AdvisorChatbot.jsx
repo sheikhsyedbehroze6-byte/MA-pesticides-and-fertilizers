@@ -143,11 +143,42 @@ function getBotResponse(userText) {
     };
   }
 
-  // Search product matching across database
-  const matchedProd = products.find(p => p.name.toLowerCase().includes(query) || p.uses.toLowerCase().includes(query));
+  // 3. Store Info, Chemist & About Website Queries
+  if (query.includes('about') || query.includes('who') || query.includes('ayoub') || query.includes('owner') || query.includes('chemist') || query.includes('license')) {
+    return {
+      text: "🏛️ **About M.A. Pesticides & Fertilizers:**\n\n- **Proprietor & Senior Chemist:** Sheikh Mohammad Ayoub (M.Sc. Chemistry, B.Ed.), former Senior Lecturer.\n- **Location:** Opposite High Court Complex, Hari Singh High Street / M.A. Road, Srinagar, Kashmir (190001).\n- **Authorized Brands:** Bayer, Syngenta, FMC, Willowood, FIL & IPL Biologicals.\n- **Pricing Policy:** Authorized stockist offering up to **20% discount on print price (MRP)**.\n- **Free Store Services:** Free leaf sample disease diagnosis, soil testing consultation & custom spray tank dosage calculations.",
+      urdu: "ایم اے پیسٹیسائیڈز: شیخ محمد ایوب (ایم ایس سی کیمسٹری)۔ 20% رعایت کے ساتھ معیاری دوائیں دستیاب ہیں۔",
+      actionLink: "https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%2C%20I%20have%20an%20inquiry%20about%20your%20services."
+    };
+  }
+
+  // 4. Disease Database Search (Apple Scab, Mites, Scale, Mildew, Blight, Corm Rot, etc.)
+  const matchedDisease = diseases.find(d => 
+    query.includes(d.name.toLowerCase()) || 
+    d.crop.toLowerCase().includes(query) || 
+    d.symptoms.toLowerCase().includes(query) ||
+    d.cure.toLowerCase().includes(query)
+  );
+
+  if (matchedDisease) {
+    return {
+      text: `🔬 **Disease Guide: ${matchedDisease.name}** (${matchedDisease.crop})\n\n- 🚨 **Symptoms:** ${matchedDisease.symptoms}\n- 🩺 **Recommended Cure:** ${matchedDisease.cure}\n- ⚡ **Dosage Rate:** ${matchedDisease.dosage}\n- ⚠️ **Severity Level:** ${matchedDisease.severity}\n\n*Visit our Srinagar shop or WhatsApp Sheikh Mohammad Ayoub to get genuine store stock at 20% below print MRP.*`,
+      urdu: `${matchedDisease.nameUrdu}: ${matchedDisease.symptomsUrdu}\nعلاج: ${matchedDisease.cureUrdu} - مقدار: ${matchedDisease.dosageUrdu}`,
+      actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, I need treatment for ${matchedDisease.name} in my orchard.`)}`
+    };
+  }
+
+  // 5. Product Search (Bayer Antracol, Syngenta Alika, Dodine, HMO Oil, Contaf, Luna, etc.)
+  const matchedProd = products.find(p => 
+    query.includes(p.name.toLowerCase()) || 
+    p.uses.toLowerCase().includes(query) ||
+    (p.composition && p.composition.toLowerCase().includes(query)) ||
+    p.diseases.some(d => d.toLowerCase().includes(query))
+  );
+
   if (matchedProd) {
     return {
-      text: `🌿 **${matchedProd.name}** (${matchedProd.type})\n\n- **Uses:** ${matchedProd.uses}\n- **Dosage:** ${matchedProd.dosage}\n- **Benefits:** ${matchedProd.benefits}\n- **Composition:** ${matchedProd.composition || 'Standard Formulation'}\n\n*Available at our Srinagar shop with 20% print price discount.*`,
+      text: `🌿 **${matchedProd.name}** (${matchedProd.type})\n\n- 🧪 **Composition:** ${matchedProd.composition || 'Standard Formulation'}\n- 🎯 **Uses & Target Crops:** ${matchedProd.uses}\n- 💧 **Recommended Dosage:** ${matchedProd.dosage}\n- 💡 **Key Benefits:** ${matchedProd.benefits}\n\n*Available at our Srinagar shop opposite High Court Complex with 20% print price discount.*`,
       urdu: `${matchedProd.name}: ${matchedProd.dosage} - 20% چھوٹ کے ساتھ دستیاب۔`,
       actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello, I want to purchase ${matchedProd.name} from your Srinagar shop.`)}`
     };
