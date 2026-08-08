@@ -85,6 +85,39 @@ function getBotResponse(userText) {
     };
   }
 
+  // Automatic Organic Fact Extraction (AI learns facts automatically from user conversation)
+  const isOrganicFact = userText.match(/(?:i sprayed|we sprayed|i used|my orchard has|my trees have|there is|disease in|i bought|i have|my farm|my location|we use|my tree|my crop|i am using|worked well|did not work)/i);
+  if (isOrganicFact && userText.split(' ').length >= 3 && !query.includes('how much') && !query.includes('what is') && !query.includes('where is')) {
+    const existingFact = memory.facts.find(f => f.fact.toLowerCase() === userText.toLowerCase());
+    if (!existingFact) {
+      memory.facts.push({
+        fact: userText.trim(),
+        timestamp: new Date().toISOString()
+      });
+      saveStoredMemory(memory);
+    }
+  }
+
+  // Automatic Knowledge Recall ("what do you remember", "my facts", "what did I spray", "my memory")
+  if (query.includes('what do you remember') || query.includes('my memory') || query.includes('my facts') || query.includes('what did i spray') || query.includes('my orchard details') || query.includes('what do you know about me')) {
+    if (memory.facts.length === 0 && !memory.userProfile.name && !memory.userProfile.location) {
+      return {
+        text: "🧠 **AI Organic Memory Base:**\n\nI haven't learned any custom facts about your orchard yet!\n\nAs we chat, I will automatically learn your orchard details, past spray history, and tree counts!",
+        urdu: "ابھی تک میں نے آپ کے باغ کے بارے میں کوئی معلومات نہیں سیکھی ہیں۔"
+      };
+    }
+
+    const learnedList = memory.facts.map((f, i) => `${i + 1}. *"${f.fact}"*`).join('\n');
+    const profileInfo = [];
+    if (memory.userProfile.name) profileInfo.push(`- 👤 **Farmer Name:** ${memory.userProfile.name}`);
+    if (memory.userProfile.location) profileInfo.push(`- 📍 **Location:** ${memory.userProfile.location}`);
+
+    return {
+      text: `🧠 **AI Organic Self-Learned Memory Base:**\n\n${profileInfo.join('\n')}\n\n📚 **Automatically Extracted Orchard Facts (${memory.facts.length}):**\n${learnedList || '*No specific facts recorded yet.*'}\n\n*I use these learned facts to personalize your spray dosage calculations and disease advice!*`,
+      urdu: "یہ وہ معلومات ہیں جو میں نے خودکار طریقے سے آپ کی باتوں سے سیکھی ہیں۔"
+    };
+  }
+
   // 1. Self-Learning Command: "teach:" or "remember:"
   if (query.startsWith('teach:') || query.startsWith('remember:') || query.startsWith('note:')) {
     const newFact = userText.replace(/^(teach:|remember:|note:)/i, '').trim();
@@ -491,8 +524,19 @@ export default function AdvisorChatbot() {
                 <div style={{ fontSize: '0.9rem', fontWeight: '800', fontFamily: "'Lora', Georgia, serif", display: 'flex', alignItems: 'center', gap: '5px' }}>
                   M.A. AI Crop Advisor <Sparkles size={14} color="#d4ae5c" />
                 </div>
-                <div style={{ fontSize: '0.7rem', color: '#a5c8b0', fontWeight: '600' }}>
-                  Senior Chemist Advisory • Srinagar
+                <div style={{ fontSize: '0.7rem', color: '#a5c8b0', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span>Senior Chemist Advisory</span>
+                  <span style={{
+                    background: 'rgba(184, 146, 63, 0.25)',
+                    color: '#d4ae5c',
+                    padding: '1px 6px',
+                    borderRadius: '10px',
+                    fontSize: '0.65rem',
+                    fontWeight: '700',
+                    border: '1px solid rgba(184, 146, 63, 0.4)'
+                  }}>
+                    🧠 Self-Learning Memory ({getStoredMemory().facts.length})
+                  </span>
                 </div>
               </div>
             </div>
