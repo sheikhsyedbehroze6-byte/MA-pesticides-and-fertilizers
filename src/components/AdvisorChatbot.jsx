@@ -135,6 +135,65 @@ function getBotResponse(userText) {
     };
   }
 
+  // Interactive Stock & Inventory Inquiry Flow
+  if (query.match(/(products in stock|stock|in stock|inventory|available products|what products|products available|what do you have|do you have)/i)) {
+    return {
+      text: "📦 **M.A. Pesticides Store Inventory:**\n\nWhich type of agricultural formulation do you want to inspect?\n\n1️⃣ **Fungicides (پھپھوندی کش)** — Apple Scab, Blight & Powdery Mildew\n2️⃣ **Insecticides (کیڑے مار دوا)** — Mites, Aphids, Codling Moth & Scale\n3️⃣ **Herbicides (جڑی بوٹی کش)** — Orchard & Field Weed Clearance\n4️⃣ **Bio-Stimulants & Tonics (پودوں کا مقوی)** — Crop Growth & Yield Boosters\n\n*Click one of the options below or type: Fungicides, Insecticides, or Herbicides!*",
+      urdu: "آپ کون سی دوا دیکھنا چاہتے ہیں؟ فنگسائڈ، انسیکٹیسائڈ یا ہر بائی سائیڈ؟",
+      promptChips: [
+        { label: '🧪 View Fungicides', query: 'show fungicides' },
+        { label: '🐛 View Insecticides', query: 'show insecticides' },
+        { label: '🌿 View Herbicides', query: 'show herbicides' },
+        { label: '🌱 View Bio-Tonics', query: 'show tonics' }
+      ],
+      actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20please%20send%20the%20full%20in-stock%20product%20catalog."
+    };
+  }
+
+  // Loaded Category: Fungicides
+  if (query.includes('fungicide') || query.includes('پھپھوندی')) {
+    const fungList = products.filter(p => p.type === 'Fungicide' || p.type === 'Bio-Fungicide').slice(0, 6);
+    const listText = fungList.map((p, i) => `${i+1}. **${p.name}** — ${p.dosage} (${p.uses.slice(0, 70)}...)`).join('\n');
+    return {
+      text: `🧪 **Top In-Stock Fungicides (پھپھوندی کش):**\n\n${listText}\n\n🏷️ *All stocked at our Srinagar shop at 20% below print MRP!*`,
+      urdu: "یہ ہمارے پاس دستیاب بہترین فنگسائڈز کی فہرست ہے۔",
+      actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20want%20to%20order%20Fungicides."
+    };
+  }
+
+  // Loaded Category: Insecticides / Pesticides
+  if (query.includes('insecticide') || query.includes('pesticide') || query.includes('کیڑے مار')) {
+    const insecList = products.filter(p => p.type === 'Insecticide').slice(0, 6);
+    const listText = insecList.map((p, i) => `${i+1}. **${p.name}** — ${p.dosage} (${p.uses.slice(0, 70)}...)`).join('\n');
+    return {
+      text: `🐛 **Top In-Stock Insecticides (کیڑے مار دوا):**\n\n${listText}\n\n🏷️ *All stocked at our Srinagar shop at 20% below print MRP!*`,
+      urdu: "یہ ہمارے پاس دستیاب بہترین کیڑے مار دواؤں کی فہرست ہے۔",
+      actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20want%20to%20order%20Insecticides."
+    };
+  }
+
+  // Loaded Category: Herbicides
+  if (query.includes('herbicide') || query.includes('weed') || query.includes('جڑی بوٹی')) {
+    const herbList = products.filter(p => p.type === 'Herbicide').slice(0, 6);
+    const listText = herbList.map((p, i) => `${i+1}. **${p.name}** — ${p.dosage} (${p.uses.slice(0, 70)}...)`).join('\n');
+    return {
+      text: `🌿 **Top In-Stock Herbicides (جڑی بوٹی کش):**\n\n${listText}\n\n🏷️ *All stocked at our Srinagar shop at 20% below print MRP!*`,
+      urdu: "یہ ہمارے پاس دستیاب بہترین جڑی بوٹی کش دواؤں کی فہرست ہے۔",
+      actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20want%20to%20order%20Herbicides."
+    };
+  }
+
+  // Loaded Category: Tonics / Bio-Stimulants
+  if (query.includes('tonic') || query.includes('stimulant') || query.includes('محرک')) {
+    const tonicList = products.filter(p => p.type === 'Plant Tonic' || p.type === 'Bio-Stimulant').slice(0, 6);
+    const listText = tonicList.map((p, i) => `${i+1}. **${p.name}** — ${p.dosage} (${p.uses.slice(0, 70)}...)`).join('\n');
+    return {
+      text: `🌱 **Top In-Stock Plant Tonics & Bio-Stimulants:**\n\n${listText}\n\n🏷️ *All stocked at our Srinagar shop at 20% below print MRP!*`,
+      urdu: "یہ ہمارے پاس دستیاب بہترین پلانٹ ٹانکس کی فہرست ہے۔",
+      actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20want%20to%20order%20Plant%20Tonics."
+    };
+  }
+
   if (query.includes('whatsapp') || query.includes('call') || query.includes('phone') || query.includes('ayoub')) {
     return {
       text: "📞 **Direct Expert Consultation:**\n\nSpeak directly with **Sheikh Mohammad Ayoub** (M.Sc. Chemistry, Former Senior Lecturer).\n\n📱 **WhatsApp:** +91 99065 41321\n📍 **Store:** Opposite High Court Complex, Srinagar.",
@@ -375,6 +434,30 @@ export default function AdvisorChatbot() {
                     fontSize: '0.82rem'
                   }}>
                     {msg.urdu}
+                  </div>
+                )}
+
+                {msg.promptChips && (
+                  <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginTop: '10px' }}>
+                    {msg.promptChips.map((chip, cIdx) => (
+                      <button
+                        key={cIdx}
+                        onClick={() => handleSend(chip.query)}
+                        style={{
+                          background: 'var(--primary-color)',
+                          color: '#ffffff',
+                          border: '1px solid var(--secondary-color)',
+                          padding: '0.35rem 0.7rem',
+                          borderRadius: '16px',
+                          fontSize: '0.74rem',
+                          fontWeight: '700',
+                          cursor: 'pointer',
+                          boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
+                        }}
+                      >
+                        {chip.label}
+                      </button>
+                    ))}
                   </div>
                 )}
 
