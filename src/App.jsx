@@ -5,6 +5,7 @@ import ScrollProgressBar from './components/ScrollProgressBar';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
+import AdvisorChatbot from './components/AdvisorChatbot';
 import Home from './pages/Home';
 import { ThemeProvider } from './context/ThemeContext';
 import './App.css';
@@ -92,6 +93,9 @@ function App() {
             </svg>
             <span className="whatsapp-float-label">WhatsApp Expert</span>
           </a>
+
+          {/* Interactive Agricultural Crop Advisor Chatbot */}
+          <AdvisorChatbot />
         </div>
       </Router>
     </ThemeProvider>
