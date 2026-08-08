@@ -11,13 +11,84 @@ const QUICK_PROMPTS = [
   { label: '📞 Direct WhatsApp Consult', query: 'whatsapp consult' }
 ];
 
+// Self-Learning Knowledge Base & User Profile Storage
+function getStoredMemory() {
+  try {
+    const saved = localStorage.getItem('ma_ai_learned_memory');
+    return saved ? JSON.parse(saved) : { facts: [], userProfile: {} };
+  } catch (e) {
+    return { facts: [], userProfile: {} };
+  }
+}
+
+function saveStoredMemory(memory) {
+  try {
+    localStorage.setItem('ma_ai_learned_memory', JSON.stringify(memory));
+  } catch (e) {
+    console.warn('Unable to save AI memory to localStorage', e);
+  }
+}
+
 function getBotResponse(userText) {
   const query = userText.toLowerCase().trim();
+  const memory = getStoredMemory();
+
+  // 1. Self-Learning Command: "teach:" or "remember:"
+  if (query.startsWith('teach:') || query.startsWith('remember:') || query.startsWith('note:')) {
+    const newFact = userText.replace(/^(teach:|remember:|note:)/i, '').trim();
+    if (newFact.length > 3) {
+      memory.facts.push({
+        fact: newFact,
+        timestamp: new Date().toISOString()
+      });
+      saveStoredMemory(memory);
+      return {
+        text: `🧠 **Knowledge Learned & Saved!**\n\nI have permanently recorded this new fact into my memory database:\n> *"http://ma-pesticides-ai/memory#${memory.facts.length} — ${newFact}"*\n\nI will remember this knowledge across your future visits and use it to answer orchard inquiries!`,
+        urdu: "معلومات محفوظ کر لی گئی ہیں۔ میں آئندہ اسے یاد رکھوں گا۔"
+      };
+    }
+  }
+
+  // 2. User Name & Orchard Location Learning (e.g. "My name is Tariq", "I am from Shopian")
+  const nameMatch = userText.match(/(?:my name is|i am|call me)\s+([a-zA-Z]+)/i);
+  if (nameMatch && nameMatch[1]) {
+    const name = nameMatch[1];
+    memory.userProfile.name = name;
+    saveStoredMemory(memory);
+    return {
+      text: `Pleasure to meet you, **${name}**! 👋\n\nI have saved your name to memory. How can I assist you with your orchard or crop spray schedule today?`,
+      urdu: `خوش آمدید ${name}! آپ کا نام محفوظ کر لیا گیا ہے۔`
+    };
+  }
+
+  const locationMatch = userText.match(/(?:my orchard is in|i am from|located in|farm in)\s+([a-zA-Z\s]+)/i);
+  if (locationMatch && locationMatch[1]) {
+    const location = locationMatch[1].trim();
+    memory.userProfile.location = location;
+    saveStoredMemory(memory);
+    return {
+      text: `📍 **Orchard Location Saved:** ${location}!\n\nI will tailor spray timing recommendations for ${location} weather conditions!`,
+      urdu: `آپ کے باغ کا مقام (${location}) محفوظ کر لیا گیا ہے۔`
+    };
+  }
+
+  // Check Learned Facts Database
+  const matchedFact = memory.facts.find(f => query.split(' ').some(word => word.length > 3 && f.fact.toLowerCase().includes(word)));
+  if (matchedFact) {
+    const userName = memory.userProfile.name ? `, ${memory.userProfile.name}` : '';
+    return {
+      text: `💡 **Learned Insight${userName}:**\n\nFrom my self-learned memory records:\n> *"http://ma-ai-memory#fact — ${matchedFact.fact}"*\n\n*Would you like to double-check store inventory at our Srinagar shop?*`,
+      urdu: "یہ معلومات میری سیکھی ہوئی یادداشت سے حاصل کی گئی ہے۔"
+    };
+  }
 
   // Greetings & Casual Interaction Handler
   if (query.match(/^(hi|hii|hiii|hello|hey|heyy|salam|assalamu|aOA|good morning|good evening|how are u|how are you|how are u doing|kaise ho|hru)/i)) {
+    const greetingName = memory.userProfile.name ? ` **${memory.userProfile.name}**` : '';
+    const greetingLoc = memory.userProfile.location ? ` for your orchard in **${memory.userProfile.location}**` : '';
+
     return {
-      text: "Hii! Hello! Assalamu Alaikum! 👋\n\nI am doing great and I am ready to assist you today! 🍏 How are your crops and orchard doing?\n\nFeel free to ask me anything about:\n- 🍏 **Apple Scab, Mites & Disease Cures**\n- ⚡ **Spray Tank Dosage Calculations (100L / 200L / 500L)**\n- 📦 **Stock & 20% Discount Rates in Srinagar**",
+      text: `Hii${greetingName}! Hello! Assalamu Alaikum! 👋\n\nI am doing great and ready to assist you today${greetingLoc}! 🍏 How are your crops and fruit trees doing?\n\nFeel free to ask me anything or teach me new facts by typing \`teach: [your fact]\`!\n\n- 🍏 **Apple Scab, Mites & Disease Cures**\n- ⚡ **Spray Tank Dosage Calculations (100L / 200L / 500L)**\n- 📦 **Stock & 20% Discount Rates in Srinagar**`,
       urdu: "السلام علیکم! میں آپ کی زرعی معلومات اور دواؤں کے بارے میں مدد کے لیے تیار ہوں۔",
       actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20have%20a%20question%20about%20my%20crops."
     };
@@ -84,7 +155,7 @@ function getBotResponse(userText) {
 
   // Intelligent fallback for any question
   return {
-    text: `✨ **AI Crop Advisor Response:**\n\nI understand you are asking about: "${userText}".\n\nI can help you with:\n1. Recommended spray dosages for Apple, Pear, Walnut, Cherry, & Saffron.\n2. Genuine Bayer, Syngenta, FMC & Willowood product availability.\n3. Spray tank calculations for 100L, 200L & 500L containers.\n\n*Would you like to speak directly with Sheikh Mohammad Ayoub on WhatsApp for a personalized prescription?*`,
+    text: `✨ **AI Self-Learning Crop Advisor:**\n\nI analyzed your query: "${userText}".\n\nI can help you with:\n1. Recommended spray dosages for Apple, Pear, Walnut, Cherry, & Saffron.\n2. Genuine Bayer, Syngenta, FMC & Willowood product availability.\n3. Spray tank calculations for 100L, 200L & 500L containers.\n\n*Tip: You can teach me new facts anytime by typing \`teach: [your fact]\`!*`,
     urdu: "آپ سیب، ناشپاتی، اخروٹ اور زعفران کی بیماریوں اور دواؤں کے بارے میں پوچھ سکتے ہیں۔",
     actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, I have a query about: ${userText}`)}`
   };
