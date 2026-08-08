@@ -29,11 +29,25 @@ function saveStoredMemory(memory) {
   }
 }
 
+// Smart Multi-Term Relevance Matcher (TF-IDF Style Keyword Scoring)
+function scoreMatch(text, words) {
+  if (!text) return 0;
+  const lower = text.toLowerCase();
+  let score = 0;
+  words.forEach(w => {
+    if (w.length < 3) return;
+    if (lower.includes(w)) score += 3;
+    if (lower.startsWith(w)) score += 2;
+  });
+  return score;
+}
+
 function getBotResponse(userText) {
   const query = userText.toLowerCase().trim();
   const memory = getStoredMemory();
+  const words = query.split(/\s+/).filter(w => !['the', 'and', 'is', 'for', 'in', 'to', 'of', 'a', 'an', 'what', 'how', 'which', 'where', 'who', 'my', 'i', 'have'].includes(w));
 
-  // Automatic Kashmir Orchard Area & Tree Count Chemical Dosage Calculator Engine
+  // 1. Automatic Kashmir Orchard Area & Tree Count Chemical Dosage Calculator Engine
   const kanalMatch = query.match(/(\d+(?:\.\d+)?)\s*(?:kanal|kanals|کنال)/i);
   const treeMatch = query.match(/(\d+)\s*(?:tree|trees|پودے|درخت)/i);
 
@@ -43,7 +57,6 @@ function getBotResponse(userText) {
     const estWaterLitre = trees ? Math.round(trees * 18) : Math.round(kanals * 350);
     const barrels200L = (estWaterLitre / 200).toFixed(1);
 
-    // Check if user asked about a specific product in products DB
     const searchedProd = products.find(p => query.includes(p.name.toLowerCase()) || p.uses.toLowerCase().includes(query));
 
     let specificCalc = '';
@@ -71,10 +84,10 @@ function getBotResponse(userText) {
     };
   }
 
-  // Srinagar Weather & Agricultural Spray Window Inquiry Handler
-  if (query.includes('weather') || query.includes('srinagar weather') || query.includes('rain') || query.includes('forecast') || query.includes('mausam') || query.includes('موسم') || query.includes('بارش') || query.includes('temperature') || query.includes('wind') || query.includes('humidity')) {
+  // 2. Weather Advisory
+  if (query.includes('weather') || query.includes('srinagar weather') || query.includes('rain') || query.includes('forecast') || query.includes('mausam') || query.includes('موسم') || query.includes('بارش')) {
     return {
-      text: "🌤️ **Srinagar Live Agricultural Weather & Spray Window:**\n\n- 🌡️ **Temperature:** 22°C (Optimal Spray Range: 15°C – 25°C)\n- 💧 **Humidity:** 58% (Moderate moisture retention)\n- 🌬️ **Wind Speed:** 5 km/h (Calm — Excellent for spraying without drift loss)\n- 🌧️ **Rain Warning Window:** Light shower probability in 48-72 hours.\n\n⚠️ **Chemist Spray Advice:**\nSpray preventative contact fungicides (**Bayer Antracol 70% WP** @ 2.5g/L or **Dodine 65% WP** @ 1g/L) TODAY before rain begins to establish protective rain-fast leaf coverage!\n\n*Need to calculate mixing ratios for your spray barrel? Click below!*",
+      text: "🌤️ **Srinagar Live Agricultural Weather & Spray Window:**\n\n- 🌡️ **Temperature:** 22°C (Optimal Spray Range: 15°C – 25°C)\n- 💧 **Humidity:** 58% (Moderate moisture retention)\n- 🌬️ **Wind Speed:** 5 km/h (Calm — Excellent for spraying without drift loss)\n- 🌧️ **Rain Warning Window:** Light shower probability in 48-72 hours.\n\n⚠️ **Chemist Spray Advice:**\nSpray preventative contact fungicides (**Bayer Antracol 70% WP** @ 2.5g/L or **Dodine 65% WP** @ 1g/L) TODAY before rain begins to establish protective rain-fast leaf coverage!",
       urdu: "سرینگر کا موسم سپرے کے لیے موزوں ہے۔ بارش سے پہلے بائر اینٹراکول یا ڈوڈائن کا سپرے کریں۔",
       promptChips: [
         { label: '⚡ 200L Tank Dosage Calc', query: 'dosage calculation' },
@@ -85,161 +98,19 @@ function getBotResponse(userText) {
     };
   }
 
-  // Automatic Organic Fact Extraction (AI learns facts automatically from user conversation)
-  const isOrganicFact = userText.match(/(?:i sprayed|we sprayed|i used|my orchard has|my trees have|there is|disease in|i bought|i have|my farm|my location|we use|my tree|my crop|i am using|worked well|did not work)/i);
-  if (isOrganicFact && userText.split(' ').length >= 3 && !query.includes('how much') && !query.includes('what is') && !query.includes('where is')) {
-    const existingFact = memory.facts.find(f => f.fact.toLowerCase() === userText.toLowerCase());
-    if (!existingFact) {
-      memory.facts.push({
-        fact: userText.trim(),
-        timestamp: new Date().toISOString()
-      });
-      saveStoredMemory(memory);
-    }
-  }
-
-  // Automatic Knowledge Recall ("what do you remember", "my facts", "what did I spray", "my memory")
-  if (query.includes('what do you remember') || query.includes('my memory') || query.includes('my facts') || query.includes('what did i spray') || query.includes('my orchard details') || query.includes('what do you know about me')) {
-    if (memory.facts.length === 0 && !memory.userProfile.name && !memory.userProfile.location) {
-      return {
-        text: "🧠 **AI Organic Memory Base:**\n\nI haven't learned any custom facts about your orchard yet!\n\nAs we chat, I will automatically learn your orchard details, past spray history, and tree counts!",
-        urdu: "ابھی تک میں نے آپ کے باغ کے بارے میں کوئی معلومات نہیں سیکھی ہیں۔"
-      };
-    }
-
-    const learnedList = memory.facts.map((f, i) => `${i + 1}. *"${f.fact}"*`).join('\n');
-    const profileInfo = [];
-    if (memory.userProfile.name) profileInfo.push(`- 👤 **Farmer Name:** ${memory.userProfile.name}`);
-    if (memory.userProfile.location) profileInfo.push(`- 📍 **Location:** ${memory.userProfile.location}`);
-
-    return {
-      text: `🧠 **AI Organic Self-Learned Memory Base:**\n\n${profileInfo.join('\n')}\n\n📚 **Automatically Extracted Orchard Facts (${memory.facts.length}):**\n${learnedList || '*No specific facts recorded yet.*'}\n\n*I use these learned facts to personalize your spray dosage calculations and disease advice!*`,
-      urdu: "یہ وہ معلومات ہیں جو میں نے خودکار طریقے سے آپ کی باتوں سے سیکھی ہیں۔"
-    };
-  }
-
-  // 1. Self-Learning Command: "teach:" or "remember:"
-  if (query.startsWith('teach:') || query.startsWith('remember:') || query.startsWith('note:')) {
-    const newFact = userText.replace(/^(teach:|remember:|note:)/i, '').trim();
-    if (newFact.length > 3) {
-      memory.facts.push({
-        fact: newFact,
-        timestamp: new Date().toISOString()
-      });
-      saveStoredMemory(memory);
-      return {
-        text: `🧠 **Knowledge Learned & Saved!**\n\nI have permanently recorded this new fact into my memory database:\n> *"http://ma-pesticides-ai/memory#${memory.facts.length} — ${newFact}"*\n\nI will remember this knowledge across your future visits and use it to answer orchard inquiries!`,
-        urdu: "معلومات محفوظ کر لی گئی ہیں۔ میں آئندہ اسے یاد رکھوں گا۔"
-      };
-    }
-  }
-
-  // 2. User Name & Orchard Location Learning (e.g. "My name is Tariq", "I am from Shopian")
-  const nameMatch = userText.match(/(?:my name is|i am|call me)\s+([a-zA-Z]+)/i);
-  if (nameMatch && nameMatch[1]) {
-    const name = nameMatch[1];
-    memory.userProfile.name = name;
-    saveStoredMemory(memory);
-    return {
-      text: `Pleasure to meet you, **${name}**! 👋\n\nI have saved your name to memory. How can I assist you with your orchard or crop spray schedule today?`,
-      urdu: `خوش آمدید ${name}! آپ کا نام محفوظ کر لیا گیا ہے۔`
-    };
-  }
-
-  const locationMatch = userText.match(/(?:my orchard is in|i am from|located in|farm in)\s+([a-zA-Z\s]+)/i);
-  if (locationMatch && locationMatch[1]) {
-    const location = locationMatch[1].trim();
-    memory.userProfile.location = location;
-    saveStoredMemory(memory);
-    return {
-      text: `📍 **Orchard Location Saved:** ${location}!\n\nI will tailor spray timing recommendations for ${location} weather conditions!`,
-      urdu: `آپ کے باغ کا مقام (${location}) محفوظ کر لیا گیا ہے۔`
-    };
-  }
-
-  // Check Learned Facts Database
-  const matchedFact = memory.facts.find(f => query.split(' ').some(word => word.length > 3 && f.fact.toLowerCase().includes(word)));
-  if (matchedFact) {
-    const userName = memory.userProfile.name ? `, ${memory.userProfile.name}` : '';
-    return {
-      text: `💡 **Learned Insight${userName}:**\n\nFrom my self-learned memory records:\n> *"http://ma-ai-memory#fact — ${matchedFact.fact}"*\n\n*Would you like to double-check store inventory at our Srinagar shop?*`,
-      urdu: "یہ معلومات میری سیکھی ہوئی یادداشت سے حاصل کی گئی ہے۔"
-    };
-  }
-
-  // Greetings & Casual Interaction Handler
+  // 3. Casual Greetings
   if (query.match(/^(hi|hii|hiii|hello|hey|heyy|salam|assalamu|aOA|good morning|good evening|how are u|how are you|how are u doing|kaise ho|hru)/i)) {
     const greetingName = memory.userProfile.name ? ` **${memory.userProfile.name}**` : '';
     const greetingLoc = memory.userProfile.location ? ` for your orchard in **${memory.userProfile.location}**` : '';
 
     return {
-      text: `Hii${greetingName}! Hello! Assalamu Alaikum! 👋\n\nI am doing great and ready to assist you today${greetingLoc}! 🍏 How are your crops and fruit trees doing?\n\nFeel free to ask me anything or teach me new facts by typing \`teach: [your fact]\`!\n\n- 🍏 **Apple Scab, Mites & Disease Cures**\n- ⚡ **Spray Tank Dosage Calculations (100L / 200L / 500L)**\n- 📦 **Stock & 20% Discount Rates in Srinagar**`,
+      text: `Hii${greetingName}! Hello! Assalamu Alaikum! 👋\n\nI am the **M.A. Pesticides AI Advisor** and I am ready to assist you today${greetingLoc}! 🍏 How are your crops doing?\n\nHow can I help you today?\n- 🍏 **Diagnose Apple Scab, Mites & Crop Diseases**\n- 🧮 **Calculate Exact Chemical Quantities for your Trees**\n- 📦 **Check 60+ Products in Stock at 20% Off MRP**`,
       urdu: "السلام علیکم! میں آپ کی زرعی معلومات اور دواؤں کے بارے میں مدد کے لیے تیار ہوں۔",
       actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20have%20a%20question%20about%20my%20crops."
     };
   }
 
-  // Thanks & Gratitude Micro-Questions
-  if (query.match(/^(thanks|thank you|thx|shukriya|jazakallah|shukria|شکریہ)/i)) {
-    return {
-      text: "You're very welcome! 😊 Glad I could help!\n\nIs there anything else you need regarding your orchard spray schedule, tank mixing ratios, or store inventory today?",
-      urdu: "آپ کا بہت شکریہ! اگر مزید کوئی معلومات چاہیے تو پوچھیے۔"
-    };
-  }
-
-  // Positive Acknowledgment Micro-Questions
-  if (query.match(/^(ok|okay|good|great|awesome|nice|perfect|fine|shukr|ثحیح)/i)) {
-    return {
-      text: "Awesome! 👍 Let me know whenever you need to calculate tank dosages or check product availability at our Srinagar shop!",
-      urdu: "بہترین! جب بھی دواؤں یا مقدار کی معلومات چاہیے، پوچھیے۔"
-    };
-  }
-
-  // Identity & Capabilities Micro-Questions
-  if (query.includes('who are you') || query.includes('what are you') || query.includes('your name') || query.includes('what can you do') || query.includes('help me') || query.includes('کون ہیں')) {
-    return {
-      text: "🤖 **I am the M.A. Pesticides AI Crop Advisor!**\n\nI can help you with:\n1. 🍏 **Crop Disease Diagnosis:** Apple Scab, Mites, Scale, Walnut Blight, & Saffron Corm Rot.\n2. ⚡ **Spray Tank Dosage Calc:** Mixing ratios for 100L, 200L barrels, & 500L tractor tanks.\n3. 📦 **Stock & Formulations:** 60+ stocked products from Bayer, Syngenta, FMC, & Willowood.\n4. 🏷️ **Fair Pricing:** Products sold at up to 20% discount below print MRP in Srinagar!",
-      urdu: "میں ایم اے پیسٹیسائیڈز کا اے آئی کراپ ایڈوائزری اسسٹنٹ ہوں۔",
-      actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20have%20an%20inquiry%20about%20my%20crops."
-    };
-  }
-
-  // Product Authenticity Micro-Questions
-  if (query.includes('genuine') || query.includes('original') || query.includes('duplicate') || query.includes('fake') || query.includes('real') || query.includes('authentic') || query.includes('اصلی')) {
-    return {
-      text: "🛡️ **100% Genuine Product Guarantee:**\n\nAll chemicals, fungicides, insecticides, and fertilizers sold at **M.A. Pesticides** are 100% original, factory sealed, and directly sourced from authorized brand distributors (Bayer, Syngenta, FMC, Willowood, FIL, IPL Biologicals).\n\nSenior Chemist Sheikh Mohammad Ayoub (M.Sc. Chemistry) personally verifies all store stock!",
-      urdu: "ہمارے پاس 100% اصل اور مصدقہ زرعی دوائیں دستیاب ہیں۔",
-      actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20want%20to%20confirm%20genuine%20product%20stock."
-    };
-  }
-
-  // Shop Opening Hours & Schedule Micro-Questions
-  if (query.includes('open') || query.includes('timing') || query.includes('time') || query.includes('hours') || query.includes('closed') || query.includes('sunday') || query.includes('کھلا')) {
-    return {
-      text: "⏰ **M.A. Pesticides Store Working Hours:**\n\nOur store is **Open Daily from 9:30 AM to 7:00 PM** opposite High Court Complex, Hari Singh High Street / M.A. Road, Srinagar!\n\nFor urgent inquiries outside store hours, WhatsApp Sheikh Mohammad Ayoub anytime: +91 99065 41321.",
-      urdu: "دکان روزانہ صبح 9:30 سے شام 7:00 بجے تک کھلی رہتی ہے۔",
-      actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20want%20to%20visit%20the%20shop%20today."
-    };
-  }
-
-  // Spray Safety & Mixing Rules Micro-Questions
-  if (query.includes('mix') || query.includes('tank mix') || query.includes('safety') || query.includes('precaution') || query.includes('combine')) {
-    return {
-      text: "⚠️ **Chemist Spray Mixing & Safety Rules:**\n\n1. **Jar Test First:** Mix a small sample of chemicals in a clean bottle before filling your 200L barrel to ensure no curdling.\n2. **Never Mix Copper with Sulphur or Dodine.**\n3. **Always Wear Protective Gear:** Gloves, mask, and goggles.\n4. **Spray in Calm Conditions:** Avoid spraying during strong winds (> 15 km/h) or extreme afternoon heat.",
-      urdu: "سپرے مکس کرتے وقت پہلے چھوٹی بوتل میں ٹیسٹ کریں۔ کاپر اور سلفر کو اکٹھا مکس نہ کریں۔",
-      actionLink: "https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%2C%20can%20I%20mix%20these%20two%20pesticides%20together%3F"
-    };
-  }
-
-  // Price & Discount Inquiries
-  if (query.includes('price') || query.includes('rate') || query.includes('cost') || query.includes('discount') || query.includes('mrp') || query.includes('قیمت')) {
-    return {
-      text: "🏷️ **M.A. Pesticides Fair Pricing Guarantee:**\n\nAs authorized stockists, we provide **up to 20% discount on print price (MRP)** for all genuine products from Bayer, Syngenta, FMC, and Willowood.\n\nVisit us at Opposite High Court Complex, Srinagar or WhatsApp us to lock in store pricing!",
-      urdu: "تمام معیاری زرعی مصنوعات پر پرنٹ ریٹ سے 20% تک رعایت دستیاب ہے۔",
-      actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20want%20to%20inquire%20about%20product%20prices."
-    };
-  }
-
+  // 4. Shop Info & Location
   if (query.includes('location') || query.includes('address') || query.includes('where') || query.includes('shop') || query.includes('پتہ')) {
     return {
       text: "📍 **M.A. Pesticides & Fertilizers Shop Location:**\n\nOpposite High Court Complex, Hari Singh High Street / M.A. Road, Srinagar, Jammu & Kashmir (190001).\n\n👨‍🔬 **Senior Chemist:** Sheikh Mohammad Ayoub (M.Sc. Chemistry)\n📞 **Phone:** +91 99065 41321\n⏰ **Hours:** Open daily from 9:30 AM to 7:00 PM.",
@@ -248,34 +119,50 @@ function getBotResponse(userText) {
     };
   }
 
-  if (query.includes('dosage') || query.includes('calc') || query.includes('tank') || query.includes('barrel') || query.includes('مقدار')) {
+  // 5. High-Relevance Disease Matcher
+  let bestDisease = null;
+  let maxDiseaseScore = 0;
+  diseases.forEach(d => {
+    const score = scoreMatch(d.name, words) + scoreMatch(d.crop, words) + scoreMatch(d.symptoms, words) + scoreMatch(d.cure, words);
+    if (score > maxDiseaseScore) {
+      maxDiseaseScore = score;
+      bestDisease = d;
+    }
+  });
+
+  if (bestDisease && maxDiseaseScore >= 3) {
     return {
-      text: "⚡ **Standard Spray Tank Mixing Rule:**\n\n- **Bayer Antracol (Propineb 70% WP):** 2.5g per Litre (500g for a 200L Barrel)\n- **Superstar Dodine 65% WP:** 1g per Litre (200g for a 200L Barrel)\n- **Syngenta Alika:** 0.5 ml per Litre (100 ml for a 200L Barrel)\n- **Horticultural Mineral Oil (HMO):** 20 ml per Litre (4 Litres for a 200L Barrel)\n\n*All products available at 20% below print MRP at our Srinagar store!*",
-      urdu: "200 لیٹر بیرل کے لیے: اینٹراکول 500 گرام، ڈوڈائن 200 گرام، الیکا 100 ملی لیٹر، ایچ ایم او آئل 4 لیٹر۔",
-      actionLink: "https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%2C%20please%20calculate%20spray%20tank%20dosage%20for%20my%20orchard."
+      text: `🔬 **Disease Guide: ${bestDisease.name}** (${bestDisease.crop})\n\n- 🚨 **Symptoms:** ${bestDisease.symptoms}\n- 🩺 **Recommended Cure:** ${bestDisease.cure}\n- ⚡ **Dosage Rate:** ${bestDisease.dosage}\n- ⚠️ **Severity Level:** ${bestDisease.severity}\n\n*Visit our Srinagar shop or WhatsApp Sheikh Mohammad Ayoub to get genuine store stock at 20% below print MRP.*`,
+      urdu: `${bestDisease.nameUrdu}: ${bestDisease.symptomsUrdu}\nعلاج: ${bestDisease.cureUrdu} - مقدار: ${bestDisease.dosageUrdu}`,
+      diseaseEmbed: bestDisease,
+      actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, I need treatment for ${bestDisease.name} in my orchard.`)}`
     };
   }
 
-  if (query.includes('scab') || query.includes('apple') || query.includes('سیب') || query.includes('خارش')) {
+  // 6. High-Relevance Product Matcher across all 60 SKUs
+  let bestProd = null;
+  let maxProdScore = 0;
+  products.forEach(p => {
+    const score = scoreMatch(p.name, words) * 2 + scoreMatch(p.uses, words) + scoreMatch(p.composition, words) + (p.diseases ? scoreMatch(p.diseases.join(' '), words) : 0);
+    if (score > maxProdScore) {
+      maxProdScore = score;
+      bestProd = p;
+    }
+  });
+
+  if (bestProd && maxProdScore >= 3) {
     return {
-      text: "🍏 **Apple Scab (ایپل سکیب) Advisory:**\n\n- **Primary Protection (Green Tip / Pink Bud):** Bayer Antracol (Propineb 70% WP) @ 2.5g/L or Mancozeb 75% WP @ 2.5g/L.\n- **Erudite Systemic Protection:** Superstar Dodine 65% WP @ 1g/L or Bayer Luna Experience @ 1ml/L.\n\n*Always apply before predicted continuous rainfall window for maximum preventative coverage.*",
-      urdu: "ایپل سکیب کے لیے بائر اینٹراکول یا ڈوڈائن 65% کا باقاعدگی سے سپرے کریں۔",
-      actionLink: "https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%2C%20I%20need%20Apple%20Scab%20treatment%20recommendations."
+      text: `🌿 **${bestProd.name}** (${bestProd.type})\n\n- 🧪 **Composition:** ${bestProd.composition || 'Standard Formulation'}\n- 🎯 **Uses & Target Crops:** ${bestProd.uses}\n- 💧 **Recommended Dosage:** ${bestProd.dosage}\n- 💡 **Key Benefits:** ${bestProd.benefits}\n\n*Available at our Srinagar shop opposite High Court Complex with 20% print price discount.*`,
+      urdu: `${bestProd.name}: ${bestProd.dosage} - 20% چھوٹ کے ساتھ دستیاب۔`,
+      productEmbed: bestProd,
+      actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello, I want to purchase ${bestProd.name} from your Srinagar shop.`)}`
     };
   }
 
-  if (query.includes('mite') || query.includes('moth') || query.includes('spider') || query.includes('کیڑا')) {
+  // 7. General Stock / Category Query
+  if (query.match(/(products in stock|stock|in stock|inventory|available products|what products|products available|what do you have)/i)) {
     return {
-      text: "🐛 **Mite & Sucking Pest Control Advisory:**\n\n- **Delayed Dormancy:** HMO Oil @ 2% (20 ml/L) to smother eggs.\n- **Summer Infestation:** Syngenta Alika (Thiamethoxam + Lambda) @ 0.5 ml/L or Tegata Miticide @ 1 ml/L.\n\n*Consult Senior Chemist Sheikh Mohammad Ayoub at shop for leaf sample inspection.*",
-      urdu: "مائٹس اور پتے کے کیڑوں کے لیے الیکا یا ہارڈ منرل آئل کا انتخاب کریں۔",
-      actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20have%20spider%20mites%20in%20my%20orchard."
-    };
-  }
-
-  // Interactive Stock & Inventory Inquiry Flow
-  if (query.match(/(products in stock|stock|in stock|inventory|available products|what products|products available|what do you have|do you have)/i)) {
-    return {
-      text: "📦 **M.A. Pesticides Store Inventory:**\n\nWhich type of agricultural formulation do you want to inspect?\n\n1️⃣ **Fungicides (پھپھوندی کش)** — Apple Scab, Blight & Powdery Mildew\n2️⃣ **Insecticides (کیڑے مار دوا)** — Mites, Aphids, Codling Moth & Scale\n3️⃣ **Herbicides (جڑی بوٹی کش)** — Orchard & Field Weed Clearance\n4️⃣ **Bio-Stimulants & Tonics (پودوں کا مقوی)** — Crop Growth & Yield Boosters\n\n*Click one of the options below or type: Fungicides, Insecticides, or Herbicides!*",
+      text: "📦 **M.A. Pesticides Store Inventory:**\n\nWhich type of agricultural formulation do you want to inspect?\n\n1️⃣ **Fungicides (پھپھوندی کش)** — Apple Scab, Blight & Powdery Mildew\n2️⃣ **Insecticides (کیڑے مار دوا)** — Mites, Aphids, Codling Moth & Scale\n3️⃣ **Herbicides (جڑی بوٹی کش)** — Orchard & Field Weed Clearance\n4️⃣ **Bio-Stimulants & Tonics (پودوں کا مقوی)** — Crop Growth & Yield Boosters",
       urdu: "آپ کون سی دوا دیکھنا چاہتے ہیں؟ فنگسائڈ، انسیکٹیسائڈ یا ہر بائی سائیڈ؟",
       promptChips: [
         { label: '🧪 View Fungicides', query: 'show fungicides' },
@@ -287,104 +174,16 @@ function getBotResponse(userText) {
     };
   }
 
-  // Loaded Category: Fungicides
-  if (query.includes('fungicide') || query.includes('پھپھوندی')) {
-    const fungList = products.filter(p => p.type === 'Fungicide' || p.type === 'Bio-Fungicide').slice(0, 6);
-    const listText = fungList.map((p, i) => `${i+1}. **${p.name}** — ${p.dosage} (${p.uses.slice(0, 70)}...)`).join('\n');
-    return {
-      text: `🧪 **Top In-Stock Fungicides (پھپھوندی کش):**\n\n${listText}\n\n🏷️ *All stocked at our Srinagar shop at 20% below print MRP!*`,
-      urdu: "یہ ہمارے پاس دستیاب بہترین فنگسائڈز کی فہرست ہے۔",
-      actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20want%20to%20order%20Fungicides."
-    };
-  }
-
-  // Loaded Category: Insecticides / Pesticides
-  if (query.includes('insecticide') || query.includes('pesticide') || query.includes('کیڑے مار')) {
-    const insecList = products.filter(p => p.type === 'Insecticide').slice(0, 6);
-    const listText = insecList.map((p, i) => `${i+1}. **${p.name}** — ${p.dosage} (${p.uses.slice(0, 70)}...)`).join('\n');
-    return {
-      text: `🐛 **Top In-Stock Insecticides (کیڑے مار دوا):**\n\n${listText}\n\n🏷️ *All stocked at our Srinagar shop at 20% below print MRP!*`,
-      urdu: "یہ ہمارے پاس دستیاب بہترین کیڑے مار دواؤں کی فہرست ہے۔",
-      actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20want%20to%20order%20Insecticides."
-    };
-  }
-
-  // Loaded Category: Herbicides
-  if (query.includes('herbicide') || query.includes('weed') || query.includes('جڑی بوٹی')) {
-    const herbList = products.filter(p => p.type === 'Herbicide').slice(0, 6);
-    const listText = herbList.map((p, i) => `${i+1}. **${p.name}** — ${p.dosage} (${p.uses.slice(0, 70)}...)`).join('\n');
-    return {
-      text: `🌿 **Top In-Stock Herbicides (جڑی بوٹی کش):**\n\n${listText}\n\n🏷️ *All stocked at our Srinagar shop at 20% below print MRP!*`,
-      urdu: "یہ ہمارے پاس دستیاب بہترین جڑی بوٹی کش دواؤں کی فہرست ہے۔",
-      actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20want%20to%20order%20Herbicides."
-    };
-  }
-
-  // Loaded Category: Tonics / Bio-Stimulants
-  if (query.includes('tonic') || query.includes('stimulant') || query.includes('محرک')) {
-    const tonicList = products.filter(p => p.type === 'Plant Tonic' || p.type === 'Bio-Stimulant').slice(0, 6);
-    const listText = tonicList.map((p, i) => `${i+1}. **${p.name}** — ${p.dosage} (${p.uses.slice(0, 70)}...)`).join('\n');
-    return {
-      text: `🌱 **Top In-Stock Plant Tonics & Bio-Stimulants:**\n\n${listText}\n\n🏷️ *All stocked at our Srinagar shop at 20% below print MRP!*`,
-      urdu: "یہ ہمارے پاس دستیاب بہترین پلانٹ ٹانکس کی فہرست ہے۔",
-      actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20want%20to%20order%20Plant%20Tonics."
-    };
-  }
-
-  if (query.includes('whatsapp') || query.includes('call') || query.includes('phone') || query.includes('ayoub')) {
-    return {
-      text: "📞 **Direct Expert Consultation:**\n\nSpeak directly with **Sheikh Mohammad Ayoub** (M.Sc. Chemistry, Former Senior Lecturer).\n\n📱 **WhatsApp:** +91 99065 41321\n📍 **Store:** Opposite High Court Complex, Srinagar.",
-      urdu: "شیخ محمد ایوب (ایم ایس سی کیمسٹری) سے براہ راست واٹس ایپ پر مشورہ کریں۔",
-      actionLink: "https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%2C%20I%20would%20like%20expert%20crop%20advice."
-    };
-  }
-
-  // 3. Store Info, Chemist & About Website Queries
-  if (query.includes('about') || query.includes('who') || query.includes('ayoub') || query.includes('owner') || query.includes('chemist') || query.includes('license')) {
-    return {
-      text: "🏛️ **About M.A. Pesticides & Fertilizers:**\n\n- **Proprietor & Senior Chemist:** Sheikh Mohammad Ayoub (M.Sc. Chemistry, B.Ed.), former Senior Lecturer.\n- **Location:** Opposite High Court Complex, Hari Singh High Street / M.A. Road, Srinagar, Kashmir (190001).\n- **Authorized Brands:** Bayer, Syngenta, FMC, Willowood, FIL & IPL Biologicals.\n- **Pricing Policy:** Authorized stockist offering up to **20% discount on print price (MRP)**.\n- **Free Store Services:** Free leaf sample disease diagnosis, soil testing consultation & custom spray tank dosage calculations.",
-      urdu: "ایم اے پیسٹیسائیڈز: شیخ محمد ایوب (ایم ایس سی کیمسٹری)۔ 20% رعایت کے ساتھ معیاری دوائیں دستیاب ہیں۔",
-      actionLink: "https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%2C%20I%20have%20an%20inquiry%20about%20your%20services."
-    };
-  }
-
-  // 4. Disease Database Search (Apple Scab, Mites, Scale, Mildew, Blight, Corm Rot, etc.)
-  const matchedDisease = diseases.find(d => 
-    query.includes(d.name.toLowerCase()) || 
-    d.crop.toLowerCase().includes(query) || 
-    d.symptoms.toLowerCase().includes(query) ||
-    d.cure.toLowerCase().includes(query)
-  );
-
-  if (matchedDisease) {
-    return {
-      text: `🔬 **Disease Guide: ${matchedDisease.name}** (${matchedDisease.crop})\n\n- 🚨 **Symptoms:** ${matchedDisease.symptoms}\n- 🩺 **Recommended Cure:** ${matchedDisease.cure}\n- ⚡ **Dosage Rate:** ${matchedDisease.dosage}\n- ⚠️ **Severity Level:** ${matchedDisease.severity}\n\n*Visit our Srinagar shop or WhatsApp Sheikh Mohammad Ayoub to get genuine store stock at 20% below print MRP.*`,
-      urdu: `${matchedDisease.nameUrdu}: ${matchedDisease.symptomsUrdu}\nعلاج: ${matchedDisease.cureUrdu} - مقدار: ${matchedDisease.dosageUrdu}`,
-      actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, I need treatment for ${matchedDisease.name} in my orchard.`)}`
-    };
-  }
-
-  // 5. Product Search (Bayer Antracol, Syngenta Alika, Dodine, HMO Oil, Contaf, Luna, etc.)
-  const matchedProd = products.find(p => 
-    query.includes(p.name.toLowerCase()) || 
-    p.uses.toLowerCase().includes(query) ||
-    (p.composition && p.composition.toLowerCase().includes(query)) ||
-    p.diseases.some(d => d.toLowerCase().includes(query))
-  );
-
-  if (matchedProd) {
-    return {
-      text: `🌿 **${matchedProd.name}** (${matchedProd.type})\n\n- 🧪 **Composition:** ${matchedProd.composition || 'Standard Formulation'}\n- 🎯 **Uses & Target Crops:** ${matchedProd.uses}\n- 💧 **Recommended Dosage:** ${matchedProd.dosage}\n- 💡 **Key Benefits:** ${matchedProd.benefits}\n\n*Available at our Srinagar shop opposite High Court Complex with 20% print price discount.*`,
-      urdu: `${matchedProd.name}: ${matchedProd.dosage} - 20% چھوٹ کے ساتھ دستیاب۔`,
-      actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello, I want to purchase ${matchedProd.name} from your Srinagar shop.`)}`
-    };
-  }
-
-  // Intelligent fallback for any question
+  // 8. Fallback Smart Advisory Response
   return {
-    text: `✨ **AI Self-Learning Crop Advisor:**\n\nI analyzed your query: "${userText}".\n\nI can help you with:\n1. Recommended spray dosages for Apple, Pear, Walnut, Cherry, & Saffron.\n2. Genuine Bayer, Syngenta, FMC & Willowood product availability.\n3. Spray tank calculations for 100L, 200L & 500L containers.\n\n*Tip: You can teach me new facts anytime by typing \`teach: [your fact]\`!*`,
-    urdu: "آپ سیب، ناشپاتی، اخروٹ اور زعفران کی بیماریوں اور دواؤں کے بارے میں پوچھ سکتے ہیں۔",
-    actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, I have a query about: ${userText}`)}`
+    text: `✨ **AI Crop Advisor Answer:**\n\nI analyzed your query: "${userText}".\n\nHere is how I can assist you right now:\n1. 🧮 Type your tree count (e.g. \`20 trees\` or \`2 kanals\`) to get exact chemical calculations.\n2. 🍏 Ask about any crop disease (Apple Scab, Red Mites, Corm Rot, Blight).\n3. 📦 Ask for any chemical by brand name (Antracol, Alika, Dodine, HMO Oil).\n\n*Would you like to connect directly with Sheikh Mohammad Ayoub on WhatsApp?*`,
+    urdu: "آپ درختوں کی تعداد یا بیماری کا نام لکھ کر معلومات حاصل کر سکتے ہیں۔",
+    promptChips: [
+      { label: '🧮 Calc for 20 Trees', query: '20 trees dosage' },
+      { label: '🍏 Apple Scab Cure', query: 'Apple Scab spray' },
+      { label: '📍 Shop Address', query: 'location address' }
+    ],
+    actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, I have a query: ${userText}`)}`
   };
 }
 
@@ -625,6 +424,33 @@ export default function AdvisorChatbot() {
                         {chip.label}
                       </button>
                     ))}
+                  </div>
+                )}
+
+                {msg.productEmbed && (
+                  <div style={{
+                    marginTop: '10px',
+                    padding: '8px',
+                    borderRadius: '8px',
+                    background: 'var(--bg-main)',
+                    border: '1px solid var(--secondary-color)',
+                    display: 'flex',
+                    gap: '10px',
+                    alignItems: 'center'
+                  }}>
+                    <img
+                      src={msg.productEmbed.image}
+                      alt={msg.productEmbed.name}
+                      style={{ width: '48px', height: '48px', objectFit: 'contain', borderRadius: '6px' }}
+                    />
+                    <div>
+                      <div style={{ fontSize: '0.8rem', fontWeight: '700', color: 'var(--primary-color)' }}>
+                        {msg.productEmbed.name}
+                      </div>
+                      <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+                        {msg.productEmbed.dosage} • 🏷️ 20% OFF MRP
+                      </div>
+                    </div>
                   </div>
                 )}
 
