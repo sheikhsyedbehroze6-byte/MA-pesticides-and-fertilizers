@@ -33,6 +33,44 @@ function getBotResponse(userText) {
   const query = userText.toLowerCase().trim();
   const memory = getStoredMemory();
 
+  // Automatic Kashmir Orchard Area & Tree Count Chemical Dosage Calculator Engine
+  const kanalMatch = query.match(/(\d+(?:\.\d+)?)\s*(?:kanal|kanals|کنال)/i);
+  const treeMatch = query.match(/(\d+)\s*(?:tree|trees|پودے|درخت)/i);
+
+  if (kanalMatch || treeMatch) {
+    const kanals = kanalMatch ? parseFloat(kanalMatch[1]) : null;
+    const trees = treeMatch ? parseInt(treeMatch[1], 10) : (kanals ? Math.round(kanals * 18) : 20);
+    const estWaterLitre = trees ? Math.round(trees * 18) : Math.round(kanals * 350);
+    const barrels200L = (estWaterLitre / 200).toFixed(1);
+
+    // Check if user asked about a specific product in products DB
+    const searchedProd = products.find(p => query.includes(p.name.toLowerCase()) || p.uses.toLowerCase().includes(query));
+
+    let specificCalc = '';
+    if (searchedProd) {
+      let calcQty = '';
+      if (searchedProd.name.includes('Antracol')) {
+        calcQty = `${(estWaterLitre * 2.5).toFixed(0)}g (${((estWaterLitre * 2.5) / 500).toFixed(1)} packets of 500g)`;
+      } else if (searchedProd.name.includes('Dodine')) {
+        calcQty = `${(estWaterLitre * 1.0).toFixed(0)}g`;
+      } else if (searchedProd.name.includes('Alika')) {
+        calcQty = `${(estWaterLitre * 0.5).toFixed(0)} ml`;
+      } else if (searchedProd.name.includes('HMO')) {
+        calcQty = `${(estWaterLitre * 0.02).toFixed(1)} Litres (${((estWaterLitre * 0.02) / 5).toFixed(1)} cans of 5L)`;
+      } else {
+        calcQty = `Standard rate (${searchedProd.dosage}) calculated for ${estWaterLitre} Litres of water.`;
+      }
+
+      specificCalc = `\n\n🎯 **Specific Requirement for ${searchedProd.name}:**\n- **Required Quantity:** **${calcQty}**\n- **Dosage Rate:** ${searchedProd.dosage}\n- **Primary Purpose:** ${searchedProd.uses}`;
+    }
+
+    return {
+      text: `🧮 **Custom Orchard Dosage Calculation:**\n\n- 🌳 **Orchard Scale:** ${kanals ? `${kanals} Kanal(s)` : ''} ${trees ? `(${trees} Fruit Trees)` : ''}\n- 💧 **Estimated Water Required:** ~**${estWaterLitre} Litres** (approx. **${barrels200L}** standard 200L barrels)\n\n📦 **Recommended Chemical Quantities for ${trees} Trees:**\n\n1. **Bayer Antracol (Propineb 70% WP):**\n   - **Total Needed:** **${(estWaterLitre * 2.5).toFixed(0)}g** (approx. ${((estWaterLitre * 2.5) / 500).toFixed(1)} packs of 500g)\n   - *Rate: 2.5g per Litre of water*\n\n2. **Superstar Dodine 65% WP (Apple Scab Eradicator):**\n   - **Total Needed:** **${(estWaterLitre * 1.0).toFixed(0)}g**\n   - *Rate: 1.0g per Litre of water*\n\n3. **Syngenta Alika (Mites & Aphids Insecticide):**\n   - **Total Needed:** **${(estWaterLitre * 0.5).toFixed(0)} ml**\n   - *Rate: 0.5 ml per Litre of water*\n\n4. **Horticultural Mineral Oil (HMO 2%):**\n   - **Total Needed:** **${(estWaterLitre * 0.02).toFixed(1)} Litres**\n   - *Rate: 20 ml per Litre of water*${specificCalc}\n\n🏷️ *All genuine products available at 20% below print MRP at our Srinagar shop!*`,
+      urdu: `${trees} درختوں / ${kanals ? kanals : ''} کنال کے لیے تقریباً ${estWaterLitre} لیٹر پانی (${barrels200L} بیرل) اور اینٹراکول ${(estWaterLitre * 2.5).toFixed(0)} گرام درکار ہوگا۔`,
+      actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, I need spray products for my orchard of ${kanals ? `${kanals} kanals / ` : ''}${trees} trees (${estWaterLitre}L water).`)}`
+    };
+  }
+
   // Srinagar Weather & Agricultural Spray Window Inquiry Handler
   if (query.includes('weather') || query.includes('srinagar weather') || query.includes('rain') || query.includes('forecast') || query.includes('mausam') || query.includes('موسم') || query.includes('بارش') || query.includes('temperature') || query.includes('wind') || query.includes('humidity')) {
     return {
