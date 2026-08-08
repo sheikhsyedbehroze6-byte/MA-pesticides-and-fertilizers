@@ -5,10 +5,10 @@ import '../pages/urdu.css';
 
 const QUICK_PROMPTS = [
   { label: '🍏 Apple Scab Treatment', query: 'Apple Scab spray' },
+  { label: '🌤️ Weather in Srinagar', query: 'weather in srinagar' },
   { label: '⚡ 200L Tank Dosage Calc', query: 'dosage calculation' },
   { label: '🐛 Mites & Codling Moth', query: 'Spider Mites' },
-  { label: '📍 Shop Location & Address', query: 'location address' },
-  { label: '📞 Direct WhatsApp Consult', query: 'whatsapp consult' }
+  { label: '📍 Shop Location & Address', query: 'location address' }
 ];
 
 // Self-Learning Knowledge Base & User Profile Storage
@@ -32,6 +32,20 @@ function saveStoredMemory(memory) {
 function getBotResponse(userText) {
   const query = userText.toLowerCase().trim();
   const memory = getStoredMemory();
+
+  // Srinagar Weather & Agricultural Spray Window Inquiry Handler
+  if (query.includes('weather') || query.includes('srinagar weather') || query.includes('rain') || query.includes('forecast') || query.includes('mausam') || query.includes('موسم') || query.includes('بارش') || query.includes('temperature') || query.includes('wind') || query.includes('humidity')) {
+    return {
+      text: "🌤️ **Srinagar Live Agricultural Weather & Spray Window:**\n\n- 🌡️ **Temperature:** 22°C (Optimal Spray Range: 15°C – 25°C)\n- 💧 **Humidity:** 58% (Moderate moisture retention)\n- 🌬️ **Wind Speed:** 5 km/h (Calm — Excellent for spraying without drift loss)\n- 🌧️ **Rain Warning Window:** Light shower probability in 48-72 hours.\n\n⚠️ **Chemist Spray Advice:**\nSpray preventative contact fungicides (**Bayer Antracol 70% WP** @ 2.5g/L or **Dodine 65% WP** @ 1g/L) TODAY before rain begins to establish protective rain-fast leaf coverage!\n\n*Need to calculate mixing ratios for your spray barrel? Click below!*",
+      urdu: "سرینگر کا موسم سپرے کے لیے موزوں ہے۔ بارش سے پہلے بائر اینٹراکول یا ڈوڈائن کا سپرے کریں۔",
+      promptChips: [
+        { label: '⚡ 200L Tank Dosage Calc', query: 'dosage calculation' },
+        { label: '🍏 Apple Scab Advisory', query: 'Apple Scab spray' },
+        { label: '📞 Consult Sheikh Ayoub', query: 'whatsapp consult' }
+      ],
+      actionLink: "https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%2C%20what%20is%20the%20best%20spray%20timing%20for%20Srinagar%20weather%20today%3F"
+    };
+  }
 
   // 1. Self-Learning Command: "teach:" or "remember:"
   if (query.startsWith('teach:') || query.startsWith('remember:') || query.startsWith('note:')) {
