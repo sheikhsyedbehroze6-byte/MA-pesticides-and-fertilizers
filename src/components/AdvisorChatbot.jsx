@@ -524,19 +524,8 @@ export default function AdvisorChatbot() {
                 <div style={{ fontSize: '0.9rem', fontWeight: '800', fontFamily: "'Lora', Georgia, serif", display: 'flex', alignItems: 'center', gap: '5px' }}>
                   M.A. AI Crop Advisor <Sparkles size={14} color="#d4ae5c" />
                 </div>
-                <div style={{ fontSize: '0.7rem', color: '#a5c8b0', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span>Senior Chemist Advisory</span>
-                  <span style={{
-                    background: 'rgba(184, 146, 63, 0.25)',
-                    color: '#d4ae5c',
-                    padding: '1px 6px',
-                    borderRadius: '10px',
-                    fontSize: '0.65rem',
-                    fontWeight: '700',
-                    border: '1px solid rgba(184, 146, 63, 0.4)'
-                  }}>
-                    🧠 Self-Learning Memory ({getStoredMemory().facts.length})
-                  </span>
+                <div style={{ fontSize: '0.7rem', color: '#a5c8b0', fontWeight: '600' }}>
+                  Senior Chemist Advisory • Srinagar
                 </div>
               </div>
             </div>
