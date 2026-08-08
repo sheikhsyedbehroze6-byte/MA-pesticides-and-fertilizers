@@ -116,7 +116,7 @@ export default function AdvisorChatbot() {
       {/* Floating Chat Trigger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        aria-label="Open Agricultural Chatbot Advisor"
+        aria-label="Open AI Agricultural Chatbot Advisor"
         style={{
           position: 'fixed',
           bottom: '80px',
@@ -124,19 +124,19 @@ export default function AdvisorChatbot() {
           zIndex: 9990,
           background: 'linear-gradient(135deg, #163e24 0%, #0b1f12 100%)',
           color: '#ffffff',
-          border: '1.5px solid rgba(184, 146, 63, 0.5)',
+          border: '1.5px solid rgba(184, 146, 63, 0.65)',
           borderRadius: '30px',
           padding: '0.65rem 1.1rem',
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
-          boxShadow: '0 8px 24px rgba(10, 24, 15, 0.35)',
+          boxShadow: '0 8px 24px rgba(10, 24, 15, 0.45)',
           cursor: 'pointer',
           transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
         }}
       >
         <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-          <Bot size={20} color="#d4ae5c" />
+          <Sparkles size={18} color="#d4ae5c" />
           <span style={{
             position: 'absolute',
             top: '-2px',
@@ -148,8 +148,8 @@ export default function AdvisorChatbot() {
             boxShadow: '0 0 6px #25d366'
           }} />
         </div>
-        <span style={{ fontSize: '0.82rem', fontWeight: '700', letterSpacing: '0.2px' }}>
-          Crop Advisor <span className="urdu-text" dir="rtl" style={{ fontSize: '0.78rem', color: '#d4ae5c' }}>(مشاورت)</span>
+        <span style={{ fontSize: '0.82rem', fontWeight: '800', letterSpacing: '0.2px' }}>
+          AI Crop Advisor <span className="urdu-text" dir="rtl" style={{ fontSize: '0.78rem', color: '#d4ae5c' }}>(اے آئی مشاورت)</span>
         </span>
       </button>
 
@@ -195,8 +195,8 @@ export default function AdvisorChatbot() {
                 <Bot size={20} color="#d4ae5c" />
               </div>
               <div>
-                <div style={{ fontSize: '0.9rem', fontWeight: '800', fontFamily: "'Lora', Georgia, serif" }}>
-                  M.A. Crop Advisor
+                <div style={{ fontSize: '0.9rem', fontWeight: '800', fontFamily: "'Lora', Georgia, serif", display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  M.A. AI Crop Advisor <Sparkles size={14} color="#d4ae5c" />
                 </div>
                 <div style={{ fontSize: '0.7rem', color: '#a5c8b0', fontWeight: '600' }}>
                   Senior Chemist Advisory • Srinagar
