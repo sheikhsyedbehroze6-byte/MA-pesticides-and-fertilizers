@@ -148,25 +148,99 @@ export default function DiseaseGuide() {
         {/* Disease Cards Grid */}
         <div className="grid-3">
           {filteredDiseases.map(disease => (
-            <div key={disease.id} className="card-neutral" style={{ display: 'flex', flexDirection: 'column' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-                <span className="tag-label" style={{ margin: 0 }}>{disease.crop}</span>
-                <span style={{
-                  fontSize: '11px',
-                  fontFamily: 'var(--font-sohne)',
-                  fontWeight: 500,
-                  backgroundColor: disease.severity.includes('High') || disease.severity.includes('Critical') ? 'var(--surface-accent-blush)' : 'var(--surface-canvas)',
-                  color: disease.severity.includes('High') || disease.severity.includes('Critical') ? 'var(--color-sienna-brown)' : 'var(--color-slate-gray)',
-                  padding: '3px 10px',
-                  borderRadius: '9999px'
+            <div
+              key={disease.id}
+              className="card-neutral"
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                padding: '16px',
+                transition: 'transform 0.25s ease, box-shadow 0.25s ease'
+              }}
+            >
+              {/* Disease Photo Header with Overlay Badges */}
+              <div style={{
+                position: 'relative',
+                width: '100%',
+                paddingBottom: '58%',
+                borderRadius: 'var(--radius-smallcards)',
+                overflow: 'hidden',
+                backgroundColor: 'var(--surface-canvas)',
+                marginBottom: '16px',
+                border: '1px solid rgba(23, 25, 28, 0.08)'
+              }}>
+                <img
+                  src={disease.image || 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=600&auto=format&fit=crop&q=80'}
+                  alt={disease.name}
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=600&auto=format&fit=crop&q=80';
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    transition: 'transform 0.4s ease'
+                  }}
+                />
+                
+                {/* Top Overlay Badges */}
+                <div style={{
+                  position: 'absolute',
+                  top: '10px',
+                  left: '10px',
+                  right: '10px',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  pointerEvents: 'none'
                 }}>
-                  {disease.severity}
-                </span>
+                  <span style={{
+                    backgroundColor: 'rgba(23, 25, 28, 0.82)',
+                    backdropFilter: 'blur(6px)',
+                    color: '#ffffff',
+                    fontSize: '11px',
+                    fontFamily: 'var(--font-sohne)',
+                    fontWeight: 500,
+                    padding: '3px 10px',
+                    borderRadius: '9999px',
+                    border: '1px solid rgba(255, 255, 255, 0.15)'
+                  }}>
+                    {disease.crop}
+                  </span>
+
+                  <span style={{
+                    fontSize: '11px',
+                    fontFamily: 'var(--font-sohne)',
+                    fontWeight: 600,
+                    backgroundColor: disease.severity?.includes('High') || disease.severity?.includes('Critical')
+                      ? 'rgba(179, 38, 30, 0.92)'
+                      : 'rgba(46, 125, 50, 0.92)',
+                    backdropFilter: 'blur(6px)',
+                    color: '#ffffff',
+                    padding: '3px 10px',
+                    borderRadius: '9999px',
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.25)'
+                  }}>
+                    {disease.severity} Threat
+                  </span>
+                </div>
               </div>
 
               {/* Title (English & Urdu conditionally) */}
               {(langMode === 'en' || langMode === 'both') && (
-                <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '24px', fontWeight: 400, marginBottom: '6px' }}>
+                <h3 style={{
+                  fontFamily: 'var(--font-signifier)',
+                  fontSize: '22px',
+                  fontWeight: 400,
+                  marginBottom: '6px',
+                  lineHeight: 1.25,
+                  color: 'var(--color-ink-black)'
+                }}>
                   {disease.name}
                 </h3>
               )}
@@ -174,10 +248,11 @@ export default function DiseaseGuide() {
               {(langMode === 'ur' || langMode === 'both') && disease.nameUrdu && (
                 <h4 className="urdu-text" dir="rtl" style={{
                   fontFamily: 'Noto Nastaliq Urdu, Georgia, serif',
-                  fontSize: '20px',
+                  fontSize: '19px',
                   fontWeight: 700,
                   color: 'var(--color-sienna-brown)',
-                  marginBottom: '8px'
+                  marginBottom: '8px',
+                  lineHeight: 1.4
                 }}>
                   {disease.nameUrdu}
                 </h4>
@@ -185,19 +260,19 @@ export default function DiseaseGuide() {
 
               {/* Symptoms */}
               {(langMode === 'en' || langMode === 'both') && (
-                <p style={{ fontSize: '14px', color: 'var(--color-slate-gray)', marginBottom: '8px', lineHeight: 1.45 }}>
-                  <strong>Symptoms:</strong> {disease.symptoms}
+                <p style={{ fontSize: '13.5px', color: 'var(--color-slate-gray)', marginBottom: '8px', lineHeight: 1.45 }}>
+                  <strong style={{ color: 'var(--color-ink-black)' }}>Symptoms:</strong> {disease.symptoms}
                 </p>
               )}
 
               {(langMode === 'ur' || langMode === 'both') && disease.symptomsUrdu && (
                 <p className="urdu-text" dir="rtl" style={{
-                  fontSize: '15px',
+                  fontSize: '14.5px',
                   color: 'var(--color-ink-black)',
                   backgroundColor: 'rgba(93, 42, 26, 0.04)',
                   padding: '6px 10px',
                   borderRadius: '8px',
-                  marginBottom: '16px',
+                  marginBottom: '14px',
                   lineHeight: 1.6
                 }}>
                   <strong>علامات:</strong> {disease.symptomsUrdu}
@@ -207,24 +282,25 @@ export default function DiseaseGuide() {
               {/* Cure Box */}
               <div style={{
                 backgroundColor: 'var(--surface-canvas)',
-                padding: '14px 16px',
+                padding: '12px 14px',
                 borderRadius: 'var(--radius-smallcards)',
-                marginBottom: '20px',
-                marginTop: 'auto'
+                marginBottom: '16px',
+                marginTop: 'auto',
+                border: '1px solid rgba(23, 25, 28, 0.06)'
               }}>
                 {(langMode === 'en' || langMode === 'both') && (
                   <>
-                    <div style={{ fontSize: '14px', color: 'var(--color-ink-black)', fontWeight: 500, marginBottom: '4px' }}>
-                      Cure: {disease.cure}
+                    <div style={{ fontSize: '13.5px', color: 'var(--color-ink-black)', fontWeight: 500, marginBottom: '3px' }}>
+                      <span style={{ color: 'var(--color-pine-green)' }}>Cure:</span> {disease.cure}
                     </div>
-                    <div style={{ fontSize: '13px', color: 'var(--color-sienna-brown)' }}>
-                      Dosage: {disease.dosage}
+                    <div style={{ fontSize: '12.5px', color: 'var(--color-sienna-brown)' }}>
+                      <strong>Dosage:</strong> {disease.dosage}
                     </div>
                   </>
                 )}
 
                 {(langMode === 'ur' || langMode === 'both') && disease.cureUrdu && (
-                  <div className="urdu-text" dir="rtl" style={{ fontSize: '14px', color: 'var(--color-sienna-brown)', marginTop: langMode === 'both' ? '8px' : 0 }}>
+                  <div className="urdu-text" dir="rtl" style={{ fontSize: '13.5px', color: 'var(--color-sienna-brown)', marginTop: langMode === 'both' ? '6px' : 0 }}>
                     <strong>علاج:</strong> {disease.cureUrdu} ({disease.dosageUrdu || disease.dosage})
                   </div>
                 )}
@@ -235,7 +311,7 @@ export default function DiseaseGuide() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="pill-button-filled pill-button-sm"
-                style={{ width: '100%' }}
+                style={{ width: '100%', justifyContent: 'center' }}
               >
                 <span>Consult Chemist on WhatsApp</span>
                 <ArrowUpRight size={14} />
