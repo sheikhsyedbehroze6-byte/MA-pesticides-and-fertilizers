@@ -3,15 +3,78 @@ import AnimatedSection from '../components/AnimatedSection';
 import WeatherSprayAlert from '../components/WeatherSprayAlert';
 import DosageCalculator from '../components/DosageCalculator';
 import { products } from '../data/agricultureData';
-import { Calendar, MessageCircle, AlertTriangle, ChevronRight, Droplets, Shield, Printer } from 'lucide-react';
+import {
+  Calendar,
+  MessageCircle,
+  AlertTriangle,
+  ChevronRight,
+  Droplets,
+  Shield,
+  Printer,
+  Snowflake,
+  Sprout,
+  Sun,
+  Leaf
+} from 'lucide-react';
 import './urdu.css';
 
-// Kashmir Climate Info
+// Crisp Vector SVG Components for Crops
+const AppleSvg = ({ size = 16, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z" />
+    <path d="M10 2c1 .5 2 2 2 5" />
+  </svg>
+);
+
+const PearSvg = ({ size = 16, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 3v3" />
+    <path d="M14 6c1.5 0 2.5 1 3 2.5 1 3 4 5 4 8.5a7 7 0 0 1-14 0c0-3.5 3-5.5 4-8.5.5-1.5 1.5-2.5 3-2.5Z" />
+  </svg>
+);
+
+const CherrySvg = ({ size = 16, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M2 17a5 5 0 0 0 10 0c0-2.76-2.24-5-5-5s-5 2.24-5 5Z" />
+    <path d="M12 17a5 5 0 0 0 10 0c0-2.76-2.24-5-5-5s-5 2.24-5 5Z" />
+    <path d="M7 12c1-4 3-7 8-9" />
+    <path d="M17 12c-1-4-2-6-2-9" />
+    <path d="M15 3c2 0 5 1 6 3" />
+  </svg>
+);
+
+const WalnutSvg = ({ size = 16, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10" />
+    <path d="M12 2c-2.5 3-3.5 6.5-3.5 10s1 7 3.5 10" />
+    <path d="M12 2c2.5 3 3.5 6.5 3.5 10s-1 7-3.5 10" />
+    <path d="M2 12h20" />
+  </svg>
+);
+
+const AlmondSvg = ({ size = 16, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 2C7.5 6.5 4 11.5 4 16a8 8 0 0 0 16 0c0-4.5-3.5-9.5-8-14Z" />
+    <path d="M12 6v12" />
+  </svg>
+);
+
+const SaffronSvg = ({ size = 16, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22v-8" />
+    <path d="M12 14a6 6 0 0 0 6-6c0-3.3-2.7-6-6-6s-6 2.7-6 6a6 6 0 0 0 6 6Z" />
+    <path d="M8 12c-2-1-3-3-3-5" />
+    <path d="M16 12c2-1 3-3 3-5" />
+    <path d="M12 4v6" />
+  </svg>
+);
+
+// Kashmir Climate Info with SVG Icons
 const KASHMIR_SEASONS = {
-  winter:   { label: 'Winter (Dec–Feb)',   labelUr: 'سردی (دسمبر–فروری)',  icon: '❄️', temp: '-5°C to 10°C' },
-  spring:   { label: 'Spring (Mar–Apr)',   labelUr: 'بہار (مارچ–اپریل)',   icon: '🌸', temp: '5°C to 20°C'  },
-  summer:   { label: 'Summer (May–Aug)',   labelUr: 'گرمی (مئی–اگست)',     icon: '☀️', temp: '20°C to 35°C' },
-  autumn:   { label: 'Autumn (Sep–Nov)',   labelUr: 'خزاں (ستمبر–نومبر)', icon: '🍂', temp: '10°C to 25°C' },
+  winter: { label: 'Winter (Dec–Feb)', labelUr: 'سردی (دسمبر–فروری)', icon: Snowflake, temp: '-5°C to 10°C' },
+  spring: { label: 'Spring (Mar–Apr)', labelUr: 'بہار (مارچ–اپریل)', icon: Sprout, temp: '5°C to 20°C' },
+  summer: { label: 'Summer (May–Aug)', labelUr: 'گرمی (مئی–اگست)', icon: Sun, temp: '20°C to 35°C' },
+  autumn: { label: 'Autumn (Sep–Nov)', labelUr: 'خزاں (ستمبر–نومبر)', icon: Leaf, temp: '10°C to 25°C' },
 };
 
 // Rich SKUAST-K Stage-wise Spray Schedule Data — Kashmir Climate-Specific
@@ -19,7 +82,7 @@ const SPRAY_SCHEDULES = {
   apple: {
     name: 'Apple / سیب',
     urduTitle: 'سیب کے باغات کا سالانہ سپرے شیڈول',
-    icon: '🍎',
+    icon: AppleSvg,
     stages: [
       {
         id: 'stage0',
@@ -197,7 +260,7 @@ const SPRAY_SCHEDULES = {
   pear: {
     name: 'Pear / ناشپاتی',
     urduTitle: 'ناشپاتی کے باغات کا سالانہ سپرے شیڈول',
-    icon: '🍐',
+    icon: PearSvg,
     stages: [
       {
         id: 'pear0',
@@ -290,7 +353,7 @@ const SPRAY_SCHEDULES = {
   cherry: {
     name: 'Cherry / چیری',
     urduTitle: 'چیری کے باغات کا سالانہ سپرے شیڈول',
-    icon: '🍒',
+    icon: CherrySvg,
     stages: [
       {
         id: 'cherry0',
@@ -383,7 +446,7 @@ const SPRAY_SCHEDULES = {
   walnut: {
     name: 'Walnut / اخروٹ',
     urduTitle: 'اخروٹ کے باغات کا سالانہ سپرے شیڈول',
-    icon: '🌰',
+    icon: WalnutSvg,
     stages: [
       {
         id: 'walnut1',
@@ -442,7 +505,7 @@ const SPRAY_SCHEDULES = {
   almond: {
     name: 'Almond / بادام',
     urduTitle: 'بادام کے باغات کا سالانہ سپرے شیڈول',
-    icon: '🥜',
+    icon: AlmondSvg,
     stages: [
       {
         id: 'almond1',
@@ -501,7 +564,7 @@ const SPRAY_SCHEDULES = {
   saffron: {
     name: 'Saffron / زعفران',
     urduTitle: 'زعفران کا سالانہ سپرے اور افزائش شیڈول',
-    icon: '🌺',
+    icon: SaffronSvg,
     stages: [
       {
         id: 'saffron1',
@@ -558,7 +621,7 @@ const SPRAY_SCHEDULES = {
   }
 };
 
-// Season badge component
+// Season badge component with SVG Icons
 const SeasonBadge = ({ season }) => {
   const s = KASHMIR_SEASONS[season];
   if (!s) return null;
@@ -566,18 +629,20 @@ const SeasonBadge = ({ season }) => {
     winter: { bg: 'rgba(147,210,255,0.15)', color: '#2980b9' },
     spring: { bg: 'rgba(120,200,120,0.15)', color: '#27ae60' },
     summer: { bg: 'rgba(255,200,100,0.15)', color: '#e67e22' },
-    autumn: { bg: 'rgba(230,140,60,0.15)',  color: '#c0392b' },
+    autumn: { bg: 'rgba(230,140,60,0.15)', color: '#c0392b' },
   };
   const c = colors[season] || colors.spring;
+  const SeasonIcon = s.icon;
   return (
     <span style={{
       fontSize: '0.72rem', fontWeight: '700',
       background: c.bg, color: c.color,
-      padding: '2px 9px', borderRadius: '20px',
-      display: 'inline-flex', alignItems: 'center', gap: '4px',
+      padding: '3px 10px', borderRadius: '20px',
+      display: 'inline-flex', alignItems: 'center', gap: '5px',
       border: `1px solid ${c.color}33`
     }}>
-      {s.icon} {s.label}
+      <SeasonIcon size={13} color={c.color} />
+      <span>{s.label}</span>
     </span>
   );
 };
@@ -595,7 +660,7 @@ export default function SprayCalendar() {
 
   const handleWhatsAppConsultation = (stage) => {
     const message = 
-      `🌿 *Orchard Advisory Request — Crop Spray Calendar*\n\n` +
+      `*Orchard Advisory Request — Crop Spray Calendar*\n\n` +
       `*Crop:* ${cropData.name}\n` +
       `*Stage:* ${stage.title}\n` +
       `*Timing:* ${stage.timing}\n` +
@@ -623,7 +688,7 @@ export default function SprayCalendar() {
             Scientific SKUAST-K extension timelines tailored to <strong>Kashmir's climate</strong> — covering winter dormancy, spring scab season, summer mite pressure, and autumn harvest protection.
           </p>
 
-          {/* Kashmir Climate Strip */}
+          {/* Kashmir Climate Strip with SVG Season Icons */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem', justifyContent: 'center', marginTop: '1.2rem', marginBottom: '1.2rem' }}>
             {Object.entries(KASHMIR_SEASONS).map(([key]) => (
               <SeasonBadge key={key} season={key} />
@@ -654,22 +719,26 @@ export default function SprayCalendar() {
           marginBottom: '2.5rem'
         }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
-            {/* Left Side: Crop Picker Buttons */}
+            {/* Left Side: Crop Picker Buttons with SVG Crop Icons */}
             <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-              {Object.keys(SPRAY_SCHEDULES).map((cropKey) => (
-                <button
-                  key={cropKey}
-                  onClick={() => {
-                    setSelectedCrop(cropKey);
-                    setActiveStageId(SPRAY_SCHEDULES[cropKey].stages[0].id);
-                  }}
-                  className={selectedCrop === cropKey ? 'pill-button-filled pill-button-sm' : 'pill-button-ghost pill-button-sm'}
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
-                >
-                  <span>{SPRAY_SCHEDULES[cropKey].icon}</span>
-                  <span>{SPRAY_SCHEDULES[cropKey].name}</span>
-                </button>
-              ))}
+              {Object.keys(SPRAY_SCHEDULES).map((cropKey) => {
+                const CropIcon = SPRAY_SCHEDULES[cropKey].icon;
+                const isSelected = selectedCrop === cropKey;
+                return (
+                  <button
+                    key={cropKey}
+                    onClick={() => {
+                      setSelectedCrop(cropKey);
+                      setActiveStageId(SPRAY_SCHEDULES[cropKey].stages[0].id);
+                    }}
+                    className={isSelected ? 'pill-button-filled pill-button-sm' : 'pill-button-ghost pill-button-sm'}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                  >
+                    <CropIcon size={15} color={isSelected ? '#ffffff' : 'var(--color-sienna-brown)'} />
+                    <span>{SPRAY_SCHEDULES[cropKey].name}</span>
+                  </button>
+                );
+              })}
             </div>
 
             {/* Right Side: Language Mode Switcher */}
@@ -789,9 +858,10 @@ export default function SprayCalendar() {
                         {stage.titleUrdu}
                       </h3>
                     )}
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '0.4rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '6px', marginTop: '0.4rem' }}>
+                      <Calendar size={14} color="var(--color-slate-gray)" />
                       <span style={{ fontSize: '0.85rem', color: 'var(--color-slate-gray)' }}>
-                        🗓️ <strong>{stage.timing}</strong>
+                        <strong>{stage.timing}</strong>
                       </span>
                       {langMode !== 'en' && (
                         <span className="urdu-text" style={{ fontSize: '0.85rem', color: 'var(--color-slate-gray)' }}>
