@@ -80,7 +80,7 @@ export default function DosageCalculator() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
   const [calcMode, setCalcMode] = useState('tank'); // 'tank' or 'land'
-  const [tankLiters, setTankLiters] = useState(500); // Standard Kashmir 500L barrel
+  const [tankLiters, setTankLiters] = useState(0); // Default 0L
   const [kanals, setKanals] = useState(5); // 5 Kanals (~1/2 Acre)
   const [treeCount, setTreeCount] = useState(50); // 50 Apple Trees
 
@@ -110,18 +110,20 @@ export default function DosageCalculator() {
   // Calculations
   let totalWaterLiters = 0;
   if (calcMode === 'tank') {
-    totalWaterLiters = Math.max(1, Number(tankLiters) || 0);
+    totalWaterLiters = Math.max(0, Number(tankLiters) || 0);
   } else {
     // 1 Kanal ~ 100 Liters of spray water; 1 mature apple tree ~ 12 Liters
     const waterFromKanals = (Number(kanals) || 0) * 100;
     const waterFromTrees = (Number(treeCount) || 0) * 12;
-    totalWaterLiters = Math.max(waterFromKanals, waterFromTrees);
+    totalWaterLiters = Math.max(0, Math.max(waterFromKanals, waterFromTrees));
   }
 
   const chemicalAmount = (totalWaterLiters * product.ratePerLitre).toFixed(1);
-  const chemicalInKgOrL = product.unit === 'g' 
-    ? (chemicalAmount >= 1000 ? `${(chemicalAmount / 1000).toFixed(2)} kg` : `${chemicalAmount} g`)
-    : (chemicalAmount >= 1000 ? `${(chemicalAmount / 1000).toFixed(2)} Liters` : `${chemicalAmount} ml`);
+  const chemicalInKgOrL = totalWaterLiters === 0
+    ? `0 ${product.unit}`
+    : (product.unit === 'g' 
+        ? (chemicalAmount >= 1000 ? `${(chemicalAmount / 1000).toFixed(2)} kg` : `${chemicalAmount} g`)
+        : (chemicalAmount >= 1000 ? `${(chemicalAmount / 1000).toFixed(2)} Liters` : `${chemicalAmount} ml`));
 
   const handleWhatsAppShare = () => {
     const text = `*Orchard Spray Dosage Calculation*\n\n` +
