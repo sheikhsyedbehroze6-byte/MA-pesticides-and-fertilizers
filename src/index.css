@@ -1318,3 +1318,320 @@ button, input, select, textarea {
   }
 }
 
+/* ==========================================================================
+   Orchard Spray Dosage & Tank Calculator Styles
+   ========================================================================== */
+
+.dosage-calculator-card {
+  background-color: var(--surface-elevated-white);
+  border: 1px solid rgba(23, 25, 28, 0.08);
+  border-radius: var(--radius-cards);
+  box-shadow: var(--shadow-subtle);
+  overflow: hidden;
+  margin-top: 2rem;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+[data-theme="dark"] .dosage-calculator-card {
+  background-color: var(--surface-card-mist);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.dosage-calc-header {
+  padding: 24px 28px;
+  background-color: var(--surface-card-mist);
+  border-bottom: 1px solid rgba(23, 25, 28, 0.06);
+}
+
+[data-theme="dark"] .dosage-calc-header {
+  background-color: rgba(255, 255, 255, 0.03);
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+.dosage-calc-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background-color: var(--surface-accent-blush);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-sienna-brown);
+  flex-shrink: 0;
+}
+
+.dosage-calc-body {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.dosage-calc-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dosage-calc-field label {
+  font-family: var(--font-sohne);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-ink-black);
+}
+
+.dosage-calc-input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: var(--radius-smallcards);
+  border: 1px solid rgba(23, 25, 28, 0.12);
+  background-color: var(--surface-canvas);
+  color: var(--color-ink-black);
+  font-family: var(--font-sohne);
+  font-size: 14.5px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dosage-calc-input:focus {
+  border-color: var(--color-sienna-brown);
+  box-shadow: 0 0 0 3px rgba(93, 42, 26, 0.1);
+}
+
+[data-theme="dark"] .dosage-calc-input {
+  background-color: rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #f1f3f5;
+}
+
+.dosage-calc-select {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: var(--radius-smallcards);
+  border: 1px solid rgba(23, 25, 28, 0.12);
+  background-color: var(--surface-canvas);
+  color: var(--color-ink-black);
+  font-family: var(--font-sohne);
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.dosage-calc-select:focus {
+  border-color: var(--color-sienna-brown);
+}
+
+[data-theme="dark"] .dosage-calc-select {
+  background-color: #1a1e26;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #f1f3f5;
+}
+
+.preset-btn {
+  padding: 6px 14px;
+  border-radius: 9999px;
+  border: 1px solid rgba(23, 25, 28, 0.1);
+  background-color: var(--surface-card-mist);
+  color: var(--color-slate-gray);
+  font-family: var(--font-sohne);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.preset-btn:hover {
+  background-color: var(--surface-canvas);
+  color: var(--color-ink-black);
+}
+
+.preset-btn.active {
+  background-color: var(--surface-accent-blush);
+  border-color: var(--color-sienna-brown);
+  color: var(--color-sienna-brown);
+  font-weight: 600;
+}
+
+[data-theme="dark"] .preset-btn {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .preset-btn.active {
+  background-color: rgba(247, 194, 180, 0.15);
+  border-color: #f7c2b4;
+  color: #f7c2b4;
+}
+
+.dosage-calc-mode-toggle {
+  display: flex;
+  gap: 8px;
+  background-color: var(--surface-canvas);
+  padding: 4px;
+  border-radius: var(--radius-smallcards);
+  border: 1px solid rgba(23, 25, 28, 0.08);
+}
+
+[data-theme="dark"] .dosage-calc-mode-toggle {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.dosage-mode-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: calc(var(--radius-smallcards) - 2px);
+  border: none;
+  background: transparent;
+  color: var(--color-slate-gray);
+  font-family: var(--font-sohne);
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dosage-mode-btn.active {
+  background-color: var(--surface-elevated-white);
+  color: var(--color-ink-black);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  font-weight: 600;
+}
+
+[data-theme="dark"] .dosage-mode-btn.active {
+  background-color: var(--surface-card-mist);
+  color: #ffffff;
+}
+
+.dosage-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .dosage-two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field-hint {
+  font-size: 12px;
+  color: var(--color-slate-gray);
+  margin-top: 2px;
+}
+
+.dosage-result-box {
+  background-color: var(--surface-card-mist);
+  border: 1px solid rgba(23, 25, 28, 0.08);
+  border-radius: var(--radius-cards);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+[data-theme="dark"] .dosage-result-box {
+  background-color: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.dosage-result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(23, 25, 28, 0.06);
+  font-size: 14px;
+}
+
+[data-theme="dark"] .dosage-result-row {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+.dosage-result-row:last-of-type {
+  border-bottom: none;
+}
+
+.result-label {
+  color: var(--color-slate-gray);
+  font-family: var(--font-sohne);
+}
+
+.result-value {
+  font-weight: 500;
+  color: var(--color-ink-black);
+  font-family: var(--font-sohne);
+}
+
+.dosage-result-row.highlight {
+  background-color: var(--surface-accent-blush);
+  margin: 6px -12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-smallcards);
+  border: 1px solid rgba(93, 42, 26, 0.1);
+}
+
+.dosage-result-row.highlight .result-label {
+  color: var(--color-sienna-brown);
+  font-weight: 600;
+}
+
+.result-value-big {
+  font-family: var(--font-signifier);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-sienna-brown);
+}
+
+.dosage-whatsapp-btn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--color-pine-green);
+  color: #ffffff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 9999px;
+  font-family: var(--font-sohne);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(28, 71, 42, 0.25);
+  transition: all 0.2s ease;
+}
+
+.dosage-whatsapp-btn:hover {
+  background-color: #143520;
+  transform: translateY(-1px);
+}
+
+.dosage-safety-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: var(--radius-smallcards);
+  background-color: rgba(217, 119, 6, 0.08);
+  border: 1px solid rgba(217, 119, 6, 0.2);
+  color: #92400e;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+[data-theme="dark"] .dosage-safety-note {
+  background-color: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.25);
+  color: #fbbf24;
+}
+
+

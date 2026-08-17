@@ -139,15 +139,15 @@ export default function DosageCalculator() {
   return (
     <div className="dosage-calculator-card">
       <div className="dosage-calc-header">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div className="dosage-calc-icon">
-            <Calculator size={22} color="var(--primary-color)" />
+            <Calculator size={22} color="var(--color-sienna-brown)" />
           </div>
           <div>
-            <h3 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--primary-color)' }}>
-              Orchard Spray Dosage Calculator
+            <h3 style={{ margin: 0, fontSize: '1.25rem', fontFamily: 'var(--font-signifier)', fontWeight: 400, color: 'var(--color-ink-black)' }}>
+              Orchard Spray Dosage & Barrel Calculator
             </h3>
-            <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--color-slate-gray)' }}>
               زرعی ادویات کی درست مقدار کا حساب لگائیں ({CALCULATOR_PRODUCTS.length} SKUAST-K Approved Chemicals)
             </span>
           </div>
@@ -158,8 +158,8 @@ export default function DosageCalculator() {
         {/* Step 1: Filter & Product Selection */}
         <div className="dosage-calc-field">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-            <label style={{ margin: 0 }}>Select Chemical / Product ({filteredProducts.length} items):</label>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+            <label style={{ margin: 0, color: 'var(--color-ink-black)' }}>Select Chemical / Product ({filteredProducts.length} items):</label>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.8rem', color: 'var(--color-slate-gray)' }}>
               <Filter size={14} /> Filter & Search
             </div>
           </div>
@@ -285,7 +285,7 @@ export default function DosageCalculator() {
         <div className="dosage-result-box">
           <div className="dosage-result-row">
             <span className="result-label">Selected Chemical / Category:</span>
-            <span className="result-value" style={{ fontWeight: '600', color: 'var(--primary-color)' }}>
+            <span className="result-value" style={{ fontWeight: '600', color: 'var(--color-sienna-brown)' }}>
               {product.name} ({product.category})
             </span>
           </div>
