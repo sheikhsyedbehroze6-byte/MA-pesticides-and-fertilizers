@@ -194,27 +194,25 @@ export default function DosageCalculator() {
             ))}
           </div>
 
-          {/* Select Dropdown */}
-          <select 
-            value={selectedProductId} 
-            onChange={(e) => setSelectedProductId(e.target.value)}
-            className="dosage-calc-select"
-            style={{ fontSize: '0.92rem', fontWeight: '500' }}
-          >
-            {Object.keys(groupedProducts).length > 0 ? (
-              Object.entries(groupedProducts).map(([catName, items]) => (
-                <optgroup key={catName} label={`${catName} (${items.length})`}>
-                  {items.map(p => (
-                    <option key={p.id} value={p.id}>
-                      {p.name}
-                    </option>
-                  ))}
-                </optgroup>
+          {/* Chemical Products in Pill-Shaped Boxes */}
+          <div className="chemical-pills-scrollbox">
+            {filteredProducts.length > 0 ? (
+              filteredProducts.map(p => (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => setSelectedProductId(p.id)}
+                  className={`chemical-pill-button ${selectedProductId === p.id ? 'active' : ''}`}
+                >
+                  <span>{p.name}</span>
+                </button>
               ))
             ) : (
-              <option value="" disabled>No chemical matches your search filter</option>
+              <div style={{ color: 'var(--color-slate-gray)', fontSize: '13px', padding: '12px' }}>
+                No chemical matches your search filter
+              </div>
             )}
-          </select>
+          </div>
         </div>
 
         {/* Step 2: Calculation Mode Toggle */}
