@@ -1,7 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import AnimatedSection from '../components/AnimatedSection';
-import { ArrowRight, ShieldCheck, TreeDeciduous, Phone, MessageCircle, Calendar, Clock, Bell, CheckCircle2, ChevronLeft, ChevronRight, Camera, Zap, FileText, CloudRain, Sun, Droplets, Wind, Users, MapPin, FlaskConical } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Droplets, ArrowUpRight, Search, Calculator, Check, MessageCircle, Sparkles } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import WeatherSprayAlert from '../components/WeatherSprayAlert';
+import { products } from '../data/agricultureData';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const QUICK_DIAGNOSTICS = {
   apple: [
@@ -34,13 +39,6 @@ const QUICK_DIAGNOSTICS = {
       solution: "Cyclone 505 / Syngenta Alika",
       dosage: "1.5 ml per Litre of water",
       tag: "Systemic Control"
-    },
-    {
-      problem: "Fabraea Leaf Spot",
-      threat: "Dark purple-black spots causing premature leaf drop",
-      solution: "Filpostar Propineb 70% WP",
-      dosage: "2.5 g per Litre of water",
-      tag: "Fungicidal Barrier"
     }
   ],
   walnut: [
@@ -51,939 +49,416 @@ const QUICK_DIAGNOSTICS = {
       dosage: "2 g Copper + 0.5 g Strep per Litre",
       tag: "Bactericide & Fungicide"
     }
-  ],
-  saffron: [
-    {
-      problem: "Corm Rot & Fusarium",
-      threat: "Fungal rotting of saffron corms underground",
-      solution: "Trichoderma Viride / Carbendazim 50% WP",
-      dosage: "2 g per Litre (Corm Dip treatment)",
-      tag: "Root & Corm Treatment"
-    }
   ]
 };
 
-const MONTHLY_ADVISORIES = [
-  {
-    monthIndex: 0,
-    monthName: 'January',
-    stage: 'Orchard Dormancy',
-    tag: 'Winter Sanitation Window',
-    title: 'Winter Pruning & Canker Removal',
-    description: 'Dormant season sanitation in Kashmir orchards. Cut out dead wood, black rot cankers, and mummified scabbed fruits.',
-    recommendedAction: 'Apply Chaubattia paste (Copper Carbonate + Red Lead + Linseed oil) on pruning cuts larger than 2 cm.',
-    products: 'Chaubattia Paste, Copper Carbonate',
-    upcoming: [
-      { month: 'February', stage: 'Delayed Dormancy', title: 'Horticultural Mineral Oil (HMO) Spray', desc: 'Apply HMO @ 2% (20ml/L) to suffocate San Jose scale & overwintering mite eggs.' },
-      { month: 'March', stage: 'Green Tip Stage', title: 'Primary Apple Scab Control', desc: 'First fungicide spray (Mancozeb or Captan) as green tissue emerges.' }
-    ]
-  },
-  {
-    monthIndex: 1,
-    monthName: 'February',
-    stage: 'Delayed Dormancy',
-    tag: 'HMO Scale & Mite Window',
-    title: 'Horticultural Mineral Oil (HMO) Spray',
-    description: 'Delayed dormant stage is critical for smothering San Jose scale crawlers and European Red Mite eggs before bud break.',
-    recommendedAction: 'Spray 2% HMO (4 Litres per 200L tank) thoroughly covering tree trunks and main scaffold branches.',
-    products: 'HP HMO, Servo HMO',
-    upcoming: [
-      { month: 'March', stage: 'Green Tip', title: 'Primary Apple Scab Defense', desc: 'Apply protective contact fungicide before rain event at green tip.' },
-      { month: 'April', stage: 'Pink Bud', title: 'Scab & Powdery Mildew Prevention', desc: 'Combine Systemic Fungicide + Micro-nutrients for uniform bloom.' }
-    ]
-  },
-  {
-    monthIndex: 2,
-    monthName: 'March',
-    stage: 'Green Tip',
-    tag: 'Primary Scab Infection Window',
-    title: 'Green Tip Primary Scab Defense',
-    description: 'As temperature rises above 10°C, overwintered scab ascospores discharge during rain. Protect green bud tissue.',
-    recommendedAction: 'Spray Captan 75 WP (2g/L) or Mancozeb 75 WP (3g/L) within 48 hours before or immediately after rain.',
-    products: 'Bayer Antracol, Indofil M-45, Dhanuka M-45',
-    upcoming: [
-      { month: 'April', stage: 'Pink Bud / Bloom', title: 'Pink Bud & Petal Fall Sprays', desc: 'Systemic fungicide + Boron for scab eradication and flower health.' },
-      { month: 'May', stage: 'Fruit Set', title: 'Fruit Walnut Stage Scab & Aphids', desc: 'Maintain protective shield as young fruitlets expand rapidly.' }
-    ]
-  },
-  {
-    monthIndex: 3,
-    monthName: 'April',
-    stage: 'Pink Bud & Petal Fall',
-    tag: 'Critical Blossom & Scab Window',
-    title: 'Pink Bud & Petal Fall Dual Defense',
-    description: 'Transition from green tip to pink bud. Protect flowers from scab spores and powdery mildew while boosting fruit set.',
-    recommendedAction: 'Spray Difenoconazole (Score 0.5ml/L) or Myclobutanil + Boron (1g/L) at 10% petal fall.',
-    products: 'Syngenta Score, Bayer Nativo, Boron 20%',
-    upcoming: [
-      { month: 'May', stage: 'Fruit Set', title: 'Pea-Sized Fruitlet Protection', desc: 'Protect developing fruitlets from scab lesions and leaf miners.' },
-      { month: 'June', stage: 'Fruit Development', title: '1st Gen Codling Moth Spray', desc: 'Monitor pheromone traps for codling moth egg hatch peak.' }
-    ]
-  },
-  {
-    monthIndex: 4,
-    monthName: 'May',
-    stage: 'Fruit Set / Pea Stage',
-    tag: 'Fruitlet & Aphid Management',
-    title: 'Pea-Size Fruitlet Protection & Aphids',
-    description: 'Rapid fruit growth phase in Kashmir. High risk of scab secondary infection and Woolly Apple Aphid colonies.',
-    recommendedAction: 'Spray Propineb (Antracol 2g/L) or Dodine (Dodine 0.75g/L) + Imidacloprid if aphid curling is noticed.',
-    products: 'Bayer Antracol, Syngenta Syllit, Bayer Confidor',
-    upcoming: [
-      { month: 'June', stage: 'Fruit Development', title: 'Codling Moth 1st Generation', desc: 'Insecticide spray for egg hatch + Powdery Mildew check.' },
-      { month: 'July', stage: 'Summer Peak', title: 'Codling Moth 2nd Gen & Mites', desc: 'Summer high-temperature peak treatment.' }
-    ]
-  },
-  {
-    monthIndex: 5,
-    monthName: 'June',
-    stage: 'Fruit Development',
-    tag: '1st Gen Codling Moth Window',
-    title: '1st Generation Codling Moth & Mildew',
-    description: 'Warm June weather accelerates Codling Moth larvae entry into young apples. Powdery mildew can scorch new terminal shoots.',
-    recommendedAction: 'Spray Chlorantraniliprole (Coragen 0.4ml/L) or Emamectin Benzoate + Penconazole for mildew.',
-    products: 'FMC Coragen, Syngenta Topas, Bayer Luna',
-    upcoming: [
-      { month: 'July', stage: 'Summer Peak', title: '2nd Gen Codling Moth & Mites', desc: 'High temperature 2nd gen moth hatch and red spider mite flare-ups.' },
-      { month: 'August', stage: 'Pre-Harvest', title: 'Fruit Coloration & Calcium', desc: 'Foliar sprays to prevent bitter pit and enhance firmness.' }
-    ]
-  },
-  {
-    monthIndex: 6,
-    monthName: 'July',
-    stage: 'Summer Peak (Mid-July)',
-    tag: 'Active High-Risk Window',
-    title: 'Codling Moth (2nd Gen) & Mite Management',
-    description: 'Summer peak temperatures in Kashmir trigger the 2nd generation hatch of Codling Moth larvae boring into developing apples. Dry spells also accelerate Red Spider Mite population on leaf undersides.',
-    recommendedAction: 'Spray Syngenta Alika (0.5 ml/L) or Bayer Calypso. If red spider mites are present, tank-mix with specialized ovicide/miticide (e.g. Oberon). Maintain orchard sanitation.',
-    products: 'Syngenta Alika, Bayer Calypso, Bayer Oberon',
-    upcoming: [
-      { month: 'August', stage: 'Fruit Expansion', title: 'Fruit Firmness & Coloration', desc: 'Foliar Calcium + Boron sprays to prevent bitter pit and boost fruit weight before harvest.' },
-      { month: 'September', stage: 'Pre-Harvest', title: 'PHI Compliance & Storage Prep', desc: 'Observe strict Pre-Harvest Intervals (PHI) for chemical sprays. Post-harvest orchard cleanliness stops overwintering spores.' }
-    ]
-  },
-  {
-    monthIndex: 7,
-    monthName: 'August',
-    stage: 'Fruit Expansion',
-    tag: 'Pre-Harvest Quality Window',
-    title: 'Fruit Firmness, Coloration & Bitter Pit',
-    description: 'Apples gain maximum size and weight in August. Calcium deficiency causes bitter pit corky spots on fruit skin under Kashmir conditions.',
-    recommendedAction: 'Foliar spray of Calcium Nitrate (5g/L) + Boron (1g/L). Maintain soil moisture and avoid excessive nitrogen.',
-    products: 'YaraLiva Calcium Nitrate, Boron 20%, Potassium Sulphate (SOP)',
-    upcoming: [
-      { month: 'September', stage: 'Pre-Harvest Interval', title: 'Strict PHI Stop-Spray Window', desc: 'Cease systemic pesticides 25-30 days prior to picking.' },
-      { month: 'October', stage: 'Harvest & Leaf Fall', title: 'Post-Harvest Urea 5% Sanitation', desc: 'Decay leaf litter to destroy scab perithecia.' }
-    ]
-  },
-  {
-    monthIndex: 8,
-    monthName: 'September',
-    stage: 'Pre-Harvest',
-    tag: 'PHI Compliance Window',
-    title: 'PHI Compliance & Food Safety',
-    description: 'Harvest approaching for Delicious & Kulu varieties. Chemical residues must fall within safe Pre-Harvest Interval (PHI) limits.',
-    recommendedAction: 'Stop all chemical pesticide sprays 25 to 30 days before harvest. Only use food-safe organic washes if needed.',
-    products: 'Organic Bio-Fungicides, Post-Harvest Fruit Wash',
-    upcoming: [
-      { month: 'October', stage: 'Harvest & Leaf Fall', title: '5% Urea Leaf Sanitation Spray', desc: 'Spray urea immediately after picking to digest fallen leaves.' },
-      { month: 'November', stage: 'Winter Prep', title: 'Bordeaux Mixture Trunk Spray', desc: 'Apply Bordeaux paste on main trunk crotches for winter protection.' }
-    ]
-  },
-  {
-    monthIndex: 9,
-    monthName: 'October',
-    stage: 'Harvest & Leaf Fall',
-    tag: 'Post-Harvest Scab Eradication',
-    title: 'Post-Harvest 5% Urea Sanitation Spray',
-    description: 'Post-harvest urea application accelerates leaf degradation, destroying up to 90% of overwintering scab (Venturia inaequalis) spores.',
-    recommendedAction: 'Spray 5% Agricultural Urea (50g/L) on leaves just before or immediately after leaf fall. Collect fallen leaves.',
-    products: 'Iffco Urea, Neem Cake Fertilizer',
-    upcoming: [
-      { month: 'November', stage: 'Early Winter', title: 'Bordeaux Paste Trunk Coating', desc: 'Coating tree trunks with Bordeaux paste against Canker & Sunscald.' },
-      { month: 'December', stage: 'Dormancy', title: 'Winter Drainage & Trench Clearing', desc: 'Clear water channels to prevent root rot waterlogging.' }
-    ]
-  },
-  {
-    monthIndex: 10,
-    monthName: 'November',
-    stage: 'Early Winter',
-    tag: 'Canker & Frost Protection',
-    title: 'Trunk Painting & Canker Prevention',
-    description: 'Kashmir winter freezes cause frost cracking and canker infection on apple bark. Paint trunks with protective lime-copper mix.',
-    recommendedAction: 'Apply Bordeaux Paste (1 kg Copper Sulphate + 1 kg Slaked Lime in 10L water) up to 3 feet from ground level.',
-    products: 'Bordeaux Paste, Slaked Lime, Copper Sulphate',
-    upcoming: [
-      { month: 'December', stage: 'Deep Winter', title: 'Winter Trench Clearing & Soil Prep', desc: 'Ensure proper drainage channels to prevent root rot waterlogging.' },
-      { month: 'January', stage: 'Dormancy', title: 'Winter Sanitation Pruning', desc: 'Remove dead scaffold branches and seal pruning cuts.' }
-    ]
-  },
-  {
-    monthIndex: 11,
-    monthName: 'December',
-    stage: 'Deep Winter Dormancy',
-    tag: 'Orchard Drainage & Root Care',
-    title: 'Winter Trenching & Root Rot Prevention',
-    description: 'Heavy Kashmir snowfall causes waterlogging around root zones, leading to Phytophthora root rot. Clear drainage trenches.',
-    recommendedAction: 'Clean inter-row drainage channels. Dig out dead or infected trees along with roots and burn them outside orchard.',
-    products: 'Copper Oxychloride 50 WP, Soil Conditioners',
-    upcoming: [
-      { month: 'January', stage: 'Dormancy', title: 'Winter Sanitation Pruning', desc: 'Prune diseased branches and burn infected wood.' },
-      { month: 'February', stage: 'Delayed Dormancy', title: 'HMO Scale & Mite Egg Spray', desc: 'Prepare HMO oil spray for spring scales.' }
-    ]
-  }
-];
-
 export default function Home() {
-  const [selectedCrop, setSelectedCrop] = useState('apple');
-  const [selectedProblemIndex, setSelectedProblemIndex] = useState(0);
-
-  // Dynamic Month Engine (defaults to actual live calendar month)
-  const currentRealMonth = new Date().getMonth(); // 0 to 11
-  const [selectedMonthIndex, setSelectedMonthIndex] = useState(currentRealMonth);
-
-
-  // Auto-rotating Hero CoverFlow Cards
-  const [rotationIndex, setRotationIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const [touchStartX, setTouchStartX] = useState(null);
-
-  const TOTAL_CARDS = 4;
-  const activeHeroCard = ((rotationIndex % TOTAL_CARDS) + TOTAL_CARDS) % TOTAL_CARDS;
+  const [activeCrop, setActiveCrop] = useState('apple');
+  const [heroSearch, setHeroSearch] = useState('');
+  const mainRef = useRef(null);
 
   useEffect(() => {
-    if (isHovered) return;
-    const timer = setInterval(() => {
-      setRotationIndex((prev) => prev + 1);
-    }, 3200);
-    return () => clearInterval(timer);
-  }, [isHovered]);
+    const ctx = gsap.context(() => {
+      // 1. Hero Entrance Sequence
+      const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-  const goToCard = (targetIndex) => {
-    const currentActive = ((rotationIndex % TOTAL_CARDS) + TOTAL_CARDS) % TOTAL_CARDS;
-    let diff = (targetIndex - currentActive + TOTAL_CARDS) % TOTAL_CARDS;
-    if (diff === 3) diff = -1;
-    setRotationIndex((prev) => prev + diff);
-  };
+      heroTl
+        .fromTo('.gsap-hero-tag',
+          { opacity: 0, y: -20 },
+          { opacity: 1, y: 0, duration: 0.7, delay: 0.1 }
+        )
+        .fromTo('.gsap-hero-title',
+          { opacity: 0, y: 36 },
+          { opacity: 1, y: 0, duration: 0.95 },
+          '-=0.4'
+        )
+        .fromTo('.gsap-hero-sub',
+          { opacity: 0, y: 24 },
+          { opacity: 1, y: 0, duration: 0.8 },
+          '-=0.6'
+        )
+        .fromTo('.gsap-hero-actions',
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.7 },
+          '-=0.5'
+        )
+        .fromTo('.gsap-hero-card',
+          { opacity: 0, y: 45, scale: 0.95 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.9, stagger: 0.12 },
+          '-=0.4'
+        );
 
-  const handleNextCard = () => setRotationIndex((prev) => prev + 1);
-  const handlePrevCard = () => setRotationIndex((prev) => prev - 1);
+      // ScrollTrigger Section Reveals
+      gsap.utils.toArray('.gsap-scroll-section').forEach((sec) => {
+        gsap.fromTo(sec.querySelectorAll('.gsap-scroll-item'),
+          { opacity: 0, y: 36 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.85,
+            stagger: 0.14,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: sec,
+              start: 'top 82%',
+              toggleActions: 'play none none none'
+            }
+          }
+        );
+      });
+    }, mainRef);
 
-  const getCoverFlowStyle = (cardIndex) => {
-    let offset = cardIndex - activeHeroCard;
-    if (offset > 2) offset -= 4;
-    if (offset < -2) offset += 4;
-    const isCenter = offset === 0;
-    const absOffset = Math.abs(offset);
-    const scale = isCenter ? 1.02 : Math.max(0.78, 0.88 - absOffset * 0.12);
-    const opacity = isCenter ? 1 : Math.max(0.45, 0.8 - absOffset * 0.25);
-    const zIndex = 10 - absOffset;
-    return {
-      transform: `translateX(calc(${offset} * var(--coverflow-spacing, 170px))) scale(${scale})`,
-      opacity,
-      zIndex,
-      willChange: 'transform, opacity'
-    };
-  };
-
-  const handleMouseEnter = () => setIsHovered(true);
-  const handleMouseLeave = () => setIsHovered(false);
-  const handleTouchStart = (e) => { setIsHovered(true); setTouchStartX(e.touches[0].clientX); };
-  const handleTouchEnd = (e) => {
-    setIsHovered(false);
-    if (touchStartX === null) return;
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    if (diff > 35) handleNextCard();
-    else if (diff < -35) handlePrevCard();
-    setTouchStartX(null);
-  };
-
-  const activeDiagnostic = QUICK_DIAGNOSTICS[selectedCrop]?.[selectedProblemIndex] || QUICK_DIAGNOSTICS[selectedCrop]?.[0];
-  const activeAdvisory = MONTHLY_ADVISORIES[selectedMonthIndex] || MONTHLY_ADVISORIES[6];
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <div>
+    <div ref={mainRef} style={{ backgroundColor: 'var(--surface-canvas)' }}>
+      {/* ========================================================================
+          STEEP HERO SECTION — Editorial Collage with Interactive 3D Agronomy
+          ======================================================================== */}
+      <section className="section-padding" style={{ paddingTop: '56px', paddingBottom: '88px', overflow: 'hidden' }}>
+        <div className="page-container">
+          <div style={{ textAlign: 'center', maxWidth: '1020px', margin: '0 auto 56px' }}>
+            {/* Tag / Category Label */}
+            <span className="tag-label-green gsap-hero-tag">Kashmir Agricultural Analytics & Protection</span>
 
-      {/* ─── REDESIGNED HERO: Lightweight & Responsive ─── */}
-      <section style={{
-        background: 'linear-gradient(165deg, #040a06 0%, #0c2014 65%, #05120a 100%)',
-        minHeight: 'calc(100vh - 65px)',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        position: 'relative',
-        overflow: 'hidden',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-        color: '#f0ece3',
-        boxSizing: 'border-box'
-      }}>
+            {/* Signature Serif Display Headline */}
+            <h1 className="text-display gsap-hero-title" style={{ marginBottom: '24px', color: 'var(--color-ink-black)', fontSize: 'clamp(34px, 5.2vw, 76px)', lineHeight: 1.22 }}>
+              Orchard science <span className="editorial-italic">rendered as editorial</span>
+              crop protection.
+            </h1>
 
-        {/* Ambient Lighting & Depth Overlays */}
-        <div style={{
-          position: 'absolute',
-          top: '-10%',
-          right: '10%',
-          width: '500px',
-          height: '500px',
-          background: 'radial-gradient(circle, rgba(184, 146, 63, 0.14) 0%, rgba(0,0,0,0) 70%)',
-          pointerEvents: 'none',
-          zIndex: 1
-        }} />
-        <div style={{
-          position: 'absolute',
-          bottom: '-10%',
-          left: '5%',
-          width: '450px',
-          height: '450px',
-          background: 'radial-gradient(circle, rgba(37, 211, 102, 0.09) 0%, rgba(0,0,0,0) 70%)',
-          pointerEvents: 'none',
-          zIndex: 1
-        }} />
-
-        <div className="container" style={{ paddingTop: '1.5rem', paddingBottom: '1.5rem', position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <div className="hero-redesign-grid">
-            
-            {/* Left Column — Brand Authority & Copy */}
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              {/* Main Headline */}
-              <h1 style={{
-                fontFamily: "'Lora', Georgia, serif",
-                fontSize: 'clamp(2.2rem, 3.8vw, 3.2rem)',
-                lineHeight: '1.08',
-                fontWeight: '700',
-                color: '#ffffff',
-                marginBottom: '0.1rem',
-                letterSpacing: '-0.5px'
-              }}>
-                M.A. Pesticides
-              </h1>
-              <h2 style={{
-                fontFamily: "'Lora', Georgia, serif",
-                fontSize: 'clamp(0.85rem, 1.4vw, 1.1rem)',
-                lineHeight: '1.3',
-                fontWeight: '700',
-                color: '#c4a054',
-                marginBottom: '1rem',
-                letterSpacing: '1.8px',
-                textTransform: 'uppercase'
-              }}>
-                & Fertilizers • Srinagar, Kashmir
-              </h2>
-
-              <p style={{
-                color: '#b0cdb8',
-                fontSize: 'clamp(0.88rem, 1.2vw, 1rem)',
-                lineHeight: '1.7',
-                marginBottom: '1.3rem',
-                maxWidth: '520px'
-              }}>
-                Genuine crop chemicals for Kashmir's apple, walnut, pear and saffron farmers — sold and advised in-person by <strong style={{ color: '#e8f0ea' }}>Sheikh Mohammad Ayoub</strong>, M.Sc. Chemistry and former senior lecturer.
-              </p>
-
-              {/* 3 plain, specific facts — no icon bullets */}
-              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 1.5rem 0', display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
-                <li style={{ fontSize: '0.87rem', color: '#b0cdb8', paddingLeft: '1rem', borderLeft: '2px solid rgba(184,146,63,0.4)', lineHeight: '1.5' }}>
-                  Authorized stockist: Bayer, Syngenta, Willowood, FIL & IPL Biologicals
-                </li>
-                <li style={{ fontSize: '0.87rem', color: '#b0cdb8', paddingLeft: '1rem', borderLeft: '2px solid rgba(184,146,63,0.4)', lineHeight: '1.5' }}>
-                  Free leaf & soil sample testing at the shop — no appointment needed
-                </li>
-                <li style={{ fontSize: '0.87rem', color: '#b0cdb8', paddingLeft: '1rem', borderLeft: '2px solid rgba(184,146,63,0.4)', lineHeight: '1.5' }}>
-                  Up to 20% below MRP on most products — ask at the counter
-                </li>
-              </ul>
-
-              {/* Call to Action Buttons */}
-              <div style={{ display: 'flex', gap: '0.85rem', flexWrap: 'wrap', alignItems: 'center' }}>
-                <a href="tel:+919906541321" style={{
-                  background: '#b8923f',
-                  color: '#08150d',
-                  padding: '0.75rem 1.5rem',
-                  borderRadius: '8px',
-                  fontWeight: '800',
-                  fontSize: '0.9rem',
-                  textDecoration: 'none',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  boxShadow: '0 6px 16px rgba(184, 146, 63, 0.2)'
-                }}>
-                  <Phone size={16} /> Call +91 99065 41321
-                </a>
-                <a href="https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%20%28M.A.%20Pesticides%29%2C%20I%20want%20expert%20advice%20for%20my%20orchard%20crop%20spray%20schedule%20and%20authentic%20pesticide%20recommendations." target="_blank" rel="noopener noreferrer" style={{
-                  background: 'rgba(37, 211, 102, 0.15)',
-                  border: '1px solid rgba(37, 211, 102, 0.4)',
-                  color: '#25d366',
-                  padding: '0.75rem 1.3rem',
-                  borderRadius: '8px',
-                  fontWeight: '700',
-                  fontSize: '0.88rem',
-                  textDecoration: 'none',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px'
-                }}>
-                  <MessageCircle size={16} /> WhatsApp Expert
-                </a>
-              </div>
-            </div>
-
-            {/* Right Column — 3D rotating coverflow carousel */}
-            <div
-              style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', minHeight: '340px' }}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              onTouchStart={handleTouchStart}
-              onTouchEnd={handleTouchEnd}
-            >
-              {/* Prev / Next Controls */}
-              <button
-                onClick={handlePrevCard}
-                aria-label="Previous card"
-                style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 20, background: 'rgba(14,31,20,0.85)', border: '1px solid rgba(184,146,63,0.35)', color: '#c4a054', borderRadius: '50%', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
-              ><ChevronLeft size={20} /></button>
-              <button
-                onClick={handleNextCard}
-                aria-label="Next card"
-                style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 20, background: 'rgba(14,31,20,0.85)', border: '1px solid rgba(184,146,63,0.35)', color: '#c4a054', borderRadius: '50%', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
-              ><ChevronRight size={20} /></button>
-
-              {/* Stage container */}
-              <div className="hero-cube-stage" style={{ width: '100%', height: '320px', position: 'relative' }}>
-
-                {/* Card 0 — Product Browser */}
-                <div
-                  className={`hero-cube-card hero-cube-card-0${activeHeroCard === 0 ? ' is-active' : ''}`}
-                  onClick={() => goToCard(0)}
-                  style={{ background: '#ffffff', color: '#1c241e', ...getCoverFlowStyle(0), position: 'absolute', left: '50%', transform: getCoverFlowStyle(0).transform + ' translateX(-50%)', width: '260px', borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column', cursor: 'pointer' }}
-                >
-                  <div style={{ background: '#122e1c', padding: '0.4rem 0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.1)', height: '34px', boxSizing: 'border-box' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <ShieldCheck size={13} color="#b8923f" />
-                      <span style={{ fontSize: '0.65rem', fontWeight: '800', color: '#b8923f', letterSpacing: '0.8px', textTransform: 'uppercase' }}>STORE CATALOGUE</span>
-                    </div>
-                    <span style={{ fontSize: '0.6rem', color: '#a0c4ac', fontWeight: '600' }}>SRINAGAR SHOP</span>
-                  </div>
-                  <div style={{ position: 'relative', height: '100px', overflow: 'hidden', flexShrink: 0, background: '#163e24' }}>
-                    <img src="/kashmir-orchard-banner.webp" alt="Catalogue" loading="lazy" decoding="async" onError={(e) => { e.target.src = '/hero-image.webp'; }} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }} />
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(8,21,13,0.4) 0%, rgba(8,21,13,0.75) 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <span style={{ color: '#fff', fontSize: '0.7rem', fontWeight: '800', letterSpacing: '1px', textTransform: 'uppercase' }}>Authentic Crop Catalogue</span>
-                    </div>
-                  </div>
-                  <div style={{ padding: '0.6rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '7px', background: '#f8f9fa', flex: 1 }}>
-                    <div style={{ background: '#fff', borderRadius: '8px', padding: '0.45rem', border: '1px solid #eef0f2', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <img src="/alika.png" alt="Alika" loading="lazy" decoding="async" style={{ height: '52px', objectFit: 'contain' }} />
-                      <div style={{ fontSize: '0.65rem', fontWeight: '700', color: '#163e24', marginTop: '3px' }}>Syngenta Alika</div>
-                      <div style={{ fontSize: '0.62rem', color: '#b8923f', fontWeight: '800' }}>₹1,250</div>
-                    </div>
-                    <div style={{ background: '#fff', borderRadius: '8px', padding: '0.45rem', border: '1px solid #eef0f2', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <img src="/antracol.jpg" alt="Antracol" loading="lazy" decoding="async" style={{ height: '52px', objectFit: 'contain' }} />
-                      <div style={{ fontSize: '0.65rem', fontWeight: '700', color: '#163e24', marginTop: '3px' }}>Bayer Antracol</div>
-                      <div style={{ fontSize: '0.62rem', color: '#b8923f', fontWeight: '800' }}>₹700</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Card 1 — Senior Chemist */}
-                <div
-                  className={`hero-cube-card hero-cube-card-1${activeHeroCard === 1 ? ' is-active' : ''}`}
-                  onClick={() => goToCard(1)}
-                  style={{ background: '#0a1d12', border: '1px solid rgba(184,146,63,0.4)', color: '#fff', ...getCoverFlowStyle(1), position: 'absolute', left: '50%', transform: getCoverFlowStyle(1).transform + ' translateX(-50%)', width: '260px', borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column', cursor: 'pointer' }}
-                >
-                  <div style={{ padding: '0.6rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#050f09', borderBottom: '1px solid rgba(255,255,255,0.08)', height: '36px', boxSizing: 'border-box' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <FlaskConical size={14} color="#b8923f" />
-                      <span style={{ fontSize: '0.68rem', fontWeight: '800', color: '#b8923f' }}>SENIOR CHEMIST</span>
-                    </div>
-                    <span style={{ fontSize: '0.62rem', color: '#c4a054', fontWeight: '700', letterSpacing: '0.5px' }}>EX-SENIOR LECTURER</span>
-                  </div>
-                  <div style={{ padding: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.6rem', flex: 1, justifyContent: 'center' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(184,146,63,0.15)', border: '1px solid #b8923f', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                        <FlaskConical size={18} color="#b8923f" />
-                      </div>
-                      <div>
-                        <div style={{ fontWeight: '800', fontSize: '0.85rem', color: '#fff' }}>Sheikh Mohammad Ayoub</div>
-                        <div style={{ fontSize: '0.65rem', color: '#b8923f', fontWeight: '700' }}>M.Sc., B.Ed. Chemistry</div>
-                      </div>
-                    </div>
-                    <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '6px', padding: '0.55rem', border: '1px solid rgba(255,255,255,0.08)', fontSize: '0.68rem', color: '#d0e4d8', lineHeight: '1.45' }}>
-                      Former Senior Lecturer · 15+ years field experience in Kashmir soil & pesticide compatibility.
-                    </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5px' }}>
-                      <div style={{ background: 'rgba(37,211,102,0.1)', padding: '0.35rem', borderRadius: '6px', border: '1px solid rgba(37,211,102,0.2)', fontSize: '0.63rem', color: '#25d366', fontWeight: '700', textAlign: 'center' }}>Free Sample Testing</div>
-                      <div style={{ background: 'rgba(184,146,63,0.1)', padding: '0.35rem', borderRadius: '6px', border: '1px solid rgba(184,146,63,0.2)', fontSize: '0.63rem', color: '#b8923f', fontWeight: '700', textAlign: 'center' }}>In-Store Advice</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Card 2 — SKUAST Advisory */}
-                <div
-                  className={`hero-cube-card hero-cube-card-2${activeHeroCard === 2 ? ' is-active' : ''}`}
-                  onClick={() => goToCard(2)}
-                  style={{ background: '#09180e', border: '1px solid rgba(37,211,102,0.4)', color: '#fff', ...getCoverFlowStyle(2), position: 'absolute', left: '50%', transform: getCoverFlowStyle(2).transform + ' translateX(-50%)', width: '260px', borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column', cursor: 'pointer' }}
-                >
-                  <div style={{ padding: '0.6rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#040b06', borderBottom: '1px solid rgba(255,255,255,0.08)', height: '36px', boxSizing: 'border-box' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Calendar size={14} color="#25d366" />
-                      <span style={{ fontSize: '0.68rem', fontWeight: '800', color: '#25d366' }}>SKUAST-K ADVISORIES</span>
-                    </div>
-                    <span style={{ fontSize: '0.62rem', color: '#25d366', fontWeight: '700', letterSpacing: '0.5px' }}>OFFICIAL ADVISORY</span>
-                  </div>
-                  <div style={{ padding: '0.85rem', display: 'flex', flexDirection: 'column', gap: '0.55rem', flex: 1, justifyContent: 'center' }}>
-                    <div style={{ background: 'rgba(37,211,102,0.08)', borderLeft: '3px solid #25d366', padding: '0.45rem 0.6rem', borderRadius: '0 6px 6px 0' }}>
-                      <div style={{ fontSize: '0.68rem', fontWeight: '800', color: '#25d366' }}>Codling Moth 2nd Gen Window</div>
-                      <div style={{ fontSize: '0.63rem', color: '#b0cdb8', marginTop: '2px' }}>Apply Syngenta Alika (0.5ml/L) before egg hatch peak.</div>
-                    </div>
-                    <div style={{ background: 'rgba(184,146,63,0.08)', borderLeft: '3px solid #b8923f', padding: '0.45rem 0.6rem', borderRadius: '0 6px 6px 0' }}>
-                      <div style={{ fontSize: '0.68rem', fontWeight: '800', color: '#b8923f' }}>Apple Scab Primary Protection</div>
-                      <div style={{ fontSize: '0.63rem', color: '#b0cdb8', marginTop: '2px' }}>Bayer Antracol (2.5g/L) post-rain spray recommended.</div>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.63rem', color: '#8fae98' }}>
-                      <span>Updated: August 2026</span>
-                      <span style={{ color: '#25d366', fontWeight: '700' }}>100% SKUAST Aligned</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Card 3 — Awareness Camps */}
-                <div
-                  className={`hero-cube-card hero-cube-card-3${activeHeroCard === 3 ? ' is-active' : ''}`}
-                  onClick={() => goToCard(3)}
-                  style={{ background: '#0a1d12', border: '1px solid rgba(184,146,63,0.4)', color: '#fff', ...getCoverFlowStyle(3), position: 'absolute', left: '50%', transform: getCoverFlowStyle(3).transform + ' translateX(-50%)', width: '260px', borderRadius: '12px', overflow: 'hidden', display: 'flex', flexDirection: 'column', cursor: 'pointer' }}
-                >
-                  <div style={{ padding: '0.6rem 0.85rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#050f09', borderBottom: '1px solid rgba(255,255,255,0.08)', height: '36px', boxSizing: 'border-box' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Users size={14} color="#b8923f" />
-                      <span style={{ fontSize: '0.68rem', fontWeight: '800', color: '#b8923f' }}>AWARENESS CAMPS</span>
-                    </div>
-                    <span style={{ fontSize: '0.6rem', background: 'rgba(184,146,63,0.25)', color: '#b8923f', fontWeight: '700', padding: '0.12rem 0.45rem', borderRadius: '10px' }}>VALLEY WIDE</span>
-                  </div>
-                  <div style={{ position: 'relative', flex: 1, overflow: 'hidden', minHeight: '140px' }}>
-                    <img src="/awareness-camps.webp" alt="Farmer Awareness Camps" loading="lazy" decoding="async" onError={(e) => { e.target.src = '/shop.jpg'; }} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    <div style={{ position: 'absolute', bottom: 0, inset: 'auto 0 0 0', background: 'linear-gradient(to top, rgba(5,15,9,0.95), transparent)', padding: '0.4rem 0.8rem', fontSize: '0.65rem', color: '#fff', fontWeight: '700' }}>⛺ Free Field Training & Spray Workshops</div>
-                  </div>
-                  <div style={{ padding: '0.65rem 0.85rem', background: '#08170e' }}>
-                    <div style={{ fontSize: '0.8rem', fontWeight: '800', color: '#fff', marginBottom: '0.1rem' }}>Regular Field Awareness Camps</div>
-                    <div style={{ fontSize: '0.65rem', color: '#b8923f', fontWeight: '600' }}>Scientific Dosage & Safe Chemical Practices</div>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Dot nav */}
-              <div style={{ display: 'flex', gap: '8px', marginTop: '1rem', zIndex: 10 }}>
-                {[0,1,2,3].map(i => (
-                  <button key={i} onClick={() => goToCard(i)} style={{ width: activeHeroCard === i ? '28px' : '8px', height: '8px', borderRadius: '4px', background: activeHeroCard === i ? '#b8923f' : 'rgba(255,255,255,0.2)', border: 'none', cursor: 'pointer', transition: 'all 0.3s ease', padding: 0 }} />
-                ))}
-              </div>
-            </div>
-
-          </div>
-
-          {/* Integrated Trust Stat Strip */}
-          <div style={{
-            marginTop: '1.8rem',
-            paddingTop: '1.2rem',
-            borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '1rem',
-            textAlign: 'center'
-          }} className="hero-stats-strip">
-            <div>
-              <div style={{ color: '#b8923f', fontWeight: '800', fontSize: '1.35rem', fontFamily: "'Lora', Georgia, serif" }}>100+ Products</div>
-              <div style={{ color: '#7a9884', fontSize: '0.72rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Authentic Stock</div>
-            </div>
-            <div>
-              <div style={{ color: '#b8923f', fontWeight: '800', fontSize: '1.35rem', fontFamily: "'Lora', Georgia, serif" }}>Up to 20% Off</div>
-              <div style={{ color: '#7a9884', fontSize: '0.72rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Discount Below MRP</div>
-            </div>
-            <div>
-              <div style={{ color: '#b8923f', fontWeight: '800', fontSize: '1.35rem', fontFamily: "'Lora', Georgia, serif" }}>50+</div>
-              <div style={{ color: '#7a9884', fontSize: '0.72rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Disease Guide</div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ─── DYNAMIC MONTHLY AGRICULTURAL ADVISORIES SECTION ─── */}
-      <section style={{ background: 'var(--bg-card)', borderBottom: '1px solid var(--border-color)', padding: '3.5rem 0' }}>
-        <div className="container" style={{ paddingTop: 0, paddingBottom: 0 }}>
-
-          {/* Section Header */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.8rem' }}>
-            <div>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(184, 146, 63, 0.12)', color: 'var(--secondary-color)', padding: '0.35rem 0.85rem', borderRadius: '20px', fontSize: '0.78rem', fontWeight: '700', letterSpacing: '0.8px', marginBottom: '0.6rem' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#25d366', display: 'inline-block', boxShadow: '0 0 8px #25d366' }} />
-                {activeAdvisory.monthName.toUpperCase()} {selectedMonthIndex === currentRealMonth ? 'LIVE ADVISORY' : 'STAGE ADVISORY'}
-              </div>
-              <h2 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: 'clamp(1.8rem, 3vw, 2.4rem)', color: 'var(--primary-color)', margin: 0, letterSpacing: '-0.3px' }}>
-                Monthly Orchard Advisories & Seasonal Updates
-              </h2>
-            </div>
-            <Link to="/spray-calendar" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: 'var(--primary-color)', fontWeight: '700', fontSize: '0.9rem', textDecoration: 'none', borderBottom: '2px solid var(--secondary-color)', paddingBottom: '2px' }}>
-              <Calendar size={16} /> Full Stage Spray Calendar <ArrowRight size={14} />
-            </Link>
-          </div>
-
-          {/* 12-Month Interactive Navigation Bar */}
-          <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', paddingBottom: '0.8rem', marginBottom: '2rem', scrollbarWidth: 'none' }}>
-            {MONTHLY_ADVISORIES.map((m, idx) => {
-              const isCurrent = idx === currentRealMonth;
-              const isSelected = idx === selectedMonthIndex;
-              return (
-                <button
-                  key={m.monthName}
-                  onClick={() => setSelectedMonthIndex(idx)}
-                  style={{
-                    background: isSelected ? 'var(--primary-color)' : isCurrent ? 'rgba(37, 211, 102, 0.12)' : 'var(--bg-main)',
-                    color: isSelected ? '#ffffff' : isCurrent ? '#25d366' : 'var(--text-muted)',
-                    border: '1px solid ' + (isSelected ? 'var(--primary-color)' : isCurrent ? 'rgba(37, 211, 102, 0.4)' : 'var(--border-color)'),
-                    borderRadius: '20px',
-                    padding: '0.45rem 0.95rem',
-                    fontWeight: '700',
-                    fontSize: '0.8rem',
-                    cursor: 'pointer',
-                    whiteSpace: 'nowrap',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    transition: 'all 0.2s'
-                  }}
-                >
-                  {m.monthName}
-                  {isCurrent && (
-                    <span style={{ fontSize: '0.62rem', background: '#25d366', color: '#08150d', padding: '0.1rem 0.4rem', borderRadius: '8px', fontWeight: '800' }}>
-                      NOW
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Featured Selected Month Advisory + Upcoming Grid */}
-          <div className="monthly-updates-grid">
-
-            {/* Featured Active Selected Month Card */}
-            <AnimatedSection key={activeAdvisory.monthName} delay={0.1} style={{
-              background: 'linear-gradient(135deg, var(--primary-color) 0%, #0d2818 100%)',
-              color: 'white',
-              borderRadius: '12px',
-              padding: '2.2rem',
-              position: 'relative',
-              boxShadow: '0 12px 30px rgba(0,0,0,0.12)',
-              display: 'flex',
-              flexDirection: 'column',
-              justify: 'space-between',
-              border: '1px solid rgba(255,255,255,0.08)'
-            }}>
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.2rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-                  <span style={{ background: selectedMonthIndex === currentRealMonth ? '#943228' : '#b8923f', color: selectedMonthIndex === currentRealMonth ? '#fff' : '#08150d', fontSize: '0.7rem', fontWeight: '800', padding: '0.3rem 0.75rem', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                    {activeAdvisory.tag}
-                  </span>
-                  <span style={{ color: '#b8923f', fontSize: '0.82rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <Clock size={14} /> Stage: {activeAdvisory.stage}
-                  </span>
-                </div>
-
-                <h3 style={{ color: '#ffffff', fontSize: 'clamp(1.25rem, 2vw, 1.6rem)', marginBottom: '0.8rem', lineHeight: '1.3' }}>
-                  {activeAdvisory.title}
-                </h3>
-
-                <p style={{ color: '#b5d5bf', fontSize: '0.92rem', lineHeight: '1.7', marginBottom: '1.5rem' }}>
-                  {activeAdvisory.description}
-                </p>
-
-                <div style={{ background: 'rgba(255, 255, 255, 0.06)', borderRadius: '8px', padding: '1rem 1.2rem', marginBottom: '1.8rem', borderLeft: '3px solid #b8923f' }}>
-                  <div style={{ color: '#b8923f', fontWeight: '700', fontSize: '0.82rem', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '0.4rem' }}>
-                    Recommended Action:
-                  </div>
-                  <p style={{ color: '#e0ece3', fontSize: '0.88rem', margin: 0, lineHeight: '1.6' }}>
-                    {activeAdvisory.recommendedAction}
-                  </p>
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
-                <a
-                  href={`https://wa.me/919906541321?text=Hello%20M.A.%20Pesticides%2C%20I%20need%20advice%20for%20${encodeURIComponent(activeAdvisory.monthName + ' ' + activeAdvisory.title)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    background: '#25d366', color: '#08150d', padding: '0.7rem 1.3rem', borderRadius: '6px', fontWeight: '800', fontSize: '0.88rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px'
-                  }}
-                >
-                  <MessageCircle size={16} /> WhatsApp Dosage Guide
-                </a>
-                <Link to="/spray-calendar" style={{ color: '#b5d5bf', fontWeight: '600', fontSize: '0.85rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                  Full Stage Guide <ArrowRight size={13} />
-                </Link>
-              </div>
-            </AnimatedSection>
-
-            {/* Right Column: Upcoming Monthly Cards */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {activeAdvisory.upcoming.map((up, idx) => (
-                <AnimatedSection key={up.month} delay={0.2 + idx * 0.1} style={{
-                  background: 'var(--bg-main)',
-                  border: '1px solid var(--border-color)',
-                  borderRadius: '10px',
-                  padding: '1.4rem',
-                  flex: 1,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justify: 'space-between'
-                }}>
-                  <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                      <span style={{ color: idx === 0 ? 'var(--secondary-color)' : 'var(--accent-color)', fontWeight: '800', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                        {up.month.toUpperCase()} ADVISORY
-                      </span>
-                      <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{up.stage}</span>
-                    </div>
-                    <h4 style={{ fontSize: '1.05rem', color: 'var(--primary-color)', marginBottom: '0.4rem' }}>
-                      {up.title}
-                    </h4>
-                    <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: '1.55', margin: 0 }}>
-                      {up.desc}
-                    </p>
-                  </div>
-                  <div style={{ marginTop: '1rem', paddingTop: '0.6rem', borderTop: '1px dashed var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '0.8rem', fontWeight: '700', color: 'var(--primary-color)' }}>Stage: {up.stage}</span>
-                    <Link to="/spray-calendar" style={{ color: 'var(--secondary-color)', fontWeight: '700', fontSize: '0.8rem', textDecoration: 'none' }}>Details →</Link>
-                  </div>
-                </AnimatedSection>
-              ))}
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-
-      {/* ─── SERVICES: REDESIGNED EDITORIAL MIXED LAYOUT ─── */}
-      <section className="services-section">
-        <div className="container" style={{ paddingTop: 0, paddingBottom: 0 }}>
-
-          {/* Section Header */}
-          <div style={{ marginBottom: '2.5rem' }}>
-            <span style={{
-              fontFamily: 'var(--font-hand)',
-              fontSize: '1.05rem',
-              color: 'var(--secondary-color)',
-              display: 'block',
-              marginBottom: '0.2rem'
-            }}>what we offer —</span>
-            <h2 style={{
-              fontFamily: "'Lora', serif",
-              fontSize: 'clamp(1.8rem, 3vw, 2.4rem)',
-              color: 'var(--primary-color)',
-              margin: 0,
-              letterSpacing: '-0.5px'
-            }}>Our Services</h2>
-          </div>
-
-          {/* Services Grid (Responsive Stack on Mobile) */}
-          <div className="services-grid">
-
-            {/* Featured Hero Service Card: Stage-wise Spray Calendar */}
-            <AnimatedSection delay={0.1} className="service-card-featured">
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.2rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-                  <span style={{
-                    fontFamily: 'var(--font-hand)',
-                    fontSize: '0.95rem',
-                    color: '#b8923f'
-                  }}>
-                    most used service →
-                  </span>
-                  <span style={{
-                    background: 'rgba(184, 146, 63, 0.2)',
-                    border: '1px solid rgba(184, 146, 63, 0.4)',
-                    color: '#b8923f',
-                    fontSize: '0.68rem',
-                    fontWeight: '800',
-                    padding: '0.25rem 0.65rem',
-                    borderRadius: '12px',
-                    letterSpacing: '0.8px',
-                    textTransform: 'uppercase'
-                  }}>
-                    SKUAST-K COMPLIANT
-                  </span>
-                </div>
-
-                <h3 style={{ color: '#ffffff', fontSize: 'clamp(1.4rem, 2.2vw, 1.85rem)', marginBottom: '0.85rem', lineHeight: '1.25' }}>
-                  Stage-wise Spray Calendar
-                </h3>
-
-                <p style={{ color: '#b0cdb8', fontSize: '0.92rem', lineHeight: '1.7', marginBottom: '1.5rem', maxWidth: '420px' }}>
-                  Not generic advice. Real spray timings for <strong style={{ color: '#ffffff' }}>Apple, Pear, Cherry, Walnut, Almond & Saffron</strong> — calibrated to Kashmir's real-time weather & phenological stages.
-                </p>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '2rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.82rem', color: '#d0e4d8' }}>
-                    <CheckCircle2 size={15} color="#25d366" style={{ flexShrink: 0 }} />
-                    <span>Apple Scab, Codling Moth & Red Spider Mite spray windows</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.82rem', color: '#d0e4d8' }}>
-                    <CheckCircle2 size={15} color="#25d366" style={{ flexShrink: 0 }} />
-                    <span>Calculated dosage per 200 Litre orchard spray tank</span>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <Link to="/spray-calendar" style={{
-                  background: '#b8923f',
-                  color: '#08150d',
-                  padding: '0.75rem 1.5rem',
-                  borderRadius: '8px',
-                  fontWeight: '800',
-                  fontSize: '0.9rem',
-                  textDecoration: 'none',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  boxShadow: '0 6px 16px rgba(184, 146, 63, 0.25)',
-                  width: 'fit-content'
-                }}>
-                  Open Stage Spray Calendar <ArrowRight size={15} />
-                </Link>
-              </div>
-            </AnimatedSection>
-
-            {/* Secondary Services Column */}
-            <div className="services-secondary-col">
-
-              {/* Card 1: Genuine Stock Only */}
-              <AnimatedSection delay={0.2} className="service-card-item">
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.8rem' }}>
-                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(22, 62, 36, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <ShieldCheck size={22} color="var(--primary-color)" />
-                    </div>
-                    <span style={{ fontSize: '0.65rem', fontWeight: '800', color: 'var(--primary-color)', background: 'rgba(22, 62, 36, 0.08)', padding: '0.2rem 0.55rem', borderRadius: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                      DIRECT DISTRIBUTOR
-                    </span>
-                  </div>
-                  <h3 style={{ fontSize: '1.1rem', marginBottom: '0.45rem', color: 'var(--primary-color)', fontWeight: '700' }}>
-                    Genuine Stock Only
-                  </h3>
-                  <p style={{ fontSize: '0.86rem', color: 'var(--text-muted)', lineHeight: '1.6', margin: 0 }}>
-                    Authorized dealer of Bayer, Syngenta, IPL, Willowood and FIL — sourced direct from factories with zero counterfeit risk.
-                  </p>
-                </div>
-                <Link to="/products" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginTop: '1.2rem', color: 'var(--primary-color)', fontWeight: '700', fontSize: '0.85rem', textDecoration: 'none' }}>
-                  Browse Authentic Stock <ArrowRight size={13} />
-                </Link>
-              </AnimatedSection>
-
-              {/* Card 2: Free In-Store Leaf & Soil Diagnosis */}
-              <AnimatedSection delay={0.3} className="service-card-item" style={{ borderLeft: '4px solid var(--accent-color)' }}>
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.8rem' }}>
-                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(148, 50, 40, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <FlaskConical size={22} color="var(--accent-color)" />
-                    </div>
-                    <span style={{ fontSize: '0.65rem', fontWeight: '800', color: 'var(--accent-color)', background: 'rgba(148, 50, 40, 0.08)', padding: '0.2rem 0.55rem', borderRadius: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                      EXPERT CONSULTATION
-                    </span>
-                  </div>
-                  <h3 style={{ fontSize: '1.1rem', marginBottom: '0.45rem', color: 'var(--primary-color)', fontWeight: '700' }}>
-                    Free Leaf & Soil Diagnosis
-                  </h3>
-                  <p style={{ fontSize: '0.86rem', color: 'var(--text-muted)', lineHeight: '1.6', margin: 0 }}>
-                    Bring infected leaves or soil samples. Sheikh Mohammad Ayoub (M.Sc., Ex-Senior Lecturer) identifies issues on the spot — zero charge.
-                  </p>
-                </div>
-                <Link to="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginTop: '1.2rem', color: 'var(--accent-color)', fontWeight: '700', fontSize: '0.85rem', textDecoration: 'none' }}>
-                  Visit Srinagar Store <ArrowRight size={13} />
-                </Link>
-              </AnimatedSection>
-
-            </div>
-          </div>
-
-          {/* Pricing strip — note note */}
-          <AnimatedSection delay={0.35} className="pricing-note-strip" style={{ marginBottom: '3.5rem' }}>
-            <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
-              <span style={{ fontFamily: 'var(--font-hand)', fontSize: '1.05rem', color: 'var(--secondary-color)', marginRight: '6px', fontWeight: '700' }}>fair pricing —</span>
-              Up to 20% below MRP for Kashmir orchardists. Same transparent price on 1 bag or 100 bags. No hidden markups.
+            {/* Subhead in Söhne */}
+            <p className="text-body-lg gsap-hero-sub" style={{ color: 'var(--color-slate-gray)', marginBottom: '32px', maxWidth: '680px', margin: '0 auto 32px' }}>
+              Genuine Bayer, Syngenta, and IPL formulations paired with SKUAST-K stage schedules — designed for Kashmir fruit growers.
             </p>
-            <Link to="/search" style={{ color: 'var(--primary-color)', fontWeight: '800', fontSize: '0.85rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '5px', whiteSpace: 'nowrap' }}>
-              Search Product Prices <ArrowRight size={13} />
-            </Link>
-          </AnimatedSection>
 
+            {/* Paired Pill Buttons */}
+            <div className="hero-actions gsap-hero-actions">
+              <Link to="/spray-calendar" className="pill-button-filled">
+                <span>Explore Spray Calendar</span>
+                <ArrowRight size={16} />
+              </Link>
+              <a
+                href="https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%2C%20I%20want%20expert%20crop%20advice..."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pill-button-ghost"
+              >
+                <span>Consult Sheikh M. Ayoub</span>
+                <ArrowUpRight size={16} />
+              </a>
+            </div>
+          </div>
+
+          {/* Product Artifact Collage (4 UI Artifacts overlapping the layout) */}
+          <div className="hero-artifacts-grid hero-artifacts-row-1">
+            {/* Artifact 1: SKUAST Spray Schedule Table Fragment */}
+            <div className="floating-product-artifact hero-artifact-tilt-left gsap-hero-card">
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', gap: '12px', flexWrap: 'wrap' }}>
+                <div>
+                  <span className="tag-label-green" style={{ margin: 0 }}>Active Spray Window</span>
+                  <h4 style={{ fontFamily: 'var(--font-sohne)', fontSize: '18px', fontWeight: 500, margin: 0 }}>
+                    Green Tip & Delayed Dormancy
+                  </h4>
+                </div>
+                <span className="badge-green">
+                  SKUAST-K Compliant
+                </span>
+              </div>
+
+              {/* Table Fragment */}
+              <div className="table-responsive-wrapper">
+                <table className="table-fragment">
+                  <thead>
+                    <tr style={{ borderBottom: '1px solid rgba(23, 25, 28, 0.08)', color: 'var(--color-ash-gray)' }}>
+                      <th style={{ fontWeight: 400, whiteSpace: 'nowrap' }}>Stage</th>
+                      <th style={{ fontWeight: 400 }}>Recommended Formulation</th>
+                      <th style={{ fontWeight: 400, whiteSpace: 'nowrap' }}>Dosage / 200L</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style={{ borderBottom: '1px solid rgba(23, 25, 28, 0.04)' }}>
+                      <td style={{ fontWeight: 500, whiteSpace: 'nowrap' }}>Green Tip</td>
+                      <td>Bayer Antracol (Propineb 70% WP)</td>
+                      <td style={{ color: 'var(--color-pine-green)', fontWeight: 500, whiteSpace: 'nowrap' }}>600g / 200L</td>
+                    </tr>
+                    <tr style={{ borderBottom: '1px solid rgba(23, 25, 28, 0.04)' }}>
+                      <td style={{ fontWeight: 500, whiteSpace: 'nowrap' }}>Pink Bud</td>
+                      <td>Syngenta Score (Difenoconazole)</td>
+                      <td style={{ color: 'var(--color-pine-green)', fontWeight: 500, whiteSpace: 'nowrap' }}>100ml / 200L</td>
+                    </tr>
+                    <tr>
+                      <td style={{ fontWeight: 500, whiteSpace: 'nowrap' }}>Petal Fall</td>
+                      <td>Superstar Dodine 65% WP</td>
+                      <td style={{ color: 'var(--color-pine-green)', fontWeight: 500, whiteSpace: 'nowrap' }}>200g / 200L</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Artifact 2: Activation & Orchard Yield Line Chart with Sienna Brown Stroke */}
+            <div className="floating-product-artifact hero-artifact-tilt-right gsap-hero-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+                  <span className="tag-label" style={{ margin: 0 }}>Orchard Yield Index</span>
+                  <div className="avatar-bubble bg-green" title="Live Interaction">
+                    JB
+                  </div>
+                </div>
+                <div style={{ fontFamily: 'var(--font-sohne)', fontSize: '26px', fontWeight: 500, color: 'var(--color-ink-black)' }}>
+                  46.2% <span style={{ fontSize: '14px', color: 'var(--color-slate-gray)', fontWeight: 400 }}>↑ 5.5x scab control vs 2025</span>
+                </div>
+              </div>
+
+              {/* Gestural Minimal Chart in Sienna Brown (#5d2a1a) */}
+              <div style={{ height: '80px', marginTop: '16px', position: 'relative' }}>
+                <svg viewBox="0 0 300 80" fill="none" style={{ width: '100%', height: '100%' }}>
+                  <path
+                    d="M0 65 C 40 60, 70 75, 110 40 C 150 5, 200 50, 240 25 C 270 10, 290 15, 300 5"
+                    stroke="var(--color-sienna-brown)"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </div>
+
+              <div style={{ fontSize: '13px', color: 'var(--color-ash-gray)', marginTop: '8px' }}>
+                August – November Kashmir Fruit Quality Monitoring
+              </div>
+            </div>
+          </div>
+
+          {/* Secondary Artifact Row (AI Composer & Stat Card) */}
+          <div className="hero-artifacts-grid hero-artifacts-row-2">
+            {/* Artifact 3: Disease Quick Stat Card */}
+            <div className="floating-product-artifact gsap-hero-card">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                <div className="avatar-bubble bg-peach">
+                  AF
+                </div>
+                <div>
+                  <h4 style={{ fontFamily: 'var(--font-sohne)', fontSize: '16px', fontWeight: 500, margin: 0 }}>
+                    Apple Scab Diagnostic Precision
+                  </h4>
+                  <span style={{ fontSize: '12px', color: 'var(--color-slate-gray)' }}>
+                    Verified by Sheikh M. Ayoub (M.Sc.)
+                  </span>
+                </div>
+              </div>
+
+              <div style={{ fontSize: '22px', fontFamily: 'var(--font-signifier)', fontWeight: 400, color: 'var(--color-ink-black)', marginBottom: '8px' }}>
+                99.4% Eradication Rate
+              </div>
+              <p style={{ fontSize: '14px', color: 'var(--color-slate-gray)', margin: 0, lineHeight: 1.45 }}>
+                Double systemic fungicide application window prevents perithecia spore release during early spring humidity.
+              </p>
+            </div>
+
+            {/* Artifact 4: AI Composer Question Bar Input */}
+            <div className="floating-product-artifact gsap-hero-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <span className="tag-label" style={{ marginBottom: '8px' }}>AI Advisor Composer</span>
+              <div className="ai-composer-input">
+                <input
+                  type="text"
+                  placeholder="Ask anything about apple scab, dosage, or spray timing..."
+                  value={heroSearch}
+                  onChange={(e) => setHeroSearch(e.target.value)}
+                />
+                <button className="ai-composer-send-btn" aria-label="Send query">
+                  <ArrowRight size={16} />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ─── FIND US: RESPONSIVE GRID ─── */}
-      <div style={{ background: 'var(--bg-card)', borderTop: '1px solid var(--border-color)', padding: '3.5rem 0' }}>
-        <div className="container" style={{ paddingTop: 0, paddingBottom: 0 }}>
-          <div className="find-us-grid">
+      {/* ========================================================================
+          SECTION 1 — Alternating Section Fog (#fafafb) with 3 Neutral Cards
+          ======================================================================== */}
+      <section className="section-padding section-fog-bg gsap-scroll-section">
+        <div className="page-container">
+          <div className="section-header gsap-scroll-item">
+            <span className="tag">Restrained Craft</span>
+            <h2>Built on three uncompromised standards.</h2>
+            <p>Every bottle, recommendation, and dosage metric is backed by chemical precision.</p>
+          </div>
 
-            <div>
-              <span style={{ fontFamily: 'var(--font-hand)', fontSize: '1rem', color: 'var(--secondary-color)', display: 'block', marginBottom: '0.3rem' }}>
-                come find us —
-              </span>
-              <h2 style={{ fontFamily: "'Lora', serif", fontSize: 'clamp(1.6rem, 2.5vw, 2rem)', color: 'var(--primary-color)', marginBottom: '1rem', letterSpacing: '-0.4px' }}>
-                We're in the heart of Srinagar
-              </h2>
-              <p style={{ fontSize: '0.93rem', color: 'var(--text-muted)', lineHeight: '1.75', marginBottom: '1.5rem' }}>
-                Near Exhibition Road, opposite the Main High Court Gate — Hari Singh High Street, Shergarhi, Srinagar 190001.
-                <br /><br />
-                Can't visit? Send a photo of your infected leaves directly to our WhatsApp and we'll identify it.
+          <div className="grid-3">
+            {/* Card 1 */}
+            <div className="card-neutral gsap-scroll-item">
+              <span className="tag-label">AUTHENTICITY</span>
+              <h3 className="text-heading-sm" style={{ marginBottom: '12px' }}>
+                100% Genuine Store Stock
+              </h3>
+              <p className="text-body" style={{ color: 'var(--color-slate-gray)', marginBottom: '20px' }}>
+                Authorized dealership for Bayer, Syngenta, and IPL Biologicals. Zero counterfeits, backed by verified batch receipts.
               </p>
-              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-                <a href="tel:+919906541321" style={{
-                  background: 'var(--primary-color)', color: 'white',
-                  padding: '0.7rem 1.3rem', fontWeight: '700', fontSize: '0.88rem',
-                  textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '7px',
-                  borderRadius: '6px'
-                }}>
-                  <Phone size={15} /> +91 99065 41321
-                </a>
-                <a href="https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%20%28M.A.%20Pesticides%29%2C%20I%20want%20expert%20advice%20for%20my%20orchard%20crop%20spray%20schedule%20and%20authentic%20pesticide%20recommendations." target="_blank" rel="noopener noreferrer" style={{
-                  background: '#25d366', color: '#08150d',
-                  padding: '0.7rem 1.3rem', fontWeight: '800', fontSize: '0.88rem',
-                  textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '7px',
-                  borderRadius: '6px'
-                }}>
-                  <MessageCircle size={15} /> WhatsApp
-                </a>
-              </div>
-              <p style={{ fontFamily: 'var(--font-hand)', fontSize: '0.92rem', color: 'var(--text-muted)', marginTop: '1rem' }}>
-                🕘 Open Mon–Sat, 9 AM to 7 PM
-              </p>
+              <Link to="/products" className="text-link-arrow">
+                <span>Inspect Product Catalog</span>
+                <span className="arrow">→</span>
+              </Link>
             </div>
 
-            {/* Brand logos — not in a carousel, just a simple grid */}
-            <div>
-              <p style={{ fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1.5px', color: 'var(--text-muted)', marginBottom: '1.2rem' }}>
-                Authorized Distributor
+            {/* Card 2 */}
+            <div className="card-neutral gsap-scroll-item">
+              <span className="tag-label">AGRONOMY</span>
+              <h3 className="text-heading-sm" style={{ marginBottom: '12px' }}>
+                SKUAST-K Stage Schedules
+              </h3>
+              <p className="text-body" style={{ color: 'var(--color-slate-gray)', marginBottom: '20px' }}>
+                Synchronized with Kashmir climate windows from Green Tip to Harvest to maximize rain-fastness and eliminate leaf scorch.
               </p>
-              <div className="partners-logos-container">
-                <div className="partner-logo-item"><img src="/bayer.png" alt="Bayer Crop Science" loading="lazy" decoding="async" /></div>
-                <div className="partner-logo-item"><img src="/syngenta.png" alt="Syngenta" loading="lazy" decoding="async" /></div>
-                <div className="partner-logo-item"><img src="/ipl.png" alt="IPL Biologicals" loading="lazy" decoding="async" /></div>
-                <div className="partner-logo-item"><img src="/willowood.avif" alt="Willowood" loading="lazy" decoding="async" /></div>
-                <div className="partner-logo-item"><img src="/fil.png" alt="FIL Industries" loading="lazy" decoding="async" /></div>
-              </div>
-              <p style={{ fontFamily: 'var(--font-hand)', fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.8rem' }}>
-                + more brands in store. Always authentic.
-              </p>
+              <Link to="/spray-calendar" className="text-link-arrow">
+                <span>View Stage Timelines</span>
+                <span className="arrow">→</span>
+              </Link>
             </div>
 
+            {/* Card 3 */}
+            <div className="card-neutral gsap-scroll-item">
+              <span className="tag-label">CHEMISTRY</span>
+              <h3 className="text-heading-sm" style={{ marginBottom: '12px' }}>
+                M.Sc. Chemist Guidance
+              </h3>
+              <p className="text-body" style={{ color: 'var(--color-slate-gray)', marginBottom: '20px' }}>
+                Direct oversight by Sheikh Mohammad Ayoub (M.Sc. Chemistry). Free leaf and soil analysis at our Srinagar store.
+              </p>
+              <Link to="/about" className="text-link-arrow">
+                <span>Read Founder Story</span>
+                <span className="arrow">→</span>
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
+      {/* ========================================================================
+          SECTION 2 — Paper White Canvas with 1 Accent Peach Card (#fbe1d1)
+          ======================================================================== */}
+      <section className="section-padding section-paper-bg gsap-scroll-section">
+        <div className="page-container">
+          <div className="card-peach gsap-scroll-item">
+            <span className="tag-label" style={{ color: 'var(--color-sienna-brown)', opacity: 0.8 }}>
+              EDITORIAL SPOTLIGHT
+            </span>
+            <h3 style={{ fontFamily: 'var(--font-sohne)', fontSize: '26px', fontWeight: 450, letterSpacing: '-0.23px', marginBottom: '16px' }}>
+              "We stock what works, and we know why."
+            </h3>
+            <p style={{ fontFamily: 'var(--font-sohne)', fontSize: '18px', fontWeight: 430, lineHeight: 1.5, marginBottom: '24px', maxWidth: '820px' }}>
+              Every fungicide and insecticide recommendation comes directly from chemical analysis and decades of Kashmir orchard field testing — never counterfeits, never generic filler.
+            </p>
+            <div style={{ fontFamily: 'var(--font-sohne)', fontSize: '14px', fontWeight: 400 }}>
+              — Sheikh Mohammad Ayoub, Senior Chemist & Founder, MA Pesticides Srinagar
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================================
+          SECTION 3 — Section Fog (#fafafb) Live Weather & Diagnostic Grid
+          ======================================================================== */}
+      <section className="section-padding section-fog-bg gsap-scroll-section">
+        <div className="page-container">
+          <div className="section-header gsap-scroll-item">
+            <span className="tag">Live Analytics</span>
+            <h2>Real-time weather & crop diagnostics.</h2>
+            <p>Monitor Srinagar microclimates and identify fungal threats instantly.</p>
+          </div>
+
+          <div className="gsap-scroll-item" style={{ marginBottom: '40px' }}>
+            <WeatherSprayAlert />
+          </div>
+
+          {/* Crop Selector Tabs */}
+          <div className="gsap-scroll-item" style={{ display: 'flex', gap: '10px', marginBottom: '24px', flexWrap: 'wrap' }}>
+            {['apple', 'pear', 'walnut'].map(crop => (
+              <button
+                key={crop}
+                onClick={() => setActiveCrop(crop)}
+                className={activeCrop === crop ? 'pill-button-filled pill-button-sm' : 'pill-button-ghost pill-button-sm'}
+                style={{ textTransform: 'capitalize' }}
+              >
+                {crop} Guide
+              </button>
+            ))}
+          </div>
+
+          {/* Diagnostic Neutral Cards Grid */}
+          <div className="grid-3">
+            {QUICK_DIAGNOSTICS[activeCrop]?.map((item, idx) => (
+              <div key={idx} className="card-neutral gsap-scroll-item">
+                <span className="tag-label">{item.tag}</span>
+                <h4 style={{ fontFamily: 'var(--font-signifier)', fontSize: '22px', fontWeight: 400, marginBottom: '8px' }}>
+                  {item.problem}
+                </h4>
+                <p style={{ fontSize: '14px', color: 'var(--color-slate-gray)', marginBottom: '16px' }}>
+                  {item.threat}
+                </p>
+                <div style={{ backgroundColor: 'var(--surface-canvas)', padding: '12px 16px', borderRadius: '12px' }}>
+                  <div style={{ fontSize: '14px', fontWeight: 500, color: 'var(--color-ink-black)' }}>
+                    Cure: {item.solution}
+                  </div>
+                  <div style={{ fontSize: '13px', color: 'var(--color-sienna-brown)', marginTop: '2px' }}>
+                    Dosage: {item.dosage}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================================
+          SECTION 4 — Paper White Canvas Catalog Preview & Direct Contact
+          ======================================================================== */}
+      <section className="section-padding section-paper-bg gsap-scroll-section">
+        <div className="page-container">
+          <div className="section-header centered gsap-scroll-item">
+            <span className="tag">Authorized Inventory</span>
+            <h2>Top formulations in stock at Srinagar store.</h2>
+            <p>All products available at 20% below print MRP with authentic batch guarantees.</p>
+          </div>
+
+          {/* Catalog Grid previewing top products */}
+          <div className="grid-3" style={{ marginBottom: '48px' }}>
+            {products.slice(0, 3).map(product => (
+              <div key={product.id} className="card-neutral gsap-scroll-item" style={{ display: 'flex', flexDirection: 'column' }}>
+                <span className="tag-label">{product.type}</span>
+                <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '24px', fontWeight: 400, marginBottom: '8px' }}>
+                  {product.name}
+                </h3>
+                <p style={{ fontSize: '14px', color: 'var(--color-slate-gray)', marginBottom: '16px', flex: 1 }}>
+                  {product.uses}
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto', paddingTop: '16px', borderTop: '1px solid rgba(23,25,28,0.06)' }}>
+                  <span style={{ fontSize: '14px', color: 'var(--color-sienna-brown)', fontWeight: 500 }}>
+                    {product.dosage}
+                  </span>
+                  <a
+                    href={`https://wa.me/919906541321?text=Hello%2C%20I%20want%20to%20buy%20${encodeURIComponent(product.name)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pill-button-ghost pill-button-sm"
+                  >
+                    <span>Order</span>
+                    <ArrowUpRight size={14} />
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="gsap-scroll-item" style={{ textAlign: 'center' }}>
+            <Link to="/products" className="pill-button-filled">
+              <span>View All 60+ Formulations</span>
+              <ArrowRight size={16} />
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

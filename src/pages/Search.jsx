@@ -1,21 +1,11 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import AnimatedSection from '../components/AnimatedSection';
 import ProductCard from '../components/ProductCard';
 import { diseases, products } from '../data/agricultureData';
-import { Search as SearchIcon, AlertTriangle, CheckCircle, Leaf, X, Microscope, Package } from 'lucide-react';
-import './urdu.css';
+import { Search as SearchIcon, X, ArrowUpRight } from 'lucide-react';
 
 const QUICK_CHIPS = [
-  { label: 'Apple Scab', icon: '🍏' },
-  { label: 'Fungicide', icon: '🛡️' },
-  { label: 'Aphids', icon: '🐛' },
-  { label: 'Powdery Mildew', icon: '✨' },
-  { label: 'Blight', icon: '🍂' },
-  { label: 'Fertilizer', icon: '🌱' },
-  { label: 'Insecticide', icon: '⚡' },
-  { label: 'Antracol', icon: '📦' },
-  { label: 'Syngenta Alika', icon: '🔬' }
+  'Apple Scab', 'Fungicide', 'Spider Mites', 'Powdery Mildew', 'Blight', 'Insecticide', 'Antracol', 'Syngenta Alika'
 ];
 
 export default function Search() {
@@ -25,313 +15,171 @@ export default function Search() {
   const initialQuery = searchParams.get('q') || '';
 
   const [query, setQuery] = useState(initialQuery);
-  const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {
-    const currentParams = new URLSearchParams(location.search);
-    const qInUrl = currentParams.get('q') || '';
+    const qInUrl = new URLSearchParams(location.search).get('q') || '';
     if (qInUrl !== query) setQuery(qInUrl);
   }, [location.search]);
 
-  const handleInputChange = (e) => {
-    const val = e.target.value;
+  const handleInputChange = (val) => {
     setQuery(val);
-    const trimmed = val.trim();
-    if (trimmed) {
-      navigate(`/search?q=${encodeURIComponent(trimmed)}`, { replace: true });
+    if (val.trim()) {
+      navigate(`/search?q=${encodeURIComponent(val.trim())}`, { replace: true });
     } else {
       navigate('/search', { replace: true });
     }
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const trimmed = query.trim();
-    if (trimmed) navigate(`/search?q=${encodeURIComponent(trimmed)}`);
-    else navigate('/search');
-  };
-
-  const handleChip = (chip) => {
-    setQuery(chip);
-    navigate(`/search?q=${encodeURIComponent(chip)}`);
-  };
-
-  const clearQuery = () => {
-    setQuery('');
-    navigate('/search', { replace: true });
-  };
-
-  const results = useMemo(() => {
+  const matchedProducts = useMemo(() => {
+    if (!query.trim()) return [];
     const q = query.toLowerCase().trim();
-    if (!q) return { matchedDiseases: [], matchedProducts: [] };
-
-    const matchedDiseases = diseases.filter(d =>
-      d.name.toLowerCase().includes(q) ||
-      (d.nameUrdu && d.nameUrdu.includes(q)) ||
-      (d.symptoms && d.symptoms.toLowerCase().includes(q)) ||
-      (d.symptomsUrdu && d.symptomsUrdu.includes(q))
-    ).map(disease => {
-      const relatedProducts = products.filter(p =>
-        p.diseases.some(pd => pd.toLowerCase().includes(disease.name.toLowerCase()) || disease.name.toLowerCase().includes(pd.toLowerCase()))
-      );
-      return { ...disease, relatedProducts };
-    });
-
-    const matchedProducts = products.filter(p =>
+    return products.filter(p =>
       p.name.toLowerCase().includes(q) ||
+      p.uses.toLowerCase().includes(q) ||
+      p.composition.toLowerCase().includes(q) ||
       p.type.toLowerCase().includes(q) ||
-      (p.composition && p.composition.toLowerCase().includes(q)) ||
-      (p.uses && p.uses.toLowerCase().includes(q)) ||
-      p.diseases.some(pd => pd.toLowerCase().includes(q))
+      p.diseases.some(d => d.toLowerCase().includes(q))
     );
-
-    return { matchedDiseases, matchedProducts };
   }, [query]);
 
-  const hasResults = results.matchedDiseases.length > 0 || results.matchedProducts.length > 0;
-  const showEmpty = query.trim() && !hasResults;
+  const matchedDiseases = useMemo(() => {
+    if (!query.trim()) return [];
+    const q = query.toLowerCase().trim();
+    return diseases.filter(d =>
+      d.name.toLowerCase().includes(q) ||
+      d.crop.toLowerCase().includes(q) ||
+      d.symptoms.toLowerCase().includes(q) ||
+      d.cure.toLowerCase().includes(q)
+    );
+  }, [query]);
 
   return (
-    <div className="container" style={{ minHeight: '60vh' }}>
+    <div style={{ backgroundColor: 'var(--surface-canvas)', minHeight: '100vh' }} className="section-padding">
+      <div className="page-container">
+        {/* Header */}
+        <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 48px' }}>
+          <span className="tag-label">Global Srinagar Search Engine</span>
+          <h1 className="text-heading-lg" style={{ marginBottom: '16px' }}>
+            Instant formulation & disease lookup.
+          </h1>
+          <p className="text-body-lg" style={{ color: 'var(--color-slate-gray)' }}>
+            Search across 60+ authorized chemicals, SKUAST spray stages, and crop pathology guides.
+          </p>
+        </div>
 
-      {/* Hero Search Section — left-aligned editorial header */}
-      <AnimatedSection style={{ marginBottom: '2.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1.5rem' }}>
-        <p style={{
-          fontSize: '0.78rem',
-          fontWeight: '700',
-          textTransform: 'uppercase',
-          letterSpacing: '1.2px',
-          color: 'var(--secondary-color)',
-          marginBottom: '0.4rem'
-        }}>
-          INSTANT DIAGNOSTIC & PRODUCT SEARCH
-        </p>
-        
-        <h2 style={{ fontSize: '2.2rem', color: 'var(--primary-color)', margin: '0 0 0.4rem 0', fontFamily: "'Lora', Georgia, serif" }}>
-          Find Agricultural Solutions
-        </h2>
-        <p style={{ maxWidth: '600px', fontSize: '0.98rem', color: 'var(--text-muted)', lineHeight: '1.6', margin: '0 0 1.5rem 0' }}>
-          Search Kashmir crop diseases, symptoms, spray schedules, chemical formulations, or active ingredients.
-        </p>
-
-        <form onSubmit={handleSearch} className="search-form-wrapper">
-          <div className={`search-input-box ${isFocused ? 'focused' : ''}`}>
-            <SearchIcon size={20} className="search-input-icon" />
+        {/* AI Composer Input Bar */}
+        <div style={{ maxWidth: '640px', margin: '0 auto 24px' }}>
+          <div className="ai-composer-input">
+            <SearchIcon size={18} color="var(--color-smoke-gray)" />
             <input
               type="text"
+              placeholder="Search scab, mites, Antracol, Alika, or dosage..."
               value={query}
-              onChange={handleInputChange}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              placeholder="e.g. Apple Scab, Aphids, Antracol, Fungicide…"
-              autoComplete="off"
+              onChange={(e) => handleInputChange(e.target.value)}
               autoFocus
             />
             {query && (
-              <button type="button" className="search-clear-btn" onClick={clearQuery} aria-label="Clear search">
+              <button
+                onClick={() => handleInputChange('')}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-ash-gray)' }}
+              >
                 <X size={16} />
               </button>
             )}
-            <button type="submit" className="search-submit-btn">
-              Search
-            </button>
           </div>
-        </form>
+        </div>
 
-        {/* Quick-search chips */}
-        <div className="search-chips">
-          <span className="search-chips-label">Popular Searches:</span>
-          {QUICK_CHIPS.map(chip => (
+        {/* Quick Chips */}
+        <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '48px' }}>
+          {QUICK_CHIPS.map((chip, idx) => (
             <button
-              key={chip.label}
-              className={`search-chip ${query === chip.label ? 'active' : ''}`}
-              onClick={() => handleChip(chip.label)}
+              key={idx}
+              onClick={() => handleInputChange(chip)}
+              className={query.toLowerCase() === chip.toLowerCase() ? 'pill-button-filled pill-button-sm' : 'pill-button-ghost pill-button-sm'}
             >
-              <span>{chip.icon}</span>
-              <span>{chip.label}</span>
+              {chip}
             </button>
           ))}
         </div>
-      </AnimatedSection>
 
-      {/* Results summary badge */}
-      {query.trim() && hasResults && (
-        <div className="search-results-summary">
-          <span>
-            Results for <strong>"{query}"</strong> —{' '}
-            {results.matchedProducts.length > 0 && `${results.matchedProducts.length} product${results.matchedProducts.length > 1 ? 's' : ''}`}
-            {results.matchedProducts.length > 0 && results.matchedDiseases.length > 0 && ' · '}
-            {results.matchedDiseases.length > 0 && `${results.matchedDiseases.length} disease${results.matchedDiseases.length > 1 ? 's' : ''}`}
-          </span>
-        </div>
-      )}
-
-      {/* Empty state */}
-      {showEmpty && (
-        <AnimatedSection>
-          <div className="search-empty-state">
-            <div className="search-empty-icon">🔍</div>
-            <h3>No results for "{query}"</h3>
-            <p>Try a different term — disease name, symptom, product, or active ingredient.</p>
-            <div className="search-empty-suggestions">
-              <span>Try:</span>
-              {['Apple Scab', 'Aphids', 'Fungicide'].map(s => (
-                <button key={s} className="search-chip" onClick={() => handleChip(s)}>{s}</button>
-              ))}
-            </div>
-          </div>
-        </AnimatedSection>
-      )}
-
-      {/* Default empty state */}
-      {!query.trim() && (
-        <AnimatedSection style={{ marginBottom: '3.5rem' }}>
-          <div style={{ marginBottom: '1.5rem', textAlign: 'center' }}>
-            <h3 style={{ fontSize: '1.25rem', color: 'var(--primary-color)', margin: '0 0 0.4rem 0', fontFamily: "'Lora', Georgia, serif" }}>
-              Explore Crop Solutions & Chemical Formulations
-            </h3>
-            <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', margin: 0 }}>
-              Click any category card below for an instant diagnostic search
-            </p>
-          </div>
-
-          <div className="search-hint-grid">
-            <div className="search-hint-card" onClick={() => handleChip('Apple Scab')}>
-              <Microscope size={28} style={{ color: 'var(--primary-color)' }} />
-              <h4>Search Crop Diseases</h4>
-              <p>Find diagnostic symptoms & SKUAST cures for Apple Scab, Alternaria, Mildew & Mites.</p>
-              <span className="search-chip" style={{ marginTop: '0.85rem', fontSize: '0.75rem' }}>🍏 Try "Apple Scab"</span>
-            </div>
-
-            <div className="search-hint-card" onClick={() => handleChip('Antracol')}>
-              <Package size={28} style={{ color: 'var(--secondary-color)' }} />
-              <h4>Search Chemical Products</h4>
-              <p>Look up formulations, active ingredients, dosages & prices for Bayer, Syngenta & IPL stock.</p>
-              <span className="search-chip" style={{ marginTop: '0.85rem', fontSize: '0.75rem' }}>📦 Try "Antracol"</span>
-            </div>
-
-            <div className="search-hint-card" onClick={() => handleChip('Fungicide')}>
-              <Leaf size={28} style={{ color: '#2d6a4f' }} />
-              <h4>Search Product Categories</h4>
-              <p>Filter by agricultural category — Fungicides, Insecticides, Bio-stimulants & PGRs.</p>
-              <span className="search-chip" style={{ marginTop: '0.85rem', fontSize: '0.75rem' }}>🛡️ Try "Fungicide"</span>
-            </div>
-          </div>
-        </AnimatedSection>
-      )}
-
-      {/* Direct Product Matches */}
-      {results.matchedProducts.length > 0 && (
-        <AnimatedSection style={{ marginBottom: '4rem' }}>
-          <div className="search-section-heading">
-            <Package size={22} />
-            <h3>Matching Products <span className="result-count">{results.matchedProducts.length}</span></h3>
-          </div>
-          <div className="products-grid">
-            {results.matchedProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-          {results.matchedDiseases.length > 0 && (
-            <hr className="search-divider" />
-          )}
-        </AnimatedSection>
-      )}
-
-      {/* Disease Results */}
-      {results.matchedDiseases.map((disease, idx) => (
-        <AnimatedSection key={disease.id} style={{ marginBottom: '4rem' }}>
-          {idx === 0 && (
-            <div className="search-section-heading">
-              <Microscope size={22} />
-              <h3>Disease Matches <span className="result-count">{results.matchedDiseases.length}</span></h3>
-            </div>
-          )}
-
-          <div className={`disease-card bilingual-card ${disease.severity === 'High' ? 'severity-high' : ''}`}
-            style={{ maxWidth: '800px', margin: '0 auto 2rem auto', padding: '1rem' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-              {disease.image && (
-                <div
-                  className="disease-image-container"
-                  style={{ margin: '-1rem -1rem 0.8rem -1rem', height: '130px', overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#f5f5f5', borderBottom: '1px solid var(--border-color)' }}
-                >
-                  <img
-                    src={disease.image}
-                    alt={disease.name}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    onError={(e) => { e.target.style.display = 'none'; }}
-                  />
-                </div>
-              )}
-
-              <div className="disease-header">
-                <span className="crop-badge" style={{ padding: '0.2rem 0.6rem', fontSize: '0.75rem' }}>
-                  <Leaf size={12} style={{ marginRight: '4px' }} /> {disease.crop}
-                </span>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: '0.6rem', gap: '0.8rem' }}>
-                  <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '6px', fontSize: '1.15rem' }}>
-                    <AlertTriangle size={16} style={{ color: disease.severity === 'High' ? 'var(--accent-color)' : 'orange' }} /> {disease.name}
-                  </h3>
-                  <h3 className="urdu-text" dir="rtl" style={{ margin: 0, fontSize: '1.05rem', color: 'var(--primary-color)' }}>{disease.nameUrdu}</h3>
+        {/* Search Results Display */}
+        {query.trim() ? (
+          <div>
+            {/* Matched Diseases */}
+            {matchedDiseases.length > 0 && (
+              <div style={{ marginBottom: '48px' }}>
+                <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '28px', fontWeight: 400, marginBottom: '20px' }}>
+                  Matched Crop Pathology Guides ({matchedDiseases.length})
+                </h3>
+                <div className="grid-3">
+                  {matchedDiseases.map(disease => (
+                    <div key={disease.id} className="card-neutral">
+                      <span className="tag-label">{disease.crop}</span>
+                      <h4 style={{ fontFamily: 'var(--font-signifier)', fontSize: '22px', fontWeight: 400, marginBottom: '8px' }}>
+                        {disease.name}
+                      </h4>
+                      <p style={{ fontSize: '14px', color: 'var(--color-slate-gray)', marginBottom: '16px' }}>
+                        {disease.symptoms}
+                      </p>
+                      <div style={{ backgroundColor: 'var(--surface-canvas)', padding: '12px 14px', borderRadius: '12px', marginBottom: '16px' }}>
+                        <div style={{ fontSize: '14px', fontWeight: 500 }}>Cure: {disease.cure}</div>
+                        <div style={{ fontSize: '13px', color: 'var(--color-sienna-brown)' }}>Dosage: {disease.dosage}</div>
+                      </div>
+                      <a
+                        href={`https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Ayoub, I need treatment for ${disease.name}.`)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="pill-button-ghost pill-button-sm"
+                        style={{ width: '100%' }}
+                      >
+                        <span>Inquire on WhatsApp</span>
+                        <ArrowUpRight size={14} />
+                      </a>
+                    </div>
+                  ))}
                 </div>
               </div>
+            )}
 
-              <div className="disease-content" style={{ flex: 1, margin: '0.8rem 0' }}>
-                <div className="english-side">
-                  <p style={{ lineHeight: '1.4', color: 'var(--text-main)', fontSize: '0.85rem', margin: 0 }}><strong>Symptoms:</strong> {disease.symptoms}</p>
-                  <p style={{ marginTop: '0.4rem', margin: '0.4rem 0 0 0', fontSize: '0.85rem' }}>
-                    <strong>Severity:</strong>{' '}
-                    <span style={{ color: disease.severity === 'High' ? '#ff1744' : 'orange', fontWeight: 'bold', textTransform: 'uppercase', fontSize: '0.8rem' }}>
-                      {disease.severity}
-                    </span>
-                  </p>
-                </div>
-                <div className="urdu-side urdu-text" dir="rtl">
-                  <p style={{ lineHeight: '1.6', color: '#1b5e20', fontSize: '0.95rem', margin: 0 }}><strong>علامات:</strong> {disease.symptomsUrdu}</p>
+            {/* Matched Products */}
+            {matchedProducts.length > 0 && (
+              <div>
+                <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '28px', fontWeight: 400, marginBottom: '20px' }}>
+                  Matched In-Stock Formulations ({matchedProducts.length})
+                </h3>
+                <div className="grid-3">
+                  {matchedProducts.map(product => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
                 </div>
               </div>
+            )}
 
-              <div className="disease-cure" style={{ background: 'rgba(26, 93, 26, 0.04)', padding: '0.6rem 0.8rem', borderRadius: '8px', border: '1px solid rgba(26, 93, 26, 0.12)', marginTop: 'auto', gap: '1rem' }}>
-                <div className="english-side">
-                  <p style={{ margin: 0, fontSize: '0.82rem', lineHeight: '1.3' }}>
-                    <CheckCircle size={14} color="var(--primary-color)" style={{ verticalAlign: 'middle', marginRight: '5px' }} />
-                    <strong>Cure:</strong> {disease.cure}
-                  </p>
-                  <p style={{ margin: '0.3rem 0 0 0', fontSize: '0.8rem', color: 'var(--text-muted)' }}><strong>Dosage:</strong> {disease.dosage}</p>
-                </div>
-                <div className="urdu-side urdu-text" dir="rtl" style={{ borderLeft: 'none' }}>
-                  <p style={{ margin: 0, fontSize: '0.9rem', lineHeight: '1.5' }}>
-                    <CheckCircle size={14} color="var(--primary-color)" style={{ verticalAlign: 'middle', marginLeft: '5px' }} />
-                    <strong>علاج:</strong> {disease.cureUrdu}
-                  </p>
-                  <p style={{ margin: '0.3rem 0 0 0', fontSize: '0.85rem', color: 'var(--text-muted)' }}><strong>مقدار:</strong> {disease.dosageUrdu}</p>
-                </div>
+            {matchedDiseases.length === 0 && matchedProducts.length === 0 && (
+              <div className="card-neutral" style={{ textAlign: 'center', padding: '64px 24px' }}>
+                <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '24px', marginBottom: '12px' }}>
+                  No exact matches found for "{query}".
+                </h3>
+                <p style={{ color: 'var(--color-slate-gray)', marginBottom: '24px' }}>
+                  Try searching for brand names like Antracol, Score, Alika, or disease terms like Scab or Mites.
+                </p>
+                <button onClick={() => handleInputChange('')} className="pill-button-filled pill-button-sm">
+                  Clear Search Query
+                </button>
               </div>
-            </div>
-          </div>
-
-          {/* Related Products */}
-          <div style={{ padding: '0 1rem' }}>
-            <h3 style={{ textAlign: 'center', color: 'var(--primary-color)', marginBottom: '1.5rem', fontSize: '1.4rem' }}>
-              Recommended Products for <em>{disease.name}</em>
-            </h3>
-            {disease.relatedProducts.length > 0 ? (
-              <div className="products-grid">
-                {disease.relatedProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-            ) : (
-              <p style={{ textAlign: 'center', color: '#666', fontStyle: 'italic' }}>
-                No specific products found. Refer to the cure above or contact us directly.
-              </p>
             )}
           </div>
-
-          <hr className="search-divider" />
-        </AnimatedSection>
-      ))}
+        ) : (
+          <div className="card-neutral" style={{ textAlign: 'center', padding: '64px 24px' }}>
+            <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '24px', marginBottom: '12px' }}>
+              Type any keyword above to inspect Srinagar inventory.
+            </h3>
+            <p style={{ color: 'var(--color-slate-gray)' }}>
+              Or select one of the suggested query pills to perform quick chemical lookup.
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

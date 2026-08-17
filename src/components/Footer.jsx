@@ -1,92 +1,88 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, MapPin, MessageCircle, ArrowRight, Leaf, ExternalLink } from 'lucide-react';
+import { MapPin, Phone, ArrowUpRight } from 'lucide-react';
 
 function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="site-footer">
-      <div className="footer-inner">
-
-        {/* Brand column */}
-        <div className="footer-col footer-brand">
-          <div className="footer-logo">
-            <Leaf size={22} />
-            <span>MA Pesticides</span>
-          </div>
-          <p className="footer-tagline">
-            Kashmir's trusted source for genuine agricultural inputs since the beginning. We stock what works, and we know why.
-          </p>
-          <a
-            href="https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%20%28M.A.%20Pesticides%29%2C%20I%20want%20expert%20advice%20for%20my%20orchard%20crop%20spray%20schedule%20and%20authentic%20pesticide%20recommendations."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="footer-whatsapp-btn"
-          >
-            <MessageCircle size={16} />
-            Chat on WhatsApp
-          </a>
-        </div>
-
-        {/* Quick links */}
-        <div className="footer-col">
-          <h4 className="footer-heading">Quick Links</h4>
-          <ul className="footer-links">
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/products">Products</Link></li>
-            <li><Link to="/disease-guide">Disease Guide</Link></li>
-            <li><Link to="/search">Search</Link></li>
-            <li><Link to="/about">About Us</Link></li>
-            <li><Link to="/contact">Contact</Link></li>
-          </ul>
-        </div>
-
-        {/* Categories */}
-        <div className="footer-col">
-          <h4 className="footer-heading">We Stock</h4>
-          <ul className="footer-links">
-            <li><Link to="/products?cat=Fungicide">Fungicides</Link></li>
-            <li><Link to="/products?cat=Insecticide">Insecticides</Link></li>
-            <li><Link to="/products?cat=Herbicide">Herbicides</Link></li>
-            <li><Link to="/products">Fertilizers</Link></li>
-            <li><Link to="/products">Bio-Stimulants</Link></li>
-            <li><Link to="/products">Plant Growth Regulators</Link></li>
-          </ul>
-        </div>
-
-        {/* Contact */}
-        <div className="footer-col">
-          <h4 className="footer-heading">Find Us</h4>
-          <div className="footer-contact-item">
-            <MapPin size={15} />
-            <span>Near Exhibition Road, opposite High Court Complex, Hari Singh High Street, Shergarhi, Srinagar — 190001</span>
-          </div>
-          <div className="footer-contact-item">
-            <Phone size={15} />
-            <a href="tel:+919906541321">+91 99065 41321</a>
-          </div>
-          <div className="footer-contact-item">
-            <MessageCircle size={15} />
-            <a href="https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%20%28M.A.%20Pesticides%29%2C%20I%20want%20expert%20advice%20for%20my%20orchard%20crop%20spray%20schedule%20and%20authentic%20pesticide%20recommendations." target="_blank" rel="noopener noreferrer">
-              WhatsApp Enquiry <ExternalLink size={11} />
+    <footer className="steep-footer">
+      <div className="page-container">
+        <div className="footer-top">
+          {/* Brand Column */}
+          <div className="footer-brand">
+            <h3>MA Pesticides</h3>
+            <p style={{ marginBottom: '24px' }}>
+              Editorial-grade crop protection, genuine fungicides, and SKUAST-guided spray schedules for Kashmir's fruit growers.
+            </p>
+            <a
+              href="https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20want%20expert%20crop%20advice..."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pill-button-filled pill-button-sm"
+              style={{ display: 'inline-flex' }}
+            >
+              <span>Consult Sheikh Mohammad Ayoub</span>
+              <ArrowUpRight size={14} />
             </a>
           </div>
-          <p className="footer-hours">
-            Mon – Sat &nbsp;·&nbsp; 9 AM – 7 PM<br />
-            <span>Closed Sundays</span>
-          </p>
-        </div>
-      </div>
 
-      <div className="footer-bottom">
-        <span>© {year} MA Pesticides, Srinagar. All rights reserved.</span>
-        <span className="footer-bottom-sep">·</span>
-        <span>Serving Kashmiri farmers with genuine products</span>
+          {/* Column 1: Navigation */}
+          <div className="footer-col">
+            <h4>Explore</h4>
+            <ul>
+              <li><Link to="/">Home Canvas</Link></li>
+              <li><Link to="/products">Product Catalog</Link></li>
+              <li><Link to="/disease-guide">Crop Disease Guide</Link></li>
+              <li><Link to="/spray-calendar">Spray Calendar</Link></li>
+              <li><Link to="/videos">Video Advisory Gallery</Link></li>
+              <li><Link to="/search">Global Search</Link></li>
+              <li><Link to="/about">About MA Pesticides</Link></li>
+              <li><Link to="/contact">Visit Store</Link></li>
+            </ul>
+          </div>
+
+          {/* Column 2: Protection Categories */}
+          <div className="footer-col">
+            <h4>Authorized Lines</h4>
+            <ul>
+              <li><Link to="/products?cat=Fungicide">Bayer Fungicides</Link></li>
+              <li><Link to="/products?cat=Insecticide">Syngenta Insecticides</Link></li>
+              <li><Link to="/products?cat=Herbicide">IPL Bio-Pesticides</Link></li>
+              <li><Link to="/products">Fruit Growth Regulators</Link></li>
+              <li><Link to="/products">Apple Scab Treatments</Link></li>
+              <li><Link to="/products">Walnut Blight Control</Link></li>
+            </ul>
+          </div>
+
+          {/* Column 3: Store & Location */}
+          <div className="footer-col">
+            <h4>Srinagar Store</h4>
+            <ul style={{ gap: '16px' }}>
+              <li style={{ display: 'flex', gap: '8px', color: 'var(--color-slate-gray)', fontSize: '14px', lineHeight: '1.4' }}>
+                <MapPin size={16} style={{ flexShrink: 0, marginTop: '3px' }} />
+                <span>Near Exhibition Road, opp. High Court Complex, Hari Singh High Street, Srinagar — 190001</span>
+              </li>
+              <li style={{ display: 'flex', gap: '8px', color: 'var(--color-slate-gray)', fontSize: '14px' }}>
+                <Phone size={16} style={{ flexShrink: 0 }} />
+                <a href="tel:+919906541321" style={{ color: 'var(--color-ink-black)', fontWeight: 450 }}>+91 99065 41321</a>
+              </li>
+              <li style={{ fontSize: '13px', color: 'var(--color-ash-gray)', marginTop: '4px' }}>
+                Mon – Sat: 9:00 AM – 7:00 PM<br />
+                Guided by M.Sc. Chemistry Experts
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Footer Bottom Line */}
+        <div className="footer-bottom">
+          <span>© {year} MA Pesticides & Fertilizers, Srinagar. All rights reserved.</span>
+          <span>100% Genuine Guarantee &bull; Kashmir Orchard Analytics</span>
+        </div>
       </div>
     </footer>
   );
 }
 
 export default memo(Footer);
-

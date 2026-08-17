@@ -1,220 +1,365 @@
 import { useState } from 'react';
-import AnimatedSection from '../components/AnimatedSection';
-import { MapPin, Phone, Mail, Clock, CheckCircle, Navigation, MessageCircle } from 'lucide-react';
+import { MapPin, Phone, MessageCircle, ArrowRight, Clock, Navigation, ExternalLink, ShieldCheck, Car, FlaskConical } from 'lucide-react';
+import StoreMap from '../components/StoreMap';
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '', website: '' });
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [error, setError] = useState('');
+  const [formData, setFormData] = useState({ name: '', phone: '', crop: '', message: '' });
+  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, email, phone, subject, message, website } = formData;
-    
-    // Security Honeypot Check
-    if (website) {
-      console.log("Bot detected!");
-      return;
-    }
-
-    if (!email && !phone) {
-      setError('Please provide either an email or a phone number.');
-      return;
-    }
-
-    setError('');
-    const whatsappMessage = `*New Inquiry from Website*\n\n*Name:* ${name}\n*Email:* ${email || 'Not provided'}\n*Phone:* ${phone || 'Not provided'}\n*Subject:* ${subject || 'General'}\n\n*Message:*\n${message}`;
-    const whatsappUrl = `https://wa.me/919906541321?text=${encodeURIComponent(whatsappMessage)}`;
-    
-    window.open(whatsappUrl, '_blank');
-    
-    setIsSubmitted(true);
-    setFormData({ name: '', email: '', phone: '', subject: '', message: '', website: '' });
-    
-    setTimeout(() => setIsSubmitted(false), 5000);
-  };
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (error) setError('');
+    const text = `*New Store Inquiry*\n*Name:* ${formData.name}\n*Phone:* ${formData.phone}\n*Crop:* ${formData.crop}\n*Message:* ${formData.message}`;
+    window.open(`https://wa.me/919906541321?text=${encodeURIComponent(text)}`, '_blank');
+    setSubmitted(true);
   };
 
   return (
-    <div className="container">
-      {/* Left-aligned page header — no centered section-header template */}
-      <div className="contact-page-header">
-        <h2>Contact Us</h2>
-        <p>Visit our shop near Lal Chowk or reach out for agricultural consultation.</p>
-      </div>
-
-      <div className="contact-grid">
-        <AnimatedSection delay={0.2} className="contact-info">
-          <h3>Shop Information</h3>
-          <p style={{ marginBottom: '1.5rem', color: 'var(--text-muted)', lineHeight: '1.7' }}>
-            We are centrally located in Srinagar. Drop by for expert advice on pesticides and fertilizers.
+    <div style={{ backgroundColor: 'var(--surface-canvas)', minHeight: '100vh' }} className="section-padding">
+      <div className="page-container">
+        {/* Header */}
+        <div style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 56px' }}>
+          <span className="tag-label">Srinagar Store & Consultation</span>
+          <h1 className="text-heading-lg" style={{ marginBottom: '16px' }}>
+            Visit our store or reach out.
+          </h1>
+          <p className="text-body-lg" style={{ color: 'var(--color-slate-gray)' }}>
+            Centrally located on Hari Singh High Street, Srinagar. Drop by for free leaf analysis and genuine formulation supply.
           </p>
+        </div>
 
-          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
-            <a
-              href="tel:+919906541321"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '0.6rem 1.1rem',
-                backgroundColor: 'var(--primary-color)',
-                color: 'white',
-                borderRadius: '6px',
-                fontWeight: '600',
-                fontSize: '0.85rem',
-                textDecoration: 'none'
-              }}
-            >
-              <Phone size={14} /> Call Now
-            </a>
-            <a
-              href="https://wa.me/919906541321"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '0.6rem 1.1rem',
-                backgroundColor: '#25d366',
-                color: 'white',
-                borderRadius: '6px',
-                fontWeight: '600',
-                fontSize: '0.85rem',
-                textDecoration: 'none'
-              }}
-            >
-              <MessageCircle size={14} /> WhatsApp Chat
-            </a>
+        <div className="grid-2" style={{ marginBottom: '56px' }}>
+          {/* Left Column: Store Details Neutral Card */}
+          <div className="card-neutral" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div>
+              <span className="tag-label">STORE LOCATION & HOURS</span>
+              <h2 style={{ fontFamily: 'var(--font-signifier)', fontSize: '30px', fontWeight: 400, marginBottom: '20px' }}>
+                Hari Singh High Street Store
+              </h2>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '32px' }}>
+                <div style={{ display: 'flex', gap: '12px' }}>
+                  <MapPin size={20} color="var(--color-sienna-brown)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <strong style={{ fontSize: '15px', color: 'var(--color-ink-black)', display: 'block' }}>Address</strong>
+                    <span style={{ fontSize: '14px', color: 'var(--color-slate-gray)' }}>
+                      Near Exhibition Ground, opposite High Court Complex, Hari Singh High Street, Srinagar — 190001, Kashmir
+                    </span>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '12px' }}>
+                  <Phone size={20} color="var(--color-sienna-brown)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <strong style={{ fontSize: '15px', color: 'var(--color-ink-black)', display: 'block' }}>Phone & WhatsApp</strong>
+                    <a href="tel:+919906541321" style={{ fontSize: '15px', color: 'var(--color-sienna-brown)', fontWeight: 500 }}>
+                      +91 99065 41321
+                    </a>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '12px' }}>
+                  <Clock size={20} color="var(--color-sienna-brown)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <strong style={{ fontSize: '15px', color: 'var(--color-ink-black)', display: 'block' }}>Business Hours</strong>
+                    <span style={{ fontSize: '14px', color: 'var(--color-slate-gray)' }}>
+                      Monday – Saturday: 9:00 AM – 7:00 PM (Closed Sundays)
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <a
+                href="https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20want%20to%20visit%20your%20Srinagar%20store."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pill-button-filled"
+                style={{ width: '100%', justifyContent: 'center' }}
+              >
+                <span>Instant WhatsApp Advice</span>
+                <MessageCircle size={16} />
+              </a>
+              <a
+                href="https://www.google.com/maps/dir/?api=1&destination=Hari+Singh+High+Street+Srinagar+Jammu+and+Kashmir+190001"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pill-button-ghost"
+                style={{ width: '100%', justifyContent: 'center' }}
+              >
+                <span>Open in Google Maps</span>
+                <Navigation size={15} />
+              </a>
+            </div>
           </div>
 
-          {/* Info items — clean line-style instead of circular icon blobs */}
-          <div className="info-list">
-            <div className="info-row">
-              <MapPin size={16} className="info-row-icon" />
-              <div>
-                <div className="info-row-label">Address</div>
-                <div className="info-row-value">Near Exhibition Road, opposite High Court Complex, Hari Singh High Street, Srinagar — 190001</div>
-              </div>
-            </div>
-            <div className="info-row">
-              <Phone size={16} className="info-row-icon" />
-              <div>
-                <div className="info-row-label">Phone</div>
-                <div className="info-row-value">+91 99065 41321</div>
-              </div>
-            </div>
-            <div className="info-row">
-              <Mail size={16} className="info-row-icon" />
-              <div>
-                <div className="info-row-label">Email</div>
-                <div className="info-row-value">info@mapesticides.ac.in</div>
-              </div>
-            </div>
-            <div className="info-row">
-              <Clock size={16} className="info-row-icon" />
-              <div>
-                <div className="info-row-label">Business Hours</div>
-                <div className="info-row-value">Mon – Sat: 9:00 AM – 7:00 PM &nbsp;·&nbsp; Closed Sundays</div>
-              </div>
-            </div>
-          </div>
-        </AnimatedSection>
+          {/* Right Column: Direct Consultation Form Card */}
+          <div className="card-neutral">
+            <span className="tag-label">SUBMIT INQUIRY</span>
+            <h2 style={{ fontFamily: 'var(--font-signifier)', fontSize: '30px', fontWeight: 400, marginBottom: '20px' }}>
+              Direct Chemist Advisory
+            </h2>
 
-        <AnimatedSection delay={0.4}>
-          <form className="contact-form" onSubmit={handleSubmit}>
-            <h3>Ask Us</h3>
-            
-            {isSubmitted && (
-              <div style={{ backgroundColor: '#e8f5e9', color: '#2e7d32', padding: '1rem', borderRadius: '6px', display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1.5rem' }}>
-                <CheckCircle size={20} />
-                <span>Redirecting to WhatsApp...</span>
+            {submitted ? (
+              <div className="card-peach" style={{ padding: '32px', textAlign: 'center' }}>
+                <h3 style={{ fontSize: '22px', fontFamily: 'var(--font-signifier)', marginBottom: '8px' }}>
+                  Inquiry Dispatched to WhatsApp
+                </h3>
+                <p style={{ fontSize: '15px' }}>
+                  Sheikh Mohammad Ayoub or senior store staff will respond to your orchard query shortly.
+                </p>
               </div>
+            ) : (
+              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div>
+                  <label style={{ fontSize: '13px', color: 'var(--color-ash-gray)', display: 'block', marginBottom: '6px' }}>Your Name</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Ghulam Nabi"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      borderRadius: 'var(--radius-inputs)',
+                      border: '1px solid rgba(23,25,28,0.12)',
+                      backgroundColor: 'var(--surface-elevated-white)',
+                      outline: 'none',
+                      fontSize: '15px',
+                      color: 'var(--color-ink-black)'
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ fontSize: '13px', color: 'var(--color-ash-gray)', display: 'block', marginBottom: '6px' }}>Phone / WhatsApp Number</label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="+91 99065 41321"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      borderRadius: 'var(--radius-inputs)',
+                      border: '1px solid rgba(23,25,28,0.12)',
+                      backgroundColor: 'var(--surface-elevated-white)',
+                      outline: 'none',
+                      fontSize: '15px',
+                      color: 'var(--color-ink-black)'
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ fontSize: '13px', color: 'var(--color-ash-gray)', display: 'block', marginBottom: '6px' }}>Crop Type</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Apple, Walnut, Pear"
+                    value={formData.crop}
+                    onChange={(e) => setFormData({ ...formData, crop: e.target.value })}
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      borderRadius: 'var(--radius-inputs)',
+                      border: '1px solid rgba(23,25,28,0.12)',
+                      backgroundColor: 'var(--surface-elevated-white)',
+                      outline: 'none',
+                      fontSize: '15px',
+                      color: 'var(--color-ink-black)'
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ fontSize: '13px', color: 'var(--color-ash-gray)', display: 'block', marginBottom: '6px' }}>Describe your Orchard Question</label>
+                  <textarea
+                    rows={4}
+                    required
+                    placeholder="Ask about scab cure, dosage calculations, or product availability..."
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      borderRadius: 'var(--radius-inputs)',
+                      border: '1px solid rgba(23,25,28,0.12)',
+                      backgroundColor: 'var(--surface-elevated-white)',
+                      outline: 'none',
+                      fontSize: '15px',
+                      color: 'var(--color-ink-black)',
+                      resize: 'none'
+                    }}
+                  />
+                </div>
+
+                <button type="submit" className="pill-button-filled" style={{ marginTop: '8px' }}>
+                  <span>Submit Inquiry to Chemist</span>
+                  <ArrowRight size={16} />
+                </button>
+              </form>
             )}
-
-            {error && (
-              <div style={{ backgroundColor: '#ffebee', color: '#c62828', padding: '1rem', borderRadius: '6px', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
-                {error}
-              </div>
-            )}
-
-            {/* Honeypot field */}
-            <input type="text" name="website" value={formData.website} onChange={handleChange} style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
-
-            <input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} required />
-            <div className="contact-two-col">
-              <input type="email" name="email" placeholder="Your Email (Optional)" value={formData.email} onChange={handleChange} />
-              <input type="tel" name="phone" placeholder="Your Phone (Optional)" value={formData.phone} onChange={handleChange} />
-            </div>
-            <input type="text" name="subject" placeholder="Crop / Problem (e.g. Apple Scab)" value={formData.subject} onChange={handleChange} />
-            <textarea name="message" rows="5" placeholder="Describe your issue..." value={formData.message} onChange={handleChange} required></textarea>
-            <p style={{ fontSize: '0.83rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>* Please provide either your email or phone number so we can reach back.</p>
-            <button type="submit">Send via WhatsApp</button>
-          </form>
-        </AnimatedSection>
-      </div>
-
-      {/* Map Section — editorial two-column layout, not auto-fit */}
-      <AnimatedSection delay={0.6} style={{ marginTop: '4rem' }}>
-        <h3 style={{ marginBottom: '0.4rem', color: 'var(--primary-color)', fontSize: '1.4rem' }}>Our Shop Location</h3>
-        <p style={{ marginBottom: '2rem', fontSize: '0.95rem', color: 'var(--text-muted)' }}>
-          📍 Near Exhibition Road, opposite High Court Complex, Hari Singh High Street, Shergarhi, Srinagar — 190001
-        </p>
-        
-        <div className="contact-map-row">
-          {/* Map */}
-          <div className="contact-map-frame">
-            <iframe 
-              src="https://www.google.com/maps?q=34.071645658322105,74.80247470803405&t=&z=16&ie=UTF8&iwloc=&output=embed" 
-              width="100%" 
-              height="100%" 
-              style={{ border: 0 }} 
-              allowFullScreen="" 
-              loading="lazy" 
-              referrerPolicy="no-referrer-when-downgrade"
-              title="MA Pesticides Srinagar Lal Chowk Map Location"
-            ></iframe>
-          </div>
-
-          {/* Store info */}
-          <div className="contact-store-info">
-            <h4 style={{ color: 'var(--primary-color)', margin: '0 0 0.6rem', fontSize: '1.15rem', fontWeight: '700' }}>Visiting Our Store</h4>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem', lineHeight: '1.7', marginBottom: '1.5rem' }}>
-              Located in the heart of Srinagar, opposite the High Court Complex. Our specialists are on-site daily to assist you with any agricultural challenges.
-            </p>
-            
-            <div className="store-details-list">
-              <div>
-                <strong>Key Landmark</strong>
-                <span>Near the Exhibition Road crossing, opposite the Main High Court Gate.</span>
-              </div>
-              <div>
-                <strong>Parking</strong>
-                <span>Roadside parking and designated public parking lots nearby.</span>
-              </div>
-              <div>
-                <strong>Free Diagnosis</strong>
-                <span>Bring infected crop samples to our store for a free on-the-spot diagnosis.</span>
-              </div>
-            </div>
-
-            <a 
-              href="https://www.google.com/maps/dir/?api=1&destination=34.071645658322105,74.80247470803405" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="get-directions-btn"
-            >
-              <Navigation size={16} />
-              Get Directions
-            </a>
           </div>
         </div>
-      </AnimatedSection>
+
+        {/* ========================================================================
+            MAP & NAVIGATION SECTION (Square Map on Left, Landmarks on Right)
+            ======================================================================== */}
+        <div className="card-neutral" style={{ padding: '36px 32px' }}>
+          <div style={{ marginBottom: '28px' }}>
+            <span className="tag-label" style={{ margin: 0 }}>GEOGRAPHIC LOCATION & ACCESS</span>
+            <h2 style={{ fontFamily: 'var(--font-signifier)', fontSize: '28px', fontWeight: 400, margin: '4px 0 0' }}>
+              Store Map & Srinagar Transit Directions
+            </h2>
+          </div>
+
+          {/* 2-Column Grid: Square Map on Left, Landmark & Transit Info on Right */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '28px',
+            alignItems: 'stretch'
+          }}>
+            {/* Left Column: Square Interactive Leaflet Map */}
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              aspectRatio: '1 / 1',
+              minHeight: '340px',
+              borderRadius: 'var(--radius-cards)',
+              overflow: 'hidden',
+              border: '1px solid rgba(23, 25, 28, 0.08)',
+              boxShadow: 'var(--shadow-artifact)'
+            }}>
+              <StoreMap />
+            </div>
+
+            {/* Right Column: Landmark, Transit Access & In-Store Services */}
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              gap: '16px'
+            }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                {/* Landmark */}
+                <div style={{
+                  display: 'flex',
+                  gap: '14px',
+                  alignItems: 'flex-start',
+                  backgroundColor: 'var(--surface-canvas)',
+                  padding: '18px 20px',
+                  borderRadius: 'var(--radius-smallcards)',
+                  border: '1px solid rgba(23, 25, 28, 0.06)'
+                }}>
+                  <div style={{
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '8px',
+                    backgroundColor: 'var(--surface-card-mist)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                    color: 'var(--color-sienna-brown)'
+                  }}>
+                    <MapPin size={18} />
+                  </div>
+                  <div>
+                    <strong style={{ fontSize: '15px', color: 'var(--color-ink-black)', display: 'block', marginBottom: '3px' }}>
+                      Landmark
+                    </strong>
+                    <span style={{ fontSize: '13.5px', color: 'var(--color-slate-gray)', lineHeight: 1.45 }}>
+                      Opposite High Court Complex, near Exhibition Ground
+                    </span>
+                  </div>
+                </div>
+
+                {/* Transit Access */}
+                <div style={{
+                  display: 'flex',
+                  gap: '14px',
+                  alignItems: 'flex-start',
+                  backgroundColor: 'var(--surface-canvas)',
+                  padding: '18px 20px',
+                  borderRadius: 'var(--radius-smallcards)',
+                  border: '1px solid rgba(23, 25, 28, 0.06)'
+                }}>
+                  <div style={{
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '8px',
+                    backgroundColor: 'var(--surface-card-mist)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                    color: 'var(--color-pine-green)'
+                  }}>
+                    <Car size={18} />
+                  </div>
+                  <div>
+                    <strong style={{ fontSize: '15px', color: 'var(--color-ink-black)', display: 'block', marginBottom: '3px' }}>
+                      Transit Access
+                    </strong>
+                    <span style={{ fontSize: '13.5px', color: 'var(--color-slate-gray)', lineHeight: 1.45 }}>
+                      2 mins from Jahangir Chowk Flyover & Lal Chowk
+                    </span>
+                  </div>
+                </div>
+
+                {/* In-Store Services */}
+                <div style={{
+                  display: 'flex',
+                  gap: '14px',
+                  alignItems: 'flex-start',
+                  backgroundColor: 'var(--surface-canvas)',
+                  padding: '18px 20px',
+                  borderRadius: 'var(--radius-smallcards)',
+                  border: '1px solid rgba(23, 25, 28, 0.06)'
+                }}>
+                  <div style={{
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '8px',
+                    backgroundColor: 'var(--surface-card-mist)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                    color: 'var(--color-sienna-brown)'
+                  }}>
+                    <FlaskConical size={18} />
+                  </div>
+                  <div>
+                    <strong style={{ fontSize: '15px', color: 'var(--color-ink-black)', display: 'block', marginBottom: '3px' }}>
+                      In-Store Services
+                    </strong>
+                    <span style={{ fontSize: '13.5px', color: 'var(--color-slate-gray)', lineHeight: 1.45 }}>
+                      Free soil & leaf disease diagnosis by M.Sc. Chemist
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Driving Directions Action Link */}
+              <a
+                href="https://www.google.com/maps/dir/?api=1&destination=Hari+Singh+High+Street+Srinagar+Jammu+and+Kashmir+190001"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pill-button-filled"
+                style={{ width: '100%', justifyContent: 'center', marginTop: '4px' }}
+              >
+                <span>Get Driving Directions</span>
+                <Navigation size={15} />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
+

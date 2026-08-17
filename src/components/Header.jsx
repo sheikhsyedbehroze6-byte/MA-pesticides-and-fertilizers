@@ -1,174 +1,145 @@
 import React, { useState, useEffect, memo } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Sprout, Moon, Sun, Phone, MapPin, Leaf, ShieldCheck, FlaskConical, Menu, X } from 'lucide-react';
+import { Moon, Sun, Menu, X, ArrowRight, MessageSquare, Sprout, Home, Package, Bug, Calendar, Video, Search, Phone, ChevronRight } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
-const ANNOUNCEMENTS = [
-  {
-    icon: <Phone size={13} color="#b8923f" />,
-    text: "+91 99065 41321",
-    detail: "Hari Singh High Street, Srinagar · Mon–Sat: 9 AM–7 PM",
-    tag: null
-  },
-  {
-    icon: <Leaf size={13} color="#52b788" />,
-    text: "Codling Moth spray window active — ask at the shop",
-    detail: "SKUAST-K stage schedule compliant",
-    tag: null
-  },
-  {
-    icon: <FlaskConical size={13} color="#b8923f" />,
-    text: "Free leaf & soil sample testing — no appointment needed",
-    detail: "Guided by Sheikh Mohammad Ayoub, M.Sc. Chemistry",
-    tag: null
-  },
-  {
-    icon: <ShieldCheck size={13} color="#52b788" />,
-    text: "Authorized: Bayer, Syngenta, FIL & Willowood — up to 20% below MRP",
-    detail: "100% authentic, zero counterfeits",
-    tag: null
-  }
+const NAV_ITEMS = [
+  { to: '/', label: 'Home', Icon: Home },
+  { to: '/about', label: 'About Store & Chemist', Icon: Sprout },
+  { to: '/products', label: 'Formulations Catalog', Icon: Package },
+  { to: '/disease-guide', label: 'Crop Disease Guide', Icon: Bug },
+  { to: '/spray-calendar', label: 'SKUAST Spray Calendar', Icon: Calendar },
+  { to: '/videos', label: 'Video Advisory Gallery', Icon: Video },
+  { to: '/search', label: 'Global Inventory Search', Icon: Search },
+  { to: '/contact', label: 'Contact & Store Location', Icon: Phone },
 ];
 
 function Header() {
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
-  const [index, setIndex] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % ANNOUNCEMENTS.length);
-    }, 3800);
-    return () => clearInterval(interval);
-  }, []);
 
   // Auto-dismiss mobile menu on route change
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
-  const activeMsg = ANNOUNCEMENTS[index];
+  // Lock background scrolling when mobile menu drawer is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+    };
+  }, [isMobileMenuOpen]);
 
   return (
-    <div style={{ position: 'sticky', top: 0, zIndex: 1000, willChange: 'transform', transform: 'translateZ(0)' }}>
-      {/* Animated Top Contact & Advisory Bar */}
-      <div className="top-contact-bar">
-        <div key={index} className="top-bar-animated-item">
-          {activeMsg.tag && (
-            <span className="top-bar-tag">
-              {activeMsg.tag}
-            </span>
-          )}
+    <header className="steep-header">
+      <div className="page-container">
+        <div className="header-inner">
+          {/* Logo & Brand Affordance */}
+          <NavLink to="/" className="brand-logo" onClick={() => setIsMobileMenuOpen(false)}>
+            <Sprout size={22} color="var(--color-pine-green)" style={{ flexShrink: 0 }} />
+            <span>MA Pesticides</span>
+            <span className="brand-badge">Srinagar</span>
+          </NavLink>
 
-          <div className="top-bar-text">
-            {activeMsg.icon}
-            <span>{activeMsg.text}</span>
+          {/* Desktop Navigation Links */}
+          <nav className="desktop-nav">
+            <ul className="nav-links-list">
+              <li><NavLink to="/" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Home</NavLink></li>
+              <li><NavLink to="/about" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>About</NavLink></li>
+              <li><NavLink to="/products" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Products</NavLink></li>
+              <li><NavLink to="/disease-guide" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Disease Guide</NavLink></li>
+              <li><NavLink to="/spray-calendar" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Spray Calendar</NavLink></li>
+              <li><NavLink to="/videos" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Videos</NavLink></li>
+              <li><NavLink to="/search" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Search</NavLink></li>
+              <li><NavLink to="/contact" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Contact</NavLink></li>
+            </ul>
+          </nav>
+
+          {/* Header Action Buttons (Theme Toggle & Hamburger) */}
+          <div className="header-actions">
+            <button
+              onClick={toggleTheme}
+              title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+              aria-label="Toggle theme"
+              className="theme-toggle-btn"
+            >
+              {theme === 'light' ? <Moon size={17} /> : <Sun size={17} />}
+            </button>
+
+            <a
+              href="https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20need%20expert%20crop%20advice..."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pill-button-filled pill-button-sm desktop-nav"
+            >
+              <span>WhatsApp Advisory</span>
+              <ArrowRight size={14} />
+            </a>
+
+            {/* Mobile Hamburger Toggle */}
+            <button
+              className={`mobile-toggle-btn ${isMobileMenuOpen ? 'is-active' : ''}`}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label={isMobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
+            >
+              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
-
-          <span className="top-bar-hide-mobile" style={{ color: '#8fae98', fontSize: '0.72rem' }}>
-            · {activeMsg.detail}
-          </span>
         </div>
       </div>
 
-      {/* Main Header Header Bar */}
-      <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <NavLink to="/" style={{ textDecoration: 'none', color: 'inherit' }} className="logo-container" onClick={() => setIsMobileMenuOpen(false)}>
-          <Sprout color="var(--secondary-color)" size={28} />
-          <div>
-            <h1 style={{ lineHeight: '1.1', fontSize: '1.2rem', margin: 0 }}>MA Pesticides</h1>
-            <span style={{ fontSize: '0.62rem', color: '#c4a054', textTransform: 'uppercase', letterSpacing: '0.8px', fontWeight: '700', display: 'block' }}>
-              & Fertilizers &bull; Srinagar
-            </span>
-          </div>
-        </NavLink>
-
-        {/* Desktop Navigation Links */}
-        <nav className="desktop-nav">
-          <ul className="nav-links">
-            <li><NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')}>Home</NavLink></li>
-            <li><NavLink to="/about" className={({ isActive }) => (isActive ? 'active' : '')}>About Us</NavLink></li>
-            <li><NavLink to="/products" className={({ isActive }) => (isActive ? 'active' : '')}>Products</NavLink></li>
-            <li><NavLink to="/disease-guide" className={({ isActive }) => (isActive ? 'active' : '')}>Disease Guide</NavLink></li>
-            <li><NavLink to="/spray-calendar" className={({ isActive }) => (isActive ? 'active' : '')}>Spray Calendar</NavLink></li>
-            <li><NavLink to="/search" className={({ isActive }) => (isActive ? 'active' : '')}>Search</NavLink></li>
-            <li><NavLink to="/contact" className={({ isActive }) => (isActive ? 'active' : '')}>Contact</NavLink></li>
-          </ul>
-        </nav>
-
-        {/* Header Actions (Theme switcher and Hamburger) */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {/* Theme Switcher Toggle Button */}
-          <button
-            className="theme-toggle"
-            onClick={toggleTheme}
-            title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
-            aria-label="Toggle dark mode"
-            style={{
-              background: 'rgba(22, 62, 36, 0.08)',
-              border: '1px solid var(--border-color)',
-              borderRadius: '50%',
-              width: '38px',
-              height: '38px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'var(--primary-color)',
-              cursor: 'pointer',
-              flexShrink: 0
-            }}
-          >
-            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-          </button>
-
-          {/* Menu Toggle Button */}
-          <button
-            className="hamburger-toggle"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle Navigation Menu"
-            title="Toggle Menu"
-            style={{
-              background: 'rgba(22, 62, 36, 0.08)',
-              border: '1px solid var(--border-color)',
-              borderRadius: '8px',
-              padding: '0.4rem 0.75rem',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              color: 'var(--primary-color)',
-              cursor: 'pointer',
-              fontWeight: '800',
-              fontSize: '0.82rem',
-              flexShrink: 0
-            }}
-          >
-            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-            <span style={{ textTransform: 'uppercase', letterSpacing: '0.5px' }}>Menu</span>
-          </button>
-        </div>
-      </header>
-
-      {/* Mobile Navigation Drawer Panel & Smooth Backdrop */}
+      {/* Solid Opaque Mobile Menu Drawer */}
       {isMobileMenuOpen && (
-        <>
-          <div className="mobile-nav-backdrop" onClick={() => setIsMobileMenuOpen(false)} />
-          <nav className="mobile-nav">
-            <ul className="mobile-nav-links">
-              <li><NavLink to="/" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Home</NavLink></li>
-              <li><NavLink to="/about" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>About Us</NavLink></li>
-              <li><NavLink to="/products" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Products</NavLink></li>
-              <li><NavLink to="/disease-guide" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Disease Guide</NavLink></li>
-              <li><NavLink to="/spray-calendar" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Spray Calendar</NavLink></li>
-              <li><NavLink to="/search" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Search</NavLink></li>
-              <li><NavLink to="/contact" onClick={() => setIsMobileMenuOpen(false)} className={({ isActive }) => (isActive ? 'active' : '')}>Contact</NavLink></li>
+        <div className="mobile-menu-drawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation Menu">
+          <nav>
+            <ul className="mobile-nav-list">
+              {NAV_ITEMS.map(({ to, label, Icon }) => (
+                <li key={to}>
+                  <NavLink
+                    to={to}
+                    end={to === '/'}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      <Icon size={18} opacity={0.8} />
+                      <span>{label}</span>
+                    </div>
+                    <ChevronRight size={16} opacity={0.4} />
+                  </NavLink>
+                </li>
+              ))}
             </ul>
           </nav>
-        </>
+
+          <div className="mobile-drawer-footer">
+            <a
+              href="https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%2C%20I%20need%20crop%20advice..."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pill-button-filled"
+              style={{ width: '100%', justifyContent: 'center' }}
+            >
+              <span>WhatsApp Chemist Advisory</span>
+              <MessageSquare size={16} />
+            </a>
+            <div style={{ textAlign: 'center', fontSize: '13px', color: 'var(--color-ash-gray)', marginTop: '4px' }}>
+              MA Pesticides • Hari Singh High Street, Srinagar
+            </div>
+          </div>
+        </div>
       )}
-    </div>
+    </header>
   );
 }
 
 export default memo(Header);
-

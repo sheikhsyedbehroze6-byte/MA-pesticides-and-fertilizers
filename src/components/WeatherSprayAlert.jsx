@@ -1,5 +1,5 @@
 import { useState, useEffect, memo } from 'react';
-import { CloudRain, Sun, Wind, Thermometer, ShieldCheck, AlertCircle, Droplets, RefreshCw } from 'lucide-react';
+import { CloudRain, Sun, Wind, Thermometer, ShieldCheck, AlertCircle, Droplets } from 'lucide-react';
 
 function WeatherSprayAlert() {
   const [loading, setLoading] = useState(true);
@@ -10,8 +10,8 @@ function WeatherSprayAlert() {
     wind: '3 km/h',
     rainProbability: 15,
     dryWindow: '6+ Hours',
-    sprayStatus: 'SAFE', // 'SAFE', 'CAUTION', 'UNSAFE'
-    advisory: 'Favorable conditions for fungal & insect sprays. High temperature requires spraying during early morning (6–9 AM) or late evening (5–7 PM) to avoid leaf scorch.'
+    sprayStatus: 'SAFE',
+    advisory: 'Favorable conditions for fungicide & insecticide application. Morning spray window recommended.'
   });
 
   useEffect(() => {
@@ -35,7 +35,6 @@ function WeatherSprayAlert() {
           hourlyProb[0] ?? 10
         );
 
-        // Calculate dry window (consecutive upcoming hours with low rain chance < 35%)
         let dryHours = 0;
         for (let i = 0; i < Math.min(12, hourlyProb.length); i++) {
           if (hourlyProb[i] < 35) {
@@ -46,7 +45,6 @@ function WeatherSprayAlert() {
         }
         const dryWindowText = dryHours >= 8 ? '8+ Hours' : dryHours >= 4 ? `${dryHours}+ Hours` : '1-2 Hours';
 
-        // Determine spray status
         let status = 'SAFE';
         if (currentRainProb > 45 || (data.current?.rain ?? 0) > 0.5 || windSpeed > 22) {
           status = 'UNSAFE';
@@ -54,16 +52,13 @@ function WeatherSprayAlert() {
           status = 'CAUTION';
         }
 
-        // Determine SKUAST-K Rule advisory
         let advisoryText = '';
         if (status === 'UNSAFE') {
-          advisoryText = 'Rain or high wind detected in Srinagar. Postpone chemical sprays to prevent runoff and poor fungicide deposition.';
+          advisoryText = 'Rain or high wind detected in Srinagar Valley. Postpone chemical sprays to prevent chemical wash-off.';
         } else if (currentTemp > 25) {
-          advisoryText = `High temperature (${currentTemp}°C) detected. Spray during early morning (6–9 AM) or late evening (5–7 PM) to avoid leaf scorch.`;
-        } else if (status === 'CAUTION') {
-          advisoryText = 'Moderate rain risk or wind. Always mix non-ionic sticker adjuvant (e.g. Wet-Out) for fungicide adhesion.';
+          advisoryText = `High temp (${currentTemp}°C). Spray early morning (6–9 AM) to avoid leaf scorch.`;
         } else {
-          advisoryText = 'Ideal spraying weather in Srinagar Valley. Excellent rain-fastness window for fungicides & insecticides.';
+          advisoryText = 'Ideal weather in Srinagar. Excellent rain-fastness window for fungicides & insecticides.';
         }
 
         setWeather({
@@ -87,109 +82,69 @@ function WeatherSprayAlert() {
     return () => { isMounted = false; };
   }, []);
 
-  const getStatusBadge = () => {
-    switch (weather.sprayStatus) {
-      case 'SAFE':
-        return {
-          bg: '#e8f5e9',
-          color: '#2e7d32',
-          border: '#a5d6a7',
-          icon: <ShieldCheck size={18} color="#2e7d32" />,
-          label: 'SAFE TO SPRAY / سپرے کے لیے مناسب موسم'
-        };
-      case 'CAUTION':
-        return {
-          bg: '#fff8e1',
-          color: '#b78103',
-          border: '#ffe082',
-          icon: <AlertCircle size={18} color="#b78103" />,
-          label: 'SPRAY WITH STICKER ADJUVANT / سٹیکر کا استعمال لازمی ہے'
-        };
-      default:
-        return {
-          bg: '#ffebee',
-          color: '#c62828',
-          border: '#ef9a9a',
-          icon: <AlertCircle size={18} color="#c62828" />,
-          label: 'DO NOT SPRAY — RAIN EXPECTED / بارش کا امکان - سپرے نہ کریں'
-        };
-    }
-  };
-
-  const status = getStatusBadge();
-
   return (
-    <div className="weather-alert-card">
-      <div className="weather-alert-top">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Sun size={18} color="#b8923f" />
-          <span style={{ fontWeight: '700', fontSize: '0.9rem', color: 'var(--primary-color)' }}>
-            Srinagar Orchard Weather & Spray Advisory
-          </span>
-          {isLive && (
-            <span style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '4px',
-              background: 'rgba(37, 211, 102, 0.15)',
-              color: '#25d366',
-              fontSize: '0.65rem',
-              fontWeight: '800',
-              padding: '0.15rem 0.5rem',
-              borderRadius: '10px',
-              border: '1px solid rgba(37, 211, 102, 0.3)'
-            }}>
-              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#25d366', boxShadow: '0 0 6px #25d366' }} />
-              LIVE
-            </span>
-          )}
+    <div className="floating-product-artifact" style={{ padding: '24px' }}>
+      {/* Header Bar */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
+        <div>
+          <span className="tag-label" style={{ margin: 0 }}>Srinagar Orchard Weather</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px' }}>
+            <h4 style={{ fontFamily: 'var(--font-sohne)', fontSize: '18px', fontWeight: 500, margin: 0 }}>
+              Live Spraying Conditions
+            </h4>
+            {isLive && (
+              <span style={{
+                fontSize: '11px',
+                fontWeight: 600,
+                color: '#10b981',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                padding: '2px 8px',
+                borderRadius: '9999px'
+              }}>
+                • LIVE
+              </span>
+            )}
+          </div>
         </div>
-        <div 
-          className="weather-status-badge"
-          style={{ backgroundColor: status.bg, color: status.color, borderColor: status.border }}
-        >
-          {status.icon}
-          <span>{status.label}</span>
-        </div>
+
+        <span style={{
+          fontSize: '13px',
+          fontFamily: 'var(--font-sohne)',
+          fontWeight: 500,
+          color: weather.sprayStatus === 'SAFE' ? 'var(--color-sienna-brown)' : '#c2410c',
+          backgroundColor: 'var(--surface-accent-blush)',
+          padding: '6px 14px',
+          borderRadius: '9999px'
+        }}>
+          {weather.sprayStatus === 'SAFE' ? 'SAFE TO SPRAY' : 'EXERCISING CAUTION'}
+        </span>
       </div>
 
+      {/* Metrics Row */}
       <div className="weather-metrics-grid">
-        <div className="weather-metric">
-          <Thermometer size={16} className="metric-icon" />
-          <div>
-            <span className="metric-label">Temperature</span>
-            <strong className="metric-val">{loading ? '...' : weather.temp}</strong>
-          </div>
+        <div style={{ backgroundColor: 'var(--surface-card-mist)', padding: '12px 14px', borderRadius: 'var(--radius-smallcards)' }}>
+          <span style={{ fontSize: '12px', color: 'var(--color-ash-gray)', display: 'block' }}>Temp</span>
+          <strong style={{ fontSize: '16px', fontFamily: 'var(--font-sohne)', fontWeight: 500 }}>{loading ? '...' : weather.temp}</strong>
         </div>
-        <div className="weather-metric">
-          <CloudRain size={16} className="metric-icon" />
-          <div>
-            <span className="metric-label">Rain Risk</span>
-            <strong className="metric-val">{loading ? '...' : `${weather.rainProbability}%`}</strong>
-          </div>
+        <div style={{ backgroundColor: 'var(--surface-card-mist)', padding: '12px 14px', borderRadius: 'var(--radius-smallcards)' }}>
+          <span style={{ fontSize: '12px', color: 'var(--color-ash-gray)', display: 'block' }}>Rain Risk</span>
+          <strong style={{ fontSize: '16px', fontFamily: 'var(--font-sohne)', fontWeight: 500 }}>{loading ? '...' : `${weather.rainProbability}%`}</strong>
         </div>
-        <div className="weather-metric">
-          <Wind size={16} className="metric-icon" />
-          <div>
-            <span className="metric-label">Wind Speed</span>
-            <strong className="metric-val">{loading ? '...' : weather.wind}</strong>
-          </div>
+        <div style={{ backgroundColor: 'var(--surface-card-mist)', padding: '12px 14px', borderRadius: 'var(--radius-smallcards)' }}>
+          <span style={{ fontSize: '12px', color: 'var(--color-ash-gray)', display: 'block' }}>Wind</span>
+          <strong style={{ fontSize: '16px', fontFamily: 'var(--font-sohne)', fontWeight: 500 }}>{loading ? '...' : weather.wind}</strong>
         </div>
-        <div className="weather-metric">
-          <Droplets size={16} className="metric-icon" />
-          <div>
-            <span className="metric-label">Dry Window</span>
-            <strong className="metric-val">{loading ? '...' : weather.dryWindow}</strong>
-          </div>
+        <div style={{ backgroundColor: 'var(--surface-card-mist)', padding: '12px 14px', borderRadius: 'var(--radius-smallcards)' }}>
+          <span style={{ fontSize: '12px', color: 'var(--color-ash-gray)', display: 'block' }}>Dry Window</span>
+          <strong style={{ fontSize: '16px', fontFamily: 'var(--font-sohne)', fontWeight: 500 }}>{loading ? '...' : weather.dryWindow}</strong>
         </div>
       </div>
 
-      <p className="weather-advisory-text">
-        💡 <strong>SKUAST-K Rule:</strong> {weather.advisory}
+      <p style={{ fontSize: '14px', color: 'var(--color-slate-gray)', margin: 0, lineHeight: 1.4 }}>
+        <strong>SKUAST-K Rule:</strong> {weather.advisory}
       </p>
     </div>
   );
 }
 
 export default memo(WeatherSprayAlert);
-
