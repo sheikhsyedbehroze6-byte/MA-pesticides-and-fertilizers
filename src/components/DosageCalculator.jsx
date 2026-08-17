@@ -203,10 +203,10 @@ export default function DosageCalculator() {
           >
             {Object.keys(groupedProducts).length > 0 ? (
               Object.entries(groupedProducts).map(([catName, items]) => (
-                <optgroup key={catName} label={`-- ${catName} (${items.length}) --`}>
+                <optgroup key={catName} label={`${catName} (${items.length})`}>
                   {items.map(p => (
                     <option key={p.id} value={p.id}>
-                      {p.name} — [{p.type}] ({p.ratePerLitre} {p.unit}/L)
+                      {p.name}
                     </option>
                   ))}
                 </optgroup>
