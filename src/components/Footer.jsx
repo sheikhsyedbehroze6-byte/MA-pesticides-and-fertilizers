@@ -34,11 +34,13 @@ function Footer() {
               <li><Link to="/">Home Canvas</Link></li>
               <li><Link to="/products">Product Catalog</Link></li>
               <li><Link to="/disease-guide">Crop Disease Guide</Link></li>
+              <li><Link to="/dosage-calculator">Dosage Calculator</Link></li>
               <li><Link to="/spray-calendar">Spray Calendar</Link></li>
               <li><Link to="/videos">Video Advisory Gallery</Link></li>
               <li><Link to="/search">Global Search</Link></li>
               <li><Link to="/about">About MA Pesticides</Link></li>
               <li><Link to="/contact">Visit Store</Link></li>
+              <li><button onClick={() => window.dispatchEvent(new Event('trigger-pwa-install'))} style={{ background: 'none', border: 'none', color: 'var(--color-pine-green)', font: 'inherit', cursor: 'pointer', padding: 0, fontWeight: 500 }}>Install Mobile App 📱</button></li>
             </ul>
           </div>
 

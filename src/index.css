@@ -406,13 +406,15 @@ button, input, select, textarea {
   background-color: var(--surface-card-mist);
   border-radius: var(--radius-cards);
   padding: 32px 28px;
-  border: none;
-  box-shadow: none;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  border: 1px solid rgba(23, 25, 28, 0.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
 }
 
 .card-neutral:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.03);
+  border-color: rgba(28, 71, 42, 0.15);
 }
 
 /* Accent Peach Card (Blush Peach background, Sienna text - max 1 per page) */
@@ -725,7 +727,7 @@ button, input, select, textarea {
 .nav-links-list {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: clamp(14px, 1.8vw, 28px);
   list-style: none;
 }
 
@@ -1265,6 +1267,107 @@ button, input, select, textarea {
     flex-direction: column;
     gap: 12px;
     text-align: center;
+  }
+}
+
+/* ==========================================================================
+   MOBILE BOTTOM NAVIGATION BAR & TOUCH OPTIMIZATIONS
+   ========================================================================== */
+
+.bottom-nav {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  body {
+    padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .bottom-nav {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9980;
+    background-color: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(23, 25, 28, 0.08);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+    padding-bottom: max(4px, env(safe-area-inset-bottom, 0px));
+    transition: var(--theme-transition);
+  }
+
+  [data-theme="dark"] .bottom-nav {
+    background-color: rgba(11, 13, 17, 0.94);
+    border-top-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .bottom-nav-list {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    list-style: none;
+    margin: 0;
+    padding: 6px 4px 4px;
+  }
+
+  .bottom-nav-item {
+    flex: 1;
+    text-align: center;
+  }
+
+  .bottom-nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    text-decoration: none;
+    color: var(--color-slate-gray);
+    font-family: var(--font-sohne);
+    font-size: 11px;
+    font-weight: 450;
+    padding: 4px 0;
+    border-radius: 10px;
+    transition: color 0.15s ease, transform 0.15s ease;
+    min-height: 48px;
+  }
+
+  .bottom-nav-link:active {
+    transform: scale(0.94);
+  }
+
+  .bottom-nav-link.active {
+    color: var(--color-pine-green);
+    font-weight: 600;
+  }
+
+  [data-theme="dark"] .bottom-nav-link.active {
+    color: #34d399;
+  }
+
+  .bottom-nav-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bottom-nav-active-dot {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-pine-green);
+    border-radius: 50%;
+  }
+
+  [data-theme="dark"] .bottom-nav-active-dot {
+    background-color: #34d399;
   }
 }
 

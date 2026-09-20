@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { diseases } from '../data/agricultureData';
-import { Search, X, ArrowUpRight, Globe } from 'lucide-react';
+import { Search, X, ArrowUpRight, Globe, Calculator, ArrowRight } from 'lucide-react';
 
 const SYMPTOM_PICKERS = [
   { id: 'scab_spots', label: 'Black / Olive Spots' },
@@ -59,6 +60,28 @@ export default function DiseaseGuide() {
           <p className="text-body-lg" style={{ color: 'var(--color-slate-gray)' }}>
             Precise symptoms, severity rankings, and chemical cures for apple, pear, walnut, and saffron crops.
           </p>
+
+          {/* Quick Option to Dosage Calculator */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginTop: '20px', flexWrap: 'wrap' }}>
+            <Link
+              to="/dosage-calculator"
+              className="pill-button-ghost pill-button-sm"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                borderColor: 'rgba(28, 71, 42, 0.25)',
+                color: 'var(--color-pine-green)',
+                backgroundColor: 'rgba(28, 71, 42, 0.05)',
+                fontWeight: 500,
+                padding: '8px 18px'
+              }}
+            >
+              <Calculator size={16} />
+              <span>Orchard Spray Dosage & Tank Calculator</span>
+              <ArrowRight size={14} />
+            </Link>
+          </div>
         </div>
 
         {/* Language Translation Switcher Bar */}
@@ -293,8 +316,26 @@ export default function DiseaseGuide() {
                     <div style={{ fontSize: '13.5px', color: 'var(--color-ink-black)', fontWeight: 500, marginBottom: '3px' }}>
                       <span style={{ color: 'var(--color-pine-green)' }}>Cure:</span> {disease.cure}
                     </div>
-                    <div style={{ fontSize: '12.5px', color: 'var(--color-sienna-brown)' }}>
-                      <strong>Dosage:</strong> {disease.dosage}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px', marginTop: '3px' }}>
+                      <div style={{ fontSize: '12.5px', color: 'var(--color-sienna-brown)' }}>
+                        <strong>Dosage:</strong> {disease.dosage}
+                      </div>
+                      <Link
+                        to="/dosage-calculator"
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                          fontSize: '11.5px',
+                          color: 'var(--color-pine-green)',
+                          fontWeight: 500,
+                          textDecoration: 'none'
+                        }}
+                        title="Open Dosage Calculator"
+                      >
+                        <Calculator size={12} />
+                        <span>Calculate Mix</span>
+                      </Link>
                     </div>
                   </>
                 )}

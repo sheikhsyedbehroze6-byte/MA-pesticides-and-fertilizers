@@ -60,9 +60,10 @@ function ProductCard({ product, langMode = 'both' }) {
 
   return (
     <div className="card-neutral" style={{ display: 'flex', flexDirection: 'column', height: '100%', position: 'relative' }}>
-      {/* Product Header & Badge */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-        <span className="tag-label-green" style={{ margin: 0 }}>{product.type}</span>
+        <span className="tag-label-green" style={{ margin: 0 }}>
+          {langMode === 'ur' && typeUrdu ? typeUrdu : (langMode === 'both' && typeUrdu ? `${product.type} (${typeUrdu.split(' ')[0]})` : product.type)}
+        </span>
         <span className="badge-green">
           20% BELOW MRP
         </span>

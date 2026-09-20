@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import AnimatedSection from '../components/AnimatedSection';
 import WeatherSprayAlert from '../components/WeatherSprayAlert';
-import DosageCalculator from '../components/DosageCalculator';
 import { products } from '../data/agricultureData';
 import {
   Calendar,
@@ -977,11 +976,6 @@ export default function SprayCalendar() {
           </div>
 
         </div>
-
-        {/* Orchard Spray Dosage & Tank Calculator */}
-        <AnimatedSection delay={0.2} style={{ marginTop: '3.5rem' }} className="no-print">
-          <DosageCalculator />
-        </AnimatedSection>
       </div>
     </div>
   );

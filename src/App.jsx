@@ -4,8 +4,10 @@ import ScrollToTop from './components/ScrollToTop';
 import ScrollProgressBar from './components/ScrollProgressBar';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import BottomNav from './components/BottomNav';
 import BackToTop from './components/BackToTop';
 import AdvisorChatbot from './components/AdvisorChatbot';
+import PWAInstallPrompt from './components/PWAInstallPrompt';
 import Home from './pages/Home';
 import { ThemeProvider } from './context/ThemeContext';
 import './App.css';
@@ -16,6 +18,7 @@ const Products = lazy(() => import('./pages/Products'));
 const DiseaseGuide = lazy(() => import('./pages/DiseaseGuide'));
 const SprayCalendar = lazy(() => import('./pages/SprayCalendar'));
 const VideoGallery = lazy(() => import('./pages/VideoGallery'));
+const DosageCalculatorPage = lazy(() => import('./pages/DosageCalculatorPage'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Search = lazy(() => import('./pages/Search'));
 const NotFound = lazy(() => import('./pages/NotFound'));
@@ -71,6 +74,8 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/products" element={<Products />} />
                 <Route path="/disease-guide" element={<DiseaseGuide />} />
+                <Route path="/dosage-calculator" element={<DosageCalculatorPage />} />
+                <Route path="/calculator" element={<DosageCalculatorPage />} />
                 <Route path="/spray-calendar" element={<SprayCalendar />} />
                 <Route path="/videos" element={<VideoGallery />} />
                 <Route path="/video-gallery" element={<VideoGallery />} />
@@ -85,6 +90,12 @@ function App() {
 
           {/* Interactive Agricultural Crop Advisor Chatbot */}
           <AdvisorChatbot />
+
+          {/* Installable PWA Mobile App Prompt Banner */}
+          <PWAInstallPrompt />
+
+          {/* Mobile Bottom Navigation Bar */}
+          <BottomNav />
         </div>
       </Router>
     </ThemeProvider>

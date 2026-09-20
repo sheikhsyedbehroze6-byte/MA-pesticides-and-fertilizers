@@ -481,7 +481,7 @@ export const products = [
     diseases: ["Aphids", "Thrips", "Caterpillars"],
     benefits: "20% discount on print price.  Advanced formulation for superior pest control.",
     composition: "Imidacloprid 17.8% SL",
-    image: "https://adhunikcropcare.com/uploads/product/22.jpg",
+    image: "https://adhunikcropcare.com/_next/image?url=https%3A%2F%2Fres.cloudinary.com%2Flhoruoa3%2Fimage%2Fupload%2Fv1787221836%2Fadhunik%2Forycms%2Fimages%2Fproducts%2Fd20ef812fb7833bb6de26c1f94245bb9f7defb2f87f866f53954ed2082325380.jpg&w=3840&q=75",
   },
   {
     id: 45,
@@ -514,7 +514,7 @@ export const products = [
     diseases: ["Stem Borer", "Leaf Folder", "Fruit Borer", "Diamondback Moth"],
     benefits: "20% discount on print price. Fast knockdown effect, stops pest feeding instantly, and provides long-lasting control.",
     composition: "Flubendiamide 20% WG",
-    image: "https://kavungal.in/wp-content/uploads/2024/07/IMG-20240730-WA0014.jpg",
+    image: "https://agribegri.com/_next/image?url=https%3A%2F%2Fdujjhct8zer0r.cloudfront.net%2Fmedia%2Fprod_image%2F4561626321749469491.webp&w=1920&q=75",
   },
   {
     id: 48,
@@ -732,7 +732,7 @@ export const diseases = [
     dosage: "2 ml Cyclone 505 per Litre of water thoroughly covering bark crevices.",
     dosageUrdu: "2 ملی لیٹر سائکلون 505 فی لیٹر پانی (چھال پر اچھی طرح سپرے کریں)۔",
     severity: "High",
-    image: "https://www.cropscience.bayer.co.nz/-/media/bcs-inter/ws_newzealand/pests/insects/woolly-apple-aphid/waa-shoots-page.jpg?h=696&w=900&la=en&hash=FFF8335E2DAD650AF25E1A098DF3E9CC"
+    image: "https://www.southernliving.com/thmb/hPrsQq6dKv7ApT_5OBtNFKdVJe0=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-2225393975-1bd038a09cdd4fa78394c9a95151d848.jpg"
   },
   {
     id: "d6",
@@ -1026,7 +1026,7 @@ export const diseases = [
     dosage: "3 g per Litre water. Drench 10-15 Litres around root zone of affected tree.",
     dosageUrdu: "3 گرام فی لیٹر پانی (جڑوں میں 10-15 لیٹر پانی ڈالیں)۔",
     severity: "High",
-    image: "https://www.amgrow.com.au/wp-content/uploads/sites/4/2016/08/Pic-2-503x600.jpg"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHU9WY7G-RGN0TSq_qGaIqwe-TD1NH5nzkDqpZt9tSbb_x2dvnH5swtkI&s=10"
   },
   {
     id: "d27",

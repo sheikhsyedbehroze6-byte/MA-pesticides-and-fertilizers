@@ -120,17 +120,17 @@ export default function Home() {
         <div className="page-container">
           <div style={{ textAlign: 'center', maxWidth: '1020px', margin: '0 auto 56px' }}>
             {/* Tag / Category Label */}
-            <span className="tag-label-green gsap-hero-tag">Kashmir Agricultural Analytics & Protection</span>
+            <span className="tag-label-green gsap-hero-tag">Kashmir Crop Protection & Agronomy</span>
 
             {/* Signature Serif Display Headline */}
             <h1 className="text-display gsap-hero-title" style={{ marginBottom: '24px', color: 'var(--color-ink-black)', fontSize: 'clamp(34px, 5.2vw, 76px)', lineHeight: 1.22 }}>
-              Orchard science <span className="editorial-italic">rendered as editorial</span>
-              crop protection.
+              Scientific crop protection <span className="editorial-italic">tailored for Kashmir</span>
+              orchards.
             </h1>
 
             {/* Subhead in Söhne */}
             <p className="text-body-lg gsap-hero-sub" style={{ color: 'var(--color-slate-gray)', marginBottom: '32px', maxWidth: '680px', margin: '0 auto 32px' }}>
-              Genuine Bayer, Syngenta, and IPL formulations paired with SKUAST-K stage schedules — designed for Kashmir fruit growers.
+              Genuine Bayer, Syngenta, and IPL formulations paired with official SKUAST-K stage schedules — designed specifically for Kashmir fruit growers.
             </p>
 
             {/* Paired Pill Buttons */}
@@ -281,9 +281,9 @@ export default function Home() {
       <section className="section-padding section-fog-bg gsap-scroll-section">
         <div className="page-container">
           <div className="section-header gsap-scroll-item">
-            <span className="tag">Restrained Craft</span>
-            <h2>Built on three uncompromised standards.</h2>
-            <p>Every bottle, recommendation, and dosage metric is backed by chemical precision.</p>
+            <span className="tag">Our Core Principles</span>
+            <h2>Built on three uncompromising standards.</h2>
+            <p>Every recommendation, formulation, and dosage rate is backed by chemical analysis and verified field testing.</p>
           </div>
 
           <div className="grid-3">
@@ -291,13 +291,13 @@ export default function Home() {
             <div className="card-neutral gsap-scroll-item">
               <span className="tag-label">AUTHENTICITY</span>
               <h3 className="text-heading-sm" style={{ marginBottom: '12px' }}>
-                100% Genuine Store Stock
+                100% Genuine Inventory
               </h3>
               <p className="text-body" style={{ color: 'var(--color-slate-gray)', marginBottom: '20px' }}>
-                Authorized dealership for Bayer, Syngenta, and IPL Biologicals. Zero counterfeits, backed by verified batch receipts.
+                Authorized dealership for Bayer, Syngenta, and IPL Biologicals. Guaranteed 100% authentic formulations backed by verified manufacturer batch receipts.
               </p>
               <Link to="/products" className="text-link-arrow">
-                <span>Inspect Product Catalog</span>
+                <span>Browse Formulations</span>
                 <span className="arrow">→</span>
               </Link>
             </div>
@@ -309,10 +309,10 @@ export default function Home() {
                 SKUAST-K Stage Schedules
               </h3>
               <p className="text-body" style={{ color: 'var(--color-slate-gray)', marginBottom: '20px' }}>
-                Synchronized with Kashmir climate windows from Green Tip to Harvest to maximize rain-fastness and eliminate leaf scorch.
+                Synchronized with Kashmir's microclimate from Green Tip to Harvest to maximize rain-fastness and eliminate foliage scorch.
               </p>
               <Link to="/spray-calendar" className="text-link-arrow">
-                <span>View Stage Timelines</span>
+                <span>Explore Stage Schedule</span>
                 <span className="arrow">→</span>
               </Link>
             </div>
@@ -324,10 +324,10 @@ export default function Home() {
                 M.Sc. Chemist Guidance
               </h3>
               <p className="text-body" style={{ color: 'var(--color-slate-gray)', marginBottom: '20px' }}>
-                Direct oversight by Sheikh Mohammad Ayoub (M.Sc. Chemistry). Free leaf and soil analysis at our Srinagar store.
+                Personalized technical advice by Sheikh Mohammad Ayoub (M.Sc. Chemistry) with complimentary leaf and soil guidance at our Srinagar store.
               </p>
               <Link to="/about" className="text-link-arrow">
-                <span>Read Founder Story</span>
+                <span>Learn About Our Store</span>
                 <span className="arrow">→</span>
               </Link>
             </div>
@@ -342,13 +342,13 @@ export default function Home() {
         <div className="page-container">
           <div className="card-peach gsap-scroll-item">
             <span className="tag-label" style={{ color: 'var(--color-sienna-brown)', opacity: 0.8 }}>
-              EDITORIAL SPOTLIGHT
+              FOUNDER'S COMMITMENT
             </span>
             <h3 style={{ fontFamily: 'var(--font-sohne)', fontSize: '26px', fontWeight: 450, letterSpacing: '-0.23px', marginBottom: '16px' }}>
-              "We stock what works, and we know why."
+              "We stock what works — and we explain why."
             </h3>
             <p style={{ fontFamily: 'var(--font-sohne)', fontSize: '18px', fontWeight: 430, lineHeight: 1.5, marginBottom: '24px', maxWidth: '820px' }}>
-              Every fungicide and insecticide recommendation comes directly from chemical analysis and decades of Kashmir orchard field testing — never counterfeits, never generic filler.
+              Every fungicide and insecticide recommendation is grounded in chemical precision and decades of hands-on Kashmir orchard experience. Zero counterfeits, zero generic fillers.
             </p>
             <div style={{ fontFamily: 'var(--font-sohne)', fontSize: '14px', fontWeight: 400 }}>
               — Sheikh Mohammad Ayoub, Senior Chemist & Founder, MA Pesticides Srinagar
@@ -372,18 +372,47 @@ export default function Home() {
             <WeatherSprayAlert />
           </div>
 
-          {/* Crop Selector Tabs */}
-          <div className="gsap-scroll-item" style={{ display: 'flex', gap: '10px', marginBottom: '24px', flexWrap: 'wrap' }}>
-            {['apple', 'pear', 'walnut'].map(crop => (
-              <button
-                key={crop}
-                onClick={() => setActiveCrop(crop)}
-                className={activeCrop === crop ? 'pill-button-filled pill-button-sm' : 'pill-button-ghost pill-button-sm'}
-                style={{ textTransform: 'capitalize' }}
+          {/* Crop Selector Tabs & Options */}
+          <div className="gsap-scroll-item" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', marginBottom: '24px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              {['apple', 'pear', 'walnut'].map(crop => (
+                <button
+                  key={crop}
+                  onClick={() => setActiveCrop(crop)}
+                  className={activeCrop === crop ? 'pill-button-filled pill-button-sm' : 'pill-button-ghost pill-button-sm'}
+                  style={{ textTransform: 'capitalize' }}
+                >
+                  {crop} Guide
+                </button>
+              ))}
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              <Link
+                to="/disease-guide"
+                className="pill-button-ghost pill-button-sm"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
               >
-                {crop} Guide
-              </button>
-            ))}
+                <span>Full Disease Guide</span>
+                <ArrowRight size={14} />
+              </Link>
+              <Link
+                to="/dosage-calculator"
+                className="pill-button-ghost pill-button-sm"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  borderColor: 'rgba(28, 71, 42, 0.25)',
+                  color: 'var(--color-pine-green)',
+                  backgroundColor: 'rgba(28, 71, 42, 0.05)',
+                  fontWeight: 500
+                }}
+              >
+                <Calculator size={14} />
+                <span>Dosage Calculator</span>
+              </Link>
+            </div>
           </div>
 
           {/* Diagnostic Neutral Cards Grid */}
@@ -401,8 +430,26 @@ export default function Home() {
                   <div style={{ fontSize: '14px', fontWeight: 500, color: 'var(--color-ink-black)' }}>
                     Cure: {item.solution}
                   </div>
-                  <div style={{ fontSize: '13px', color: 'var(--color-sienna-brown)', marginTop: '2px' }}>
-                    Dosage: {item.dosage}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px', marginTop: '4px' }}>
+                    <div style={{ fontSize: '13px', color: 'var(--color-sienna-brown)' }}>
+                      Dosage: {item.dosage}
+                    </div>
+                    <Link
+                      to="/dosage-calculator"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        fontSize: '11.5px',
+                        color: 'var(--color-pine-green)',
+                        fontWeight: 500,
+                        textDecoration: 'none'
+                      }}
+                      title="Calculate exact tank dosage"
+                    >
+                      <Calculator size={12} />
+                      <span>Calculate</span>
+                    </Link>
                   </div>
                 </div>
               </div>

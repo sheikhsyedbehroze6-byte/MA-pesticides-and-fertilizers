@@ -5,6 +5,8 @@ const ROUTE_LABELS = {
   '/about': 'About Us',
   '/products': 'Products',
   '/disease-guide': 'Disease Guide',
+  '/dosage-calculator': 'Dosage Calculator',
+  '/calculator': 'Dosage Calculator',
   '/search': 'Search',
   '/contact': 'Contact',
 };

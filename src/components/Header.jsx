@@ -1,6 +1,6 @@
 import React, { useState, useEffect, memo } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Moon, Sun, Menu, X, ArrowRight, MessageSquare, Sprout, Home, Package, Bug, Calendar, Video, Search, Phone, ChevronRight } from 'lucide-react';
+import { Moon, Sun, Menu, X, ArrowRight, MessageSquare, Sprout, Home, Package, Bug, Calendar, Video, Search, Phone, ChevronRight, Calculator, Smartphone } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 const NAV_ITEMS = [
@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { to: '/about', label: 'About Store & Chemist', Icon: Sprout },
   { to: '/products', label: 'Formulations Catalog', Icon: Package },
   { to: '/disease-guide', label: 'Crop Disease Guide', Icon: Bug },
+  { to: '/dosage-calculator', label: 'Dosage Calculator', Icon: Calculator },
   { to: '/spray-calendar', label: 'SKUAST Spray Calendar', Icon: Calendar },
   { to: '/videos', label: 'Video Advisory Gallery', Icon: Video },
   { to: '/search', label: 'Global Inventory Search', Icon: Search },
@@ -18,11 +19,11 @@ function Header() {
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  // Auto-dismiss mobile menu on route change
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [location.pathname]);
+  const [prevPathname, setPrevPathname] = useState(location.pathname);
+  if (location.pathname !== prevPathname) {
+    setPrevPathname(location.pathname);
+    if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+  }
 
   // Lock background scrolling when mobile menu drawer is open
   useEffect(() => {
@@ -57,6 +58,7 @@ function Header() {
               <li><NavLink to="/about" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>About</NavLink></li>
               <li><NavLink to="/products" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Products</NavLink></li>
               <li><NavLink to="/disease-guide" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Disease Guide</NavLink></li>
+              <li><NavLink to="/dosage-calculator" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Dosage Calculator</NavLink></li>
               <li><NavLink to="/spray-calendar" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Spray Calendar</NavLink></li>
               <li><NavLink to="/videos" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Videos</NavLink></li>
               <li><NavLink to="/search" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Search</NavLink></li>
@@ -73,6 +75,16 @@ function Header() {
               className="theme-toggle-btn"
             >
               {theme === 'light' ? <Moon size={17} /> : <Sun size={17} />}
+            </button>
+
+            <button
+              onClick={() => window.dispatchEvent(new Event('trigger-pwa-install'))}
+              className="pill-button-ghost pill-button-sm desktop-nav"
+              style={{ gap: '6px', color: 'var(--color-pine-green)', borderColor: 'rgba(28,71,42,0.25)' }}
+              title="Install app on mobile or desktop"
+            >
+              <Smartphone size={14} />
+              <span>Install App</span>
             </button>
 
             <a
