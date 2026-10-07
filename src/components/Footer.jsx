@@ -77,6 +77,70 @@ function Footer() {
           </div>
         </div>
 
+        {/* Developer Signature & Engineering Credits */}
+        <div style={{
+          margin: '36px 0 20px',
+          padding: '24px 20px',
+          borderRadius: '16px',
+          backgroundColor: '#0a0c0f',
+          border: '1px solid rgba(212, 175, 55, 0.22)',
+          boxShadow: '0 12px 36px rgba(0, 0, 0, 0.25)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+          position: 'relative',
+          overflow: 'hidden'
+        }}>
+          {/* Subtle gold ambient glow */}
+          <div style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '280px',
+            height: '140px',
+            background: 'radial-gradient(ellipse at center, rgba(212, 175, 55, 0.12) 0%, transparent 70%)',
+            pointerEvents: 'none'
+          }} />
+
+          <img
+            src="/sheikh-behroze-signature.webp"
+            alt="Designed & Developed by Sheikh Behroze Ayub"
+            style={{
+              maxHeight: '130px',
+              maxWidth: 'min(380px, 90%)',
+              height: 'auto',
+              width: 'auto',
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 4px 16px rgba(0, 0, 0, 0.6))',
+              position: 'relative',
+              zIndex: 1
+            }}
+          />
+
+          <div style={{
+            marginTop: '12px',
+            fontSize: '12.5px',
+            color: 'rgba(255, 255, 255, 0.65)',
+            letterSpacing: '0.4px',
+            position: 'relative',
+            zIndex: 1,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            flexWrap: 'wrap',
+            justifyContent: 'center'
+          }}>
+            <span>Digital Platform &amp; AI Engineering</span>
+            <span style={{ opacity: 0.4 }}>•</span>
+            <span style={{ color: '#d4af37', fontWeight: 500 }}>Sheikh Behroze Ayub (B.Tech CSE)</span>
+            <span style={{ opacity: 0.4 }}>•</span>
+            <span>Kashmir Orchard Analytics</span>
+          </div>
+        </div>
+
         {/* Footer Bottom Line */}
         <div className="footer-bottom">
           <span>© {year} MA Pesticides & Fertilizers, Srinagar. All rights reserved.</span>

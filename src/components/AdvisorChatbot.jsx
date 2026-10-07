@@ -189,7 +189,8 @@ const GENERAL_AGRONOMY_KB = [
   {
     keywords: ['behroze', 'sheikh behroze', 'developer', 'who created', 'who made this website', 'engineer', 'btech', 'developed this'],
     title: '👨‍💻 Sheikh Behroze Ayub (Website Developer)',
-    response: `👨‍💻 **Developer Information:**\n\n**Sheikh Behroze Ayub (B.Tech CSE)** has developed it.\n\nHe designed, engineered, and developed this digital platform for **M.A. Pesticides & Fertilizers**, creating features such as the AI Crop Advisor, Interactive Dosage Calculator, SKUAST-guided Spray Schedules, and Orchard Health Analytics.`
+    response: `👨‍💻 **Developer Information:**\n\n**Sheikh Behroze Ayub (B.Tech CSE)** has developed it.\n\nHe designed, engineered, and developed this digital platform for **M.A. Pesticides & Fertilizers**, creating features such as the AI Crop Advisor, Interactive Dosage Calculator, SKUAST-guided Spray Schedules, and Orchard Health Analytics.`,
+    imageEmbed: '/sheikh-behroze-signature.webp'
   },
   {
     keywords: ['who are you', 'what are you', 'kya kar sakte ho', 'help me', 'about yourself', 'what is this bot'],
@@ -296,6 +297,7 @@ function getBotResponse(userText) {
   if (isDevQuery) {
     return {
       text: `👨‍💻 **Developer Information:**\n\n**Sheikh Behroze Ayub (B.Tech CSE)** has developed it.\n\nHe designed, engineered, and developed this digital platform for **M.A. Pesticides & Fertilizers**, creating features such as the AI Crop Advisor, Interactive Dosage Calculator, SKUAST-guided Spray Schedules, and Orchard Health Analytics.`,
+      imageEmbed: '/sheikh-behroze-signature.webp',
       actionLink: `https://wa.me/919906541321?text=${encodeURIComponent('Hello Sheikh Behroze Ayub, I visited the MA Pesticides website developed by you.')}`,
       suggestions: ['🍏 Ask Crop Disease Question', '🧮 Calculate Orchard Dosage', '🗓️ SKUAST Spray Schedule', '📍 Visit Srinagar Store']
     };
@@ -407,6 +409,7 @@ function getBotResponse(userText) {
     if (isMatch) {
       return {
         text: item.response,
+        imageEmbed: item.imageEmbed,
         actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, I need further guidance regarding: ${item.title}`)}`,
         suggestions: ['🧮 Calculate 200L Tank Dosage', '🗓️ SKUAST-K Spray Calendar', '⚠️ Check Tank Mix Safety', '📍 Srinagar Store Details']
       };
@@ -986,6 +989,31 @@ export default function AdvisorChatbot() {
                     <div style={{ color: 'var(--color-slate-gray)', marginTop: '2px' }}>
                       Recommended: {msg.stageEmbed.recommendation}
                     </div>
+                  </div>
+                )}
+
+                {/* Embedded Signature / Media Badge */}
+                {msg.imageEmbed && (
+                  <div style={{
+                    marginTop: '10px',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                    backgroundColor: '#0a0c0f',
+                    border: '1px solid rgba(212, 175, 55, 0.25)',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3)',
+                    textAlign: 'center',
+                    padding: '8px 12px'
+                  }}>
+                    <img
+                      src={msg.imageEmbed}
+                      alt="Designed & Developed by Sheikh Behroze Ayub"
+                      style={{
+                        maxWidth: '100%',
+                        height: 'auto',
+                        maxHeight: '110px',
+                        objectFit: 'contain'
+                      }}
+                    />
                   </div>
                 )}
 
