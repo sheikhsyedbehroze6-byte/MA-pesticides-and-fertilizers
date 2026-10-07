@@ -124,8 +124,7 @@ export default function Home() {
 
             {/* Signature Serif Display Headline */}
             <h1 className="text-display gsap-hero-title" style={{ marginBottom: '24px', color: 'var(--color-ink-black)', fontSize: 'clamp(34px, 5.2vw, 76px)', lineHeight: 1.22 }}>
-              Scientific crop protection <span className="editorial-italic">tailored for Kashmir</span>
-              orchards.
+              Scientific crop protection <span className="editorial-italic" style={{ marginRight: '0.18em' }}>tailored for Kashmir</span> orchards.
             </h1>
 
             {/* Subhead in Söhne */}

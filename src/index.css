@@ -737,10 +737,17 @@ button, input, select, textarea {
   font-size: 15px;
   font-weight: 430;
   transition: color 0.15s ease;
+  outline: none;
 }
 
 .nav-link-item:hover, .nav-link-item.active {
   color: var(--color-slate-gray);
+}
+
+.nav-link-item:focus-visible {
+  outline: 2px solid var(--color-pine-green);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 .header-actions {

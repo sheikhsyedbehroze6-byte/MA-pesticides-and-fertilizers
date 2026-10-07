@@ -72,12 +72,11 @@ export default function PWAInstallPrompt() {
       className="pwa-install-banner"
       style={{
         position: 'fixed',
-        bottom: '84px',
-        left: '50%',
-        transform: 'translateX(-50%)',
+        bottom: '24px',
+        left: '24px',
         zIndex: 9995,
-        width: 'calc(100% - 32px)',
-        maxWidth: '520px',
+        width: 'calc(100% - 48px)',
+        maxWidth: '460px',
         backgroundColor: 'var(--surface-paper)',
         borderRadius: '16px',
         boxShadow: '0 16px 40px rgba(23, 25, 28, 0.2), 0 4px 12px rgba(23, 25, 28, 0.1)',
@@ -88,8 +87,16 @@ export default function PWAInstallPrompt() {
     >
       <style>{`
         @keyframes pwaSlideUp {
-          from { opacity: 0; transform: translate(-50%, 24px); }
-          to { opacity: 1; transform: translate(-50%, 0); }
+          from { opacity: 0; transform: translateY(24px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 640px) {
+          .pwa-install-banner {
+            left: 16px !important;
+            right: 16px !important;
+            width: auto !important;
+            bottom: 76px !important;
+          }
         }
       `}</style>
 
