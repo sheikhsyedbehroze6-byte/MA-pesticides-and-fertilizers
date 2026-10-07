@@ -77,68 +77,89 @@ function Footer() {
           </div>
         </div>
 
-        {/* Developer Signature & Engineering Credits */}
+        {/* Developer Logo Seal */}
         <div style={{
-          margin: '36px 0 20px',
-          padding: '24px 20px',
-          borderRadius: '16px',
-          backgroundColor: '#0a0c0f',
-          border: '1px solid rgba(212, 175, 55, 0.22)',
-          boxShadow: '0 12px 36px rgba(0, 0, 0, 0.25)',
+          margin: '24px 0 16px',
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          textAlign: 'center',
-          position: 'relative',
-          overflow: 'hidden'
+          justifyContent: 'center'
         }}>
-          {/* Subtle gold ambient glow */}
-          <div style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '280px',
-            height: '140px',
-            background: 'radial-gradient(ellipse at center, rgba(212, 175, 55, 0.12) 0%, transparent 70%)',
-            pointerEvents: 'none'
-          }} />
-
-          <img
-            src="/sheikh-behroze-signature.webp"
-            alt="Designed & Developed by Sheikh Behroze Ayub"
+          <a
+            href="https://wa.me/919906541321?text=Hello%20Sheikh%20Behroze%20Ayub%2C%20I%20visited%20the%20MA%20Pesticides%20website%20developed%20by%20you."
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Designed & Developed by Sheikh Behroze Ayub (B.Tech CSE)"
             style={{
-              maxHeight: '130px',
-              maxWidth: 'min(380px, 90%)',
-              height: 'auto',
-              width: 'auto',
-              objectFit: 'contain',
-              filter: 'drop-shadow(0 4px 16px rgba(0, 0, 0, 0.6))',
-              position: 'relative',
-              zIndex: 1
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '6px 18px 6px 8px',
+              borderRadius: '9999px',
+              backgroundColor: '#0a0c0f',
+              border: '1px solid rgba(212, 175, 55, 0.35)',
+              boxShadow: '0 4px 18px rgba(0, 0, 0, 0.25), 0 0 12px rgba(212, 175, 55, 0.08)',
+              textDecoration: 'none',
+              transition: 'all 0.25s ease'
             }}
-          />
+          >
+            {/* Circular Gold SB Logo Mark */}
+            <div style={{
+              width: '38px',
+              height: '38px',
+              borderRadius: '50%',
+              backgroundColor: '#000000',
+              border: '1.5px solid rgba(212, 175, 55, 0.65)',
+              overflow: 'hidden',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0
+            }}>
+              <img
+                src="/sb-emblem.webp"
+                alt="SB Logo"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }}
+              />
+            </div>
 
-          <div style={{
-            marginTop: '12px',
-            fontSize: '12.5px',
-            color: 'rgba(255, 255, 255, 0.65)',
-            letterSpacing: '0.4px',
-            position: 'relative',
-            zIndex: 1,
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            flexWrap: 'wrap',
-            justifyContent: 'center'
-          }}>
-            <span>Digital Platform &amp; AI Engineering</span>
-            <span style={{ opacity: 0.4 }}>•</span>
-            <span style={{ color: '#d4af37', fontWeight: 500 }}>Sheikh Behroze Ayub (B.Tech CSE)</span>
-            <span style={{ opacity: 0.4 }}>•</span>
-            <span>Kashmir Orchard Analytics</span>
-          </div>
+            {/* Logo Typography */}
+            <div style={{ textAlign: 'left', lineHeight: '1.25' }}>
+              <span style={{
+                display: 'block',
+                fontSize: '10px',
+                color: 'rgba(255, 255, 255, 0.55)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.6px',
+                fontWeight: 500,
+                fontFamily: 'var(--font-sohne)'
+              }}>
+                Designed &amp; Developed by
+              </span>
+              <span style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                fontSize: '13.5px',
+                color: '#d4af37',
+                fontWeight: 600,
+                fontFamily: 'var(--font-signifier)',
+                letterSpacing: '0.2px'
+              }}>
+                Sheikh Behroze Ayub
+                <span style={{
+                  fontSize: '10.5px',
+                  color: 'rgba(255, 255, 255, 0.65)',
+                  fontFamily: 'var(--font-sohne)',
+                  fontWeight: 400
+                }}>
+                  (B.Tech CSE)
+                </span>
+              </span>
+            </div>
+          </a>
         </div>
 
         {/* Footer Bottom Line */}

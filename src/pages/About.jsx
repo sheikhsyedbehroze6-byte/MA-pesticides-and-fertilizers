@@ -74,82 +74,59 @@ export default function About() {
           </div>
         </div>
 
-        {/* Digital Platform & Engineering Tribute Card */}
+        {/* Digital Platform & Engineering Logo Card */}
         <div style={{
-          marginTop: '64px',
-          padding: '44px 28px',
-          borderRadius: '24px',
+          marginTop: '56px',
+          padding: '32px 24px',
+          borderRadius: '20px',
           backgroundColor: '#0a0c0f',
           border: '1px solid rgba(212, 175, 55, 0.28)',
-          boxShadow: '0 20px 50px rgba(0, 0, 0, 0.35)',
+          boxShadow: '0 16px 40px rgba(0, 0, 0, 0.3)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          textAlign: 'center',
-          position: 'relative',
-          overflow: 'hidden'
+          textAlign: 'center'
         }}>
-          {/* Subtle gold ambient glow */}
+          {/* Official Creator Logo Mark */}
           <div style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '380px',
-            height: '200px',
-            background: 'radial-gradient(ellipse at center, rgba(212, 175, 55, 0.14) 0%, transparent 70%)',
-            pointerEvents: 'none'
-          }} />
-
-          <span className="tag-label" style={{
-            color: '#d4af37',
-            borderColor: 'rgba(212, 175, 55, 0.4)',
-            backgroundColor: 'rgba(212, 175, 55, 0.08)',
-            marginBottom: '24px',
-            position: 'relative',
-            zIndex: 1
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '10px 22px',
+            borderRadius: '16px',
+            backgroundColor: '#000000',
+            border: '1px solid rgba(212, 175, 55, 0.35)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)',
+            marginBottom: '20px'
           }}>
-            DIGITAL PLATFORM &amp; ENGINEERING
-          </span>
-
-          <img
-            src="/sheikh-behroze-signature.webp"
-            alt="Designed & Developed by Sheikh Behroze Ayub"
-            style={{
-              maxHeight: '170px',
-              maxWidth: 'min(440px, 92%)',
-              height: 'auto',
-              width: 'auto',
-              objectFit: 'contain',
-              marginBottom: '24px',
-              filter: 'drop-shadow(0 8px 24px rgba(212, 175, 55, 0.18))',
-              position: 'relative',
-              zIndex: 1
-            }}
-          />
+            <img
+              src="/sb-logo.webp"
+              alt="Designed & Developed by Sheikh Behroze Ayub"
+              style={{
+                height: '72px',
+                width: 'auto',
+                objectFit: 'contain'
+              }}
+            />
+          </div>
 
           <p style={{
             fontFamily: 'var(--font-sohne)',
-            fontSize: '16px',
-            color: 'rgba(255, 255, 255, 0.82)',
-            maxWidth: '720px',
-            lineHeight: 1.65,
-            marginBottom: '16px',
-            position: 'relative',
-            zIndex: 1
+            fontSize: '15px',
+            color: 'rgba(255, 255, 255, 0.8)',
+            maxWidth: '680px',
+            lineHeight: 1.6,
+            marginBottom: '12px'
           }}>
-            Designed and engineered by <strong style={{ color: '#ffffff', fontWeight: 600 }}>Sheikh Behroze Ayub (B.Tech CSE)</strong>. Modernizing Kashmir’s agricultural ecosystem through artificial intelligence crop advisory systems, precision tank dosage calculators, and official SKUAST-K spray synchronization.
+            Designed and engineered by <strong style={{ color: '#d4af37', fontWeight: 600 }}>Sheikh Behroze Ayub (B.Tech CSE)</strong>. Modernizing Kashmir’s agricultural ecosystem through artificial intelligence crop advisory systems, precision tank dosage calculators, and official SKUAST-K spray synchronization.
           </p>
 
           <span style={{
-            fontSize: '13px',
-            color: '#d4af37',
-            letterSpacing: '0.5px',
-            position: 'relative',
-            zIndex: 1,
-            fontWeight: 500
+            fontSize: '12.5px',
+            color: 'rgba(255, 255, 255, 0.5)',
+            letterSpacing: '0.4px'
           }}>
-            Software Architecture &bull; Full-Stack Agritech Engineering &bull; Srinagar, Kashmir
+            Full-Stack Agritech Architecture &bull; Srinagar, Kashmir
           </span>
         </div>
       </div>

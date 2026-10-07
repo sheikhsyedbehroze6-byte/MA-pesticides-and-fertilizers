@@ -992,28 +992,38 @@ export default function AdvisorChatbot() {
                   </div>
                 )}
 
-                {/* Embedded Signature / Media Badge */}
+                {/* Embedded Developer Logo Badge */}
                 {msg.imageEmbed && (
                   <div style={{
                     marginTop: '10px',
-                    borderRadius: '12px',
-                    overflow: 'hidden',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    padding: '6px 14px 6px 8px',
+                    borderRadius: '9999px',
                     backgroundColor: '#0a0c0f',
-                    border: '1px solid rgba(212, 175, 55, 0.25)',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3)',
-                    textAlign: 'center',
-                    padding: '8px 12px'
+                    border: '1px solid rgba(212, 175, 55, 0.35)',
+                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.25)'
                   }}>
                     <img
-                      src={msg.imageEmbed}
-                      alt="Designed & Developed by Sheikh Behroze Ayub"
+                      src="/sb-emblem.webp"
+                      alt="SB Logo"
                       style={{
-                        maxWidth: '100%',
-                        height: 'auto',
-                        maxHeight: '110px',
-                        objectFit: 'contain'
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '50%',
+                        border: '1px solid rgba(212, 175, 55, 0.65)',
+                        objectFit: 'cover'
                       }}
                     />
+                    <div style={{ lineHeight: '1.2', textAlign: 'left' }}>
+                      <span style={{ fontSize: '9px', color: 'rgba(255, 255, 255, 0.55)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block' }}>
+                        Designed &amp; Developed by
+                      </span>
+                      <span style={{ fontSize: '12.5px', color: '#d4af37', fontWeight: 600, fontFamily: 'var(--font-signifier)' }}>
+                        Sheikh Behroze Ayub <span style={{ fontSize: '10px', color: 'rgba(255, 255, 255, 0.7)', fontFamily: 'var(--font-sohne)', fontWeight: 400 }}>B.Tech CSE</span>
+                      </span>
+                    </div>
                   </div>
                 )}
 
