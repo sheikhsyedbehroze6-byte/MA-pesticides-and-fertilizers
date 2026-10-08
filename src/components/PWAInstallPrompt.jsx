@@ -7,7 +7,7 @@ export default function PWAInstallPrompt() {
   const [isIOS] = useState(
     () => typeof window !== 'undefined' && /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase())
   );
-  const [isInstalled] = useState(
+  const [isInstalled, setIsInstalled] = useState(
     () => typeof window !== 'undefined' && (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true)
   );
 
@@ -42,7 +42,7 @@ export default function PWAInstallPrompt() {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('trigger-pwa-install', handleCustomTrigger);
     };
-  }, []);
+  }, [isInstalled]);
 
   const handleInstallClick = async () => {
     if (deferredPrompt) {

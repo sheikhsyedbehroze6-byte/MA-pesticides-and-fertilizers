@@ -234,7 +234,7 @@ function cleanTextForSpeech(text) {
   if (!text) return '';
   return text
     .replace(/\*\*/g, '')
-    .replace(/[🍏🌤️⚡🐛📍👨‍💻🔬🌿🚨🩺💡⚠️🌳💧📦🧪✨🚨✅🐝🗓️✂️🌾🍂🍎🦴🌸⏰🌱🪱🍄🚜🧴🧬🟡🟡🦗]/g, '')
+    .replace(/\p{Extended_Pictographic}/gu, '')
     .replace(/\[.*?\]/g, '')
     .trim();
 }
@@ -242,7 +242,7 @@ function cleanTextForSpeech(text) {
 // ============================================================================
 // 3. Dynamic Question-Answering Synthesizer (Answers EVERY Question)
 // ============================================================================
-function generateUniversalAnswer(userText, query, words) {
+function generateUniversalAnswer(userText, query, _words) {
   // Extract topic themes
   const isFruitQuery = query.match(/(apple|saib|walnut|akhrot|cherry|almond|badam|peach|pear|plum|grape|saffron|rice|paddy|dhan|tomato|potato|vegetable)/i);
   const isProblemQuery = query.match(/(rot|fungus|disease|pest|bug|worm|sundi|infe|decay|blight|scab|spot|fall|drop|burn|dead|dry|crack|hole|wilt)/i);
@@ -256,8 +256,10 @@ function generateUniversalAnswer(userText, query, words) {
     customAdvice = `\n\n🛡️ **Agronomic Defense Strategy:**\n- **Sanitation First:** Prune away and burn infected twigs or fallen leaves to eliminate fungal spore reserves.\n- **Preventive Fungicide / Insecticide Barrier:** Apply protective contact formulations (**Bayer Antracol 70% WP** @ 2.5g/L or **Superstar Dodine** @ 1g/L for fungal issues; **Syngenta Alika** @ 0.5ml/L for insect pests).\n- **Timing Window:** Ensure foliage dries for at least 4 hours post-spray.`;
   } else if (isFertilizerQuery) {
     customAdvice = `\n\n🌿 **Balanced Nutritional Protocol:**\n- **Soil Application:** Apply well-rotted organic manure / **Sikri Vermicompost** (2–4 kg/tree) in early spring basins.\n- **Foliar Nutrition:** Spray balanced **Bublin NPK 11:11:8 Suspension** (2 ml/L) or **IPL 5G Neo+ Bio-stimulant** (2 ml/L) during active fruitlet cell expansion.`;
+  } else if (isPracticalQuery) {
+    customAdvice = `\n\n💡 **Application & Timing Protocol:**\n- Always spray during calm weather (wind < 10 km/h) and moderate temperatures (15°C–25°C).\n- Maintain spray water pH between 5.5 and 6.5 to prevent alkaline hydrolysis of active chemical ingredients.`;
   } else {
-    customAdvice = `\n\n💡 **Chemist Best Practice:**\n- Always spray during calm weather (wind < 10 km/h) and moderate temperatures (15°C–25°C).\n- Maintain spray water pH between 5.5 and 6.5 to prevent alkaline hydrolysis of active chemical ingredients.`;
+    customAdvice = `\n\n💡 **Chemist Best Practice:**\n- Always inspect orchard rows before spraying. Verify chemical expiry and batch numbers.\n- Maintain calibrated nozzle pressure to achieve 150–250 micron fine mist coverage.`;
   }
 
   return {
@@ -569,7 +571,7 @@ export default function AdvisorChatbot() {
         window.speechSynthesis.cancel();
       }
       if (recognitionRef.current) {
-        try { recognitionRef.current.abort(); } catch (e) { /* ignore */ }
+        try { recognitionRef.current.abort(); } catch { /* ignore */ }
       }
     };
   }, []);

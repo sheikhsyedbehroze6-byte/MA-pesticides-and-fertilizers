@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { diseases, products } from '../data/agricultureData';
@@ -15,11 +15,15 @@ export default function Search() {
   const initialQuery = searchParams.get('q') || '';
 
   const [query, setQuery] = useState(initialQuery);
+  const [prevSearch, setPrevSearch] = useState(location.search);
 
-  useEffect(() => {
+  if (location.search !== prevSearch) {
+    setPrevSearch(location.search);
     const qInUrl = new URLSearchParams(location.search).get('q') || '';
-    if (qInUrl !== query) setQuery(qInUrl);
-  }, [location.search]);
+    if (qInUrl !== query) {
+      setQuery(qInUrl);
+    }
+  }
 
   const handleInputChange = (val) => {
     setQuery(val);

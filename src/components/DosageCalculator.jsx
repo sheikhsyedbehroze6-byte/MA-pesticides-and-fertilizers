@@ -95,15 +95,6 @@ export default function DosageCalculator() {
     });
   }, [selectedCategory, searchTerm]);
 
-  // Group filtered products by category for <optgroup> rendering
-  const groupedProducts = useMemo(() => {
-    const groups = {};
-    filteredProducts.forEach(p => {
-      if (!groups[p.category]) groups[p.category] = [];
-      groups[p.category].push(p);
-    });
-    return groups;
-  }, [filteredProducts]);
 
   const product = CALCULATOR_PRODUCTS.find(p => p.id === selectedProductId) || CALCULATOR_PRODUCTS[0];
 
