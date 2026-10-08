@@ -10,6 +10,9 @@ import AdvisorChatbot from './components/AdvisorChatbot';
 import PWAInstallPrompt from './components/PWAInstallPrompt';
 import Home from './pages/Home';
 import { ThemeProvider } from './context/ThemeContext';
+import { CartProvider } from './context/CartContext';
+import SprayOrderDrawer from './components/SprayOrderDrawer';
+import FloatingCartButton from './components/FloatingCartButton';
 import './App.css';
 
 // Lazy-loaded routes for code-splitting & ultra-fast initial bundle
@@ -59,45 +62,53 @@ function RouteFallback() {
 function App() {
   return (
     <ThemeProvider>
-      <Router>
-        <ScrollToTop />
-        <BackToTop />
-        <div className="App">
-          <ScrollProgressBar />
+      <CartProvider>
+        <Router>
+          <ScrollToTop />
+          <BackToTop />
+          <div className="App">
+            <ScrollProgressBar />
 
-          <Header />
+            <Header />
 
-          <main>
-            <Suspense fallback={<RouteFallback />}>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/disease-guide" element={<DiseaseGuide />} />
-                <Route path="/dosage-calculator" element={<DosageCalculatorPage />} />
-                <Route path="/calculator" element={<DosageCalculatorPage />} />
-                <Route path="/spray-calendar" element={<SprayCalendar />} />
-                <Route path="/videos" element={<VideoGallery />} />
-                <Route path="/video-gallery" element={<VideoGallery />} />
-                <Route path="/search" element={<Search />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
-          </main>
+            <main>
+              <Suspense fallback={<RouteFallback />}>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/products" element={<Products />} />
+                  <Route path="/disease-guide" element={<DiseaseGuide />} />
+                  <Route path="/dosage-calculator" element={<DosageCalculatorPage />} />
+                  <Route path="/calculator" element={<DosageCalculatorPage />} />
+                  <Route path="/spray-calendar" element={<SprayCalendar />} />
+                  <Route path="/videos" element={<VideoGallery />} />
+                  <Route path="/video-gallery" element={<VideoGallery />} />
+                  <Route path="/search" element={<Search />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </main>
 
-          <Footer />
+            <Footer />
 
-          {/* Interactive Agricultural Crop Advisor Chatbot */}
-          <AdvisorChatbot />
+            {/* Interactive Agricultural Crop Advisor Chatbot */}
+            <AdvisorChatbot />
 
-          {/* Installable PWA Mobile App Prompt Banner */}
-          <PWAInstallPrompt />
+            {/* Installable PWA Mobile App Prompt Banner */}
+            <PWAInstallPrompt />
 
-          {/* Mobile Bottom Navigation Bar */}
-          <BottomNav />
-        </div>
-      </Router>
+            {/* Spray Order WhatsApp Drawer & Cart */}
+            <SprayOrderDrawer />
+
+            {/* Floating Quick Order Cart Button */}
+            <FloatingCartButton />
+
+            {/* Mobile Bottom Navigation Bar */}
+            <BottomNav />
+          </div>
+        </Router>
+      </CartProvider>
     </ThemeProvider>
   );
 }

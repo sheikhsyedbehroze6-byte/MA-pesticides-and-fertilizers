@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ShieldCheck, Droplets, ArrowUpRight, Search, Calculator, Check, MessageCircle, Sparkles } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Droplets, Search, Calculator, Check, MessageCircle, Sparkles } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import WeatherSprayAlert from '../components/WeatherSprayAlert';
+import ProductCard from '../components/ProductCard';
 import { products } from '../data/agricultureData';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -478,28 +479,8 @@ export default function Home() {
           {/* Catalog Grid previewing top products */}
           <div className="grid-3" style={{ marginBottom: '48px' }}>
             {products.slice(0, 3).map(product => (
-              <div key={product.id} className="card-neutral gsap-scroll-item" style={{ display: 'flex', flexDirection: 'column' }}>
-                <span className="tag-label">{product.type}</span>
-                <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '24px', fontWeight: 400, marginBottom: '8px' }}>
-                  {product.name}
-                </h3>
-                <p style={{ fontSize: '14px', color: 'var(--color-slate-gray)', marginBottom: '16px', flex: 1 }}>
-                  {product.uses}
-                </p>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto', paddingTop: '16px', borderTop: '1px solid rgba(23,25,28,0.06)' }}>
-                  <span style={{ fontSize: '14px', color: 'var(--color-sienna-brown)', fontWeight: 500 }}>
-                    {product.dosage}
-                  </span>
-                  <a
-                    href={`https://wa.me/919906541321?text=Hello%2C%20I%20want%20to%20buy%20${encodeURIComponent(product.name)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="pill-button-ghost pill-button-sm"
-                  >
-                    <span>Order</span>
-                    <ArrowUpRight size={14} />
-                  </a>
-                </div>
+              <div key={product.id} className="gsap-scroll-item">
+                <ProductCard product={product} />
               </div>
             ))}
           </div>

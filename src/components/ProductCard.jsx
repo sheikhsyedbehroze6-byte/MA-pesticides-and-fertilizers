@@ -1,5 +1,6 @@
 import { useState, memo } from 'react';
-import { ShieldCheck, Droplets, MessageCircle, Calculator, X, ArrowRight } from 'lucide-react';
+import { ShieldCheck, Droplets, MessageCircle, Calculator, X, ArrowRight, ShoppingBag, Check } from 'lucide-react';
+import { useCart, estimateProductPrice } from '../context/CartContext';
 import '../pages/urdu.css';
 
 const TYPE_URDU_MAP = {
@@ -37,12 +38,15 @@ function formatQty(amount, unit) {
 }
 
 function ProductCard({ product, langMode = 'both' }) {
+  const { addToCart } = useCart();
+  const [justAdded, setJustAdded] = useState(false);
   const [isCalcOpen, setIsCalcOpen] = useState(false);
   const [customTankLiters, setCustomTankLiters] = useState(200);
 
   const cleanBenefits = product.benefits.replace(/^20%\s*discount\s*on\s*print\s*price\.\s*/i, '');
   const typeUrdu = TYPE_URDU_MAP[product.type] || 'زرعی دوا';
   const parsedDosage = parseDosage(product.dosage);
+  const { mrp, discounted } = estimateProductPrice(product);
 
   const handleEnquiry = (calcMessage = '') => {
     const baseMessage =
@@ -133,15 +137,76 @@ function ProductCard({ product, langMode = 'both' }) {
           </div>
         </div>
 
+        {/* Pricing Display */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'baseline',
+          justifyContent: 'space-between',
+          marginBottom: '14px',
+          padding: '0 2px'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
+            <span style={{
+              fontSize: '19px',
+              fontWeight: 700,
+              color: 'var(--color-pine-green)',
+              fontFamily: 'var(--font-sohne)'
+            }}>
+              ₹{discounted.toLocaleString('en-IN')}
+            </span>
+            <span style={{
+              fontSize: '13px',
+              color: 'var(--color-ash-gray)',
+              textDecoration: 'line-through'
+            }}>
+              ₹{mrp.toLocaleString('en-IN')}
+            </span>
+          </div>
+          <span style={{
+            fontSize: '11px',
+            fontWeight: 700,
+            color: '#16a34a',
+            backgroundColor: 'rgba(22, 163, 74, 0.1)',
+            padding: '2px 8px',
+            borderRadius: '4px'
+          }}>
+            20% OFF MRP
+          </span>
+        </div>
+
         {/* Action Controls */}
-        <div style={{ display: 'grid', gridTemplateColumns: parsedDosage ? '1fr auto' : '1fr', gap: '10px' }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: parsedDosage ? '1fr 1fr auto' : '1fr 1fr',
+          gap: '8px'
+        }}>
+          <button
+            onClick={() => {
+              addToCart(product, 1);
+              setJustAdded(true);
+              setTimeout(() => setJustAdded(false), 2200);
+            }}
+            className="pill-button-filled pill-button-sm"
+            style={{
+              backgroundColor: justAdded ? '#16a34a' : 'var(--color-pine-green)',
+              gap: '6px',
+              justifyContent: 'center',
+              padding: '8px 10px'
+            }}
+            title="Add formulation to spray order cart"
+          >
+            {justAdded ? <Check size={15} /> : <ShoppingBag size={15} />}
+            <span>{justAdded ? 'Added!' : '+ Cart'}</span>
+          </button>
+
           <button
             onClick={() => handleEnquiry()}
-            className="pill-button-filled pill-button-sm"
-            style={{ width: '100%' }}
+            className="pill-button-ghost pill-button-sm"
+            style={{ gap: '6px', justifyContent: 'center', padding: '8px 10px' }}
+            title="Inquire or order directly on WhatsApp"
           >
-            <span>Order on WhatsApp</span>
             <MessageCircle size={15} />
+            <span>Inquire</span>
           </button>
 
           {parsedDosage && (
@@ -149,9 +214,9 @@ function ProductCard({ product, langMode = 'both' }) {
               onClick={() => setIsCalcOpen(true)}
               className="pill-button-ghost pill-button-sm"
               title="Tank Dosage Calculator"
+              style={{ padding: '8px 10px', justifyContent: 'center' }}
             >
               <Calculator size={15} />
-              <span>Calc</span>
             </button>
           )}
         </div>
@@ -177,6 +242,7 @@ function ProductCard({ product, langMode = 'both' }) {
               <button
                 onClick={() => setIsCalcOpen(false)}
                 style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-ink-black)' }}
+                aria-label="Close calculator"
               >
                 <X size={20} />
               </button>
@@ -208,27 +274,45 @@ function ProductCard({ product, langMode = 'both' }) {
               </div>
             </div>
 
-            <div className="card-peach" style={{ padding: '20px', textAlign: 'center', marginBottom: '20px' }}>
+            <div className="card-peach" style={{ padding: '16px', textAlign: 'center', marginBottom: '16px' }}>
               <div style={{ fontSize: '12px', textTransform: 'uppercase', opacity: 0.8 }}>
                 Required Qty for {customTankLiters}L Water
               </div>
-              <div style={{ fontSize: '24px', fontFamily: 'var(--font-sohne)', fontWeight: 500, marginTop: '4px' }}>
+              <div style={{ fontSize: '22px', fontFamily: 'var(--font-sohne)', fontWeight: 600, marginTop: '4px', color: 'var(--color-sienna-brown)' }}>
                 {formatQty(parsedDosage.rate * customTankLiters, parsedDosage.unit)}
               </div>
             </div>
           </div>
 
-          <button
-            onClick={() => {
-              const qtyText = formatQty(parsedDosage.rate * customTankLiters, parsedDosage.unit);
-              handleEnquiry(`Required ${qtyText} for ${customTankLiters} Litres spray tank`);
-            }}
-            className="pill-button-filled"
-            style={{ width: '100%' }}
-          >
-            <span>Confirm & Order Qty</span>
-            <ArrowRight size={16} />
-          </button>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+            <button
+              onClick={() => {
+                const qtyText = formatQty(parsedDosage.rate * customTankLiters, parsedDosage.unit);
+                addToCart(product, 1, {
+                  calculatedNote: `${qtyText} for ${customTankLiters}L Tank`,
+                  openDrawer: true
+                });
+                setIsCalcOpen(false);
+              }}
+              className="pill-button-filled pill-button-sm"
+              style={{ gap: '6px', justifyContent: 'center', padding: '10px 8px', fontSize: '13px' }}
+            >
+              <ShoppingBag size={14} />
+              <span>Add to Cart</span>
+            </button>
+
+            <button
+              onClick={() => {
+                const qtyText = formatQty(parsedDosage.rate * customTankLiters, parsedDosage.unit);
+                handleEnquiry(`Required ${qtyText} for ${customTankLiters} Litres spray tank`);
+              }}
+              className="pill-button-ghost pill-button-sm"
+              style={{ gap: '6px', justifyContent: 'center', padding: '10px 8px', fontSize: '13px' }}
+            >
+              <span>WhatsApp</span>
+              <ArrowRight size={14} />
+            </button>
+          </div>
         </div>
       )}
     </div>

@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
-import { Calculator, Droplets, TreeDeciduous, ShieldAlert, MessageCircle, Search, Filter } from 'lucide-react';
+import { Calculator, Droplets, TreeDeciduous, ShieldAlert, MessageCircle, Search, Filter, ShoppingBag, Check } from 'lucide-react';
+import { useCart } from '../context/CartContext';
 
 const CALCULATOR_PRODUCTS = [
   // --- FUNGICIDES ---
@@ -76,6 +77,8 @@ const CATEGORIES = [
 ];
 
 export default function DosageCalculator() {
+  const { addToCart } = useCart();
+  const [addedToCart, setAddedToCart] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState('antracol');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
@@ -302,11 +305,40 @@ export default function DosageCalculator() {
           </div>
 
           <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.2rem', flexWrap: 'wrap' }}>
+            <button
+              onClick={() => {
+                addToCart({
+                  id: product.id,
+                  name: product.name,
+                  type: product.category,
+                  composition: `${product.ratePerLitre} ${product.unit} per Litre`,
+                  dosage: `${product.ratePerLitre} ${product.unit}/L`,
+                  image: "https://dujjhct8zer0r.cloudfront.net/media/prod_image/97ba698697ab860fb949ed2008187020-02-05-24-18-00-57.webp"
+                }, 1, {
+                  calculatedNote: `${chemicalInKgOrL} for ${totalWaterLiters}L water (${calcMode === 'land' ? `${kanals} Kanals` : `${tankLiters}L Barrel`})`,
+                  openDrawer: true
+                });
+                setAddedToCart(true);
+                setTimeout(() => setAddedToCart(false), 2500);
+              }}
+              className="pill-button-filled"
+              style={{
+                backgroundColor: addedToCart ? '#16a34a' : 'var(--color-pine-green)',
+                padding: '12px 20px',
+                gap: '8px',
+                fontSize: '14px',
+                cursor: 'pointer'
+              }}
+            >
+              {addedToCart ? <Check size={16} /> : <ShoppingBag size={16} />}
+              <span>{addedToCart ? 'Added to Spray Order!' : 'Add to Spray Order Cart'}</span>
+            </button>
+
             <button 
               onClick={handleWhatsAppShare}
               className="dosage-whatsapp-btn"
             >
-              <MessageCircle size={16} /> Send Calculation to Expert on WhatsApp
+              <MessageCircle size={16} /> Send Calculation on WhatsApp
             </button>
           </div>
         </div>

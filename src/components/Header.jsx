@@ -1,7 +1,8 @@
 import React, { useState, useEffect, memo } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Moon, Sun, Menu, X, ArrowRight, MessageSquare, Sprout, Home, Package, Bug, Calendar, Video, Search, Phone, ChevronRight, Calculator, Smartphone } from 'lucide-react';
+import { Moon, Sun, Menu, X, ArrowRight, MessageSquare, Sprout, Home, Package, Bug, Calendar, Video, Search, Phone, ChevronRight, Calculator, Smartphone, ShoppingBag } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { useCart } from '../context/CartContext';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Home', Icon: Home },
@@ -17,6 +18,7 @@ const NAV_ITEMS = [
 
 function Header() {
   const { theme, toggleTheme } = useTheme();
+  const { totalItems, openCart } = useCart();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [prevPathname, setPrevPathname] = useState(location.pathname);
@@ -87,6 +89,30 @@ function Header() {
               <span>Install App</span>
             </button>
 
+            <button
+              onClick={openCart}
+              className="pill-button-ghost pill-button-sm desktop-nav"
+              style={{ position: 'relative', gap: '6px', color: 'var(--color-pine-green)' }}
+              title="View Spray Order Cart"
+              aria-label={`View spray order cart with ${totalItems} items`}
+            >
+              <ShoppingBag size={14} />
+              <span>Order Cart</span>
+              {totalItems > 0 && (
+                <span style={{
+                  backgroundColor: '#22c55e',
+                  color: '#052e16',
+                  fontSize: '11px',
+                  fontWeight: '800',
+                  borderRadius: '999px',
+                  padding: '1px 6px',
+                  marginLeft: '2px'
+                }}>
+                  {totalItems}
+                </span>
+              )}
+            </button>
+
             <a
               href="https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20need%20expert%20crop%20advice..."
               target="_blank"
@@ -96,6 +122,50 @@ function Header() {
               <span>WhatsApp Advisory</span>
               <ArrowRight size={14} />
             </a>
+
+            {/* Mobile Quick Spray Cart Button */}
+            <button
+              onClick={openCart}
+              className="mobile-header-cart-btn"
+              title="View Spray Order Cart"
+              aria-label="Open Spray Order Cart"
+              style={{
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '38px',
+                height: '38px',
+                borderRadius: '50%',
+                backgroundColor: totalItems > 0 ? 'rgba(28, 71, 42, 0.12)' : 'transparent',
+                color: 'var(--color-pine-green)',
+                border: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              <ShoppingBag size={18} />
+              {totalItems > 0 && (
+                <span style={{
+                  position: 'absolute',
+                  top: '-2px',
+                  right: '-2px',
+                  backgroundColor: '#22c55e',
+                  color: '#052e16',
+                  fontSize: '10px',
+                  fontWeight: '800',
+                  minWidth: '16px',
+                  height: '16px',
+                  borderRadius: '999px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '0 3px',
+                  border: '2px solid var(--surface-elevated-white)'
+                }}>
+                  {totalItems}
+                </span>
+              )}
+            </button>
 
             {/* Mobile 1-Tap Quick Dial to Chemist */}
             <a
@@ -124,6 +194,45 @@ function Header() {
         <div className="mobile-menu-drawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation Menu">
           <nav>
             <ul className="mobile-nav-list">
+              <li key="spray-order-cart">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    openCart();
+                  }}
+                  className="mobile-nav-link"
+                  style={{
+                    width: '100%',
+                    border: 'none',
+                    background: 'rgba(28, 71, 42, 0.08)',
+                    color: 'var(--color-pine-green)',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    padding: '12px 14px'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <ShoppingBag size={18} color="var(--color-pine-green)" />
+                    <span style={{ fontWeight: 600 }}>Spray Tank Order</span>
+                    {totalItems > 0 && (
+                      <span style={{
+                        backgroundColor: '#22c55e',
+                        color: '#052e16',
+                        fontSize: '11px',
+                        fontWeight: 800,
+                        borderRadius: '999px',
+                        padding: '2px 8px',
+                        marginLeft: '4px'
+                      }}>
+                        {totalItems}
+                      </span>
+                    )}
+                  </div>
+                  <ChevronRight size={16} opacity={0.6} />
+                </button>
+              </li>
               {NAV_ITEMS.map(({ to, label, Icon }) => (
                 <li key={to}>
                   <NavLink
