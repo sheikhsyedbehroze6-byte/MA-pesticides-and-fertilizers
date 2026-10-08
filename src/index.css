@@ -687,27 +687,67 @@ button, input, select, textarea {
 }
 
 .brand-logo {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 10px;
   color: var(--color-ink-black);
-  font-family: var(--font-signifier);
-  font-size: 22px;
-  font-weight: 400;
-  letter-spacing: -0.5px;
+  text-decoration: none;
+  flex-shrink: 0 !important;
+  white-space: nowrap !important;
+  min-width: max-content;
 }
 
-.brand-logo .brand-badge {
+.brand-logo-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background-color: var(--color-sage-tint);
+  border: 1px solid rgba(28, 71, 42, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-pine-green);
+  flex-shrink: 0 !important;
+}
+
+[data-theme="dark"] .brand-logo-icon {
+  background-color: rgba(52, 211, 153, 0.15);
+  border-color: rgba(52, 211, 153, 0.28);
+  color: #34d399;
+}
+
+.brand-logo-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.15;
+  flex-shrink: 0 !important;
+}
+
+.brand-title {
+  font-family: var(--font-signifier);
+  font-size: 19px;
+  font-weight: 550;
+  letter-spacing: -0.3px;
+  color: var(--color-ink-black);
+  white-space: nowrap !important;
+  line-height: 1.2;
+}
+
+.brand-subtitle {
   font-family: var(--font-sohne);
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  background-color: var(--color-sage-tint);
+  letter-spacing: 1.1px;
   color: var(--color-pine-green);
-  border: 1px solid rgba(28, 71, 42, 0.15);
-  padding: 2px 8px;
-  border-radius: 9999px;
+  white-space: nowrap !important;
+  line-height: 1.1;
+  margin-top: 1px;
+}
+
+[data-theme="dark"] .brand-subtitle {
+  color: #34d399;
 }
 
 /* Green Farming Utility Accents */
@@ -1750,6 +1790,24 @@ button, input, select, textarea {
 
   .page-container {
     padding: 0 14px;
+  }
+
+  .brand-logo {
+    gap: 8px;
+  }
+
+  .brand-logo-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .brand-title {
+    font-size: 17px;
+  }
+
+  .brand-subtitle {
+    font-size: 9.5px;
+    letter-spacing: 0.9px;
   }
 
   .floating-product-artifact {

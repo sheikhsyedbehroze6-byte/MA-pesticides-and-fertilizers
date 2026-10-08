@@ -48,9 +48,13 @@ function Header() {
         <div className="header-inner">
           {/* Logo & Brand Affordance */}
           <NavLink to="/" className="brand-logo" onClick={() => setIsMobileMenuOpen(false)}>
-            <Sprout size={22} color="var(--color-pine-green)" style={{ flexShrink: 0 }} />
-            <span>MA Pesticides</span>
-            <span className="brand-badge">Srinagar</span>
+            <div className="brand-logo-icon">
+              <Sprout size={20} color="var(--color-pine-green)" strokeWidth={2.2} />
+            </div>
+            <div className="brand-logo-text">
+              <span className="brand-title">MA Pesticides</span>
+              <span className="brand-subtitle">Srinagar</span>
+            </div>
           </NavLink>
 
           {/* Desktop Navigation Links */}
@@ -100,22 +104,22 @@ function Header() {
             <button
               onClick={() => window.dispatchEvent(new Event('trigger-pwa-install'))}
               className="pill-button-ghost pill-button-sm desktop-nav"
-              style={{ gap: '6px', color: 'var(--color-pine-green)', borderColor: 'rgba(28,71,42,0.25)' }}
+              style={{ gap: '5px', color: 'var(--color-pine-green)', borderColor: 'rgba(28,71,42,0.25)', padding: '6px 12px' }}
               title="Install app on mobile or desktop"
             >
               <Smartphone size={14} />
-              <span>Install App</span>
+              <span>Install</span>
             </button>
 
             <button
               onClick={openCart}
               className="pill-button-ghost pill-button-sm desktop-nav"
-              style={{ position: 'relative', gap: '6px', color: 'var(--color-pine-green)' }}
+              style={{ position: 'relative', gap: '5px', color: 'var(--color-pine-green)', padding: '6px 12px' }}
               title="View Spray Order Cart"
               aria-label={`View spray order cart with ${totalItems} items`}
             >
               <ShoppingBag size={14} />
-              <span>Order Cart</span>
+              <span>Cart</span>
               {totalItems > 0 && (
                 <span style={{
                   backgroundColor: '#22c55e',
@@ -136,8 +140,9 @@ function Header() {
               target="_blank"
               rel="noopener noreferrer"
               className="pill-button-filled pill-button-sm desktop-nav"
+              style={{ gap: '5px', padding: '6px 14px' }}
             >
-              <span>WhatsApp Advisory</span>
+              <span>WhatsApp</span>
               <ArrowRight size={14} />
             </a>
 
