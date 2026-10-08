@@ -20,7 +20,7 @@ export default function BottomNav() {
             {({ isActive }) => (
               <>
                 <div className="bottom-nav-icon-wrapper">
-                  <Home size={20} strokeWidth={isActive ? 2.3 : 1.8} />
+                  <Home size={22} strokeWidth={isActive ? 2.5 : 2.0} />
                   {isActive && <span className="bottom-nav-active-dot" />}
                 </div>
                 <span className="bottom-nav-label">Home</span>
@@ -38,7 +38,7 @@ export default function BottomNav() {
             {({ isActive }) => (
               <>
                 <div className="bottom-nav-icon-wrapper">
-                  <Package size={20} strokeWidth={isActive ? 2.3 : 1.8} />
+                  <Package size={22} strokeWidth={isActive ? 2.5 : 2.0} />
                   {isActive && <span className="bottom-nav-active-dot" />}
                 </div>
                 <span className="bottom-nav-label">Products</span>
@@ -56,7 +56,7 @@ export default function BottomNav() {
             {({ isActive }) => (
               <>
                 <div className="bottom-nav-icon-wrapper">
-                  <Calendar size={20} strokeWidth={isActive ? 2.3 : 1.8} />
+                  <Calendar size={22} strokeWidth={isActive ? 2.5 : 2.0} />
                   {isActive && <span className="bottom-nav-active-dot" />}
                 </div>
                 <span className="bottom-nav-label">Calendar</span>
@@ -74,10 +74,10 @@ export default function BottomNav() {
             {({ isActive }) => (
               <>
                 <div className="bottom-nav-icon-wrapper">
-                  <Calculator size={20} strokeWidth={isActive ? 2.3 : 1.8} />
+                  <Calculator size={22} strokeWidth={isActive ? 2.5 : 2.0} />
                   {isActive && <span className="bottom-nav-active-dot" />}
                 </div>
-                <span className="bottom-nav-label">Dosage</span>
+                <span className="bottom-nav-label">Dosage Calc</span>
               </>
             )}
           </NavLink>
@@ -92,10 +92,10 @@ export default function BottomNav() {
             aria-label="Open Orchard AI Crop Advisor"
           >
             <div className="bottom-nav-icon-wrapper">
-              <Sparkles size={20} className="bottom-nav-ai-icon" />
+              <Sparkles size={22} strokeWidth={2.2} className="bottom-nav-ai-icon" />
               <span className="bottom-nav-pulse-ring" />
             </div>
-            <span className="bottom-nav-label" style={{ fontWeight: 600 }}>Ask AI</span>
+            <span className="bottom-nav-label" style={{ fontWeight: 650 }}>Ask AI</span>
           </button>
         </li>
       </ul>

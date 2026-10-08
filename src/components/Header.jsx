@@ -57,13 +57,31 @@ function Header() {
           <nav className="desktop-nav">
             <ul className="nav-links-list">
               <li><NavLink to="/" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Home</NavLink></li>
+              <li>
+                <NavLink to="/products" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>
+                  <Package size={15} strokeWidth={2.2} />
+                  <span>Products</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dosage-calculator" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>
+                  <Calculator size={15} strokeWidth={2.2} />
+                  <span>Dosage Calc</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/spray-calendar" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>
+                  <Calendar size={15} strokeWidth={2.2} />
+                  <span>Calendar</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/disease-guide" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>
+                  <Bug size={15} strokeWidth={2.2} />
+                  <span>Disease Guide</span>
+                </NavLink>
+              </li>
               <li><NavLink to="/about" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>About</NavLink></li>
-              <li><NavLink to="/products" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Products</NavLink></li>
-              <li><NavLink to="/disease-guide" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Disease Guide</NavLink></li>
-              <li><NavLink to="/dosage-calculator" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Dosage Calculator</NavLink></li>
-              <li><NavLink to="/spray-calendar" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Spray Calendar</NavLink></li>
-              <li><NavLink to="/videos" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Videos</NavLink></li>
-              <li><NavLink to="/search" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Search</NavLink></li>
               <li><NavLink to="/contact" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Contact</NavLink></li>
             </ul>
           </nav>
@@ -242,10 +260,22 @@ function Header() {
                     className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      <Icon size={18} opacity={0.8} />
-                      <span>{label}</span>
+                      <div style={{
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '8px',
+                        backgroundColor: 'rgba(28, 71, 42, 0.08)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'var(--color-pine-green)',
+                        flexShrink: 0
+                      }}>
+                        <Icon size={18} strokeWidth={2.2} />
+                      </div>
+                      <span style={{ fontWeight: 500 }}>{label}</span>
                     </div>
-                    <ChevronRight size={16} opacity={0.4} />
+                    <ChevronRight size={16} opacity={0.5} />
                   </NavLink>
                 </li>
               ))}

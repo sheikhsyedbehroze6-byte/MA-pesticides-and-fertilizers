@@ -750,21 +750,42 @@ button, input, select, textarea {
 .nav-links-list {
   display: flex;
   align-items: center;
-  gap: clamp(14px, 1.8vw, 28px);
+  gap: clamp(8px, 1.2vw, 18px);
   list-style: none;
+  flex-wrap: nowrap;
 }
 
 .nav-link-item {
   color: var(--color-ink-black);
   font-family: var(--font-sohne);
-  font-size: 15px;
-  font-weight: 430;
-  transition: color 0.15s ease;
+  font-size: 14.5px;
+  font-weight: 500;
+  transition: color 0.15s ease, background-color 0.15s ease;
   outline: none;
+  white-space: nowrap !important;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  text-decoration: none;
 }
 
-.nav-link-item:hover, .nav-link-item.active {
-  color: var(--color-slate-gray);
+.nav-link-item:hover {
+  background-color: var(--surface-card-mist);
+  color: var(--color-pine-green);
+}
+
+.nav-link-item.active {
+  background-color: var(--color-sage-tint);
+  color: var(--color-pine-green);
+  font-weight: 600;
+}
+
+[data-theme="dark"] .nav-link-item.active {
+  background-color: rgba(52, 211, 153, 0.15);
+  color: #34d399;
 }
 
 .nav-link-item:focus-visible {
@@ -777,6 +798,11 @@ button, input, select, textarea {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.mobile-header-cart-btn,
+.mobile-header-call-btn {
+  display: none !important;
 }
 
 .theme-toggle-btn,
@@ -823,6 +849,58 @@ button, input, select, textarea {
 
 .mobile-toggle-btn {
   display: none;
+}
+
+/* Breadcrumb Navigation */
+.breadcrumb {
+  margin-bottom: 24px;
+}
+
+.breadcrumb ol {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 8px;
+}
+
+.breadcrumb li {
+  display: inline-flex;
+  align-items: center;
+  font-size: 13.5px;
+  font-family: var(--font-sohne);
+  list-style-type: none !important;
+}
+
+.breadcrumb-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--color-pine-green);
+  text-decoration: none;
+  font-weight: 550;
+  transition: opacity 0.15s ease;
+}
+
+[data-theme="dark"] .breadcrumb-link {
+  color: #34d399;
+}
+
+.breadcrumb-link:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb-separator {
+  color: var(--color-smoke-gray);
+  display: inline-flex;
+  align-items: center;
+}
+
+.breadcrumb-current {
+  color: var(--color-slate-gray);
+  font-weight: 450;
 }
 
 /* Mobile Navigation Drawer */
@@ -1226,7 +1304,7 @@ button, input, select, textarea {
   padding: 2rem;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1180px) {
   .desktop-nav {
     display: none !important;
   }
@@ -1234,6 +1312,14 @@ button, input, select, textarea {
   .mobile-toggle-btn {
     display: inline-flex !important;
   }
+
+  .mobile-header-cart-btn,
+  .mobile-header-call-btn {
+    display: inline-flex !important;
+  }
+}
+
+@media (max-width: 900px) {
 
   .hero-artifacts-row-1,
   .hero-artifacts-row-2 {
@@ -1417,22 +1503,26 @@ button, input, select, textarea {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 3px;
+    gap: 4px;
     width: 100%;
-    max-width: 72px;
+    max-width: 76px;
     text-decoration: none;
-    color: var(--color-slate-gray);
+    color: #4b5563;
     font-family: var(--font-sohne);
     font-size: 11px;
-    font-weight: 450;
+    font-weight: 550;
     padding: 6px 2px 4px;
     border-radius: 12px;
     background: none;
     border: none;
     cursor: pointer;
     transition: color 0.15s ease, transform 0.12s ease;
-    min-height: 50px;
+    min-height: 52px;
     -webkit-tap-highlight-color: transparent;
+  }
+
+  [data-theme="dark"] .bottom-nav-link {
+    color: #e5e7eb;
   }
 
   .bottom-nav-link:active {
@@ -1441,11 +1531,12 @@ button, input, select, textarea {
 
   .bottom-nav-link.active {
     color: var(--color-pine-green);
-    font-weight: 600;
+    font-weight: 700;
   }
 
   [data-theme="dark"] .bottom-nav-link.active {
     color: #34d399;
+    font-weight: 700;
   }
 
   .bottom-nav-icon-wrapper {
@@ -1453,8 +1544,18 @@ button, input, select, textarea {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 24px;
+    width: 36px;
+    height: 28px;
+    border-radius: 14px;
+    transition: background-color 0.15s ease;
+  }
+
+  .bottom-nav-link.active .bottom-nav-icon-wrapper {
+    background-color: rgba(28, 71, 42, 0.12);
+  }
+
+  [data-theme="dark"] .bottom-nav-link.active .bottom-nav-icon-wrapper {
+    background-color: rgba(52, 211, 153, 0.2);
   }
 
   .bottom-nav-active-dot {
@@ -1470,6 +1571,10 @@ button, input, select, textarea {
 
   [data-theme="dark"] .bottom-nav-active-dot {
     background-color: #34d399;
+  }
+
+  .bottom-nav-label {
+    letter-spacing: -0.1px;
   }
 
   /* Ask AI Special Tab Button in Dock */
@@ -1709,15 +1814,22 @@ button, input, select, textarea {
 }
 
 .dosage-calc-icon {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: 12px;
-  background-color: var(--surface-accent-blush);
+  background-color: var(--color-sage-tint);
+  border: 1px solid rgba(28, 71, 42, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-sienna-brown);
+  color: var(--color-pine-green);
   flex-shrink: 0;
+}
+
+[data-theme="dark"] .dosage-calc-icon {
+  background-color: rgba(52, 211, 153, 0.16);
+  border-color: rgba(52, 211, 153, 0.3);
+  color: #34d399;
 }
 
 .dosage-calc-body {
@@ -1931,24 +2043,28 @@ button, input, select, textarea {
   border-radius: calc(var(--radius-smallcards) - 2px);
   border: none;
   background: transparent;
-  color: var(--color-slate-gray);
+  color: #4b5563;
   font-family: var(--font-sohne);
   font-size: 13.5px;
-  font-weight: 500;
+  font-weight: 550;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
+[data-theme="dark"] .dosage-mode-btn {
+  color: #cbd5e1;
+}
+
 .dosage-mode-btn.active {
   background-color: var(--surface-elevated-white);
-  color: var(--color-ink-black);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  font-weight: 600;
+  color: var(--color-pine-green);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  font-weight: 650;
 }
 
 [data-theme="dark"] .dosage-mode-btn.active {
-  background-color: var(--surface-card-mist);
-  color: #ffffff;
+  background-color: #1f2430;
+  color: #34d399;
 }
 
 .dosage-two-col {

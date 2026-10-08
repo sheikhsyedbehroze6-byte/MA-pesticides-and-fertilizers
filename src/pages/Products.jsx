@@ -67,7 +67,7 @@ export default function Products() {
         {/* AI Composer Input Bar Search */}
         <div style={{ maxWidth: '640px', margin: '0 auto 36px' }}>
           <div className="ai-composer-input">
-            <Search size={18} color="var(--color-smoke-gray)" />
+            <Search size={18} strokeWidth={2.2} color="var(--color-pine-green)" style={{ flexShrink: 0 }} />
             <input
               type="text"
               placeholder="Search formulations by name, active ingredient, or disease..."

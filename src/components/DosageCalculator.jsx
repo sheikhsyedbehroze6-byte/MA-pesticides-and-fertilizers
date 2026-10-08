@@ -135,12 +135,12 @@ export default function DosageCalculator() {
   return (
     <div className="dosage-calculator-card">
       <div className="dosage-calc-header">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
           <div className="dosage-calc-icon">
-            <Calculator size={22} color="var(--color-sienna-brown)" />
+            <Calculator size={24} strokeWidth={2.3} />
           </div>
           <div>
-            <h3 style={{ margin: 0, fontSize: '1.25rem', fontFamily: 'var(--font-signifier)', fontWeight: 400, color: 'var(--color-ink-black)' }}>
+            <h3 style={{ margin: 0, fontSize: '1.25rem', fontFamily: 'var(--font-signifier)', fontWeight: 500, color: 'var(--color-ink-black)' }}>
               Orchard Spray Dosage & Barrel Calculator
             </h3>
             <span style={{ fontSize: '0.85rem', color: 'var(--color-slate-gray)' }}>
@@ -154,22 +154,22 @@ export default function DosageCalculator() {
         {/* Step 1: Filter & Product Selection */}
         <div className="dosage-calc-field">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-            <label style={{ margin: 0, color: 'var(--color-ink-black)' }}>Select Chemical / Product ({filteredProducts.length} items):</label>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.8rem', color: 'var(--color-slate-gray)' }}>
-              <Filter size={14} /> Filter & Search
+            <label style={{ margin: 0, color: 'var(--color-ink-black)', fontWeight: 600 }}>Select Chemical / Product ({filteredProducts.length} items):</label>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.82rem', color: 'var(--color-pine-green)', fontWeight: 550 }}>
+              <Filter size={15} strokeWidth={2.2} /> Filter & Search
             </div>
           </div>
 
           {/* Search bar */}
           <div style={{ position: 'relative', marginBottom: '0.6rem' }}>
-            <Search size={16} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+            <Search size={18} strokeWidth={2.2} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-pine-green)' }} />
             <input
               type="text"
               placeholder="Quick search chemical name, brand, or active ingredient..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="dosage-calc-input"
-              style={{ paddingLeft: '32px', fontSize: '0.88rem' }}
+              style={{ paddingLeft: '38px', fontSize: '0.9rem' }}
             />
           </div>
 
@@ -217,13 +217,13 @@ export default function DosageCalculator() {
             className={`dosage-mode-btn ${calcMode === 'tank' ? 'active' : ''}`}
             onClick={() => setCalcMode('tank')}
           >
-            <Droplets size={16} /> By Barrel / Tank Volume (Liters)
+            <Droplets size={17} strokeWidth={2.2} /> By Barrel / Tank Volume (Liters)
           </button>
           <button 
             className={`dosage-mode-btn ${calcMode === 'land' ? 'active' : ''}`}
             onClick={() => setCalcMode('land')}
           >
-            <TreeDeciduous size={16} /> By Orchard Size (Kanals / Trees)
+            <TreeDeciduous size={17} strokeWidth={2.2} /> By Orchard Size (Kanals / Trees)
           </button>
         </div>
 

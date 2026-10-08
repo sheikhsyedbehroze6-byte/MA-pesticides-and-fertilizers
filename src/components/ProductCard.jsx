@@ -127,12 +127,36 @@ function ProductCard({ product, langMode = 'both' }) {
           gap: '8px',
           marginTop: 'auto'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: 'var(--color-slate-gray)' }}>
-            <Droplets size={15} color="var(--color-sienna-brown)" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13.5px', color: 'var(--color-ink-black)' }}>
+            <span style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '24px',
+              height: '24px',
+              borderRadius: '6px',
+              backgroundColor: 'rgba(28, 71, 42, 0.1)',
+              color: 'var(--color-pine-green)',
+              flexShrink: 0
+            }}>
+              <Droplets size={14} strokeWidth={2.2} />
+            </span>
             <span><strong>Dosage:</strong> {product.dosage}</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: 'var(--color-slate-gray)' }}>
-            <ShieldCheck size={15} color="var(--color-sienna-brown)" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13.5px', color: 'var(--color-ink-black)' }}>
+            <span style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '24px',
+              height: '24px',
+              borderRadius: '6px',
+              backgroundColor: 'rgba(28, 71, 42, 0.1)',
+              color: 'var(--color-pine-green)',
+              flexShrink: 0
+            }}>
+              <ShieldCheck size={14} strokeWidth={2.2} />
+            </span>
             <span style={{ fontSize: '13px' }}><strong>Benefit:</strong> {cleanBenefits}</span>
           </div>
         </div>
@@ -195,7 +219,7 @@ function ProductCard({ product, langMode = 'both' }) {
             }}
             title="Add formulation to spray order cart"
           >
-            {justAdded ? <Check size={15} /> : <ShoppingBag size={15} />}
+            {justAdded ? <Check size={15} strokeWidth={2.2} /> : <ShoppingBag size={15} strokeWidth={2.2} />}
             <span>{justAdded ? 'Added!' : '+ Cart'}</span>
           </button>
 
@@ -205,7 +229,7 @@ function ProductCard({ product, langMode = 'both' }) {
             style={{ gap: '6px', justifyContent: 'center', padding: '8px 10px' }}
             title="Inquire or order directly on WhatsApp"
           >
-            <MessageCircle size={15} />
+            <MessageCircle size={15} strokeWidth={2.2} />
             <span>Inquire</span>
           </button>
 
@@ -214,9 +238,18 @@ function ProductCard({ product, langMode = 'both' }) {
               onClick={() => setIsCalcOpen(true)}
               className="pill-button-ghost pill-button-sm"
               title="Tank Dosage Calculator"
-              style={{ padding: '8px 10px', justifyContent: 'center' }}
+              style={{
+                gap: '5px',
+                padding: '8px 12px',
+                justifyContent: 'center',
+                color: 'var(--color-pine-green)',
+                borderColor: 'rgba(28, 71, 42, 0.25)',
+                backgroundColor: 'rgba(28, 71, 42, 0.05)',
+                fontWeight: 600
+              }}
             >
-              <Calculator size={15} />
+              <Calculator size={15} strokeWidth={2.2} />
+              <span>Calc</span>
             </button>
           )}
         </div>
