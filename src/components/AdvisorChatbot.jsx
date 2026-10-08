@@ -5,6 +5,7 @@ import {
   Calendar, Phone, MapPin, CheckCircle, Info, Beaker, Leaf, AlertTriangle
 } from 'lucide-react';
 import { products, diseases } from '../data/agricultureData';
+import { estimateProductPrice } from '../context/CartContext';
 import '../pages/urdu.css';
 
 // ============================================================================
@@ -272,11 +273,85 @@ function generateUniversalAnswer(userText, query, _words) {
 // ============================================================================
 // 4. Master AI Decision & Advisory Engine
 // ============================================================================
-function getBotResponse(userText) {
+function getBotResponse(userText, messageHistory = []) {
   const query = userText.toLowerCase().trim();
   const words = query
     .split(/[\s,?.!]+/)
     .filter(w => !['the', 'and', 'is', 'for', 'in', 'to', 'of', 'a', 'an', 'what', 'how', 'which', 'where', 'who', 'my', 'i', 'have', 'me', 'please', 'can', 'you', 'give'].includes(w));
+
+  // --------------------------------------------------------------------------
+  // INTENT 0: Product Price & 20% Discount Query
+  // ("what is the price of that product", "price of Luna", "how much is it", "rate of Antracol", "kitne ka hai")
+  // --------------------------------------------------------------------------
+  const isPriceQuery = /(price|cost|rate|mrp|discount|kitne|kitna|dam|daam|paisa|paise|kitne ka|how much|worth|retail|pricing)/i.test(query);
+
+  if (isPriceQuery) {
+    let targetProduct = null;
+    let maxScore = 0;
+
+    // 1. Search if a product name was explicitly typed in the user's text
+    products.forEach(p => {
+      const score = scoreMatch(p.name, words) * 3 + scoreMatch(p.composition, words);
+      if (score > maxScore) {
+        maxScore = score;
+        targetProduct = p;
+      }
+    });
+
+    // 2. If no explicit product named in user query, check history for the last referenced product
+    if ((!targetProduct || maxScore < 3) && Array.isArray(messageHistory)) {
+      for (let i = messageHistory.length - 1; i >= 0; i--) {
+        const msg = messageHistory[i];
+        if (msg.productEmbed) {
+          targetProduct = msg.productEmbed;
+          break;
+        }
+        if (msg.diseaseEmbed && msg.diseaseEmbed.cure) {
+          const cureLower = msg.diseaseEmbed.cure.toLowerCase();
+          const found = products.find(p => cureLower.includes(p.name.toLowerCase()) || p.name.toLowerCase().includes(cureLower));
+          if (found) {
+            targetProduct = found;
+            break;
+          }
+        }
+        if (msg.text) {
+          for (const p of products) {
+            if (msg.text.toLowerCase().includes(p.name.toLowerCase())) {
+              targetProduct = p;
+              break;
+            }
+          }
+        }
+        if (targetProduct) break;
+      }
+    }
+
+    // 3. If a product was identified (either from query or conversation context):
+    if (targetProduct) {
+      const { mrp, discounted } = estimateProductPrice(targetProduct);
+      const savings = mrp - discounted;
+
+      return {
+        text: `🏷️ **Price & Discount Breakdown for ${targetProduct.name}:**\n\n- 🏷️ **Print MRP:** ~~₹${mrp.toLocaleString('en-IN')}~~\n- 💚 **MA Pesticides Store Price (20% OFF):** **₹${discounted.toLocaleString('en-IN')}**\n- 💰 **Your Direct Savings:** **₹${savings.toLocaleString('en-IN')} (20% Below Print MRP)**\n\n🧪 **Active Formulation:** ${targetProduct.composition || 'Genuine Factory Batch'}\n💧 **Standard Dosage:** ${targetProduct.dosage}\n✨ **Key Benefit:** ${targetProduct.benefits}\n\n📍 **Store Privilege:** 100% factory-sealed original product available at our Hari Singh High Street store in Srinagar with instant valley delivery.`,
+        productEmbed: targetProduct,
+        actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, I want to order genuine ${targetProduct.name} at discounted price ₹${discounted} (MRP ₹${mrp}).`)}`,
+        suggestions: ['🧮 Calculate 200L Tank Dosage', '🛒 Reserve for Pickup in Srinagar', '🗓️ SKUAST Spray Stages', '📍 Visit Srinagar Store']
+      };
+    }
+
+    // 4. Fallback if no specific product context was found: Provide catalog price list preview
+    const topProds = products.slice(0, 5);
+    const priceListText = topProds.map(p => {
+      const { mrp, discounted } = estimateProductPrice(p);
+      return `• **${p.name}**: ~~₹${mrp}~~ ➔ **₹${discounted}** (Save ₹${mrp - discounted})`;
+    }).join('\n');
+
+    return {
+      text: `🏷️ **MA Pesticides Srinagar — Guaranteed 20% Below Print MRP Price List:**\n\nAll authorized formulations from Bayer, Syngenta, and IPL Biologicals are available at a **flat 20% discount on print MRP**:\n\n${priceListText}\n\n💡 *Ask "what is the price of Luna" or ask "what is the price of that product" after inquiring about any formulation to get instant pricing!*`,
+      actionLink: `https://wa.me/919906541321?text=${encodeURIComponent('Hello Sheikh Mohammad Ayoub, please send me the complete product price list.')}`,
+      suggestions: ['🏷️ Price of Luna', '🏷️ Price of Cyclone 505', '🏷️ Price of Superstar Dodine', '🧮 Calculate 200L Dosage']
+    };
+  }
 
   // --------------------------------------------------------------------------
   // INTENT 1: Developer Inquiry (Priority Match)
@@ -654,7 +729,7 @@ export default function AdvisorChatbot() {
     setIsTyping(true);
 
     setTimeout(() => {
-      const response = getBotResponse(queryText);
+      const response = getBotResponse(queryText, messages);
       setMessages(prev => [...prev, { sender: 'bot', ...response }]);
       setIsTyping(false);
     }, 180);
