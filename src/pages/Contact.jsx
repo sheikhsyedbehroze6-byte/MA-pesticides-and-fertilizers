@@ -207,7 +207,7 @@ export default function Contact() {
         {/* ========================================================================
             MAP & NAVIGATION SECTION (Square Map on Left, Landmarks on Right)
             ======================================================================== */}
-        <div className="card-neutral" style={{ padding: '36px 32px' }}>
+        <div className="card-neutral" style={{ padding: 'clamp(20px, 4vw, 36px) clamp(16px, 3.5vw, 32px)' }}>
           <div style={{ marginBottom: '28px' }}>
             <span className="tag-label" style={{ margin: 0 }}>GEOGRAPHIC LOCATION & ACCESS</span>
             <h2 style={{ fontFamily: 'var(--font-signifier)', fontSize: '28px', fontWeight: 400, margin: '4px 0 0' }}>
@@ -218,7 +218,7 @@ export default function Contact() {
           {/* 2-Column Grid: Square Map on Left, Landmark & Transit Info on Right */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
             gap: '28px',
             alignItems: 'stretch'
           }}>

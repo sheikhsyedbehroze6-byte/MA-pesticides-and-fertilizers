@@ -719,7 +719,7 @@ export default function SprayCalendar() {
         }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
             {/* Left Side: Crop Picker Buttons with SVG Crop Icons (Swipeable on Mobile) */}
-            <div className="mobile-horizontal-pills-container" style={{ flex: 1, minWidth: '280px' }}>
+            <div className="mobile-horizontal-pills-container" style={{ flex: 1, minWidth: 0, width: '100%' }}>
               <div className="mobile-horizontal-pills" style={{ margin: 0, padding: '2px 0' }}>
                 {Object.keys(SPRAY_SCHEDULES).map((cropKey) => {
                   const CropIcon = SPRAY_SCHEDULES[cropKey].icon;
@@ -743,7 +743,7 @@ export default function SprayCalendar() {
             </div>
 
             {/* Right Side: Language Mode Switcher */}
-            <div style={{ display: 'flex', background: 'var(--surface-canvas)', padding: '4px', borderRadius: '9999px', border: '1px solid rgba(23, 25, 28, 0.1)' }}>
+            <div style={{ display: 'flex', background: 'var(--surface-canvas)', padding: '3px', borderRadius: '9999px', border: '1px solid rgba(23, 25, 28, 0.1)', maxWidth: '100%', flexShrink: 0 }}>
               {[
                 { id: 'both', label: 'Dual View (EN + UR)' },
                 { id: 'en', label: 'English' },
@@ -756,13 +756,14 @@ export default function SprayCalendar() {
                     background: langMode === m.id ? 'var(--color-ink-black)' : 'transparent',
                     color: langMode === m.id ? '#ffffff' : 'var(--color-slate-gray)',
                     border: 'none',
-                    padding: '0.4rem 0.85rem',
+                    padding: '0.35rem 0.65rem',
                     borderRadius: '9999px',
                     fontWeight: '600',
-                    fontSize: '0.78rem',
+                    fontSize: '0.74rem',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
-                    fontFamily: m.id === 'ur' ? 'Noto Nastaliq Urdu, sans-serif' : 'inherit'
+                    fontFamily: m.id === 'ur' ? 'Noto Nastaliq Urdu, sans-serif' : 'inherit',
+                    whiteSpace: 'nowrap'
                   }}
                 >
                   {m.label}
@@ -780,7 +781,7 @@ export default function SprayCalendar() {
         </AnimatedSection>
 
         {/* Main Timeline Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', marginBottom: '3.5rem' }}>
+        <div className="spray-timeline-layout" style={{ marginBottom: '3.5rem' }}>
           
           {/* Left Side: Stages Timeline Map */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
@@ -835,12 +836,9 @@ export default function SprayCalendar() {
               return (
                 <AnimatedSection
                   key={stage.id}
-                  className="card-neutral"
+                  className="card-neutral spray-stage-advisor-card"
                   style={{
-                    padding: '2rem',
-                    boxShadow: 'var(--shadow-artifact)',
-                    position: 'sticky',
-                    top: '90px'
+                    boxShadow: 'var(--shadow-artifact)'
                   }}
                 >
                   <div style={{ borderBottom: '1px solid rgba(23, 25, 28, 0.08)', paddingBottom: '1rem', marginBottom: '1.5rem' }}>

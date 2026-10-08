@@ -146,7 +146,7 @@ export default function Home() {
                 className="pill-button-ghost"
               >
                 <span>Consult Sheikh M. Ayoub</span>
-                <ArrowUpRight size={16} />
+                <ArrowRight size={16} />
               </a>
             </div>
           </div>

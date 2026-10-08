@@ -254,8 +254,8 @@ export default function VideoGallery() {
         <div className="card-neutral" style={{ padding: 'clamp(20px, 3.5vw, 36px)', marginBottom: '56px' }}>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '32px',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+            gap: 'clamp(20px, 3vw, 32px)',
             alignItems: 'center'
           }}>
             {/* Left: HD Video Feature Launcher Card */}
