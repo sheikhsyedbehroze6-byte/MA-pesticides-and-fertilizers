@@ -179,19 +179,21 @@ export default function DosageCalculator() {
             />
           </div>
 
-          {/* Category Filter Pills */}
-          <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
-            {CATEGORIES.map(cat => (
-              <button
-                key={cat}
-                type="button"
-                className={`preset-btn ${selectedCategory === cat ? 'active' : ''}`}
-                style={{ fontSize: '0.75rem', padding: '0.25rem 0.6rem', borderRadius: '15px' }}
-                onClick={() => setSelectedCategory(cat)}
-              >
-                {cat}
-              </button>
-            ))}
+          {/* Category Filter Pills (Horizontal Swiper on Mobile) */}
+          <div className="mobile-horizontal-pills-container">
+            <div className="mobile-horizontal-pills" style={{ marginBottom: '0.75rem', padding: '2px 0 6px' }}>
+              {CATEGORIES.map(cat => (
+                <button
+                  key={cat}
+                  type="button"
+                  className={`preset-btn ${selectedCategory === cat ? 'active' : ''}`}
+                  style={{ fontSize: '0.8rem', padding: '0.35rem 0.85rem', borderRadius: '15px', whiteSpace: 'nowrap', flexShrink: 0 }}
+                  onClick={() => setSelectedCategory(cat)}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Chemical Products in Pill-Shaped Boxes */}
@@ -241,19 +243,21 @@ export default function DosageCalculator() {
                   key={vol}
                   type="button"
                   className={`preset-btn ${Number(tankLiters) === vol ? 'active' : ''}`}
+                  style={{ minHeight: '42px', minWidth: '60px' }}
                   onClick={() => setTankLiters(vol)}
                 >
-                  {vol}L {vol === 500 ? '(Standard Kashmir Barrel)' : ''}
+                  {vol}L {vol === 200 ? '(Kashmir Barrel)' : ''}
                 </button>
               ))}
             </div>
             <input 
               type="number" 
+              inputMode="decimal"
               value={tankLiters} 
               onChange={(e) => setTankLiters(e.target.value)} 
               placeholder="Or enter custom liters..."
               className="dosage-calc-input"
-              style={{ marginTop: '0.5rem' }}
+              style={{ marginTop: '0.5rem', minHeight: '48px', fontSize: '16px' }}
             />
           </div>
         ) : (
@@ -262,9 +266,11 @@ export default function DosageCalculator() {
               <label>Orchard Area (Kanals):</label>
               <input 
                 type="number" 
+                inputMode="decimal"
                 value={kanals} 
                 onChange={(e) => { setKanals(e.target.value); setTreeCount(Math.round(e.target.value * 10)); }} 
                 className="dosage-calc-input"
+                style={{ minHeight: '48px', fontSize: '16px' }}
               />
               <span className="field-hint">Est. 100L water per Kanal</span>
             </div>
@@ -272,9 +278,11 @@ export default function DosageCalculator() {
               <label>Number of Apple Trees:</label>
               <input 
                 type="number" 
+                inputMode="numeric"
                 value={treeCount} 
                 onChange={(e) => setTreeCount(e.target.value)} 
                 className="dosage-calc-input"
+                style={{ minHeight: '48px', fontSize: '16px' }}
               />
               <span className="field-hint">Est. ~12L water per mature tree</span>
             </div>

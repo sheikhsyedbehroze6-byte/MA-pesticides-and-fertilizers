@@ -85,40 +85,46 @@ export default function Products() {
           </div>
         </div>
 
-        {/* Category Pills Bar */}
-        <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '40px' }}>
-          {categories.map(cat => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={activeCategory === cat ? 'pill-button-filled pill-button-sm' : 'pill-button-ghost pill-button-sm'}
-            >
-              {cat}
-            </button>
-          ))}
+        {/* Category Pills Bar (Horizontal Touch Swiper on Mobile) */}
+        <div className="mobile-horizontal-pills-container">
+          <div className="mobile-horizontal-pills">
+            {categories.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={activeCategory === cat ? 'pill-button-filled pill-button-sm' : 'pill-button-ghost pill-button-sm'}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Crop Filter Sub-bar */}
-        <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '48px' }}>
-          {CROP_DATA.map(crop => (
-            <button
-              key={crop.id}
-              onClick={() => setActiveCrop(crop.id)}
-              style={{
-                fontSize: '13px',
-                fontFamily: 'var(--font-sohne)',
-                padding: '6px 14px',
-                borderRadius: '9999px',
-                border: 'none',
-                backgroundColor: activeCrop === crop.id ? 'var(--surface-accent-blush)' : 'var(--surface-card-mist)',
-                color: activeCrop === crop.id ? 'var(--color-sienna-brown)' : 'var(--color-slate-gray)',
-                cursor: 'pointer',
-                fontWeight: activeCrop === crop.id ? 500 : 400
-              }}
-            >
-              {crop.label}
-            </button>
-          ))}
+        {/* Crop Filter Sub-bar (Horizontal Touch Swiper on Mobile) */}
+        <div className="mobile-horizontal-pills-container" style={{ marginBottom: '36px' }}>
+          <div className="mobile-horizontal-pills">
+            {CROP_DATA.map(crop => (
+              <button
+                key={crop.id}
+                onClick={() => setActiveCrop(crop.id)}
+                style={{
+                  fontSize: '13px',
+                  fontFamily: 'var(--font-sohne)',
+                  padding: '7px 16px',
+                  borderRadius: '9999px',
+                  border: 'none',
+                  backgroundColor: activeCrop === crop.id ? 'var(--surface-accent-blush)' : 'var(--surface-card-mist)',
+                  color: activeCrop === crop.id ? 'var(--color-sienna-brown)' : 'var(--color-slate-gray)',
+                  cursor: 'pointer',
+                  fontWeight: activeCrop === crop.id ? 600 : 400,
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0
+                }}
+              >
+                {crop.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Product Cards Grid */}

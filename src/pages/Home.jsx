@@ -258,17 +258,24 @@ export default function Home() {
             {/* Artifact 4: AI Composer Question Bar Input */}
             <div className="floating-product-artifact gsap-hero-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <span className="tag-label" style={{ marginBottom: '8px' }}>AI Advisor Composer</span>
-              <div className="ai-composer-input">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  window.dispatchEvent(new CustomEvent('open-advisor-chat', { detail: heroSearch }));
+                }}
+                className="ai-composer-input"
+              >
                 <input
                   type="text"
                   placeholder="Ask anything about apple scab, dosage, or spray timing..."
                   value={heroSearch}
                   onChange={(e) => setHeroSearch(e.target.value)}
+                  style={{ fontSize: '16px' }}
                 />
-                <button className="ai-composer-send-btn" aria-label="Send query">
+                <button type="submit" className="ai-composer-send-btn" aria-label="Ask AI Advisor">
                   <ArrowRight size={16} />
                 </button>
-              </div>
+              </form>
             </div>
           </div>
         </div>

@@ -718,26 +718,28 @@ export default function SprayCalendar() {
           marginBottom: '2.5rem'
         }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
-            {/* Left Side: Crop Picker Buttons with SVG Crop Icons */}
-            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-              {Object.keys(SPRAY_SCHEDULES).map((cropKey) => {
-                const CropIcon = SPRAY_SCHEDULES[cropKey].icon;
-                const isSelected = selectedCrop === cropKey;
-                return (
-                  <button
-                    key={cropKey}
-                    onClick={() => {
-                      setSelectedCrop(cropKey);
-                      setActiveStageId(SPRAY_SCHEDULES[cropKey].stages[0].id);
-                    }}
-                    className={isSelected ? 'pill-button-filled pill-button-sm' : 'pill-button-ghost pill-button-sm'}
-                    style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
-                  >
-                    <CropIcon size={15} color={isSelected ? '#ffffff' : 'var(--color-sienna-brown)'} />
-                    <span>{SPRAY_SCHEDULES[cropKey].name}</span>
-                  </button>
-                );
-              })}
+            {/* Left Side: Crop Picker Buttons with SVG Crop Icons (Swipeable on Mobile) */}
+            <div className="mobile-horizontal-pills-container" style={{ flex: 1, minWidth: '280px' }}>
+              <div className="mobile-horizontal-pills" style={{ margin: 0, padding: '2px 0' }}>
+                {Object.keys(SPRAY_SCHEDULES).map((cropKey) => {
+                  const CropIcon = SPRAY_SCHEDULES[cropKey].icon;
+                  const isSelected = selectedCrop === cropKey;
+                  return (
+                    <button
+                      key={cropKey}
+                      onClick={() => {
+                        setSelectedCrop(cropKey);
+                        setActiveStageId(SPRAY_SCHEDULES[cropKey].stages[0].id);
+                      }}
+                      className={isSelected ? 'pill-button-filled pill-button-sm' : 'pill-button-ghost pill-button-sm'}
+                      style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap', flexShrink: 0 }}
+                    >
+                      <CropIcon size={15} color={isSelected ? '#ffffff' : 'var(--color-sienna-brown)'} />
+                      <span>{SPRAY_SCHEDULES[cropKey].name}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Right Side: Language Mode Switcher */}

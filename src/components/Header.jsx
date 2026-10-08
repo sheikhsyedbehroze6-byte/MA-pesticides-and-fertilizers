@@ -97,6 +97,16 @@ function Header() {
               <ArrowRight size={14} />
             </a>
 
+            {/* Mobile 1-Tap Quick Dial to Chemist */}
+            <a
+              href="tel:+919906541321"
+              className="mobile-header-call-btn"
+              title="Call Senior Chemist Sheikh Mohammad Ayoub"
+              aria-label="Call Store Chemist"
+            >
+              <Phone size={16} />
+            </a>
+
             {/* Mobile Hamburger Toggle */}
             <button
               className={`mobile-toggle-btn ${isMobileMenuOpen ? 'is-active' : ''}`}
@@ -134,18 +144,28 @@ function Header() {
           </nav>
 
           <div className="mobile-drawer-footer">
-            <a
-              href="https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%2C%20I%20need%20crop%20advice..."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="pill-button-filled"
-              style={{ width: '100%', justifyContent: 'center' }}
-            >
-              <span>WhatsApp Chemist Advisory</span>
-              <MessageSquare size={16} />
-            </a>
-            <div style={{ textAlign: 'center', fontSize: '13px', color: 'var(--color-ash-gray)', marginTop: '4px' }}>
-              MA Pesticides • Hari Singh High Street, Srinagar
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '8px' }}>
+              <a
+                href="tel:+919906541321"
+                className="pill-button-ghost"
+                style={{ justifyContent: 'center', gap: '6px', fontSize: '13px', padding: '10px 12px' }}
+              >
+                <Phone size={15} />
+                <span>Call Shop</span>
+              </a>
+              <a
+                href="https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%2C%20I%20need%20crop%20advice..."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pill-button-filled"
+                style={{ justifyContent: 'center', gap: '6px', fontSize: '13px', padding: '10px 12px' }}
+              >
+                <MessageSquare size={15} />
+                <span>WhatsApp</span>
+              </a>
+            </div>
+            <div style={{ textAlign: 'center', fontSize: '12px', color: 'var(--color-ash-gray)', marginTop: '4px' }}>
+              Near Exhibition Road, Hari Singh High Street, Srinagar
             </div>
           </div>
         </div>

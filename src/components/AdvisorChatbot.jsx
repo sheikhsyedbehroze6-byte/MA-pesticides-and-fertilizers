@@ -540,6 +540,28 @@ export default function AdvisorChatbot() {
     }
   }, [messages, isOpen, isTyping]);
 
+  // Global event listeners for mobile BottomNav and quick touch buttons
+  useEffect(() => {
+    const handleOpen = (e) => {
+      setIsOpen(true);
+      if (e?.detail && typeof e.detail === 'string' && e.detail.trim()) {
+        setInput(e.detail.trim());
+      }
+    };
+    const handleToggle = () => setIsOpen(prev => !prev);
+    const handleClose = () => setIsOpen(false);
+
+    window.addEventListener('open-advisor-chat', handleOpen);
+    window.addEventListener('toggle-advisor-chat', handleToggle);
+    window.addEventListener('close-advisor-chat', handleClose);
+
+    return () => {
+      window.removeEventListener('open-advisor-chat', handleOpen);
+      window.removeEventListener('toggle-advisor-chat', handleToggle);
+      window.removeEventListener('close-advisor-chat', handleClose);
+    };
+  }, []);
+
   // Clean up speech on unmount
   useEffect(() => {
     return () => {
@@ -729,23 +751,17 @@ export default function AdvisorChatbot() {
         }} />
       </button>
 
-      {/* Floating AI Composer Modal */}
+      {/* Floating AI Composer Modal / Native Mobile Bottom Sheet */}
       {isOpen && (
-        <div style={{
-          position: 'fixed',
-          bottom: '84px',
-          right: '20px',
-          width: 'min(440px, calc(100vw - 28px))',
-          height: '620px',
-          maxHeight: 'calc(100vh - 100px)',
-          backgroundColor: 'var(--surface-canvas, #ffffff)',
-          borderRadius: '24px',
-          boxShadow: '0 24px 60px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(23, 25, 28, 0.08)',
-          zIndex: 9995,
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden'
-        }}>
+        <>
+          <div
+            className="advisor-backdrop-mobile"
+            onClick={() => setIsOpen(false)}
+            aria-hidden="true"
+          />
+          <div className="advisor-chatbot-modal" role="dialog" aria-modal="true" aria-label="Orchard AI Advisor">
+            {/* Mobile Sheet Handle */}
+            <div className="advisor-mobile-handle" />
           {/* Header */}
           <div style={{
             padding: '14px 18px',
@@ -1218,6 +1234,7 @@ export default function AdvisorChatbot() {
             </div>
           </div>
         </div>
+        </>
       )}
     </>
   );
