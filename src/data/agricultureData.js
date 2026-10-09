@@ -614,7 +614,7 @@ export const products = [
     diseases: ["Broad-leaf Weeds", "Annual Grasses", "Orchard Weeds"],
     benefits: "20% discount on print price. Rapid action on broadleaf and grassy weeds with zero soil toxicity.",
     composition: "Post-Emergence Herbicide Formulation",
-    image: "https://www.napanta.com/app-img/product/ipl_gajab.png",
+    image: "https://dujjhct8zer0r.cloudfront.net/media/prod_image/19731035591747393387.webp",
   },
   {
     id: 57,
