@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, ArrowUpRight } from 'lucide-react';
+import { preloadRoute } from '../utils/routePreloader';
 
 function Footer() {
   const year = new Date().getFullYear();
@@ -31,15 +32,15 @@ function Footer() {
           <div className="footer-col">
             <h4>Explore</h4>
             <ul>
-              <li><Link to="/">Home Canvas</Link></li>
-              <li><Link to="/products">Product Catalog</Link></li>
-              <li><Link to="/disease-guide">Crop Disease Guide</Link></li>
-              <li><Link to="/dosage-calculator">Dosage Calculator</Link></li>
-              <li><Link to="/spray-calendar">Spray Calendar</Link></li>
-              <li><Link to="/videos">Video Advisory Gallery</Link></li>
-              <li><Link to="/search">Global Search</Link></li>
-              <li><Link to="/about">About MA Pesticides</Link></li>
-              <li><Link to="/contact">Visit Store</Link></li>
+              <li><Link to="/" onMouseEnter={() => preloadRoute('/')} onTouchStart={() => preloadRoute('/')}>Home Canvas</Link></li>
+              <li><Link to="/products" onMouseEnter={() => preloadRoute('/products')} onTouchStart={() => preloadRoute('/products')}>Product Catalog</Link></li>
+              <li><Link to="/disease-guide" onMouseEnter={() => preloadRoute('/disease-guide')} onTouchStart={() => preloadRoute('/disease-guide')}>Crop Disease Guide</Link></li>
+              <li><Link to="/dosage-calculator" onMouseEnter={() => preloadRoute('/dosage-calculator')} onTouchStart={() => preloadRoute('/dosage-calculator')}>Dosage Calculator</Link></li>
+              <li><Link to="/spray-calendar" onMouseEnter={() => preloadRoute('/spray-calendar')} onTouchStart={() => preloadRoute('/spray-calendar')}>Spray Calendar</Link></li>
+              <li><Link to="/videos" onMouseEnter={() => preloadRoute('/videos')} onTouchStart={() => preloadRoute('/videos')}>Video Advisory Gallery</Link></li>
+              <li><Link to="/search" onMouseEnter={() => preloadRoute('/search')} onTouchStart={() => preloadRoute('/search')}>Global Search</Link></li>
+              <li><Link to="/about" onMouseEnter={() => preloadRoute('/about')} onTouchStart={() => preloadRoute('/about')}>About MA Pesticides</Link></li>
+              <li><Link to="/contact" onMouseEnter={() => preloadRoute('/contact')} onTouchStart={() => preloadRoute('/contact')}>Visit Store</Link></li>
               <li><button onClick={() => window.dispatchEvent(new Event('trigger-pwa-install'))} style={{ background: 'none', border: 'none', color: 'var(--color-pine-green)', font: 'inherit', cursor: 'pointer', padding: 0, fontWeight: 500 }}>Install Mobile App 📱</button></li>
             </ul>
           </div>
@@ -48,12 +49,12 @@ function Footer() {
           <div className="footer-col">
             <h4>Authorized Lines</h4>
             <ul>
-              <li><Link to="/products?cat=Fungicide">Bayer Fungicides</Link></li>
-              <li><Link to="/products?cat=Insecticide">Syngenta Insecticides</Link></li>
-              <li><Link to="/products?cat=Herbicide">IPL Bio-Pesticides</Link></li>
-              <li><Link to="/products">Fruit Growth Regulators</Link></li>
-              <li><Link to="/products">Apple Scab Treatments</Link></li>
-              <li><Link to="/products">Walnut Blight Control</Link></li>
+              <li><Link to="/products?cat=Fungicide" onMouseEnter={() => preloadRoute('/products')} onTouchStart={() => preloadRoute('/products')}>Bayer Fungicides</Link></li>
+              <li><Link to="/products?cat=Insecticide" onMouseEnter={() => preloadRoute('/products')} onTouchStart={() => preloadRoute('/products')}>Syngenta Insecticides</Link></li>
+              <li><Link to="/products?cat=Herbicide" onMouseEnter={() => preloadRoute('/products')} onTouchStart={() => preloadRoute('/products')}>IPL Bio-Pesticides</Link></li>
+              <li><Link to="/products" onMouseEnter={() => preloadRoute('/products')} onTouchStart={() => preloadRoute('/products')}>Fruit Growth Regulators</Link></li>
+              <li><Link to="/products" onMouseEnter={() => preloadRoute('/products')} onTouchStart={() => preloadRoute('/products')}>Apple Scab Treatments</Link></li>
+              <li><Link to="/products" onMouseEnter={() => preloadRoute('/products')} onTouchStart={() => preloadRoute('/products')}>Walnut Blight Control</Link></li>
             </ul>
           </div>
 

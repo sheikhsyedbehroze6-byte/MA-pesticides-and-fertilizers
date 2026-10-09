@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import WeatherSprayAlert from '../components/WeatherSprayAlert';
 import ProductCard from '../components/ProductCard';
 import { products } from '../data/agricultureData';
+import { preloadRoute } from '../utils/routePreloader';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -135,7 +136,12 @@ export default function Home() {
 
             {/* Paired Pill Buttons */}
             <div className="hero-actions gsap-hero-actions">
-              <Link to="/spray-calendar" className="pill-button-filled">
+              <Link
+                to="/spray-calendar"
+                onMouseEnter={() => preloadRoute('/spray-calendar')}
+                onTouchStart={() => preloadRoute('/spray-calendar')}
+                className="pill-button-filled"
+              >
                 <span>Explore Spray Calendar</span>
                 <ArrowRight size={16} />
               </Link>
@@ -303,7 +309,7 @@ export default function Home() {
               <p className="text-body" style={{ color: 'var(--color-slate-gray)', marginBottom: '20px' }}>
                 Authorized dealership for Bayer, Syngenta, and IPL Biologicals. Guaranteed 100% authentic formulations backed by verified manufacturer batch receipts.
               </p>
-              <Link to="/products" className="text-link-arrow">
+              <Link to="/products" onMouseEnter={() => preloadRoute('/products')} onTouchStart={() => preloadRoute('/products')} className="text-link-arrow">
                 <span>Browse Formulations</span>
                 <span className="arrow">→</span>
               </Link>
@@ -318,7 +324,7 @@ export default function Home() {
               <p className="text-body" style={{ color: 'var(--color-slate-gray)', marginBottom: '20px' }}>
                 Synchronized with Kashmir's microclimate from Green Tip to Harvest to maximize rain-fastness and eliminate foliage scorch.
               </p>
-              <Link to="/spray-calendar" className="text-link-arrow">
+              <Link to="/spray-calendar" onMouseEnter={() => preloadRoute('/spray-calendar')} onTouchStart={() => preloadRoute('/spray-calendar')} className="text-link-arrow">
                 <span>Explore Stage Schedule</span>
                 <span className="arrow">→</span>
               </Link>
@@ -333,7 +339,7 @@ export default function Home() {
               <p className="text-body" style={{ color: 'var(--color-slate-gray)', marginBottom: '20px' }}>
                 Personalized technical advice by Sheikh Mohammad Ayoub (M.Sc. Chemistry) with complimentary leaf and soil guidance at our Srinagar store.
               </p>
-              <Link to="/about" className="text-link-arrow">
+              <Link to="/about" onMouseEnter={() => preloadRoute('/about')} onTouchStart={() => preloadRoute('/about')} className="text-link-arrow">
                 <span>Learn About Our Store</span>
                 <span className="arrow">→</span>
               </Link>
@@ -486,7 +492,12 @@ export default function Home() {
           </div>
 
           <div className="gsap-scroll-item" style={{ textAlign: 'center' }}>
-            <Link to="/products" className="pill-button-filled">
+            <Link
+              to="/products"
+              onMouseEnter={() => preloadRoute('/products')}
+              onTouchStart={() => preloadRoute('/products')}
+              className="pill-button-filled"
+            >
               <span>View All 60+ Formulations</span>
               <ArrowRight size={16} />
             </Link>

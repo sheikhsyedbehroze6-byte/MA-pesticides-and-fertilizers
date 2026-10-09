@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { Home, Package, Calculator, Calendar, Sparkles } from 'lucide-react';
+import { preloadRoute } from '../utils/routePreloader';
 
 export default function BottomNav() {
   const handleOpenAiChat = (e) => {
@@ -15,6 +16,8 @@ export default function BottomNav() {
           <NavLink
             to="/"
             end
+            onMouseEnter={() => preloadRoute('/')}
+            onTouchStart={() => preloadRoute('/')}
             className={({ isActive }) => (isActive ? 'bottom-nav-link active' : 'bottom-nav-link')}
           >
             {({ isActive }) => (
@@ -33,6 +36,8 @@ export default function BottomNav() {
         <li className="bottom-nav-item">
           <NavLink
             to="/products"
+            onMouseEnter={() => preloadRoute('/products')}
+            onTouchStart={() => preloadRoute('/products')}
             className={({ isActive }) => (isActive ? 'bottom-nav-link active' : 'bottom-nav-link')}
           >
             {({ isActive }) => (
@@ -51,6 +56,8 @@ export default function BottomNav() {
         <li className="bottom-nav-item">
           <NavLink
             to="/spray-calendar"
+            onMouseEnter={() => preloadRoute('/spray-calendar')}
+            onTouchStart={() => preloadRoute('/spray-calendar')}
             className={({ isActive }) => (isActive ? 'bottom-nav-link active' : 'bottom-nav-link')}
           >
             {({ isActive }) => (
@@ -69,6 +76,8 @@ export default function BottomNav() {
         <li className="bottom-nav-item">
           <NavLink
             to="/dosage-calculator"
+            onMouseEnter={() => preloadRoute('/dosage-calculator')}
+            onTouchStart={() => preloadRoute('/dosage-calculator')}
             className={({ isActive }) => (isActive ? 'bottom-nav-link active' : 'bottom-nav-link')}
           >
             {({ isActive }) => (

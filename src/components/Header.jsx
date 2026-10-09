@@ -3,6 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { Moon, Sun, Menu, X, ArrowRight, MessageSquare, Sprout, Home, Package, Bug, Calendar, Video, Search, Phone, ChevronRight, Calculator, Smartphone, ShoppingBag } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useCart } from '../context/CartContext';
+import { preloadRoute } from '../utils/routePreloader';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Home', Icon: Home },
@@ -62,31 +63,69 @@ function Header() {
             <ul className="nav-links-list">
               <li><NavLink to="/" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Home</NavLink></li>
               <li>
-                <NavLink to="/products" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>
+                <NavLink
+                  to="/products"
+                  onMouseEnter={() => preloadRoute('/products')}
+                  onTouchStart={() => preloadRoute('/products')}
+                  className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
+                >
                   <Package size={15} strokeWidth={2.2} />
                   <span>Products</span>
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/dosage-calculator" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>
+                <NavLink
+                  to="/dosage-calculator"
+                  onMouseEnter={() => preloadRoute('/dosage-calculator')}
+                  onTouchStart={() => preloadRoute('/dosage-calculator')}
+                  className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
+                >
                   <Calculator size={15} strokeWidth={2.2} />
                   <span>Dosage Calc</span>
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/spray-calendar" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>
+                <NavLink
+                  to="/spray-calendar"
+                  onMouseEnter={() => preloadRoute('/spray-calendar')}
+                  onTouchStart={() => preloadRoute('/spray-calendar')}
+                  className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
+                >
                   <Calendar size={15} strokeWidth={2.2} />
                   <span>Calendar</span>
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/disease-guide" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>
+                <NavLink
+                  to="/disease-guide"
+                  onMouseEnter={() => preloadRoute('/disease-guide')}
+                  onTouchStart={() => preloadRoute('/disease-guide')}
+                  className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
+                >
                   <Bug size={15} strokeWidth={2.2} />
                   <span>Disease Guide</span>
                 </NavLink>
               </li>
-              <li><NavLink to="/about" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>About</NavLink></li>
-              <li><NavLink to="/contact" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Contact</NavLink></li>
+              <li>
+                <NavLink
+                  to="/about"
+                  onMouseEnter={() => preloadRoute('/about')}
+                  onTouchStart={() => preloadRoute('/about')}
+                  className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
+                >
+                  About
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/contact"
+                  onMouseEnter={() => preloadRoute('/contact')}
+                  onTouchStart={() => preloadRoute('/contact')}
+                  className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
+                >
+                  Contact
+                </NavLink>
+              </li>
             </ul>
           </nav>
 
@@ -261,6 +300,8 @@ function Header() {
                   <NavLink
                     to={to}
                     end={to === '/'}
+                    onMouseEnter={() => preloadRoute(to)}
+                    onTouchStart={() => preloadRoute(to)}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={({ isActive }) => `mobile-nav-link ${isActive ? 'active' : ''}`}
                   >

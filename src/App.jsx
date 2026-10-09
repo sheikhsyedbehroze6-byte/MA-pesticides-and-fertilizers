@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import ScrollProgressBar from './components/ScrollProgressBar';
@@ -14,17 +14,18 @@ import { CartProvider } from './context/CartContext';
 import SprayOrderDrawer from './components/SprayOrderDrawer';
 import FloatingCartButton from './components/FloatingCartButton';
 import './App.css';
-
-// Lazy-loaded routes for code-splitting & ultra-fast initial bundle
-const About = lazy(() => import('./pages/About'));
-const Products = lazy(() => import('./pages/Products'));
-const DiseaseGuide = lazy(() => import('./pages/DiseaseGuide'));
-const SprayCalendar = lazy(() => import('./pages/SprayCalendar'));
-const VideoGallery = lazy(() => import('./pages/VideoGallery'));
-const DosageCalculatorPage = lazy(() => import('./pages/DosageCalculatorPage'));
-const Contact = lazy(() => import('./pages/Contact'));
-const Search = lazy(() => import('./pages/Search'));
-const NotFound = lazy(() => import('./pages/NotFound'));
+import {
+  About,
+  Products,
+  DiseaseGuide,
+  SprayCalendar,
+  VideoGallery,
+  DosageCalculatorPage,
+  Contact,
+  Search,
+  NotFound,
+  preloadAllRoutes
+} from './utils/routePreloader';
 
 // Smooth Route Loading Fallback
 function RouteFallback() {
@@ -60,6 +61,24 @@ function RouteFallback() {
 }
 
 function App() {
+  useEffect(() => {
+    // Preload all dynamic routes during idle time after initial render
+    let idleId;
+    if ('requestIdleCallback' in window) {
+      idleId = window.requestIdleCallback(() => {
+        preloadAllRoutes();
+      }, { timeout: 1500 });
+    } else {
+      const timer = setTimeout(preloadAllRoutes, 200);
+      return () => clearTimeout(timer);
+    }
+    return () => {
+      if (idleId && 'cancelIdleCallback' in window) {
+        window.cancelIdleCallback(idleId);
+      }
+    };
+  }, []);
+
   return (
     <ThemeProvider>
       <CartProvider>
