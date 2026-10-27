@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ShieldCheck, Droplets, Search, Calculator, Check, MessageCircle, Sparkles } from 'lucide-react';
+import { ArrowRight, Calculator, ShieldCheck, MapPin, Phone, MessageCircle, Clock, ExternalLink, Sparkles, CheckCircle2, Package, Calendar, Bug, Search } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import WeatherSprayAlert from '../components/WeatherSprayAlert';
@@ -155,6 +155,57 @@ export default function Home() {
                 <ArrowRight size={16} />
               </a>
             </div>
+
+            {/* Quick Navigation Hub — 1-Tap Access to Every Major Feature */}
+            <div className="gsap-hero-actions home-quick-hub-grid">
+              {[
+                { to: '/products', label: 'Products', desc: '60+ Formulations', Icon: Package, color: '#0284c7' },
+                { to: '/spray-calendar', label: 'Spray Calendar', desc: 'SKUAST Timing', Icon: Calendar, color: '#16a34a' },
+                { to: '/dosage-calculator', label: 'Dosage Calc', desc: 'Tank Dilution', Icon: Calculator, color: '#d97706' },
+                { to: '/disease-guide', label: 'Disease Guide', desc: 'Scab & Mite Cures', Icon: Bug, color: '#dc2626' },
+                { to: '/search', label: 'Quick Search', desc: 'Find Any Product', Icon: Search, color: '#9333ea' },
+                { to: '/contact', label: 'Store & Visit', desc: 'Srinagar Location', Icon: MapPin, color: '#5d2a1a' }
+              ].map(({ to, label, desc, Icon, color }) => (
+                <Link
+                  key={to}
+                  to={to}
+                  onMouseEnter={() => preloadRoute(to)}
+                  onTouchStart={() => preloadRoute(to)}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    padding: '14px 12px',
+                    borderRadius: 'var(--radius-smallcards)',
+                    backgroundColor: 'var(--surface-elevated-white)',
+                    border: '1px solid var(--border-color)',
+                    boxShadow: 'var(--shadow-subtle)',
+                    textDecoration: 'none',
+                    transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
+                  }}
+                  className="quick-nav-pill"
+                >
+                  <div style={{
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '8px',
+                    backgroundColor: `${color}18`,
+                    color: color,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: '8px'
+                  }}>
+                    <Icon size={17} strokeWidth={2.2} />
+                  </div>
+                  <span style={{ fontSize: '13.5px', fontWeight: 600, color: 'var(--color-ink-black)', lineHeight: 1.25, marginBottom: '2px' }}>
+                    {label}
+                  </span>
+                  <span style={{ fontSize: '11px', color: 'var(--color-slate-gray)', lineHeight: 1.25 }}>
+                    {desc}
+                  </span>
+                </Link>
+              ))}
+            </div>
           </div>
 
           {/* Product Artifact Collage (4 UI Artifacts overlapping the layout) */}
@@ -283,6 +334,72 @@ export default function Home() {
                   <ArrowRight size={16} />
                 </button>
               </form>
+            </div>
+          </div>
+
+          {/* Authorized Dealerships & Guarantee Bar */}
+          <div className="gsap-hero-card" style={{
+            marginTop: '48px',
+            padding: '18px 24px',
+            backgroundColor: 'var(--surface-elevated-white)',
+            borderRadius: 'var(--radius-smallcards)',
+            border: '1px solid var(--border-color)',
+            boxShadow: 'var(--shadow-subtle)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '16px'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{
+                width: '38px',
+                height: '38px',
+                borderRadius: '50%',
+                backgroundColor: 'rgba(28, 71, 42, 0.08)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--color-pine-green)',
+                flexShrink: 0
+              }}>
+                <ShieldCheck size={20} />
+              </div>
+              <div>
+                <div style={{ fontSize: '13.5px', fontWeight: 600, color: 'var(--color-ink-black)', letterSpacing: '0.1px' }}>
+                  Direct Factory Dealerships &amp; Authentic Batch Guarantee
+                </div>
+                <div style={{ fontSize: '12px', color: 'var(--color-slate-gray)' }}>
+                  100% Genuine Inventory &bull; 20% Below Print MRP &bull; Zero Counterfeits
+                </div>
+              </div>
+            </div>
+
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '18px',
+              flexWrap: 'wrap',
+              fontSize: '13px',
+              fontWeight: 500,
+              color: 'var(--color-ink-black)'
+            }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#0284c7' }}></span>
+                Bayer CropScience
+              </span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#16a34a' }}></span>
+                Syngenta India
+              </span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#9333ea' }}></span>
+                IPL Biologicals
+              </span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#d97706' }}></span>
+                SKUAST-K Protocols
+              </span>
             </div>
           </div>
         </div>
@@ -501,6 +618,116 @@ export default function Home() {
               <span>View All 60+ Formulations</span>
               <ArrowRight size={16} />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================================
+          SECTION 5 — Srinagar Store Consultation & Diagnosis Canvas
+          ======================================================================== */}
+      <section className="section-padding section-fog-bg gsap-scroll-section" style={{ borderTop: '1px solid var(--border-color)' }}>
+        <div className="page-container">
+          <div className="section-header centered gsap-scroll-item">
+            <span className="tag">Visit &amp; Consult</span>
+            <h2>Visit Kashmir's premier crop protection store.</h2>
+            <p>Centrally located on Hari Singh High Street, Srinagar. Free leaf diagnosis and genuine chemist consultation.</p>
+          </div>
+
+          <div className="grid-2" style={{ gap: '24px' }}>
+            {/* Store Location & Timings Card */}
+            <div className="card-neutral gsap-scroll-item" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', flexWrap: 'wrap', gap: '8px' }}>
+                  <span className="tag-label" style={{ margin: 0 }}>CENTRAL SRINAGAR STORE</span>
+                  <span className="badge-green" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                    <Clock size={12} />
+                    Open Mon – Sat (9 AM – 7 PM)
+                  </span>
+                </div>
+
+                <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '26px', fontWeight: 400, marginBottom: '16px' }}>
+                  Hari Singh High Street
+                </h3>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '24px' }}>
+                  <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                    <MapPin size={18} color="var(--color-sienna-brown)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                    <span style={{ fontSize: '14.5px', color: 'var(--color-slate-gray)', lineHeight: '1.4' }}>
+                      Near Exhibition Ground, opposite High Court Complex, Hari Singh High Street, Srinagar — 190001
+                    </span>
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                    <Phone size={18} color="var(--color-sienna-brown)" style={{ flexShrink: 0 }} />
+                    <a href="tel:+919906541321" style={{ fontSize: '15px', color: 'var(--color-ink-black)', fontWeight: 500, textDecoration: 'none' }}>
+                      +91 99065 41321 (Call / WhatsApp)
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                <a
+                  href="https://maps.google.com/?q=34.071645658322105,74.80247470803405"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pill-button-filled pill-button-sm"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                >
+                  <MapPin size={14} />
+                  <span>Get Google Maps Directions</span>
+                  <ExternalLink size={12} />
+                </a>
+                <Link
+                  to="/contact"
+                  onMouseEnter={() => preloadRoute('/contact')}
+                  onTouchStart={() => preloadRoute('/contact')}
+                  className="pill-button-ghost pill-button-sm"
+                >
+                  <span>Store Guide</span>
+                </Link>
+              </div>
+            </div>
+
+            {/* Free Leaf & Soil Diagnosis Feature Card */}
+            <div className="card-peach gsap-scroll-item" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div>
+                <span className="tag-label" style={{ color: 'var(--color-sienna-brown)', opacity: 0.85 }}>
+                  COMPLIMENTARY SERVICE
+                </span>
+                <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '26px', fontWeight: 400, color: 'var(--color-sienna-brown)', marginBottom: '14px' }}>
+                  Bring Your Orchard Samples
+                </h3>
+                <p style={{ fontSize: '15px', color: 'var(--color-sienna-brown)', opacity: 0.95, lineHeight: 1.5, marginBottom: '20px' }}>
+                  Facing mysterious leaf yellowing, fruit spotting, or shoot wilting? Bring fresh leaf or soil samples to our Srinagar store for complimentary visual &amp; chemical pathology inspection by Senior Chemist Sheikh Mohammad Ayoub (M.Sc.).
+                </p>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13.5px', color: 'var(--color-sienna-brown)' }}>
+                    <CheckCircle2 size={16} color="var(--color-pine-green)" />
+                    <span>Instant pathogen identification (Scab, Blight, Psylla)</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13.5px', color: 'var(--color-sienna-brown)' }}>
+                    <CheckCircle2 size={16} color="var(--color-pine-green)" />
+                    <span>Exact tank dilution calculation based on your orchard tree count</span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <a
+                  href="https://wa.me/919906541321?text=Hello%20Sheikh%20Mohammad%20Ayoub%2C%20I%20have%20an%20orchard%20disease%20issue%20and%20want%20to%20consult%20you..."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pill-button-filled pill-button-sm"
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#ffffff' }}
+                >
+                  <MessageCircle size={14} color="#ffffff" />
+                  <span style={{ color: '#ffffff' }}>WhatsApp Sheikh M. Ayoub</span>
+                  <ArrowRight size={14} color="#ffffff" />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>

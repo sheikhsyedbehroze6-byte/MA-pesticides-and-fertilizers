@@ -6,15 +6,15 @@ import { useCart } from '../context/CartContext';
 import { preloadRoute } from '../utils/routePreloader';
 
 const NAV_ITEMS = [
-  { to: '/', label: 'Home', Icon: Home },
-  { to: '/about', label: 'About Store & Chemist', Icon: Sprout },
-  { to: '/products', label: 'Formulations Catalog', Icon: Package },
-  { to: '/disease-guide', label: 'Crop Disease Guide', Icon: Bug },
-  { to: '/dosage-calculator', label: 'Dosage Calculator', Icon: Calculator },
-  { to: '/spray-calendar', label: 'SKUAST Spray Calendar', Icon: Calendar },
-  { to: '/videos', label: 'Video Advisory Gallery', Icon: Video },
-  { to: '/search', label: 'Global Inventory Search', Icon: Search },
-  { to: '/contact', label: 'Contact & Store Location', Icon: Phone },
+  { to: '/', label: 'Home Canvas', Icon: Home, section: 'Overview' },
+  { to: '/products', label: 'Formulations Catalog', Icon: Package, section: 'Inventory' },
+  { to: '/spray-calendar', label: 'SKUAST Spray Calendar', Icon: Calendar, section: 'Agronomy Tools' },
+  { to: '/dosage-calculator', label: 'Dosage & Tank Calculator', Icon: Calculator, section: 'Agronomy Tools' },
+  { to: '/disease-guide', label: 'Crop Disease Guide', Icon: Bug, section: 'Agronomy Tools' },
+  { to: '/videos', label: 'Video Advisory Gallery', Icon: Video, section: 'Agronomy Tools' },
+  { to: '/search', label: 'Global Inventory Search', Icon: Search, section: 'Inventory' },
+  { to: '/about', label: 'About Store & Chemist', Icon: Sprout, section: 'Store' },
+  { to: '/contact', label: 'Store Location & Directions', Icon: Phone, section: 'Store' },
 ];
 
 function Header() {
@@ -104,6 +104,17 @@ function Header() {
                 >
                   <Bug size={15} strokeWidth={2.2} />
                   <span>Disease Guide</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/search"
+                  onMouseEnter={() => preloadRoute('/search')}
+                  onTouchStart={() => preloadRoute('/search')}
+                  className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
+                >
+                  <Search size={15} strokeWidth={2.2} />
+                  <span>Search</span>
                 </NavLink>
               </li>
               <li>
@@ -229,6 +240,28 @@ function Header() {
               )}
             </button>
 
+            {/* Mobile Quick Search Button */}
+            <NavLink
+              to="/search"
+              onMouseEnter={() => preloadRoute('/search')}
+              onTouchStart={() => preloadRoute('/search')}
+              className="mobile-header-search-btn"
+              title="Search Formulations"
+              aria-label="Search Formulations"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '36px',
+                height: '36px',
+                borderRadius: '50%',
+                color: 'var(--color-ink-black)',
+                textDecoration: 'none'
+              }}
+            >
+              <Search size={18} />
+            </NavLink>
+
             {/* Mobile 1-Tap Quick Dial to Chemist */}
             <a
               href="tel:+919906541321"
@@ -254,6 +287,41 @@ function Header() {
       {/* Solid Opaque Mobile Menu Drawer */}
       {isMobileMenuOpen && (
         <div className="mobile-menu-drawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation Menu">
+          {/* Quick Drawer Header with Theme Switcher */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0 4px 14px',
+            borderBottom: '1px solid var(--border-color)',
+            marginBottom: '16px'
+          }}>
+            <span style={{ fontSize: '13px', fontWeight: 650, color: 'var(--color-ink-black)', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
+              Menu &amp; Quick Access
+            </span>
+            <button
+              type="button"
+              onClick={toggleTheme}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                backgroundColor: 'var(--surface-card-mist)',
+                border: '1px solid var(--border-color)',
+                borderRadius: '999px',
+                padding: '6px 12px',
+                fontSize: '12.5px',
+                fontWeight: 600,
+                color: 'var(--color-ink-black)',
+                cursor: 'pointer'
+              }}
+              title="Toggle Dark / Light Mode"
+            >
+              {theme === 'light' ? <Moon size={14} /> : <Sun size={14} />}
+              <span>{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
+            </button>
+          </div>
+
           <nav>
             <ul className="mobile-nav-list">
               <li key="spray-order-cart">

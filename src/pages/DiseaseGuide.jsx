@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { diseases } from '../data/agricultureData';
 import { Search, X, ArrowUpRight, Globe, Calculator, ArrowRight } from 'lucide-react';
+import Breadcrumb from '../components/Breadcrumb';
 
 const SYMPTOM_PICKERS = [
   { id: 'scab_spots', label: 'Black / Olive Spots' },
@@ -51,6 +52,8 @@ export default function DiseaseGuide() {
   return (
     <div style={{ backgroundColor: 'var(--surface-canvas)', minHeight: '100vh' }} className="section-padding">
       <div className="page-container">
+        <Breadcrumb />
+
         {/* Header */}
         <div style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 40px' }}>
           <span className="tag-label">SKUAST-K Verified Agronomy</span>

@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import ProductCard from '../components/ProductCard';
 import { products } from '../data/agricultureData';
 import { Search, X } from 'lucide-react';
+import Breadcrumb from '../components/Breadcrumb';
 
 const CROP_DATA = [
   { id: 'All Crops', label: 'All Crops' },
@@ -53,6 +54,8 @@ export default function Products() {
   return (
     <div style={{ backgroundColor: 'var(--surface-canvas)', minHeight: '100vh' }} className="section-padding">
       <div className="page-container">
+        <Breadcrumb />
+
         {/* Header */}
         <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 48px' }}>
           <span className="tag-label">Authorized Srinagar Inventory</span>

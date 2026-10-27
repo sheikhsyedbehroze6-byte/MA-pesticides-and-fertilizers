@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MapPin, Phone, MessageCircle, ArrowRight, Clock, Navigation, ExternalLink, ShieldCheck, Car, FlaskConical } from 'lucide-react';
 import StoreMap from '../components/StoreMap';
+import Breadcrumb from '../components/Breadcrumb';
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', phone: '', crop: '', message: '' });
@@ -16,6 +17,8 @@ export default function Contact() {
   return (
     <div style={{ backgroundColor: 'var(--surface-canvas)', minHeight: '100vh' }} className="section-padding">
       <div className="page-container">
+        <Breadcrumb />
+
         {/* Header */}
         <div style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 56px' }}>
           <span className="tag-label">Srinagar Store & Consultation</span>

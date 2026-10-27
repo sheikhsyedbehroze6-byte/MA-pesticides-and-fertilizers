@@ -1344,7 +1344,22 @@ button, input, select, textarea {
   padding: 2rem;
 }
 
-@media (max-width: 1180px) {
+/* Compact desktop nav on standard laptops (993px to 1200px) */
+@media (min-width: 993px) and (max-width: 1200px) {
+  .nav-link-item svg {
+    display: none;
+  }
+  .nav-link-item {
+    padding: 5px 8px !important;
+    font-size: 13.5px !important;
+  }
+  .nav-links-list {
+    gap: 4px !important;
+  }
+}
+
+/* Tablet & Mobile: Keep Hamburger Menu, Hide Normal Nav */
+@media (max-width: 992px) {
   .desktop-nav {
     display: none !important;
   }
@@ -1356,6 +1371,22 @@ button, input, select, textarea {
   .mobile-header-cart-btn,
   .mobile-header-call-btn {
     display: inline-flex !important;
+  }
+}
+
+/* Desktop: Keep Normal Navigation Bar, Hide Hamburger Menu */
+@media (min-width: 993px) {
+  .desktop-nav {
+    display: flex !important;
+  }
+
+  .mobile-toggle-btn {
+    display: none !important;
+  }
+
+  .mobile-header-cart-btn,
+  .mobile-header-call-btn {
+    display: none !important;
   }
 }
 
@@ -1391,10 +1422,35 @@ button, input, select, textarea {
 
 @media (max-width: 768px) {
   :root {
-    --text-display: 40px;
-    --text-heading-lg: 32px;
-    --text-heading: 26px;
-    --section-gap: 40px;
+    --text-display: 38px;
+    --text-heading-lg: 30px;
+    --text-heading: 24px;
+    --section-gap: 36px;
+    --card-padding: 18px;
+  }
+
+  /* Global Phone Ergonomics */
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Prevent iOS Safari auto-zoom on input focus */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+
+  /* Instant touch response & haptic press feedback */
+  button, a, .pill-button-filled, .pill-button-ghost, .quick-nav-pill, .bottom-nav-link {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .pill-button-filled:active,
+  .pill-button-ghost:active,
+  .quick-nav-pill:active {
+    transform: scale(0.96) !important;
   }
 
   .page-container {
@@ -1419,21 +1475,23 @@ button, input, select, textarea {
   .hero-actions {
     flex-direction: column;
     width: 100%;
+    gap: 10px;
   }
 
   .hero-actions .pill-button-filled,
   .hero-actions .pill-button-ghost {
     width: 100%;
+    justify-content: center;
   }
 
   .floating-product-artifact {
-    padding: 20px 18px;
+    padding: 18px 16px;
     border-radius: 18px;
     transform: none !important;
   }
 
   .card-peach {
-    padding: 28px 20px;
+    padding: 24px 18px;
   }
 
   .weather-metrics-grid {
@@ -1454,203 +1512,102 @@ button, input, select, textarea {
 }
 
 /* ==========================================================================
+   PHONE-FIRST ERGONOMICS (< 600px Screens / iPhone & Android Viewports)
+   ========================================================================== */
+@media (max-width: 600px) {
+  :root {
+    --text-display: clamp(26px, 7.8vw, 34px);
+    --text-heading-lg: clamp(22px, 6.5vw, 28px);
+    --card-padding: 16px;
+  }
+
+  /* Compact 60px Native Mobile App Header */
+  .steep-header {
+    height: 60px !important;
+  }
+
+  .header-inner {
+    height: 60px !important;
+    padding: 0 2px !important;
+    gap: 8px;
+  }
+
+  .brand-logo {
+    gap: 8px !important;
+  }
+
+  .brand-logo-icon {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .brand-title {
+    font-size: 15.5px !important;
+  }
+
+  .brand-subtitle {
+    font-size: 9.5px !important;
+    letter-spacing: 0.6px !important;
+  }
+
+  /* Keep top bar uncluttered: Theme & Direct Call are featured in drawer & bottom bar */
+  .theme-toggle-btn {
+    display: none !important;
+  }
+
+  .mobile-header-call-btn {
+    display: none !important;
+  }
+
+  .mobile-menu-drawer {
+    top: 60px !important;
+    height: calc(100dvh - 60px) !important;
+    padding: 18px 16px 36px !important;
+  }
+
+  /* Mobile Quick Navigation Hub 2-column touch grid */
+  .quick-nav-pill {
+    padding: 12px 10px !important;
+  }
+
+  /* Mobile Section Spacing */
+  .section-padding {
+    padding-top: 36px !important;
+    padding-bottom: 48px !important;
+  }
+
+  /* Floating cart on mobile */
+  .floating-cart-wrapper {
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important;
+    right: 12px !important;
+  }
+}
+
+/* Home Quick Navigation Hub Responsive Grid */
+.home-quick-hub-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+  max-width: 920px;
+  margin: 36px auto 0;
+  text-align: left;
+}
+
+@media (max-width: 540px) {
+  .home-quick-hub-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    margin-top: 24px !important;
+  }
+}
+
+/* ==========================================================================
    MOBILE BOTTOM NAVIGATION APP DOCK & PHONE-ORIENTED ERGONOMICS
    ========================================================================== */
 
+/* Mobile uses clean Hamburger Menu — bottom dock disabled */
 .bottom-nav {
-  display: none;
-}
-
-.mobile-header-call-btn {
-  display: none;
-}
-
-.advisor-backdrop-mobile {
-  display: none;
-}
-
-/* Horizontal Touch Swiper for Category & Crop Filters */
-.mobile-horizontal-pills-container {
-  width: 100%;
-  overflow: hidden;
-}
-
-.mobile-horizontal-pills {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  padding: 4px 2px 8px;
-  flex-wrap: nowrap;
-}
-
-.mobile-horizontal-pills::-webkit-scrollbar {
-  display: none;
-}
-
-.mobile-horizontal-pills > * {
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-
-@media (max-width: 900px) {
-  body {
-    padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
-  }
-
-  /* Pinned Native Mobile Bottom App Bar */
-  .bottom-nav {
-    display: block;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 9980;
-    background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(23, 25, 28, 0.09);
-    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.08);
-    padding-bottom: max(6px, env(safe-area-inset-bottom, 0px));
-    padding-top: 4px;
-    transition: var(--theme-transition);
-  }
-
-  [data-theme="dark"] .bottom-nav {
-    background-color: rgba(11, 13, 17, 0.96);
-    border-top-color: rgba(255, 255, 255, 0.09);
-    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.5);
-  }
-
-  .bottom-nav-list {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    list-style: none;
-    margin: 0;
-    padding: 0 4px;
-  }
-
-  .bottom-nav-item {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-  }
-
-  .bottom-nav-link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    width: 100%;
-    max-width: 76px;
-    text-decoration: none;
-    color: #4b5563;
-    font-family: var(--font-sohne);
-    font-size: 11px;
-    font-weight: 550;
-    padding: 6px 2px 4px;
-    border-radius: 12px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: color 0.15s ease, transform 0.12s ease;
-    min-height: 52px;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  [data-theme="dark"] .bottom-nav-link {
-    color: #e5e7eb;
-  }
-
-  .bottom-nav-link:active {
-    transform: scale(0.92);
-  }
-
-  .bottom-nav-link.active {
-    color: var(--color-pine-green);
-    font-weight: 700;
-  }
-
-  [data-theme="dark"] .bottom-nav-link.active {
-    color: #34d399;
-    font-weight: 700;
-  }
-
-  .bottom-nav-icon-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 28px;
-    border-radius: 14px;
-    transition: background-color 0.15s ease;
-  }
-
-  .bottom-nav-link.active .bottom-nav-icon-wrapper {
-    background-color: rgba(28, 71, 42, 0.12);
-  }
-
-  [data-theme="dark"] .bottom-nav-link.active .bottom-nav-icon-wrapper {
-    background-color: rgba(52, 211, 153, 0.2);
-  }
-
-  .bottom-nav-active-dot {
-    position: absolute;
-    bottom: -2px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 4px;
-    background-color: var(--color-pine-green);
-    border-radius: 50%;
-  }
-
-  [data-theme="dark"] .bottom-nav-active-dot {
-    background-color: #34d399;
-  }
-
-  .bottom-nav-label {
-    letter-spacing: -0.1px;
-  }
-
-  /* Ask AI Special Tab Button in Dock */
-  .bottom-nav-ai-btn {
-    color: var(--color-pine-green);
-  }
-
-  [data-theme="dark"] .bottom-nav-ai-btn {
-    color: #34d399;
-  }
-
-  .bottom-nav-ai-icon {
-    color: var(--color-pine-green);
-    animation: gentleWiggle 3s ease-in-out infinite;
-  }
-
-  [data-theme="dark"] .bottom-nav-ai-icon {
-    color: #34d399;
-  }
-
-  .bottom-nav-pulse-ring {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 7px;
-    height: 7px;
-    background-color: #10b981;
-    border-radius: 50%;
-    box-shadow: 0 0 6px #10b981;
-    animation: pulseDot 2s infinite;
-  }
-
-  /* Hide the redundant floating button on mobile (dock tab handles it!) */
-  .advisor-chatbot-fab {
-    display: none !important;
-  }
+  display: none !important;
 }
 
 @keyframes gentleWiggle {

@@ -4,7 +4,6 @@ import ScrollToTop from './components/ScrollToTop';
 import ScrollProgressBar from './components/ScrollProgressBar';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import BottomNav from './components/BottomNav';
 import BackToTop from './components/BackToTop';
 import AdvisorChatbot from './components/AdvisorChatbot';
 import PWAInstallPrompt from './components/PWAInstallPrompt';
@@ -122,9 +121,6 @@ function App() {
 
             {/* Floating Quick Order Cart Button */}
             <FloatingCartButton />
-
-            {/* Mobile Bottom Navigation Bar */}
-            <BottomNav />
           </div>
         </Router>
       </CartProvider>

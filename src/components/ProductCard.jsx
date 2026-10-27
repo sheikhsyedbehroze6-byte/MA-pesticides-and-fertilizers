@@ -90,6 +90,11 @@ function ProductCard({ product, langMode = 'both' }) {
           alt={product.name}
           style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }}
           loading="lazy"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = '/hero-image.png';
+            e.currentTarget.style.opacity = '0.75';
+          }}
         />
       </div>
 

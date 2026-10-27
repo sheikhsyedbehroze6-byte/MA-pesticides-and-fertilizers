@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import AnimatedSection from '../components/AnimatedSection';
 import WeatherSprayAlert from '../components/WeatherSprayAlert';
+import Breadcrumb from '../components/Breadcrumb';
 import { products } from '../data/agricultureData';
 import {
   Calendar,
@@ -675,6 +676,7 @@ export default function SprayCalendar() {
   return (
     <div style={{ backgroundColor: 'var(--surface-canvas)', minHeight: '100vh' }} className="section-padding">
       <div className="page-container">
+        <Breadcrumb />
         <AnimatedSection style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 36px' }}>
           <span className="tag-label">SKUAST-K Extension Advisory</span>
           <h1 className="text-heading-lg" style={{ marginBottom: '12px' }}>

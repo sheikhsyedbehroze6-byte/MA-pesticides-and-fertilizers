@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Play, ExternalLink, MessageCircle, ArrowRight, Video, Sparkles, Clock, CheckCircle2, Search, Filter, X } from 'lucide-react';
+import Breadcrumb from '../components/Breadcrumb';
 
 const FEATURED_VIDEO = {
   id: 'hJrhVF6dLkk',
@@ -237,6 +238,8 @@ export default function VideoGallery() {
   return (
     <div style={{ backgroundColor: 'var(--surface-canvas)', minHeight: '100vh' }} className="section-padding">
       <div className="page-container">
+        <Breadcrumb />
+
         {/* Page Header */}
         <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 48px' }}>
           <span className="tag-label">KASHMIR AGRONOMY & FIELD DEMONSTRATIONS</span>

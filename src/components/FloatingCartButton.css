@@ -122,10 +122,10 @@
   margin-left: 2px;
 }
 
-/* On mobile screens, elevate above bottom dock navigation */
+/* On mobile screens */
 @media (max-width: 768px) {
   .floating-cart-wrapper {
-    bottom: 84px; /* clears the 64px bottom nav bar */
+    bottom: 24px;
     right: 16px;
   }
 

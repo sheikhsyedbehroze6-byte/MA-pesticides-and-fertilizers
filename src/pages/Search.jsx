@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { diseases, products } from '../data/agricultureData';
 import { Search as SearchIcon, X, ArrowUpRight } from 'lucide-react';
+import Breadcrumb from '../components/Breadcrumb';
 
 const QUICK_CHIPS = [
   'Apple Scab', 'Fungicide', 'Spider Mites', 'Powdery Mildew', 'Blight', 'Insecticide', 'Antracol', 'Syngenta Alika'
@@ -60,6 +61,8 @@ export default function Search() {
   return (
     <div style={{ backgroundColor: 'var(--surface-canvas)', minHeight: '100vh' }} className="section-padding">
       <div className="page-container">
+        <Breadcrumb />
+
         {/* Header */}
         <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 48px' }}>
           <span className="tag-label">Global Srinagar Search Engine</span>
@@ -93,17 +96,19 @@ export default function Search() {
           </div>
         </div>
 
-        {/* Quick Chips */}
-        <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '48px' }}>
-          {QUICK_CHIPS.map((chip, idx) => (
-            <button
-              key={idx}
-              onClick={() => handleInputChange(chip)}
-              className={query.toLowerCase() === chip.toLowerCase() ? 'pill-button-filled pill-button-sm' : 'pill-button-ghost pill-button-sm'}
-            >
-              {chip}
-            </button>
-          ))}
+        {/* Quick Chips Touch Swiper */}
+        <div className="mobile-horizontal-pills-container" style={{ marginBottom: '40px' }}>
+          <div className="mobile-horizontal-pills" style={{ justifyContent: 'center' }}>
+            {QUICK_CHIPS.map((chip, idx) => (
+              <button
+                key={idx}
+                onClick={() => handleInputChange(chip)}
+                className={query.toLowerCase() === chip.toLowerCase() ? 'pill-button-filled pill-button-sm' : 'pill-button-ghost pill-button-sm'}
+              >
+                {chip}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Search Results Display */}

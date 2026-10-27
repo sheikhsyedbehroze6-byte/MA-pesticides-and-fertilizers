@@ -1,9 +1,12 @@
 import { ArrowUpRight } from 'lucide-react';
+import Breadcrumb from '../components/Breadcrumb';
 
 export default function About() {
   return (
     <div style={{ backgroundColor: 'var(--surface-canvas)', minHeight: '100vh' }} className="section-padding">
       <div className="page-container">
+        <Breadcrumb />
+
         {/* Header */}
         <div style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 64px' }}>
           <span className="tag-label">Established in Srinagar, Kashmir</span>
