@@ -1,11 +1,14 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useCart, estimateProductPrice } from '../context/CartContext';
+import { useTheme } from '../context/ThemeContext';
 import {
   Bot, X, Send, Sparkles, MessageCircle, ExternalLink, RefreshCw,
   ArrowRight, Mic, MicOff, Volume2, VolumeX, ShieldAlert, Droplets,
-  Calendar, Phone, MapPin, CheckCircle, Info, Beaker, Leaf, AlertTriangle
+  Calendar, Phone, MapPin, CheckCircle, Info, Beaker, Leaf, AlertTriangle,
+  ShoppingCart, Plus, Check, Sun, Moon, Compass, Zap, Calculator, PhoneCall, Search
 } from 'lucide-react';
 import { products, diseases } from '../data/agricultureData';
-import { estimateProductPrice } from '../context/CartContext';
 import '../pages/urdu.css';
 
 // ============================================================================
@@ -586,15 +589,500 @@ function getBotResponse(userText, messageHistory = []) {
 }
 
 // ============================================================================
+// 4b. Autonomous Website Command & Execution Engine (Full Site Agency)
+// ============================================================================
+function findProductFromText(text, history = []) {
+  if (!text) return null;
+  const lower = text.toLowerCase();
+
+  // 1. Direct product name / alias matching
+  let best = null;
+  let highestScore = 0;
+  for (const p of products) {
+    const pName = p.name.toLowerCase();
+    const pClean = pName.replace(/\(.*?\)/g, '').trim();
+    const pComp = (p.composition || '').toLowerCase();
+
+    let score = 0;
+    if (lower.includes(pClean) && pClean.length >= 3) score += 10;
+    if (lower.includes(pName)) score += 12;
+
+    const tokens = pClean.split(/\s+/).filter(t => t.length > 2);
+    for (const t of tokens) {
+      if (lower.includes(t)) score += 5;
+    }
+    if (pComp && lower.includes(pComp)) score += 4;
+
+    if (score > highestScore) {
+      highestScore = score;
+      best = p;
+    }
+  }
+
+  if (best && highestScore >= 5) return best;
+
+  // 2. Check if user is referencing contextual "it" / "this" / "that product" from recent messages
+  if (/(this|that|it|same|the product|cure|dawa|medicine|spray)/i.test(lower) && Array.isArray(history)) {
+    for (let i = history.length - 1; i >= 0; i--) {
+      const msg = history[i];
+      if (msg.productEmbed) return msg.productEmbed;
+      if (msg.diseaseEmbed && msg.diseaseEmbed.cure) {
+        const cureLower = msg.diseaseEmbed.cure.toLowerCase();
+        const found = products.find(p => cureLower.includes(p.name.toLowerCase()) || p.name.toLowerCase().includes(cureLower));
+        if (found) return found;
+      }
+      if (msg.text) {
+        for (const p of products) {
+          if (msg.text.toLowerCase().includes(p.name.toLowerCase())) return p;
+        }
+      }
+    }
+  }
+
+  return null;
+}
+
+function executeWebsiteCommand({
+  userText,
+  messageHistory = [],
+  navigate,
+  cart,
+  themeContext
+}) {
+  const query = userText.toLowerCase().trim();
+
+  // 1. ADD PRODUCT TO CART INTENT
+  // Handles: "add antracol to my cart", "buy luna", "order 2 alika", "add to cart", "add it"
+  const isAddCart = /(add(\s+to\s+cart|\s+in\s+cart)?|buy|order|purchase|cart\s+mein\s+daalo|kharidna)/i.test(query);
+  const isCartQueryOnly = /(what('?s|\s+is)\s+in\s+my\s+cart|open\s+cart|show\s+cart|view\s+cart|clear\s+cart|empty\s+cart)/i.test(query);
+
+  if (isAddCart && !isCartQueryOnly) {
+    const targetProduct = findProductFromText(userText, messageHistory);
+    if (targetProduct) {
+      let quantity = 1;
+      const qtyMatch = query.match(/\b([1-9]|10)\s*(pack|packs|bottle|bottles|kg|l|litres?|units?|item|items|bag|bags)?\b/i);
+      if (qtyMatch) {
+        const parsed = parseInt(qtyMatch[1], 10);
+        if (!isNaN(parsed) && parsed >= 1 && parsed <= 10) quantity = parsed;
+      }
+
+      cart.addToCart(targetProduct, quantity, { openDrawer: false });
+      const priceInfo = estimateProductPrice(targetProduct);
+
+      return {
+        isCommand: true,
+        response: {
+          sender: 'bot',
+          actionExecuted: `Added ${quantity > 1 ? `${quantity}× ` : ''}"${targetProduct.name}" to Cart`,
+          text: `🛒 **Action Executed! Added ${quantity > 1 ? `${quantity}× ` : ''}${targetProduct.name} to your Cart.**\n\n- 🧪 **Formulation:** ${targetProduct.composition || targetProduct.type}\n- 💧 **Recommended Dosage:** ${targetProduct.dosage}\n- 💰 **Est. Price:** ₹${(priceInfo.discounted * quantity).toLocaleString('en-IN')} (20% valley discount applied)\n- 📦 **Cart Status:** Total **${cart.totalItems + quantity} item(s)** in your cart.\n\nWould you like me to open your cart drawer, calculate your tank dosage, or add another product?`,
+          productEmbed: targetProduct,
+          actionButtons: [
+            { label: '⚡ Open Cart Drawer', action: 'open_cart', primary: true, icon: 'cart' },
+            { label: '🧮 Compute Tank Dosage', action: 'nav_calc', icon: 'calc' },
+            { label: '🛍️ Browse More Products', action: 'nav_products', icon: 'compass' }
+          ],
+          suggestions: ['⚡ Open Cart Drawer', '🧮 Calculate 200L Dosage', '🛍️ Go to Products', '🌙 Dark Mode']
+        }
+      };
+    }
+  }
+
+  // 2. OPEN CART DRAWER
+  if (/(open\s+(the\s+|my\s+)?cart|show\s+(the\s+|my\s+)?cart|view\s+(the\s+|my\s+)?cart|cart\s+drawer|open\s+basket|show\s+basket)/i.test(query)) {
+    cart.openCart();
+    return {
+      isCommand: true,
+      response: {
+        sender: 'bot',
+        actionExecuted: 'Opened Cart Drawer on Screen',
+        text: `⚡ **Cart Drawer opened!**\n\nYou currently have **${cart.totalItems} item(s)** in your cart (Est. Value: ~₹${cart.subtotal.toLocaleString('en-IN')}).\n\nYou can review items, select orchard delivery or shop pickup at Tengpora Bypass Srinagar, and finalize your order.`,
+        actionButtons: [
+          { label: '🛍️ Add More Products', action: 'nav_products', icon: 'compass' },
+          { label: '🗑️ Clear Cart', action: 'clear_cart', icon: 'zap' }
+        ],
+        suggestions: ['🛍️ Go to Products', '🧮 Dosage Calculator', '🗓️ Spray Calendar']
+      }
+    };
+  }
+
+  // 3. CLOSE CART DRAWER
+  if (/(close\s+(the\s+|my\s+)?cart|hide\s+(the\s+|my\s+)?cart)/i.test(query)) {
+    cart.closeCart();
+    return {
+      isCommand: true,
+      response: {
+        sender: 'bot',
+        actionExecuted: 'Closed Cart Drawer',
+        text: `🔒 **Cart drawer closed.** You can reopen it at any time by asking me or tapping the floating cart badge!`,
+        suggestions: ['⚡ Open Cart Drawer', '🛍️ Browse Products', '🗓️ Spray Calendar']
+      }
+    };
+  }
+
+  // 4. CLEAR / EMPTY CART
+  if (/(clear\s+(the\s+|my\s+)?cart|empty\s+(the\s+|my\s+)?cart|delete\s+all\s+(from\s+)?cart|remove\s+all\s+(from\s+)?cart)/i.test(query)) {
+    cart.clearCart();
+    return {
+      isCommand: true,
+      response: {
+        sender: 'bot',
+        actionExecuted: 'Emptied All Cart Items',
+        text: `🗑️ **Done! I have cleared your cart.**\n\nYour basket is now empty and ready for fresh items.`,
+        actionButtons: [
+          { label: '🛍️ Browse Products', action: 'nav_products', icon: 'compass' },
+          { label: '🗓️ View Spray Stages', action: 'nav_calendar', icon: 'compass' }
+        ],
+        suggestions: ['🛍️ Go to Products', '🗓️ Spray Calendar', '🍏 Apple Scab Treatment']
+      }
+    };
+  }
+
+  // 5. INSPECT CART STATUS / TOTAL
+  if (/(what('?s|\s+is)\s+in\s+my\s+cart|cart\s+items|cart\s+status|cart\s+total|check\s+my\s+cart|show\s+my\s+items|how\s+many\s+items\s+in\s+cart)/i.test(query)) {
+    if (cart.cartItems.length > 0) {
+      return {
+        isCommand: true,
+        response: {
+          sender: 'bot',
+          actionExecuted: `Checked Cart (${cart.totalItems} items)`,
+          text: `🛒 **You have ${cart.totalItems} item(s) in your Cart:**\n\n${cart.cartItems.map((item, idx) => `${idx + 1}. **${item.name}** × ${item.quantity} — ₹${(item.price * item.quantity).toLocaleString('en-IN')}`).join('\n')}\n\n💰 **Subtotal:** ~₹${cart.subtotal.toLocaleString('en-IN')}\n🏷️ **Total Farmer Savings:** ₹${cart.savings.toLocaleString('en-IN')} (20% valley discount)`,
+          actionButtons: [
+            { label: '⚡ Open Cart Drawer', action: 'open_cart', primary: true, icon: 'cart' },
+            { label: '🗑️ Clear Cart', action: 'clear_cart', icon: 'zap' },
+            { label: '🛍️ Add More Products', action: 'nav_products', icon: 'compass' }
+          ],
+          suggestions: ['⚡ Open Cart Drawer', '🛍️ Go to Products', '🧮 Dosage Calculator']
+        }
+      };
+    } else {
+      return {
+        isCommand: true,
+        response: {
+          sender: 'bot',
+          actionExecuted: 'Checked Cart (Empty)',
+          text: `🛒 **Your cart is currently empty.**\n\nTell me which chemical or stage you're preparing for (e.g., "Add Antracol to cart", "Pink Bud Stage"), and I will add the right genuine formulation for you!`,
+          actionButtons: [
+            { label: '🛍️ Browse Products', action: 'nav_products', primary: true, icon: 'compass' },
+            { label: '🗓️ Check Spray Calendar', action: 'nav_calendar', icon: 'compass' }
+          ],
+          suggestions: ['🛍️ Go to Products', '🍏 Apple Scab Treatment', '⚡ 200L Tank Dosage Calc']
+        }
+      };
+    }
+  }
+
+  // 6. CHECKOUT / PLACE ORDER
+  if (/(checkout|place\s+order|order\s+now|order\s+on\s+whatsapp|buy\s+now)/i.test(query)) {
+    cart.openCart();
+    return {
+      isCommand: true,
+      response: {
+        sender: 'bot',
+        actionExecuted: 'Opened Checkout in Cart',
+        text: `⚡ **Opening Cart Checkout for you!**\n\nYou have **${cart.totalItems} item(s)** in your cart (Est. Total: ~₹${cart.subtotal.toLocaleString('en-IN')}).\n\nYou can send your order directly to Sheikh Ayoub on WhatsApp or choose shop pickup at Tengpora Bypass Srinagar with 20% discount.`,
+        actionButtons: [
+          { label: '⚡ Review Cart', action: 'open_cart', primary: true, icon: 'cart' },
+          { label: '📞 Call Shop (+91 9906541321)', action: 'call_shop', icon: 'phone' }
+        ],
+        suggestions: ['🛍️ Browse Products', '🧮 Dosage Calculator', '🗓️ Spray Calendar']
+      }
+    };
+  }
+
+  // 7. THEME CONTROLS (Dark / Light Mode)
+  if (/(dark\s+mode|enable\s+dark|turn\s+on\s+dark|night\s+mode|switch\s+to\s+dark)/i.test(query)) {
+    if (themeContext.theme !== 'dark') themeContext.toggleTheme();
+    return {
+      isCommand: true,
+      response: {
+        sender: 'bot',
+        actionExecuted: 'Switched to Dark Theme',
+        text: `🌙 **Activated Dark Theme!** The website is now optimized for low-glare viewing in orchards and late evenings.`,
+        actionButtons: [
+          { label: '☀️ Switch to Light Mode', action: 'toggle_light', icon: 'sun' },
+          { label: '🛍️ Continue Browsing', action: 'nav_products', icon: 'compass' }
+        ],
+        suggestions: ['☀️ Light Mode', '🛍️ Go to Products', '🗓️ Spray Calendar']
+      }
+    };
+  }
+
+  if (/(light\s+mode|enable\s+light|turn\s+on\s+light|day\s+mode|switch\s+to\s+light)/i.test(query)) {
+    if (themeContext.theme !== 'light') themeContext.toggleTheme();
+    return {
+      isCommand: true,
+      response: {
+        sender: 'bot',
+        actionExecuted: 'Switched to Light Theme',
+        text: `☀️ **Activated Light Theme!** The website is now set to high-contrast crisp day mode.`,
+        actionButtons: [
+          { label: '🌙 Switch to Dark Mode', action: 'toggle_dark', icon: 'moon' },
+          { label: '🛍️ Continue Browsing', action: 'nav_products', icon: 'compass' }
+        ],
+        suggestions: ['🌙 Dark Mode', '🛍️ Go to Products', '🗓️ Spray Calendar']
+      }
+    };
+  }
+
+  if (/(toggle\s+theme|change\s+theme|switch\s+theme)/i.test(query)) {
+    themeContext.toggleTheme();
+    const newTheme = themeContext.theme === 'light' ? 'Dark' : 'Light';
+    return {
+      isCommand: true,
+      response: {
+        sender: 'bot',
+        actionExecuted: `Toggled Theme to ${newTheme}`,
+        text: `🌓 **Theme toggled to ${newTheme} Mode!**`,
+        suggestions: ['🌓 Toggle Theme Again', '🛍️ Go to Products', '🗓️ Spray Calendar']
+      }
+    };
+  }
+
+  // 8. AUTONOMOUS SITE NAVIGATION
+  // Products Catalog
+  if (/(go\s+to\s+products|open\s+products|show\s+products|view\s+products|take\s+me\s+to\s+products|open\s+catalog|show\s+catalog|open\s+shop|pesticides\s+page)/i.test(query)) {
+    navigate('/products');
+    return {
+      isCommand: true,
+      response: {
+        sender: 'bot',
+        actionExecuted: 'Navigated to Products Catalog (/products)',
+        text: `🚀 **Navigating you to the Products Catalog!**\n\nBrowse 100% genuine factory-sealed formulations from Bayer, Syngenta, and IPL Biologicals at 20% discount on print MRP.`,
+        actionButtons: [
+          { label: '🧮 Dosage Calculator', action: 'nav_calc', icon: 'calc' },
+          { label: '🗓️ Spray Calendar', action: 'nav_calendar', icon: 'compass' },
+          { label: '⚡ Open Cart', action: 'open_cart', icon: 'cart' }
+        ],
+        suggestions: ['🧮 Open Dosage Calculator', '🗓️ Open Spray Calendar', '⚡ Open Cart Drawer']
+      }
+    };
+  }
+
+  // Spray Calendar
+  if (/(go\s+to\s+spray\s+calendar|open\s+spray\s+calendar|show\s+spray\s+calendar|open\s+calendar|spray\s+schedule|stage\s+schedule|spray\s+stages)/i.test(query)) {
+    navigate('/spray-calendar');
+    return {
+      isCommand: true,
+      response: {
+        sender: 'bot',
+        actionExecuted: 'Navigated to Spray Calendar (/spray-calendar)',
+        text: `🗓️ **Navigating you to the SKUAST-K Apple Spray Calendar!**\n\nFollow official stages from Dormant winter spray through Petal Fall and Pre-Harvest.`,
+        actionButtons: [
+          { label: '🧮 Calculate Dosage', action: 'nav_calc', icon: 'calc' },
+          { label: '🛍️ View Products', action: 'nav_products', icon: 'compass' }
+        ],
+        suggestions: ['🧮 Dosage Calculator', '🛍️ Products Page', '⚡ Open Cart Drawer']
+      }
+    };
+  }
+
+  // Dosage Calculator
+  if (/(go\s+to\s+dosage\s+calculator|open\s+dosage\s+calculator|open\s+calculator|tank\s+calculator|calculate\s+tank|barrel\s+calculator|dosage\s+tool)/i.test(query)) {
+    navigate('/dosage-calculator');
+    return {
+      isCommand: true,
+      response: {
+        sender: 'bot',
+        actionExecuted: 'Navigated to Dosage Calculator (/dosage-calculator)',
+        text: `🧮 **Navigating you to the Precision Dosage & Tank Calculator!**\n\nSelect your barrel volume (200L, 500L, 1000L) or tree count for exact gram and milliliter dilutions.`,
+        actionButtons: [
+          { label: '🗓️ Spray Calendar', action: 'nav_calendar', icon: 'compass' },
+          { label: '🛍️ Browse Products', action: 'nav_products', icon: 'compass' }
+        ],
+        suggestions: ['🗓️ Spray Calendar', '🛍️ Products Page', '⚡ Open Cart Drawer']
+      }
+    };
+  }
+
+  // Disease Guide
+  if (/(go\s+to\s+disease\s+guide|open\s+disease\s+guide|show\s+disease\s+guide|plant\s+doctor|disease\s+diagnosis|open\s+diseases|disease\s+guide\s+page)/i.test(query)) {
+    navigate('/disease-guide');
+    return {
+      isCommand: true,
+      response: {
+        sender: 'bot',
+        actionExecuted: 'Navigated to Disease Guide (/disease-guide)',
+        text: `🔬 **Navigating you to the Disease & Pest Identification Guide!**\n\nHigh-resolution symptom galleries and chemical cures for Apple Scab, Powdery Mildew, Mites, and Canker.`,
+        actionButtons: [
+          { label: '🛍️ Recommended Chemicals', action: 'nav_products', icon: 'compass' },
+          { label: '🗓️ Stage Calendar', action: 'nav_calendar', icon: 'compass' }
+        ],
+        suggestions: ['🛍️ Products Page', '🗓️ Spray Calendar', '🧮 Dosage Calculator']
+      }
+    };
+  }
+
+  // Videos
+  if (/(go\s+to\s+videos|open\s+videos|show\s+videos|video\s+gallery|watch\s+videos|tutorials)/i.test(query)) {
+    navigate('/videos');
+    return {
+      isCommand: true,
+      response: {
+        sender: 'bot',
+        actionExecuted: 'Navigated to Video Tutorials (/videos)',
+        text: `🎥 **Navigating you to the Farmer Video Gallery!**\n\nStep-by-step demonstrations on spray methods, WALES mixing order, and orchard management.`,
+        actionButtons: [
+          { label: '🏠 Return Home', action: 'nav_home', icon: 'compass' },
+          { label: '🛍️ Products', action: 'nav_products', icon: 'compass' }
+        ],
+        suggestions: ['🏠 Return Home', '🛍️ Products Page', '🗓️ Spray Calendar']
+      }
+    };
+  }
+
+  // Contact / Shop
+  if (/(go\s+to\s+contact|open\s+contact|contact\s+page|where\s+is\s+your\s+shop|shop\s+address|visit\s+shop|srinagar\s+location|contact\s+us)/i.test(query)) {
+    navigate('/contact');
+    return {
+      isCommand: true,
+      response: {
+        sender: 'bot',
+        actionExecuted: 'Navigated to Contact & Store Page (/contact)',
+        text: `📍 **Navigating you to Store Contact & Location!**\n\nM.A. Pesticides & Fertilizers is located at Tengpora Bypass, Batamaloo, Srinagar, Kashmir.\n\n- 📞 Phone: +91 9906541321\n- 👨‍🔬 Founder: Sheikh Mohammad Ayoub (M.Sc. Organic Chemistry)`,
+        actionButtons: [
+          { label: '📞 Call Shop (+91 9906541321)', action: 'call_shop', primary: true, icon: 'phone' },
+          { label: '🗺️ Open Google Maps', action: 'open_map', icon: 'compass' }
+        ],
+        suggestions: ['📞 Call Shop', '🗺️ Open Google Maps', '🛍️ Browse Products']
+      }
+    };
+  }
+
+  // About Us
+  if (/(go\s+to\s+about|open\s+about|about\s+page|who\s+are\s+you|about\s+company|about\s+us)/i.test(query)) {
+    navigate('/about');
+    return {
+      isCommand: true,
+      response: {
+        sender: 'bot',
+        actionExecuted: 'Navigated to About Us Page (/about)',
+        text: `📖 **Navigating you to the About Us Page!**\n\nRead about Sheikh Mohammad Ayoub's 30+ year commitment to pesticide authenticity and Kashmir horticulture.`,
+        actionButtons: [
+          { label: '🏠 Return Home', action: 'nav_home', icon: 'compass' },
+          { label: '🛍️ Products', action: 'nav_products', icon: 'compass' }
+        ],
+        suggestions: ['🏠 Return Home', '🛍️ Products Page', '🗓️ Spray Calendar']
+      }
+    };
+  }
+
+  // Home Page
+  if (/(go\s+to\s+home|open\s+home|take\s+me\s+home|return\s+home|homepage|main\s+page)/i.test(query)) {
+    navigate('/');
+    return {
+      isCommand: true,
+      response: {
+        sender: 'bot',
+        actionExecuted: 'Navigated to Homepage (/)',
+        text: `🏠 **Navigating you to the Homepage!**\n\nExplore authorized dealerships (Bayer, Syngenta, IPL Biologicals), spray calendar stages, and quick advisory tools.`,
+        actionButtons: [
+          { label: '🛍️ Browse Products', action: 'nav_products', icon: 'compass' },
+          { label: '🗓️ Spray Calendar', action: 'nav_calendar', icon: 'compass' }
+        ],
+        suggestions: ['🛍️ Browse Products', '🗓️ Spray Calendar', '🧮 Dosage Calculator']
+      }
+    };
+  }
+
+  // 9. LIVE SEARCH REDIRECTION
+  if (/^(search\s+for|search|find|look\s+for)\s+(.+)$/i.test(query)) {
+    const term = query.replace(/^(search\s+for|search|find|look\s+for)\s+/i, '').trim();
+    if (term) {
+      navigate('/search?q=' + encodeURIComponent(term));
+      return {
+        isCommand: true,
+        response: {
+          sender: 'bot',
+          actionExecuted: `Searched Website for "${term}"`,
+          text: `🔍 **Searching the website for "${term}"...**\n\nI have routed you to live matching products, disease protocols, and calendar stages.`,
+          actionButtons: [
+            { label: '🛍️ View Products', action: 'nav_products', icon: 'compass' },
+            { label: '🧮 Dosage Calculator', action: 'nav_calc', icon: 'calc' }
+          ],
+          suggestions: ['🛍️ View Products', '🧮 Dosage Calculator', '🗓️ Spray Calendar']
+        }
+      };
+    }
+  }
+
+  // 10. PHONE CALL TRIGGER
+  if (/(call\s+shop|call\s+sheikh\s+ayoub|call\s+the\s+store|phone\s+call|dial\s+number|call\s+now)/i.test(query)) {
+    window.open('tel:+919906541321', '_self');
+    return {
+      isCommand: true,
+      response: {
+        sender: 'bot',
+        actionExecuted: 'Dialed Shop Phone (+91 9906541321)',
+        text: `📞 **Initiating phone call to Sheikh Mohammad Ayoub (+91 9906541321)...**\n\nConnecting you directly to our Tengpora Bypass Srinagar shop counter for instant consultation!`,
+        actionButtons: [
+          { label: '💬 WhatsApp Store', action: 'open_whatsapp', icon: 'phone' }
+        ],
+        suggestions: ['🛍️ Browse Products', '📍 Srinagar Location', '⚡ Open Cart Drawer']
+      }
+    };
+  }
+
+  // 11. GOOGLE MAPS DIRECTIONS
+  if (/(google\s+maps?|open\s+map|directions?\s+to\s+shop|how\s+to\s+reach\s+shop|map\s+location)/i.test(query)) {
+    window.open('https://maps.google.com/?q=MA+Pesticides+Tengpora+Bypass+Batamaloo+Srinagar', '_blank');
+    return {
+      isCommand: true,
+      response: {
+        sender: 'bot',
+        actionExecuted: 'Opened Google Maps Directions',
+        text: `🗺️ **Opened Google Maps Navigation to M.A. Pesticides Srinagar!**\n\nLocated centrally on Tengpora Bypass, Batamaloo, Srinagar, Kashmir.`,
+        actionButtons: [
+          { label: '📞 Call Shop Counter', action: 'call_shop', icon: 'phone' }
+        ],
+        suggestions: ['📞 Call Shop', '🛍️ Browse Products', '🗓️ Spray Calendar']
+      }
+    };
+  }
+
+  // 12. SCROLLING
+  if (/(scroll\s+to\s+top|back\s+to\s+top|scroll\s+up)/i.test(query)) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return {
+      isCommand: true,
+      response: {
+        sender: 'bot',
+        actionExecuted: 'Scrolled to Top of Page',
+        text: `⬆️ **Scrolled to the top of the page!**`,
+        suggestions: ['🛍️ Products Page', '🗓️ Spray Calendar', '🧮 Dosage Calculator']
+      }
+    };
+  }
+
+  if (/(scroll\s+to\s+bottom|scroll\s+down)/i.test(query)) {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    return {
+      isCommand: true,
+      response: {
+        sender: 'bot',
+        actionExecuted: 'Scrolled to Bottom of Page',
+        text: `⬇️ **Scrolled to the bottom of the page!**`,
+        suggestions: ['⬆️ Scroll to Top', '🛍️ Products Page', '⚡ Open Cart Drawer']
+      }
+    };
+  }
+
+  return { isCommand: false };
+}
+
+// ============================================================================
 // 5. Main Component: AdvisorChatbot
 // ============================================================================
 export default function AdvisorChatbot() {
+  const navigate = useNavigate();
+  const cart = useCart();
+  const themeContext = useTheme();
+
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
       sender: 'bot',
-      text: "👋 Assalamu Alaikum! I am the **M.A. Pesticides AI Advisor**.\n\nAsk me **ANY question** about orchard dosages, apple scab spray schedules, chemical mixing rules, pruning, tree nutrition, or shop availability in Srinagar.",
-      suggestions: ['🍏 Apple Scab Treatment', '⚡ 200L Tank Dosage Calc', '🗓️ Pink Bud Stage Spray', '👨‍💻 Website Developer']
+      text: "👋 Assalamu Alaikum! I am the **M.A. Pesticides AI Copilot**.\n\nI have **full executive control** of this website! You can ask me **ANY question**, or command me directly:\n- 🛒 **Manage Cart:** *\"Add Antracol to cart\"*, *\"Open my cart\"*, *\"Clear cart\"*\n- 🚀 **Navigate Pages:** *\"Take me to Dosage Calculator\"*, *\"Open Spray Calendar\"*\n- 🌙 **Display Mode:** *\"Turn on dark mode\"*, *\"Switch to light mode\"*\n- 📞 **Direct Contact:** *\"Call shop\"*, *\"Open Google Maps\"*",
+      suggestions: ['🛒 Add Antracol to Cart', '🧮 Dosage Calculator', '🗓️ Pink Bud Stage Spray', '🌙 Dark Mode']
     }
   ]);
   const [input, setInput] = useState('');
@@ -602,6 +1090,7 @@ export default function AdvisorChatbot() {
   const [isListening, setIsListening] = useState(false);
   const [speakingIdx, setSpeakingIdx] = useState(null);
   const [activeCategory, setActiveCategory] = useState('all');
+  const [addedItemNotification, setAddedItemNotification] = useState(null);
 
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
@@ -713,7 +1202,73 @@ export default function AdvisorChatbot() {
     }
   };
 
-  // Send message
+  // Autonomous action execution dispatcher
+  const handleExecuteAction = (action, payload) => {
+    switch (action) {
+      case 'add_to_cart':
+        if (payload) {
+          cart.addToCart(payload, 1, { openDrawer: false });
+          setAddedItemNotification(payload.name);
+          setTimeout(() => setAddedItemNotification(null), 2500);
+        }
+        break;
+      case 'open_cart':
+        cart.openCart();
+        break;
+      case 'close_cart':
+        cart.closeCart();
+        break;
+      case 'clear_cart':
+        cart.clearCart();
+        break;
+      case 'nav_products':
+        navigate('/products');
+        break;
+      case 'nav_calendar':
+        navigate('/spray-calendar');
+        break;
+      case 'nav_calc':
+        navigate('/dosage-calculator');
+        break;
+      case 'nav_diseases':
+        navigate('/disease-guide');
+        break;
+      case 'nav_videos':
+        navigate('/videos');
+        break;
+      case 'nav_contact':
+        navigate('/contact');
+        break;
+      case 'nav_about':
+        navigate('/about');
+        break;
+      case 'nav_home':
+        navigate('/');
+        break;
+      case 'toggle_dark':
+        if (themeContext.theme !== 'dark') themeContext.toggleTheme();
+        break;
+      case 'toggle_light':
+        if (themeContext.theme !== 'light') themeContext.toggleTheme();
+        break;
+      case 'toggle_theme':
+        themeContext.toggleTheme();
+        break;
+      case 'call_shop':
+        window.open('tel:+919906541321', '_self');
+        break;
+      case 'open_whatsapp':
+        window.open('https://wa.me/919906541321?text=Salam%20Sheikh%20Ayoub,%20I%20need%20expert%20assistance.', '_blank');
+        break;
+      case 'open_map':
+        window.open('https://maps.google.com/?q=MA+Pesticides+Tengpora+Bypass+Batamaloo+Srinagar', '_blank');
+        break;
+      default:
+        break;
+    }
+  };
+
+  // Send message & execute autonomous action
   const handleSend = (textToSend) => {
     const queryText = (textToSend || input).trim();
     if (!queryText) return;
@@ -729,6 +1284,22 @@ export default function AdvisorChatbot() {
     setIsTyping(true);
 
     setTimeout(() => {
+      // 1. Try autonomous website executive action
+      const commandResult = executeWebsiteCommand({
+        userText: queryText,
+        messageHistory: messages,
+        navigate,
+        cart,
+        themeContext
+      });
+
+      if (commandResult && commandResult.isCommand) {
+        setMessages(prev => [...prev, commandResult.response]);
+        setIsTyping(false);
+        return;
+      }
+
+      // 2. Synthesize domain response & inject contextual actions
       const response = getBotResponse(queryText, messages);
       setMessages(prev => [...prev, { sender: 'bot', ...response }]);
       setIsTyping(false);
@@ -742,14 +1313,28 @@ export default function AdvisorChatbot() {
     setMessages([
       {
         sender: 'bot',
-        text: "👋 Assalamu Alaikum! Conversation reset.\n\nAsk me **ANY question** about dosages, pruning, apple scab, SKUAST stages, fertilizers, or mixing rules.",
-        suggestions: ['🍏 Apple Scab Treatment', '⚡ 200L Tank Dosage Calc', '🗓️ Pink Bud Stage Spray', '👨‍💻 Website Developer']
+        text: "👋 Assalamu Alaikum! Conversation reset.\n\nI have **full executive control** of this website! Ask me **ANY question** or command me to navigate, add items to cart, or toggle site modes.",
+        suggestions: ['🍏 Apple Scab Treatment', '⚡ 200L Tank Dosage Calc', '🗓️ Pink Bud Stage Spray', '🌙 Dark Mode']
       }
     ]);
   };
 
   // Filter tab quick prompts
   const activePrompts = useMemo(() => {
+    if (activeCategory === 'actions') {
+      return [
+        { label: '🛒 Open Cart Drawer', query: 'open my cart' },
+        { label: '🛍️ Go to Products', query: 'take me to products' },
+        { label: '🧮 Dosage Calculator', query: 'open dosage calculator' },
+        { label: '🗓️ Spray Calendar', query: 'open spray calendar' },
+        { label: '🔬 Disease Guide', query: 'open disease guide' },
+        { label: '🌙 Dark Mode', query: 'turn on dark mode' },
+        { label: '☀️ Light Mode', query: 'turn on light mode' },
+        { label: '📞 Call Store Now', query: 'call shop' },
+        { label: '🗺️ Google Maps Directions', query: 'open map directions' },
+        { label: '🗑️ Clear My Cart', query: 'clear my cart' }
+      ];
+    }
     if (activeCategory === 'dosage') {
       return [
         { label: '⚡ 200L Barrel Dosage', query: '200 litre barrel dosage' },
@@ -792,11 +1377,12 @@ export default function AdvisorChatbot() {
       ];
     }
     return [
-      { label: '🍏 Apple Scab Treatment', query: 'Apple Scab spray' },
+      { label: '🛒 Open My Cart', query: 'open my cart' },
+      { label: '🍏 Apple Scab Cure', query: 'Apple Scab spray' },
       { label: '⚡ 200L Tank Dosage Calc', query: '200 litre tank dosage' },
+      { label: '🛍️ Go to Products', query: 'take me to products' },
+      { label: '🌙 Turn on Dark Mode', query: 'turn on dark mode' },
       { label: '✂️ How to Prune Trees', query: 'how to prune apple trees?' },
-      { label: '🌾 Autumn Urea Spray', query: 'what is urea foliar spray?' },
-      { label: '⚠️ Can I mix Dodine + HMO?', query: 'Can I mix Dodine with oil?' },
       { label: '📍 Shop Location & Address', query: 'shop location address' },
       { label: '👨‍💻 Website Developer', query: 'who developed this website' }
     ];
@@ -808,7 +1394,7 @@ export default function AdvisorChatbot() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="pill-button-filled advisor-chatbot-fab"
-        aria-label="Open AI Crop Advisor"
+        aria-label="Open AI Site Copilot & Crop Advisor"
         style={{
           boxShadow: '0 8px 30px rgba(28, 71, 42, 0.35)',
           background: 'var(--color-pine-green)',
@@ -817,7 +1403,7 @@ export default function AdvisorChatbot() {
         }}
       >
         <Sparkles size={17} style={{ color: '#fbe1d1' }} />
-        <span>Ask AI Advisor</span>
+        <span>AI Assistant &amp; Copilot</span>
         <span style={{
           display: 'inline-block',
           width: '8px',
@@ -836,314 +1422,440 @@ export default function AdvisorChatbot() {
             onClick={() => setIsOpen(false)}
             aria-hidden="true"
           />
-          <div className="advisor-chatbot-modal" role="dialog" aria-modal="true" aria-label="Orchard AI Advisor">
+          <div className="advisor-chatbot-modal" role="dialog" aria-modal="true" aria-label="Orchard AI Copilot">
             {/* Mobile Sheet Handle */}
             <div className="advisor-mobile-handle" />
-          {/* Header */}
-          <div style={{
-            padding: '14px 18px',
-            borderBottom: '1px solid rgba(23, 25, 28, 0.08)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            backgroundColor: 'var(--surface-section-fog, #fafafb)'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+
+            {/* Notification Toast for Live Actions */}
+            {addedItemNotification && (
               <div style={{
-                width: '38px',
-                height: '38px',
-                borderRadius: '50%',
+                position: 'absolute',
+                top: '64px',
+                left: '14px',
+                right: '14px',
                 backgroundColor: 'var(--color-pine-green, #1c472a)',
                 color: '#ffffff',
+                padding: '8px 14px',
+                borderRadius: '10px',
+                fontSize: '12px',
+                fontWeight: 500,
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                fontWeight: 600,
-                fontSize: '13px',
-                boxShadow: '0 2px 8px rgba(28, 71, 42, 0.25)'
+                justifyContent: 'space-between',
+                boxShadow: '0 6px 18px rgba(28, 71, 42, 0.35)',
+                zIndex: 25,
+                animation: 'fadeInModal 0.2s ease-out'
               }}>
-                SA
-              </div>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <h4 style={{ fontFamily: 'var(--font-signifier)', fontSize: '17px', fontWeight: 500, margin: 0, color: 'var(--color-ink-black)' }}>
-                    Orchard AI Advisor
-                  </h4>
-                  <span style={{
-                    fontSize: '10px',
-                    fontWeight: 600,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.5px',
-                    padding: '1px 6px',
-                    borderRadius: '10px',
-                    backgroundColor: 'rgba(16, 185, 129, 0.15)',
-                    color: '#047857'
-                  }}>
-                    Answers All Questions
-                  </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <CheckCircle size={15} style={{ color: '#34d399' }} />
+                  <span>Added <strong>{addedItemNotification}</strong> to Cart!</span>
                 </div>
-                <span style={{ fontSize: '11px', color: 'var(--color-slate-gray)' }}>
-                  Guided by Sheikh M. Ayoub (M.Sc. Organic Chem)
-                </span>
+                <button
+                  onClick={() => cart.openCart()}
+                  style={{
+                    background: 'rgba(255,255,255,0.2)',
+                    border: 'none',
+                    color: '#ffffff',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    padding: '2px 8px',
+                    borderRadius: '6px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  View Cart
+                </button>
               </div>
-            </div>
+            )}
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <button
-                onClick={handleResetChat}
-                title="Restart Consultation"
-                aria-label="Restart consultation"
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  color: 'var(--color-slate-gray)',
-                  padding: '6px',
-                  borderRadius: '8px',
+            {/* Header */}
+            <div style={{
+              padding: '14px 18px',
+              borderBottom: '1px solid rgba(23, 25, 28, 0.08)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              backgroundColor: 'var(--surface-section-fog, #fafafb)'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{
+                  width: '38px',
+                  height: '38px',
+                  borderRadius: '50%',
+                  backgroundColor: 'var(--color-pine-green, #1c472a)',
+                  color: '#ffffff',
                   display: 'flex',
                   alignItems: 'center',
-                  transition: 'background 0.2s'
-                }}
-              >
-                <RefreshCw size={15} />
-              </button>
-              <button
-                onClick={() => setIsOpen(false)}
-                aria-label="Close Advisor"
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  color: 'var(--color-ink-black)',
-                  padding: '6px',
-                  borderRadius: '8px',
-                  display: 'flex',
-                  alignItems: 'center'
-                }}
-              >
-                <X size={18} />
-              </button>
-            </div>
-          </div>
-
-          {/* Mode Selector Tabs */}
-          <div style={{
-            display: 'flex',
-            gap: '6px',
-            padding: '8px 14px',
-            backgroundColor: '#ffffff',
-            borderBottom: '1px solid rgba(23, 25, 28, 0.05)',
-            overflowX: 'auto',
-            scrollbarWidth: 'none'
-          }}>
-            {[
-              { id: 'all', label: '✨ All' },
-              { id: 'dosage', label: '🧮 Dosage' },
-              { id: 'stages', label: '🗓️ Stages' },
-              { id: 'mixing', label: '⚠️ Tank Mix' },
-              { id: 'diseases', label: '🔬 Diseases' },
-              { id: 'nutrition', label: '🌾 Nutrition' }
-            ].map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveCategory(tab.id)}
-                style={{
-                  padding: '4px 10px',
-                  borderRadius: '14px',
-                  fontSize: '11.5px',
-                  fontWeight: activeCategory === tab.id ? 600 : 450,
-                  whiteSpace: 'nowrap',
-                  border: 'none',
-                  cursor: 'pointer',
-                  backgroundColor: activeCategory === tab.id ? 'var(--color-pine-green, #1c472a)' : 'rgba(23, 25, 28, 0.05)',
-                  color: activeCategory === tab.id ? '#ffffff' : 'var(--color-ink-black)'
-                }}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Messages Body */}
-          <div style={{
-            flex: 1,
-            padding: '16px 16px',
-            overflowY: 'auto',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '14px',
-            backgroundColor: '#fcfcfc'
-          }}>
-            {messages.map((msg, idx) => (
-              <div
-                key={idx}
-                style={{
-                  alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start',
-                  maxWidth: '92%',
-                  backgroundColor: msg.sender === 'user' ? 'var(--color-ink-black)' : 'var(--surface-card-mist, #ffffff)',
-                  color: msg.sender === 'user' ? 'var(--surface-canvas, #ffffff)' : 'var(--color-ink-black)',
-                  padding: '12px 16px',
-                  borderRadius: msg.sender === 'user' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
-                  fontSize: '14px',
-                  lineHeight: '1.45',
-                  boxShadow: msg.sender === 'bot' ? '0 2px 10px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(23, 25, 28, 0.06)' : 'none',
-                  fontFamily: 'var(--font-sohne)'
-                }}
-              >
-                {/* Message Header with Text-to-Speech toggle */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
-                  <div style={{ whiteSpace: 'pre-line', flex: 1 }}>{formatBotText(msg.text)}</div>
-                  {msg.sender === 'bot' && (
-                    <button
-                      onClick={() => handleToggleSpeak(idx, msg.text)}
-                      title={speakingIdx === idx ? 'Stop voice readout' : 'Listen to voice advice'}
-                      aria-label="Read advice aloud"
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                        padding: '2px',
-                        color: speakingIdx === idx ? 'var(--color-pine-green)' : 'var(--color-ash-gray)',
-                        flexShrink: 0
-                      }}
-                    >
-                      {speakingIdx === idx ? <VolumeX size={15} /> : <Volume2 size={15} />}
-                    </button>
-                  )}
+                  justifyContent: 'center',
+                  fontWeight: 600,
+                  fontSize: '13px',
+                  boxShadow: '0 2px 8px rgba(28, 71, 42, 0.25)'
+                }}>
+                  SA
                 </div>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+                    <h4 style={{ fontFamily: 'var(--font-signifier)', fontSize: '17px', fontWeight: 500, margin: 0, color: 'var(--color-ink-black)' }}>
+                      Orchard AI Copilot
+                    </h4>
+                    <span style={{
+                      fontSize: '9.5px',
+                      fontWeight: 600,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.4px',
+                      padding: '1px 6px',
+                      borderRadius: '10px',
+                      backgroundColor: 'rgba(16, 185, 129, 0.15)',
+                      color: '#047857',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '3px'
+                    }}>
+                      <Zap size={9} /> Full Site Control
+                    </span>
+                  </div>
+                  <span style={{ fontSize: '11px', color: 'var(--color-slate-gray)' }}>
+                    Voice &amp; Text Assistant — Navigates, Adds to Cart &amp; Controls Site
+                  </span>
+                </div>
+              </div>
 
-                {/* Embedded Interactive Product Card */}
-                {msg.productEmbed && (
-                  <div style={{
-                    marginTop: '10px',
-                    padding: '10px',
-                    borderRadius: '12px',
-                    backgroundColor: 'var(--color-fog-white, #fafafb)',
-                    border: '1px solid rgba(23, 25, 28, 0.08)',
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <button
+                  onClick={handleResetChat}
+                  title="Restart Consultation"
+                  aria-label="Restart consultation"
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: 'var(--color-slate-gray)',
+                    padding: '6px',
+                    borderRadius: '8px',
                     display: 'flex',
-                    gap: '10px',
-                    alignItems: 'center'
-                  }}>
-                    {msg.productEmbed.image ? (
-                      <img
-                        src={msg.productEmbed.image}
-                        alt={msg.productEmbed.name}
-                        style={{
-                          width: '48px',
-                          height: '48px',
-                          objectFit: 'cover',
-                          borderRadius: '8px',
-                          backgroundColor: '#ffffff',
-                          border: '1px solid rgba(0,0,0,0.06)'
-                        }}
-                        onError={(e) => { e.target.style.display = 'none'; }}
-                      />
-                    ) : (
-                      <div style={{
-                        width: '48px',
-                        height: '48px',
-                        borderRadius: '8px',
-                        backgroundColor: 'var(--color-sage-tint, #eaf4ed)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'var(--color-pine-green)'
-                      }}>
-                        <Leaf size={20} />
-                      </div>
-                    )}
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontWeight: 600, fontSize: '13px', color: 'var(--color-ink-black)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        {msg.productEmbed.name}
-                      </div>
-                      <div style={{ fontSize: '11px', color: 'var(--color-slate-gray)' }}>
-                        Dosage: {msg.productEmbed.dosage}
-                      </div>
-                      <div style={{ fontSize: '11px', color: '#047857', fontWeight: 600 }}>
-                        20% Flat Discount at Srinagar Store
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Embedded Stage Card */}
-                {msg.stageEmbed && (
-                  <div style={{
-                    marginTop: '10px',
-                    padding: '10px 12px',
-                    borderRadius: '12px',
-                    backgroundColor: 'rgba(28, 71, 42, 0.05)',
-                    border: '1px solid rgba(28, 71, 42, 0.15)',
-                    fontSize: '12px'
-                  }}>
-                    <div style={{ fontWeight: 600, color: 'var(--color-pine-green)' }}>
-                      SKUAST-K Guide: {msg.stageEmbed.timing}
-                    </div>
-                    <div style={{ color: 'var(--color-slate-gray)', marginTop: '2px' }}>
-                      Recommended: {msg.stageEmbed.recommendation}
-                    </div>
-                  </div>
-                )}
-
-                {/* Embedded Developer Logo Badge */}
-                {msg.imageEmbed && (
-                  <div style={{
-                    marginTop: '10px',
-                    display: 'inline-flex',
                     alignItems: 'center',
-                    gap: '10px',
-                    padding: '6px 14px 6px 8px',
-                    borderRadius: '9999px',
-                    backgroundColor: '#0a0c0f',
-                    border: '1px solid rgba(212, 175, 55, 0.35)',
-                    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.25)'
-                  }}>
-                    <img
-                      src="/sb-emblem.webp"
-                      alt="SB Logo"
-                      style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '50%',
-                        border: '1px solid rgba(212, 175, 55, 0.65)',
-                        objectFit: 'cover'
-                      }}
-                    />
-                    <div style={{ lineHeight: '1.2', textAlign: 'left' }}>
-                      <span style={{ fontSize: '9px', color: 'rgba(255, 255, 255, 0.55)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block' }}>
-                        Designed &amp; Developed by
-                      </span>
-                      <span style={{ fontSize: '12.5px', color: '#d4af37', fontWeight: 600, fontFamily: 'var(--font-signifier)' }}>
-                        Sheikh Behroze Ayub <span style={{ fontSize: '10px', color: 'rgba(255, 255, 255, 0.7)', fontFamily: 'var(--font-sohne)', fontWeight: 400 }}>B.Tech CSE</span>
-                      </span>
-                    </div>
-                  </div>
-                )}
+                    transition: 'background 0.2s'
+                  }}
+                >
+                  <RefreshCw size={15} />
+                </button>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  aria-label="Close Advisor"
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: 'var(--color-ink-black)',
+                    padding: '6px',
+                    borderRadius: '8px',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
+                >
+                  <X size={18} />
+                </button>
+              </div>
+            </div>
 
-                {/* WhatsApp Action Button */}
-                {msg.actionLink && (
-                  <div style={{ marginTop: '10px', paddingTop: '8px', borderTop: '1px solid rgba(23, 25, 28, 0.06)' }}>
-                    <a
-                      href={msg.actionLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-link-arrow"
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                        color: msg.sender === 'user' ? '#fbe1d1' : 'var(--color-pine-green, #1c472a)',
-                        fontSize: '13px',
-                        fontWeight: 600,
-                        textDecoration: 'none'
-                      }}
-                    >
-                      <MessageCircle size={14} />
-                      <span>Order / Confirm with Sheikh Ayoub</span>
-                      <ArrowRight size={13} />
-                    </a>
+            {/* Mode Selector Tabs */}
+            <div style={{
+              display: 'flex',
+              gap: '6px',
+              padding: '8px 14px',
+              backgroundColor: '#ffffff',
+              borderBottom: '1px solid rgba(23, 25, 28, 0.05)',
+              overflowX: 'auto',
+              scrollbarWidth: 'none'
+            }}>
+              {[
+                { id: 'all', label: '✨ All' },
+                { id: 'actions', label: '⚡ Actions' },
+                { id: 'dosage', label: '🧮 Dosage' },
+                { id: 'stages', label: '🗓️ Stages' },
+                { id: 'mixing', label: '⚠️ Tank Mix' },
+                { id: 'diseases', label: '🔬 Diseases' },
+                { id: 'nutrition', label: '🌾 Nutrition' }
+              ].map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveCategory(tab.id)}
+                  style={{
+                    padding: '4px 10px',
+                    borderRadius: '14px',
+                    fontSize: '11.5px',
+                    fontWeight: activeCategory === tab.id ? 600 : 450,
+                    whiteSpace: 'nowrap',
+                    border: 'none',
+                    cursor: 'pointer',
+                    backgroundColor: activeCategory === tab.id ? 'var(--color-pine-green, #1c472a)' : 'rgba(23, 25, 28, 0.05)',
+                    color: activeCategory === tab.id ? '#ffffff' : 'var(--color-ink-black)'
+                  }}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Messages Body */}
+            <div style={{
+              flex: 1,
+              padding: '16px 16px',
+              overflowY: 'auto',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '14px',
+              backgroundColor: '#fcfcfc'
+            }}>
+              {messages.map((msg, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start',
+                    maxWidth: '92%',
+                    backgroundColor: msg.sender === 'user' ? 'var(--color-ink-black)' : 'var(--surface-card-mist, #ffffff)',
+                    color: msg.sender === 'user' ? 'var(--surface-canvas, #ffffff)' : 'var(--color-ink-black)',
+                    padding: '12px 16px',
+                    borderRadius: msg.sender === 'user' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
+                    fontSize: '14px',
+                    lineHeight: '1.45',
+                    boxShadow: msg.sender === 'bot' ? '0 2px 10px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(23, 25, 28, 0.06)' : 'none',
+                    fontFamily: 'var(--font-sohne)'
+                  }}
+                >
+                  {/* Executive Action Executed Badge */}
+                  {msg.actionExecuted && (
+                    <div className="advisor-action-badge">
+                      <Zap size={11} />
+                      <span>Action: {msg.actionExecuted}</span>
+                    </div>
+                  )}
+
+                  {/* Message Header with Text-to-Speech toggle */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
+                    <div style={{ whiteSpace: 'pre-line', flex: 1 }}>{formatBotText(msg.text)}</div>
+                    {msg.sender === 'bot' && (
+                      <button
+                        onClick={() => handleToggleSpeak(idx, msg.text)}
+                        title={speakingIdx === idx ? 'Stop voice readout' : 'Listen to voice advice'}
+                        aria-label="Read advice aloud"
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          cursor: 'pointer',
+                          padding: '2px',
+                          color: speakingIdx === idx ? 'var(--color-pine-green)' : 'var(--color-ash-gray)',
+                          flexShrink: 0
+                        }}
+                      >
+                        {speakingIdx === idx ? <VolumeX size={15} /> : <Volume2 size={15} />}
+                      </button>
+                    )}
                   </div>
-                )}
+
+                  {/* Interactive In-Chat Action Buttons */}
+                  {msg.actionButtons && msg.actionButtons.length > 0 && (
+                    <div style={{
+                      marginTop: '10px',
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: '6px'
+                    }}>
+                      {msg.actionButtons.map((btn, bIdx) => (
+                        <button
+                          key={bIdx}
+                          onClick={() => handleExecuteAction(btn.action, btn.payload)}
+                          className={`advisor-control-btn ${btn.primary ? 'advisor-control-btn-primary' : ''}`}
+                        >
+                          {btn.icon === 'cart' && <ShoppingCart size={12} />}
+                          {btn.icon === 'calc' && <Calculator size={12} />}
+                          {btn.icon === 'compass' && <Compass size={12} />}
+                          {btn.icon === 'phone' && <PhoneCall size={12} />}
+                          {btn.icon === 'moon' && <Moon size={12} />}
+                          {btn.icon === 'sun' && <Sun size={12} />}
+                          {btn.icon === 'zap' && <Zap size={12} />}
+                          <span>{btn.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Embedded Interactive Product Card */}
+                  {msg.productEmbed && (
+                    <div style={{
+                      marginTop: '10px',
+                      padding: '12px',
+                      borderRadius: '12px',
+                      backgroundColor: 'var(--color-fog-white, #fafafb)',
+                      border: '1px solid rgba(23, 25, 28, 0.08)'
+                    }}>
+                      <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        {msg.productEmbed.image ? (
+                          <img
+                            src={msg.productEmbed.image}
+                            alt={msg.productEmbed.name}
+                            style={{
+                              width: '48px',
+                              height: '48px',
+                              objectFit: 'cover',
+                              borderRadius: '8px',
+                              backgroundColor: '#ffffff',
+                              border: '1px solid rgba(0,0,0,0.06)'
+                            }}
+                            onError={(e) => { e.target.style.display = 'none'; }}
+                          />
+                        ) : (
+                          <div style={{
+                            width: '48px',
+                            height: '48px',
+                            borderRadius: '8px',
+                            backgroundColor: 'var(--color-sage-tint, #eaf4ed)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'var(--color-pine-green)'
+                          }}>
+                            <Leaf size={20} />
+                          </div>
+                        )}
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontWeight: 600, fontSize: '13px', color: 'var(--color-ink-black)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                            {msg.productEmbed.name}
+                          </div>
+                          <div style={{ fontSize: '11px', color: 'var(--color-slate-gray)' }}>
+                            Dosage: {msg.productEmbed.dosage}
+                          </div>
+                          <div style={{ fontSize: '11px', color: '#047857', fontWeight: 600 }}>
+                            20% Flat Discount (~₹{estimateProductPrice(msg.productEmbed).discounted})
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Instant Autonomous Actions on Product */}
+                      <div style={{ display: 'flex', gap: '6px', marginTop: '10px', flexWrap: 'wrap' }}>
+                        <button
+                          onClick={() => {
+                            cart.addToCart(msg.productEmbed, 1, { openDrawer: false });
+                            setAddedItemNotification(msg.productEmbed.name);
+                            setTimeout(() => setAddedItemNotification(null), 2500);
+                          }}
+                          className="advisor-control-btn advisor-control-btn-primary"
+                        >
+                          <ShoppingCart size={12} />
+                          <span>+ Add to Cart</span>
+                        </button>
+                        <button
+                          onClick={() => navigate('/dosage-calculator')}
+                          className="advisor-control-btn"
+                        >
+                          <Calculator size={12} />
+                          <span>Calc Tank Dosage</span>
+                        </button>
+                        <button
+                          onClick={() => navigate('/products')}
+                          className="advisor-control-btn"
+                        >
+                          <Compass size={12} />
+                          <span>Catalog</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Embedded Stage Card */}
+                  {msg.stageEmbed && (
+                    <div style={{
+                      marginTop: '10px',
+                      padding: '12px',
+                      borderRadius: '12px',
+                      backgroundColor: 'rgba(28, 71, 42, 0.05)',
+                      border: '1px solid rgba(28, 71, 42, 0.15)',
+                      fontSize: '12px'
+                    }}>
+                      <div style={{ fontWeight: 600, color: 'var(--color-pine-green)' }}>
+                        SKUAST-K Guide: {msg.stageEmbed.timing}
+                      </div>
+                      <div style={{ color: 'var(--color-slate-gray)', marginTop: '2px' }}>
+                        Recommended: {msg.stageEmbed.recommendation}
+                      </div>
+                      <div style={{ display: 'flex', gap: '6px', marginTop: '8px', flexWrap: 'wrap' }}>
+                        <button
+                          onClick={() => navigate('/spray-calendar')}
+                          className="advisor-control-btn advisor-control-btn-primary"
+                        >
+                          <Calendar size={12} />
+                          <span>Open Spray Calendar</span>
+                        </button>
+                        <button
+                          onClick={() => navigate('/dosage-calculator')}
+                          className="advisor-control-btn"
+                        >
+                          <Calculator size={12} />
+                          <span>Compute Dilution</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Embedded Developer Logo Badge */}
+                  {msg.imageEmbed && (
+                    <div style={{
+                      marginTop: '10px',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                      padding: '6px 14px 6px 8px',
+                      borderRadius: '9999px',
+                      backgroundColor: '#0a0c0f',
+                      border: '1px solid rgba(212, 175, 55, 0.35)',
+                      boxShadow: '0 2px 10px rgba(0, 0, 0, 0.25)'
+                    }}>
+                      <img
+                        src="/sb-emblem.webp"
+                        alt="SB Logo"
+                        style={{
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '50%',
+                          border: '1px solid rgba(212, 175, 55, 0.65)',
+                          objectFit: 'cover'
+                        }}
+                      />
+                      <div style={{ lineHeight: '1.2', textAlign: 'left' }}>
+                        <span style={{ fontSize: '9px', color: 'rgba(255, 255, 255, 0.55)', textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block' }}>
+                          Designed &amp; Developed by
+                        </span>
+                        <span style={{ fontSize: '12.5px', color: '#d4af37', fontWeight: 600, fontFamily: 'var(--font-signifier)' }}>
+                          Sheikh Behroze Ayub <span style={{ fontSize: '10px', color: 'rgba(255, 255, 255, 0.7)', fontFamily: 'var(--font-sohne)', fontWeight: 400 }}>B.Tech CSE</span>
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* WhatsApp Action Button */}
+                  {msg.actionLink && (
+                    <div style={{ marginTop: '10px', paddingTop: '8px', borderTop: '1px solid rgba(23, 25, 28, 0.06)' }}>
+                      <a
+                        href={msg.actionLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-link-arrow"
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          color: msg.sender === 'user' ? '#fbe1d1' : 'var(--color-pine-green, #1c472a)',
+                          fontSize: '13px',
+                          fontWeight: 600,
+                          textDecoration: 'none'
+                        }}
+                      >
+                        <MessageCircle size={14} />
+                        <span>Order / Confirm with Sheikh Ayoub</span>
+                        <ArrowRight size={13} />
+                      </a>
+                    </div>
+                  )}
 
                 {/* Contextual Smart Suggestion Chips */}
                 {msg.suggestions && msg.suggestions.length > 0 && (
