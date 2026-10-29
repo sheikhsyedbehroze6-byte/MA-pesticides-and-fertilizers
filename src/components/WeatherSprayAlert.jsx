@@ -16,12 +16,17 @@ function WeatherSprayAlert() {
 
   useEffect(() => {
     let isMounted = true;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
+
     const fetchLiveWeather = async () => {
       try {
         setLoading(true);
         const res = await fetch(
-          'https://api.open-meteo.com/v1/forecast?latitude=34.0837&longitude=74.7973&current=temperature_2m,relative_humidity_2m,precipitation,rain,weather_code,wind_speed_10m&hourly=precipitation_probability,temperature_2m,wind_speed_10m'
+          'https://api.open-meteo.com/v1/forecast?latitude=34.0837&longitude=74.7973&current=temperature_2m,relative_humidity_2m,precipitation,rain,weather_code,wind_speed_10m&hourly=precipitation_probability,temperature_2m,wind_speed_10m',
+          { signal: controller.signal }
         );
+        clearTimeout(timeoutId);
         if (!res.ok) throw new Error('Weather API error');
         const data = await res.json();
 
@@ -72,14 +77,21 @@ function WeatherSprayAlert() {
         });
         setIsLive(true);
       } catch (err) {
-        console.warn('Using seasonal weather fallback:', err);
+        // Graceful fallback on slow network / offline
+        if (err.name !== 'AbortError') {
+          console.warn('Using seasonal weather fallback:', err);
+        }
       } finally {
         if (isMounted) setLoading(false);
       }
     };
 
     fetchLiveWeather();
-    return () => { isMounted = false; };
+    return () => {
+      isMounted = false;
+      clearTimeout(timeoutId);
+      controller.abort();
+    };
   }, []);
 
   return (

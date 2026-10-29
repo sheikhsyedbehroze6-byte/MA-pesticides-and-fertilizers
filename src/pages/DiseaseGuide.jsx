@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useDeferredValue } from 'react';
 import { Link } from 'react-router-dom';
 import { diseases } from '../data/agricultureData';
 import { Search, X, ArrowUpRight, Globe, Calculator, ArrowRight } from 'lucide-react';
@@ -17,18 +17,20 @@ export default function DiseaseGuide() {
   const [activeCrop, setActiveCrop] = useState('All');
   const [selectedSymptom, setSelectedSymptom] = useState(null);
   const [langMode, setLangMode] = useState('both'); // 'en', 'both', 'ur'
+  const deferredSearch = useDeferredValue(searchTerm);
 
   const cropCategories = ['All', 'Apple', 'Walnut', 'Cherry & Almond', 'Paddy & Maize', 'Saffron & Veg'];
 
   const filteredDiseases = useMemo(() => {
+    const term = deferredSearch.toLowerCase().trim();
     return diseases.filter(disease => {
       const matchesSearch =
-        !searchTerm ||
-        disease.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (disease.nameUrdu && disease.nameUrdu.includes(searchTerm)) ||
-        disease.symptoms.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (disease.symptomsUrdu && disease.symptomsUrdu.includes(searchTerm)) ||
-        disease.cure.toLowerCase().includes(searchTerm.toLowerCase());
+        !term ||
+        disease.name.toLowerCase().includes(term) ||
+        (disease.nameUrdu && disease.nameUrdu.includes(term)) ||
+        disease.symptoms.toLowerCase().includes(term) ||
+        (disease.symptomsUrdu && disease.symptomsUrdu.includes(term)) ||
+        disease.cure.toLowerCase().includes(term);
 
       let matchesCrop = true;
       if (activeCrop !== 'All') {
@@ -47,7 +49,7 @@ export default function DiseaseGuide() {
 
       return matchesSearch && matchesCrop && matchesSymptom;
     });
-  }, [searchTerm, activeCrop, selectedSymptom]);
+  }, [deferredSearch, activeCrop, selectedSymptom]);
 
   return (
     <div style={{ backgroundColor: 'var(--surface-canvas)', minHeight: '100vh' }} className="section-padding">

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useDeferredValue } from 'react';
 import ProductCard from '../components/ProductCard';
 import { products } from '../data/agricultureData';
 import { Search, X } from 'lucide-react';
@@ -17,16 +17,19 @@ export default function Products() {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
   const [activeCrop, setActiveCrop] = useState('All Crops');
+  const deferredSearch = useDeferredValue(searchTerm);
 
   const categories = ['All', 'Fungicide', 'Insecticide', 'Herbicide', 'Plant Tonic / Bio-Stimulant'];
 
   const filteredProducts = useMemo(() => {
+    const term = deferredSearch.toLowerCase().trim();
     return products.filter(product => {
       const matchesSearch =
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.composition.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.uses.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.diseases.some(d => d.toLowerCase().includes(searchTerm.toLowerCase()));
+        !term ||
+        product.name.toLowerCase().includes(term) ||
+        product.composition.toLowerCase().includes(term) ||
+        product.uses.toLowerCase().includes(term) ||
+        product.diseases.some(d => d.toLowerCase().includes(term));
 
       let matchesCategory = true;
       if (activeCategory === 'Fungicide') {
@@ -49,7 +52,7 @@ export default function Products() {
 
       return matchesSearch && matchesCategory && matchesCrop;
     });
-  }, [searchTerm, activeCategory, activeCrop]);
+  }, [deferredSearch, activeCategory, activeCrop]);
 
   return (
     <div style={{ backgroundColor: 'var(--surface-canvas)', minHeight: '100vh' }} className="section-padding">

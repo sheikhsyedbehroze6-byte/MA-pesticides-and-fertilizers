@@ -9,7 +9,11 @@ export function lazyWithPreload(factory) {
 
   const load = () => {
     if (!promise) {
-      promise = factory();
+      promise = factory().catch((err) => {
+        // Reset promise so subsequent clicks attempt a fresh fetch if connection drops
+        promise = null;
+        throw err;
+      });
     }
     return promise;
   };

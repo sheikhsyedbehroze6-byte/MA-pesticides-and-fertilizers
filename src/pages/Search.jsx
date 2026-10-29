@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useDeferredValue } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { diseases, products } from '../data/agricultureData';
@@ -16,8 +16,9 @@ export default function Search() {
   const initialQuery = searchParams.get('q') || '';
 
   const [query, setQuery] = useState(initialQuery);
-  const [prevSearch, setPrevSearch] = useState(location.search);
+  const deferredQuery = useDeferredValue(query);
 
+  const [prevSearch, setPrevSearch] = useState(location.search);
   if (location.search !== prevSearch) {
     setPrevSearch(location.search);
     const qInUrl = new URLSearchParams(location.search).get('q') || '';
@@ -26,18 +27,28 @@ export default function Search() {
     }
   }
 
+  // Debounced URL sync to prevent history stack thrashing during rapid typing
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const currentQ = new URLSearchParams(location.search).get('q') || '';
+      if (query.trim() !== currentQ) {
+        if (query.trim()) {
+          navigate(`/search?q=${encodeURIComponent(query.trim())}`, { replace: true });
+        } else if (currentQ) {
+          navigate('/search', { replace: true });
+        }
+      }
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [query, location.search, navigate]);
+
   const handleInputChange = (val) => {
     setQuery(val);
-    if (val.trim()) {
-      navigate(`/search?q=${encodeURIComponent(val.trim())}`, { replace: true });
-    } else {
-      navigate('/search', { replace: true });
-    }
   };
 
   const matchedProducts = useMemo(() => {
-    if (!query.trim()) return [];
-    const q = query.toLowerCase().trim();
+    if (!deferredQuery.trim()) return [];
+    const q = deferredQuery.toLowerCase().trim();
     return products.filter(p =>
       p.name.toLowerCase().includes(q) ||
       p.uses.toLowerCase().includes(q) ||
@@ -45,18 +56,18 @@ export default function Search() {
       p.type.toLowerCase().includes(q) ||
       p.diseases.some(d => d.toLowerCase().includes(q))
     );
-  }, [query]);
+  }, [deferredQuery]);
 
   const matchedDiseases = useMemo(() => {
-    if (!query.trim()) return [];
-    const q = query.toLowerCase().trim();
+    if (!deferredQuery.trim()) return [];
+    const q = deferredQuery.toLowerCase().trim();
     return diseases.filter(d =>
       d.name.toLowerCase().includes(q) ||
       d.crop.toLowerCase().includes(q) ||
       d.symptoms.toLowerCase().includes(q) ||
       d.cure.toLowerCase().includes(q)
     );
-  }, [query]);
+  }, [deferredQuery]);
 
   return (
     <div style={{ backgroundColor: 'var(--surface-canvas)', minHeight: '100vh' }} className="section-padding">

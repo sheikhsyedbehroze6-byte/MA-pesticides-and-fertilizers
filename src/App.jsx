@@ -13,6 +13,8 @@ import { CartProvider } from './context/CartContext';
 import SprayOrderDrawer from './components/SprayOrderDrawer';
 import FloatingCartButton from './components/FloatingCartButton';
 import './App.css';
+import ErrorBoundary from './components/ErrorBoundary';
+import NetworkStatusBanner from './components/NetworkStatusBanner';
 import {
   About,
   Products,
@@ -79,52 +81,55 @@ function App() {
   }, []);
 
   return (
-    <ThemeProvider>
-      <CartProvider>
-        <Router>
-          <ScrollToTop />
-          <BackToTop />
-          <div className="App">
-            <ScrollProgressBar />
+    <ErrorBoundary>
+      <ThemeProvider>
+        <CartProvider>
+          <Router>
+            <ScrollToTop />
+            <BackToTop />
+            <NetworkStatusBanner />
+            <div className="App">
+              <ScrollProgressBar />
 
-            <Header />
+              <Header />
 
-            <main>
-              <Suspense fallback={<RouteFallback />}>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/products" element={<Products />} />
-                  <Route path="/disease-guide" element={<DiseaseGuide />} />
-                  <Route path="/dosage-calculator" element={<DosageCalculatorPage />} />
-                  <Route path="/calculator" element={<DosageCalculatorPage />} />
-                  <Route path="/spray-calendar" element={<SprayCalendar />} />
-                  <Route path="/videos" element={<VideoGallery />} />
-                  <Route path="/video-gallery" element={<VideoGallery />} />
-                  <Route path="/search" element={<Search />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Suspense>
-            </main>
+              <main>
+                <Suspense fallback={<RouteFallback />}>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/products" element={<Products />} />
+                    <Route path="/disease-guide" element={<DiseaseGuide />} />
+                    <Route path="/dosage-calculator" element={<DosageCalculatorPage />} />
+                    <Route path="/calculator" element={<DosageCalculatorPage />} />
+                    <Route path="/spray-calendar" element={<SprayCalendar />} />
+                    <Route path="/videos" element={<VideoGallery />} />
+                    <Route path="/video-gallery" element={<VideoGallery />} />
+                    <Route path="/search" element={<Search />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </Suspense>
+              </main>
 
-            <Footer />
+              <Footer />
 
-            {/* Interactive Agricultural Crop Advisor Chatbot */}
-            <AdvisorChatbot />
+              {/* Interactive Agricultural Crop Advisor Chatbot */}
+              <AdvisorChatbot />
 
-            {/* Installable PWA Mobile App Prompt Banner */}
-            <PWAInstallPrompt />
+              {/* Installable PWA Mobile App Prompt Banner */}
+              <PWAInstallPrompt />
 
-            {/* Spray Order WhatsApp Drawer & Cart */}
-            <SprayOrderDrawer />
+              {/* Spray Order WhatsApp Drawer & Cart */}
+              <SprayOrderDrawer />
 
-            {/* Floating Quick Order Cart Button */}
-            <FloatingCartButton />
-          </div>
-        </Router>
-      </CartProvider>
-    </ThemeProvider>
+              {/* Floating Quick Order Cart Button */}
+              <FloatingCartButton />
+            </div>
+          </Router>
+        </CartProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }
 
