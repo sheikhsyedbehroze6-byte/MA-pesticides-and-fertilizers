@@ -1,6 +1,7 @@
 import { useState, memo } from 'react';
 import { ShieldCheck, Droplets, MessageCircle, Calculator, X, ArrowRight, ShoppingBag, Check } from 'lucide-react';
 import { useCart, estimateProductPrice } from '../context/CartContext';
+import { safeOpen } from '../utils/security';
 import '../pages/urdu.css';
 
 const TYPE_URDU_MAP = {
@@ -59,7 +60,7 @@ function ProductCard({ product, langMode = 'both' }) {
       `\nI would like to order this genuine product.`;
 
     const url = `https://wa.me/919906541321?text=${encodeURIComponent(baseMessage)}`;
-    window.open(url, '_blank', 'noopener,noreferrer');
+    safeOpen(url);
   };
 
   return (

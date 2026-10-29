@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Calculator, Droplets, TreeDeciduous, ShieldAlert, MessageCircle, Search, Filter, ShoppingBag, Check } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { safeOpen } from '../utils/security';
 
 const CALCULATOR_PRODUCTS = [
   // --- FUNGICIDES ---
@@ -129,7 +130,7 @@ export default function DosageCalculator() {
       `Please confirm stock availability and price at MA Pesticides Srinagar.`;
 
     const url = `https://wa.me/919906541321?text=${encodeURIComponent(text)}`;
-    window.open(url, '_blank', 'noopener,noreferrer');
+    safeOpen(url);
   };
 
   return (

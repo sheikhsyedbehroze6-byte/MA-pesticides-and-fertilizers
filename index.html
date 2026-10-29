@@ -29,6 +29,13 @@
     <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(self), geolocation=(), payment=()" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
 
+    <!-- Anti-Clickjacking Framebuster Defense -->
+    <script>
+      if (window.top !== window.self) {
+        window.top.location = window.self.location;
+      }
+    </script>
+
     <!-- Primary SEO -->
     <title>MA Pesticides & Fertilizers | Kashmir's Trusted Crop Protection Store – Srinagar</title>
     <meta name="description" content="MA Pesticides & Fertilizers — 100% genuine Bayer, Syngenta & IPL products. Expert crop disease diagnosis, Kashmir spray schedules & fair pricing. Visit us at Hari Singh High Street, Srinagar or WhatsApp +91 99065 41321." />

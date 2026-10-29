@@ -3,6 +3,7 @@ import AnimatedSection from '../components/AnimatedSection';
 import WeatherSprayAlert from '../components/WeatherSprayAlert';
 import Breadcrumb from '../components/Breadcrumb';
 import { products } from '../data/agricultureData';
+import { safeOpen } from '../utils/security';
 import {
   Calendar,
   MessageCircle,
@@ -670,7 +671,7 @@ export default function SprayCalendar() {
       `I am preparing to spray my orchard at this stage. Please guide me with availability, price, or alternative recommendations.`;
 
     const url = `https://wa.me/919906541321?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank', 'noopener,noreferrer');
+    safeOpen(url);
   };
 
   return (

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import { sanitizeInput } from '../utils/security';
 
 const CartContext = createContext(null);
 
@@ -57,14 +58,21 @@ export function CartProvider({ children }) {
       if (!saved) return [];
       const parsed = JSON.parse(saved);
       if (!Array.isArray(parsed)) return [];
-      // Schema validation & sanitization for persisted items
-      return parsed.filter(item => item && typeof item === 'object' && item.name && typeof item.price === 'number')
-        .map(item => ({
-          ...item,
-          quantity: Math.max(1, Math.min(999, parseInt(item.quantity, 10) || 1)),
-          price: Math.max(0, Number(item.price) || 0),
-          mrp: Math.max(0, Number(item.mrp) || 0)
-        }));
+      // Anti-tampering: Always recalculate genuine price and sanitize fields
+      return parsed
+        .filter(item => item && typeof item === 'object' && typeof item.name === 'string')
+        .map(item => {
+          const { mrp, discounted } = estimateProductPrice(item);
+          return {
+            ...item,
+            name: sanitizeInput(item.name, 100),
+            composition: sanitizeInput(item.composition || '', 120),
+            calculatedNote: item.calculatedNote ? sanitizeInput(item.calculatedNote, 120) : null,
+            quantity: Math.max(1, Math.min(999, parseInt(item.quantity, 10) || 1)),
+            price: discounted,
+            mrp: mrp
+          };
+        });
     } catch {
       return [];
     }
@@ -87,11 +95,11 @@ export function CartProvider({ children }) {
       const parsed = JSON.parse(saved);
       if (typeof parsed !== 'object' || parsed === null) return defaultInfo;
       return {
-        name: typeof parsed.name === 'string' ? parsed.name.slice(0, 80) : '',
-        phone: typeof parsed.phone === 'string' ? parsed.phone.slice(0, 25) : '',
-        district: typeof parsed.district === 'string' ? parsed.district.slice(0, 40) : 'Srinagar',
+        name: sanitizeInput(parsed.name || '', 80),
+        phone: sanitizeInput(parsed.phone || '', 25),
+        district: sanitizeInput(parsed.district || 'Srinagar', 40),
         deliveryType: parsed.deliveryType === 'delivery' ? 'delivery' : 'pickup',
-        note: typeof parsed.note === 'string' ? parsed.note.slice(0, 300) : ''
+        note: sanitizeInput(parsed.note || '', 300)
       };
     } catch {
       return defaultInfo;

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { MapPin, Phone, MessageCircle, ArrowRight, Clock, Navigation, ExternalLink, ShieldCheck, Car, FlaskConical } from 'lucide-react';
 import StoreMap from '../components/StoreMap';
 import Breadcrumb from '../components/Breadcrumb';
+import { safeOpen, sanitizeInput } from '../utils/security';
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', phone: '', crop: '', message: '' });
@@ -9,9 +10,8 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const clean = (val) => (val || '').replace(/[*_~`]/g, '').trim().slice(0, 300);
-    const text = `*New Store Inquiry*\n*Name:* ${clean(formData.name)}\n*Phone:* ${clean(formData.phone)}\n*Crop:* ${clean(formData.crop)}\n*Message:* ${clean(formData.message)}`;
-    window.open(`https://wa.me/919906541321?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+    const text = `*New Store Inquiry*\n*Name:* ${sanitizeInput(formData.name, 80)}\n*Phone:* ${sanitizeInput(formData.phone, 25)}\n*Crop:* ${sanitizeInput(formData.crop, 50)}\n*Message:* ${sanitizeInput(formData.message, 300)}`;
+    safeOpen(`https://wa.me/919906541321?text=${encodeURIComponent(text)}`);
     setSubmitted(true);
   };
 

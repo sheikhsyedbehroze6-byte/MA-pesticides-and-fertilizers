@@ -9,6 +9,7 @@ import {
   ShoppingCart, Plus, Check, Sun, Moon, Compass, Zap, Calculator, PhoneCall, Search
 } from 'lucide-react';
 import { products, diseases } from '../data/agricultureData';
+import { safeOpen, sanitizeInput, checkRateLimit } from '../utils/security';
 import '../pages/urdu.css';
 
 // ============================================================================
@@ -1007,7 +1008,7 @@ function executeWebsiteCommand({
 
   // 10. PHONE CALL TRIGGER
   if (/(call\s+shop|call\s+sheikh\s+ayoub|call\s+the\s+store|phone\s+call|dial\s+number|call\s+now)/i.test(query)) {
-    window.open('tel:+919906541321', '_self');
+    safeOpen('tel:+919906541321', '_self');
     return {
       isCommand: true,
       response: {
@@ -1024,7 +1025,7 @@ function executeWebsiteCommand({
 
   // 11. GOOGLE MAPS DIRECTIONS
   if (/(google\s+maps?|open\s+map|directions?\s+to\s+shop|how\s+to\s+reach\s+shop|map\s+location)/i.test(query)) {
-    window.open('https://maps.google.com/?q=MA+Pesticides+Tengpora+Bypass+Batamaloo+Srinagar', '_blank', 'noopener,noreferrer');
+    safeOpen('https://maps.google.com/?q=MA+Pesticides+Tengpora+Bypass+Batamaloo+Srinagar', '_blank');
     return {
       isCommand: true,
       response: {
@@ -1255,13 +1256,13 @@ export default function AdvisorChatbot() {
         themeContext.toggleTheme();
         break;
       case 'call_shop':
-        window.open('tel:+919906541321', '_self');
+        safeOpen('tel:+919906541321', '_self');
         break;
       case 'open_whatsapp':
-        window.open('https://wa.me/919906541321?text=Salam%20Sheikh%20Ayoub,%20I%20need%20expert%20assistance.', '_blank', 'noopener,noreferrer');
+        safeOpen('https://wa.me/919906541321?text=Salam%20Sheikh%20Ayoub,%20I%20need%20expert%20assistance.', '_blank');
         break;
       case 'open_map':
-        window.open('https://maps.google.com/?q=MA+Pesticides+Tengpora+Bypass+Batamaloo+Srinagar', '_blank', 'noopener,noreferrer');
+        safeOpen('https://maps.google.com/?q=MA+Pesticides+Tengpora+Bypass+Batamaloo+Srinagar', '_blank');
         break;
       default:
         break;
@@ -1270,8 +1271,18 @@ export default function AdvisorChatbot() {
 
   // Send message & execute autonomous action
   const handleSend = (textToSend) => {
-    const queryText = (textToSend || input).trim();
-    if (!queryText) return;
+    const raw = (textToSend || input).trim();
+    if (!raw) return;
+
+    if (!checkRateLimit('chatbot_query', 6, 3000)) {
+      setMessages(prev => [...prev, {
+        sender: 'bot',
+        text: '⚠️ **System Protection:** Request rate limit reached. Please wait a brief moment.'
+      }]);
+      return;
+    }
+
+    const queryText = sanitizeInput(raw, 400);
 
     if (window.speechSynthesis) {
       window.speechSynthesis.cancel();
