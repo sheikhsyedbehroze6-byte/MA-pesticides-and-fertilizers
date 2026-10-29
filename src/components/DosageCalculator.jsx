@@ -129,7 +129,7 @@ export default function DosageCalculator() {
       `Please confirm stock availability and price at MA Pesticides Srinagar.`;
 
     const url = `https://wa.me/919906541321?text=${encodeURIComponent(text)}`;
-    window.open(url, '_blank');
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (

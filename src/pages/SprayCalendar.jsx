@@ -670,7 +670,7 @@ export default function SprayCalendar() {
       `I am preparing to spray my orchard at this stage. Please guide me with availability, price, or alternative recommendations.`;
 
     const url = `https://wa.me/919906541321?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -944,7 +944,7 @@ export default function SprayCalendar() {
                               }}
                             >
                               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <img src={matched.image} alt={matched.name} style={{ width: '32px', height: '32px', borderRadius: '4px', objectFit: 'cover' }} />
+                                <img src={matched.image} alt={matched.name} loading="lazy" decoding="async" width="32" height="32" style={{ width: '32px', height: '32px', borderRadius: '4px', objectFit: 'cover' }} />
                                 <div>
                                   <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--color-ink-black)' }}>{matched.name}</span>
                                   <span style={{ fontSize: '0.75rem', color: 'var(--color-slate-gray)', display: 'block' }}>{matched.composition}</span>

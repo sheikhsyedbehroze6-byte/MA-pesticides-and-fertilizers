@@ -54,7 +54,17 @@ export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      return saved ? JSON.parse(saved) : [];
+      if (!saved) return [];
+      const parsed = JSON.parse(saved);
+      if (!Array.isArray(parsed)) return [];
+      // Schema validation & sanitization for persisted items
+      return parsed.filter(item => item && typeof item === 'object' && item.name && typeof item.price === 'number')
+        .map(item => ({
+          ...item,
+          quantity: Math.max(1, Math.min(999, parseInt(item.quantity, 10) || 1)),
+          price: Math.max(0, Number(item.price) || 0),
+          mrp: Math.max(0, Number(item.mrp) || 0)
+        }));
     } catch {
       return [];
     }
@@ -64,25 +74,27 @@ export function CartProvider({ children }) {
   const [lastAddedItem, setLastAddedItem] = useState(null);
 
   const [farmerInfo, setFarmerInfo] = useState(() => {
+    const defaultInfo = {
+      name: '',
+      phone: '',
+      district: 'Srinagar',
+      deliveryType: 'pickup', // 'pickup' | 'delivery'
+      note: ''
+    };
     try {
       const saved = localStorage.getItem(FARMER_STORAGE_KEY);
-      return saved
-        ? JSON.parse(saved)
-        : {
-            name: '',
-            phone: '',
-            district: 'Srinagar',
-            deliveryType: 'pickup', // 'pickup' | 'delivery'
-            note: ''
-          };
-    } catch {
+      if (!saved) return defaultInfo;
+      const parsed = JSON.parse(saved);
+      if (typeof parsed !== 'object' || parsed === null) return defaultInfo;
       return {
-        name: '',
-        phone: '',
-        district: 'Srinagar',
-        deliveryType: 'pickup',
-        note: ''
+        name: typeof parsed.name === 'string' ? parsed.name.slice(0, 80) : '',
+        phone: typeof parsed.phone === 'string' ? parsed.phone.slice(0, 25) : '',
+        district: typeof parsed.district === 'string' ? parsed.district.slice(0, 40) : 'Srinagar',
+        deliveryType: parsed.deliveryType === 'delivery' ? 'delivery' : 'pickup',
+        note: typeof parsed.note === 'string' ? parsed.note.slice(0, 300) : ''
       };
+    } catch {
+      return defaultInfo;
     }
   });
 
@@ -117,7 +129,9 @@ export function CartProvider({ children }) {
   }, [isCartOpen]);
 
   const updateFarmerInfo = (field, value) => {
-    setFarmerInfo(prev => ({ ...prev, [field]: value }));
+    if (typeof value !== 'string') return;
+    const limit = field === 'note' ? 300 : 80;
+    setFarmerInfo(prev => ({ ...prev, [field]: value.slice(0, limit) }));
   };
 
   const addToCart = (product, quantity = 1, options = {}) => {
@@ -204,10 +218,15 @@ export function CartProvider({ children }) {
     lines.push(`📍 *Location:* Tengpora Bypass, Batamaloo, Srinagar`);
     lines.push(`----------------------------------------`);
 
+    const cleanText = (str) => (str || '').replace(/[*_~`]/g, '').trim();
+
     if (farmerInfo.name.trim()) {
-      lines.push(`👤 *Farmer/Customer:* ${farmerInfo.name.trim()}`);
+      lines.push(`👤 *Farmer/Customer:* ${cleanText(farmerInfo.name)}`);
     }
-    lines.push(`🍏 *District / Valley Area:* ${farmerInfo.district}`);
+    if (farmerInfo.phone.trim()) {
+      lines.push(`📞 *Contact Phone:* ${cleanText(farmerInfo.phone)}`);
+    }
+    lines.push(`🍏 *District / Valley Area:* ${cleanText(farmerInfo.district)}`);
     lines.push(
       `📦 *Fulfillment:* ${
         farmerInfo.deliveryType === 'delivery'
@@ -217,7 +236,7 @@ export function CartProvider({ children }) {
     );
 
     if (farmerInfo.note.trim()) {
-      lines.push(`📝 *Note:* ${farmerInfo.note.trim()}`);
+      lines.push(`📝 *Note:* ${cleanText(farmerInfo.note)}`);
     }
 
     lines.push(`----------------------------------------`);

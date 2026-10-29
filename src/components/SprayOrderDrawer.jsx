@@ -137,7 +137,7 @@ export default function SprayOrderDrawer() {
                   {cartItems.map((item) => (
                     <div key={item.itemKey} className="spray-item-card">
                       <div className="spray-item-thumb">
-                        <img src={item.image} alt={item.name} loading="lazy" />
+                        <img src={item.image} alt={item.name} loading="lazy" decoding="async" />
                       </div>
 
                       <div className="spray-item-details">

@@ -1024,7 +1024,7 @@ function executeWebsiteCommand({
 
   // 11. GOOGLE MAPS DIRECTIONS
   if (/(google\s+maps?|open\s+map|directions?\s+to\s+shop|how\s+to\s+reach\s+shop|map\s+location)/i.test(query)) {
-    window.open('https://maps.google.com/?q=MA+Pesticides+Tengpora+Bypass+Batamaloo+Srinagar', '_blank');
+    window.open('https://maps.google.com/?q=MA+Pesticides+Tengpora+Bypass+Batamaloo+Srinagar', '_blank', 'noopener,noreferrer');
     return {
       isCommand: true,
       response: {
@@ -1258,10 +1258,10 @@ export default function AdvisorChatbot() {
         window.open('tel:+919906541321', '_self');
         break;
       case 'open_whatsapp':
-        window.open('https://wa.me/919906541321?text=Salam%20Sheikh%20Ayoub,%20I%20need%20expert%20assistance.', '_blank');
+        window.open('https://wa.me/919906541321?text=Salam%20Sheikh%20Ayoub,%20I%20need%20expert%20assistance.', '_blank', 'noopener,noreferrer');
         break;
       case 'open_map':
-        window.open('https://maps.google.com/?q=MA+Pesticides+Tengpora+Bypass+Batamaloo+Srinagar', '_blank');
+        window.open('https://maps.google.com/?q=MA+Pesticides+Tengpora+Bypass+Batamaloo+Srinagar', '_blank', 'noopener,noreferrer');
         break;
       default:
         break;
@@ -1694,6 +1694,8 @@ export default function AdvisorChatbot() {
                           <img
                             src={msg.productEmbed.image}
                             alt={msg.productEmbed.name}
+                            loading="lazy"
+                            decoding="async"
                             style={{
                               width: '48px',
                               height: '48px',
@@ -1813,6 +1815,10 @@ export default function AdvisorChatbot() {
                       <img
                         src="/sb-emblem.webp"
                         alt="SB Logo"
+                        width="32"
+                        height="32"
+                        loading="lazy"
+                        decoding="async"
                         style={{
                           width: '32px',
                           height: '32px',

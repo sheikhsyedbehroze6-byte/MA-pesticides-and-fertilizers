@@ -59,7 +59,7 @@ function ProductCard({ product, langMode = 'both' }) {
       `\nI would like to order this genuine product.`;
 
     const url = `https://wa.me/919906541321?text=${encodeURIComponent(baseMessage)}`;
-    window.open(url, '_blank');
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -90,6 +90,7 @@ function ProductCard({ product, langMode = 'both' }) {
           alt={product.name}
           style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }}
           loading="lazy"
+          decoding="async"
           onError={(e) => {
             e.currentTarget.onerror = null;
             e.currentTarget.src = '/hero-image.png';

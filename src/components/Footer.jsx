@@ -118,6 +118,10 @@ function Footer() {
               <img
                 src="/sb-emblem.webp"
                 alt="SB Logo"
+                loading="lazy"
+                decoding="async"
+                width="46"
+                height="46"
                 style={{
                   width: '100%',
                   height: '100%',

@@ -4,13 +4,15 @@ const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
-    // Read persisted preference, default to 'light'
-    return localStorage.getItem('ma-theme') || 'light';
+    // Read persisted preference with strict whitelist validation
+    const saved = localStorage.getItem('ma-theme');
+    return saved === 'dark' ? 'dark' : 'light';
   });
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('ma-theme', theme);
+    const validTheme = theme === 'dark' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', validTheme);
+    localStorage.setItem('ma-theme', validTheme);
   }, [theme]);
 
   const toggleTheme = () => setTheme(prev => (prev === 'light' ? 'dark' : 'light'));

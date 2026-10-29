@@ -9,8 +9,9 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const text = `*New Store Inquiry*\n*Name:* ${formData.name}\n*Phone:* ${formData.phone}\n*Crop:* ${formData.crop}\n*Message:* ${formData.message}`;
-    window.open(`https://wa.me/919906541321?text=${encodeURIComponent(text)}`, '_blank');
+    const clean = (val) => (val || '').replace(/[*_~`]/g, '').trim().slice(0, 300);
+    const text = `*New Store Inquiry*\n*Name:* ${clean(formData.name)}\n*Phone:* ${clean(formData.phone)}\n*Crop:* ${clean(formData.crop)}\n*Message:* ${clean(formData.message)}`;
+    window.open(`https://wa.me/919906541321?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
     setSubmitted(true);
   };
 

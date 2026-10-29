@@ -105,6 +105,8 @@ export default function About() {
             <img
               src="/sb-logo.webp"
               alt="Designed & Developed by Sheikh Behroze Ayub"
+              loading="lazy"
+              decoding="async"
               style={{
                 height: '72px',
                 width: 'auto',

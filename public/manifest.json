@@ -30,6 +30,12 @@
       "url": "/products"
     },
     {
+      "name": "Dosage Calculator",
+      "short_name": "Dosage",
+      "description": "Calculate chemical dosages for orchards",
+      "url": "/dosage-calculator"
+    },
+    {
       "name": "Contact Us",
       "short_name": "Contact",
       "description": "Call or WhatsApp MA Pesticides",
