@@ -264,6 +264,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
   const [appliedNotification, setAppliedNotification] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [showFlowchart, setShowFlowchart] = useState(false);
+  const [flowchartView, setFlowchartView] = useState('diagram'); // 'diagram' or 'cards'
 
   // Live Camera state
   const [isCameraActive, setIsCameraActive] = useState(false);
@@ -898,28 +899,274 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
               </h5>
             </div>
 
-            <button
-              type="button"
-              onClick={() => setShowFlowchart(false)}
-              style={{
-                background: 'rgba(0,0,0,0.05)',
-                border: 'none',
-                borderRadius: '6px',
-                padding: '4px 8px',
-                fontSize: '11px',
-                color: 'var(--color-slate-gray)',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px'
-              }}
-            >
-              <X size={13} />
-              <span>Close</span>
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div style={{
+                display: 'inline-flex',
+                backgroundColor: 'rgba(28, 71, 42, 0.08)',
+                padding: '3px',
+                borderRadius: '8px'
+              }}>
+                <button
+                  type="button"
+                  onClick={() => setFlowchartView('diagram')}
+                  style={{
+                    border: 'none',
+                    background: flowchartView === 'diagram' ? 'var(--color-pine-green)' : 'transparent',
+                    color: flowchartView === 'diagram' ? '#ffffff' : 'var(--color-pine-green)',
+                    fontWeight: 600,
+                    fontSize: '11px',
+                    padding: '4px 10px',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  Architecture Diagram
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFlowchartView('cards')}
+                  style={{
+                    border: 'none',
+                    background: flowchartView === 'cards' ? 'var(--color-pine-green)' : 'transparent',
+                    color: flowchartView === 'cards' ? '#ffffff' : 'var(--color-pine-green)',
+                    fontWeight: 600,
+                    fontSize: '11px',
+                    padding: '4px 10px',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  5-Step Pipeline Cards
+                </button>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setShowFlowchart(false)}
+                style={{
+                  background: 'rgba(0,0,0,0.05)',
+                  border: 'none',
+                  borderRadius: '6px',
+                  padding: '4px 8px',
+                  fontSize: '11px',
+                  color: 'var(--color-slate-gray)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}
+              >
+                <X size={13} />
+                <span>Close</span>
+              </button>
+            </div>
           </div>
 
-          {/* Flowchart Steps Grid */}
+          {/* Top-to-Bottom Architectural SVG Diagram View */}
+          {flowchartView === 'diagram' && (
+            <div style={{
+              backgroundColor: '#fbfdfb',
+              border: '1px solid rgba(28, 71, 42, 0.15)',
+              borderRadius: '10px',
+              padding: '12px',
+              marginBottom: '4px',
+              overflowX: 'auto'
+            }}>
+              <svg viewBox="0 0 740 595" width="100%" height="auto" style="display: block; max-width: 900px; margin: 0 auto;">
+                <defs>
+                  <marker id="uiFlowArrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 1 L 10 5 L 0 9 z" fill="#059669" />
+                  </marker>
+                  <marker id="uiBranchArrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 1 L 10 5 L 0 9 z" fill="#d97706" />
+                  </marker>
+                  <linearGradient id="uiHdrGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#143820" />
+                    <stop offset="100%" stopColor="#1e4d2b" />
+                  </linearGradient>
+                  <linearGradient id="uiEmeraldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#047857" />
+                    <stop offset="100%" stopColor="#10b981" />
+                  </linearGradient>
+                </defs>
+
+                {/* LEVEL 1: INGESTION */}
+                <g>
+                  <rect x="20" y="6" width="700" height="66" rx="6" fill="#ffffff" stroke="#143820" strokeWidth="1.4" />
+                  <rect x="20" y="6" width="700" height="18" rx="6" fill="url(#uiHdrGrad)" />
+                  <text x="370" y="18" fill="#ffffff" fontFamily="sans-serif" fontSize="8" fontWeight="700" textAnchor="middle" letterSpacing="0.5">LEVEL 1: OPTICAL INGESTION &amp; SENSOR CAPTURE INTERFACE</text>
+                  
+                  <rect x="30" y="28" width="215" height="38" rx="4" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="1" />
+                  <text x="38" y="40" fill="#143820" fontFamily="sans-serif" fontSize="7.5" fontWeight="700">WebRTC Live Stream (getUserMedia)</text>
+                  <text x="38" y="50" fill="#64748b" fontFamily="monospace" fontSize="6.5">facingMode: &#123; ideal: 'environment' &#125;</text>
+                  <text x="38" y="60" fill="#4b5563" fontFamily="sans-serif" fontSize="6.8">Rear autofocus orchard camera feed</text>
+
+                  <rect x="260" y="28" width="215" height="38" rx="4" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="1" />
+                  <text x="268" y="40" fill="#143820" fontFamily="sans-serif" fontSize="7.5" fontWeight="700">Optical Targeting HUD &amp; Shutter</text>
+                  <text x="268" y="50" fill="#64748b" fontFamily="sans-serif" fontSize="6.8">Animated green laser sweep reticle</text>
+                  <text x="268" y="60" fill="#047857" fontFamily="monospace" fontSize="6.5">Web Audio Shutter (320Hz → 140Hz)</text>
+
+                  <rect x="490" y="28" width="220" height="38" rx="4" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="1" />
+                  <text x="498" y="40" fill="#143820" fontFamily="sans-serif" fontSize="7.5" fontWeight="700">Image File Upload &amp; 11 Presets</text>
+                  <text x="498" y="50" fill="#64748b" fontFamily="sans-serif" fontSize="6.8">Supports 4K JPG, PNG, WebP drops</text>
+                  <text x="498" y="60" fill="#d97706" fontFamily="sans-serif" fontSize="6.8" fontWeight="600">Pre-calibrated SKUAST-K orchard samples</text>
+                </g>
+
+                <line x1="370" y1="72" x2="370" y2="92" stroke="#059669" strokeWidth="2" markerEnd="url(#uiFlowArrow)" />
+                <rect x="290" y="76" width="160" height="12" rx="3" fill="#ecfdf5" stroke="#a7f3d0" strokeWidth="0.8" />
+                <text x="370" y="85" fill="#065f46" fontFamily="monospace" fontSize="6.5" fontWeight="600" textAnchor="middle">Raw Optical Frame (Bitmap / Video)</text>
+
+                {/* LEVEL 2: CONDITIONING */}
+                <g>
+                  <rect x="20" y="93" width="700" height="66" rx="6" fill="#ffffff" stroke="#143820" strokeWidth="1.4" />
+                  <rect x="20" y="93" width="700" height="18" rx="6" fill="url(#uiHdrGrad)" />
+                  <text x="370" y="105" fill="#ffffff" fontFamily="sans-serif" fontSize="8" fontWeight="700" textAnchor="middle" letterSpacing="0.5">LEVEL 2: IN-BROWSER MATRIX CONDITIONING &amp; ZERO-CLOUD NORMALIZATION</text>
+
+                  <rect x="30" y="115" width="215" height="38" rx="4" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="1" />
+                  <text x="38" y="127" fill="#143820" fontFamily="sans-serif" fontSize="7.5" fontWeight="700">160×160 Canvas Downsampling</text>
+                  <text x="38" y="137" fill="#64748b" fontFamily="monospace" fontSize="6.5">25,600 sampled pixels matrix</text>
+                  <text x="38" y="147" fill="#4b5563" fontFamily="sans-serif" fontSize="6.8">Sub-30ms zero-latency execution</text>
+
+                  <rect x="260" y="115" width="215" height="38" rx="4" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="1" />
+                  <text x="268" y="127" fill="#143820" fontFamily="sans-serif" fontSize="7.5" fontWeight="700">Solar Specular Glare Filter</text>
+                  <text x="268" y="137" fill="#dc2626" fontFamily="monospace" fontSize="6.5">R &gt; 248 &amp;&amp; G &gt; 248 &amp;&amp; B &gt; 248</text>
+                  <text x="268" y="147" fill="#4b5563" fontFamily="sans-serif" fontSize="6.8">Prunes sky/sunlight reflectance</text>
+
+                  <rect x="490" y="115" width="220" height="38" rx="4" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="1" />
+                  <text x="498" y="127" fill="#143820" fontFamily="sans-serif" fontSize="7.5" fontWeight="700">Canopy Shadow &amp; Edge Mask</text>
+                  <text x="498" y="137" fill="#dc2626" fontFamily="monospace" fontSize="6.5">R &lt; 18 &amp;&amp; G &lt; 18 &amp;&amp; B &lt; 18</text>
+                  <text x="498" y="147" fill="#4b5563" fontFamily="sans-serif" fontSize="6.8">Filters orchard ground shadows</text>
+                </g>
+
+                <line x1="370" y1="159" x2="370" y2="179" stroke="#059669" strokeWidth="2" markerEnd="url(#uiFlowArrow)" />
+                <rect x="285" y="163" width="170" height="12" rx="3" fill="#ecfdf5" stroke="#a7f3d0" strokeWidth="0.8" />
+                <text x="370" y="172" fill="#065f46" fontFamily="monospace" fontSize="6.5" fontWeight="600" textAnchor="middle">25,600 Normalized Clean Foliar Pixels</text>
+
+                {/* LEVEL 3: COLOR SEGMENTATION */}
+                <g>
+                  <rect x="20" y="180" width="700" height="88" rx="6" fill="#ffffff" stroke="#143820" strokeWidth="1.4" />
+                  <rect x="20" y="180" width="700" height="18" rx="6" fill="url(#uiHdrGrad)" />
+                  <text x="370" y="192" fill="#ffffff" fontFamily="sans-serif" fontSize="8" fontWeight="700" textAnchor="middle" letterSpacing="0.5">LEVEL 3: MULTI-SPECTRAL FOLIAR COLOR-SPACE SEGMENTATION</text>
+
+                  <rect x="30" y="202" width="215" height="30" rx="4" fill="#ecfdf5" stroke="#a7f3d0" strokeWidth="1" />
+                  <text x="38" y="214" fill="#065f46" fontFamily="sans-serif" fontSize="7.5" fontWeight="700">🟢 Healthy Chlorophyll Green</text>
+                  <text x="38" y="226" fill="#047857" fontFamily="monospace" fontSize="6.5">G &gt; 1.08R &amp;&amp; G &gt; 1.15B &amp;&amp; G &gt; 45</text>
+
+                  <rect x="260" y="202" width="215" height="30" rx="4" fill="#fee2e2" stroke="#fca5a5" strokeWidth="1" />
+                  <text x="268" y="214" fill="#991b1b" fontFamily="sans-serif" fontSize="7.5" fontWeight="700">🔴 Apple Scab Necrosis (Dark)</text>
+                  <text x="268" y="226" fill="#b91c1c" fontFamily="monospace" fontSize="6.5">R,G,B &lt; 85 || (R+G+B &lt; 210)</text>
+
+                  <rect x="490" y="202" width="220" height="30" rx="4" fill="#f0f9ff" stroke="#bae6fd" strokeWidth="1" />
+                  <text x="498" y="214" fill="#0369a1" fontFamily="sans-serif" fontSize="7.5" fontWeight="700">⚪ Powdery Mildew Mycelium</text>
+                  <text x="498" y="226" fill="#0284c7" fontFamily="monospace" fontSize="6.5">R,G,B &gt; 165 &amp;&amp; |R-G| &lt; 25 &amp;&amp; ∑ &gt; 520</text>
+
+                  <rect x="30" y="235" width="215" height="28" rx="4" fill="#fef3c7" stroke="#fde68a" strokeWidth="1" />
+                  <text x="38" y="246" fill="#92400e" fontFamily="sans-serif" fontSize="7.5" fontWeight="700">🟠 European Red Mite Bronze</text>
+                  <text x="38" y="257" fill="#b45309" fontFamily="monospace" fontSize="6.5">R &gt; 115 &amp;&amp; G &lt; 105 &amp;&amp; R &gt; 1.25G</text>
+
+                  <rect x="260" y="235" width="215" height="28" rx="4" fill="#fefce8" stroke="#fef08a" strokeWidth="1" />
+                  <text x="268" y="246" fill="#854d0e" fontFamily="sans-serif" fontSize="7.5" fontWeight="700">🟡 Collar Rot Chlorosis Yellow</text>
+                  <text x="268" y="257" fill="#a16207" fontFamily="monospace" fontSize="6.5">R &gt; 135 &amp;&amp; G &gt; 135 &amp;&amp; B &lt; 95</text>
+
+                  <rect x="490" y="235" width="220" height="28" rx="4" fill="#faf5ff" stroke="#e9d5ff" strokeWidth="1" />
+                  <text x="498" y="246" fill="#6b21a8" fontFamily="sans-serif" fontSize="7.5" fontWeight="700">🟣 Purple Halo / Blotch Margins</text>
+                  <text x="498" y="257" fill="#7e22ce" fontFamily="monospace" fontSize="6.5">R &gt; 105 &amp;&amp; B &gt; 95 &amp;&amp; G &lt; 90 || R &gt; 1.4G</text>
+                </g>
+
+                <line x1="370" y1="268" x2="370" y2="288" stroke="#059669" strokeWidth="2" markerEnd="url(#uiFlowArrow)" />
+                <rect x="280" y="272" width="180" height="12" rx="3" fill="#ecfdf5" stroke="#a7f3d0" strokeWidth="0.8" />
+                <text x="370" y="281" fill="#065f46" fontFamily="monospace" fontSize="6.5" fontWeight="600" textAnchor="middle">Foliar Symptom Color Feature Vectors</text>
+
+                {/* LEVEL 4: SKUAST-K CLASSIFIER */}
+                <g>
+                  <rect x="20" y="289" width="700" height="114" rx="6" fill="#ffffff" stroke="#143820" strokeWidth="1.4" />
+                  <rect x="20" y="289" width="700" height="18" rx="6" fill="url(#uiHdrGrad)" />
+                  <text x="370" y="301" fill="#ffffff" fontFamily="sans-serif" fontSize="8" fontWeight="700" textAnchor="middle" letterSpacing="0.5">LEVEL 4: SKUAST-K PATHOLOGICAL CLASSIFIER &amp; CONFIDENCE ENGINE</text>
+
+                  <polygon points="370,314 435,347 370,380 305,347" fill="#fef3c7" stroke="#d97706" strokeWidth="1.6" />
+                  <text x="370" y="342" fill="#92400e" fontFamily="sans-serif" fontSize="7.5" fontWeight="700" textAnchor="middle">Pathology Match</text>
+                  <text x="370" y="353" fill="#92400e" fontFamily="monospace" fontSize="7" fontWeight="700" textAnchor="middle">Score ≥ 90%?</text>
+
+                  <line x1="305" y1="347" x2="252" y2="347" stroke="#d97706" strokeWidth="2" markerEnd="url(#uiBranchArrow)" />
+                  <rect x="264" y="337" width="30" height="11" rx="2" fill="#fef3c7" />
+                  <text x="279" y="345" fill="#b45309" fontFamily="monospace" fontSize="6.5" fontWeight="700" textAnchor="middle">YES</text>
+
+                  <rect x="30" y="318" width="218" height="66" rx="5" fill="#fee2e2" stroke="#dc2626" strokeWidth="1.2" />
+                  <text x="38" y="332" fill="#991b1b" fontFamily="sans-serif" fontSize="8" fontWeight="800">ACTIVE FOLIAR PATHOGEN IDENTIFIED</text>
+                  <text x="38" y="344" fill="#7f1d1d" fontFamily="sans-serif" fontSize="7">• Scab (Venturia) / Powdery Mildew / Red Mite</text>
+                  <text x="38" y="355" fill="#7f1d1d" fontFamily="sans-serif" fontSize="7">• Confidence: 90% – 99.4% • Severity: High/Critical</text>
+                  <text x="38" y="366" fill="#b91c1c" fontFamily="sans-serif" fontSize="6.8" fontWeight="600">• SKUAST-K Curative Protocol Triggered</text>
+
+                  <line x1="435" y1="347" x2="488" y2="347" stroke="#059669" strokeWidth="2" markerEnd="url(#uiFlowArrow)" />
+                  <rect x="446" y="337" width="28" height="11" rx="2" fill="#ecfdf5" />
+                  <text x="460" y="345" fill="#047857" fontFamily="monospace" fontSize="6.5" fontWeight="700" textAnchor="middle">NO</text>
+
+                  <rect x="492" y="318" width="218" height="66" rx="5" fill="#ecfdf5" stroke="#10b981" strokeWidth="1.2" />
+                  <text x="500" y="332" fill="#065f46" fontFamily="sans-serif" fontSize="8" fontWeight="800">HEALTHY INTACT CANOPY (DAMAGE &lt; 5%)</text>
+                  <text x="500" y="344" fill="#047857" fontFamily="sans-serif" fontSize="7">• Normal cuticular epidermis • No active fungus</text>
+                  <text x="500" y="355" fill="#047857" fontFamily="sans-serif" fontSize="7">• Recommend bio-stimulants / foliar macro nutrition</text>
+                  <text x="500" y="366" fill="#059669" fontFamily="sans-serif" fontSize="6.8" fontWeight="600">• Chemical pesticide NOT required at this stage</text>
+                </g>
+
+                <line x1="139" y1="403" x2="139" y2="425" stroke="#059669" strokeWidth="2" markerEnd="url(#uiFlowArrow)" />
+                <line x1="601" y1="403" x2="601" y2="425" stroke="#059669" strokeWidth="2" markerEnd="url(#uiFlowArrow)" />
+                <line x1="139" y1="414" x2="601" y2="414" stroke="#059669" strokeWidth="1.2" strokeDasharray="3,3" />
+
+                {/* LEVEL 5A: HEATMAP */}
+                <g>
+                  <rect x="20" y="426" width="340" height="160" rx="6" fill="#ffffff" stroke="#143820" strokeWidth="1.4" />
+                  <rect x="20" y="426" width="340" height="18" rx="6" fill="url(#uiHdrGrad)" />
+                  <text x="190" y="438" fill="#ffffff" fontFamily="sans-serif" fontSize="7.5" fontWeight="700" textAnchor="middle">LEVEL 5A: DUAL-LAYER LESION HEATMAP ENGINE</text>
+
+                  <rect x="28" y="449" width="324" height="24" rx="4" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="0.8" />
+                  <text x="35" y="460" fill="#143820" fontFamily="sans-serif" fontSize="7.2" fontWeight="700">Dynamic Alpha-Blending Canvas Overlay (0.45 Alpha)</text>
+                  <text x="35" y="469" fill="#64748b" fontFamily="sans-serif" fontSize="6.5">Toggleable between "AI Lesion Heatmap" and "Standard Leaf Photo"</text>
+
+                  <text x="28" y="485" fill="#4b5563" fontFamily="sans-serif" fontSize="6.8">• <tspan fill="#dc2626" fontWeight="700">Red Highlight (#EF4444):</tspan> Active necrotic scab lesions &amp; spore beds</text>
+                  <text x="28" y="497" fill="#4b5563" fontFamily="sans-serif" fontSize="6.8">• <tspan fill="#0284c7" fontWeight="700">Cyan Highlight (#06B6D4):</tspan> Powdery mildew mycelial colony clusters</text>
+                  <text x="28" y="509" fill="#4b5563" fontFamily="sans-serif" fontSize="6.8">• <tspan fill="#d97706" fontWeight="700">Amber Highlight (#F59E0B):</tspan> European red mite stippling &amp; chlorosis</text>
+                  <text x="28" y="521" fill="#4b5563" fontFamily="sans-serif" fontSize="6.8">• <tspan fill="#059669" fontWeight="700">Green Highlight (#10B981):</tspan> Intact healthy photosynthetic cuticular tissue</text>
+
+                  <rect x="28" y="529" width="324" height="24" rx="4" fill="#ecfdf5" stroke="#a7f3d0" strokeWidth="0.8" />
+                  <text x="190" y="540" fill="#065f46" fontFamily="monospace" fontSize="6.8" fontWeight="700" textAnchor="middle">Damage % = (Damaged Pixels / Leaf Pixels) × 100</text>
+                  <text x="190" y="549" fill="#047857" fontFamily="sans-serif" fontSize="6.5" textAnchor="middle">Differential Diagnosis: Identifies secondary pathogen co-infections</text>
+
+                  <rect x="28" y="558" width="324" height="22" rx="4" fill="#f0fdf4" stroke="#bbf7d0" strokeWidth="0.8" />
+                  <text x="190" y="568" fill="#143820" fontFamily="monospace" fontSize="6.5" fontWeight="700" textAnchor="middle">Web Audio API Diagnostic Acoustic Chime</text>
+                  <text x="190" y="576" fill="#15803d" fontFamily="sans-serif" fontSize="6.2" textAnchor="middle">Ascending tri-tone chord (C5, E5, G5) confirms positive disease match</text>
+                </g>
+
+                {/* LEVEL 5B: PRESCRIPTION */}
+                <g>
+                  <rect x="380" y="426" width="340" height="160" rx="6" fill="#ffffff" stroke="#059669" strokeWidth="1.5" />
+                  <rect x="380" y="426" width="340" height="18" rx="6" fill="url(#uiEmeraldGrad)" />
+                  <text x="550" y="438" fill="#ffffff" fontFamily="sans-serif" fontSize="7.5" fontWeight="700" textAnchor="middle">LEVEL 5B: TANK DILUTION BRIDGE &amp; DISPENSARY</text>
+
+                  <rect x="388" y="449" width="324" height="24" rx="4" fill="#ecfdf5" stroke="#a7f3d0" strokeWidth="0.8" />
+                  <text x="395" y="460" fill="#065f46" fontFamily="sans-serif" fontSize="7.2" fontWeight="700">1-Click Auto-Dosing in Orchard Tank Calculator</text>
+                  <text x="395" y="469" fill="#047857" fontFamily="sans-serif" fontSize="6.5">Syncs category filter, switches tab, and focuses tank calculation card</text>
+
+                  <text x="388" y="485" fill="#374151" fontFamily="sans-serif" fontSize="6.8">• <tspan fontWeight="700" fill="#143820">SKUAST-K Standard Chemical:</tspan> Dodine 65% WP / Luna / Mitofix</text>
+                  <text x="388" y="497" fill="#374151" fontFamily="sans-serif" fontSize="6.8">• <tspan fontWeight="700" fill="#143820">Tank Math Dilution:</tspan> Quantity = Tank Volume (L) × Dilution Rate (g/ml)</text>
+                  <text x="388" y="509" fill="#374151" fontFamily="sans-serif" fontSize="6.8">• <tspan fontWeight="700" fill="#143820">Kashmir Sprayer Calibration:</tspan> 200L Drum, 500L, 1000L or Kanals</text>
+                  <text x="388" y="521" fill="#374151" fontFamily="sans-serif" fontSize="6.8">• <tspan fontWeight="700" fill="#143820">Chemist Precaution:</tspan> Rain-fast window &amp; anti-flocculation notices</text>
+
+                  <rect x="388" y="529" width="324" height="24" rx="4" fill="#fffbeb" stroke="#fde68a" strokeWidth="0.8" />
+                  <text x="550" y="540" fill="#92400e" fontFamily="monospace" fontSize="6.8" fontWeight="700" textAnchor="middle">Pre-Formatted WhatsApp Report to Chemist Sheikh Ayoub</text>
+                  <text x="550" y="549" fill="#b45309" fontFamily="sans-serif" fontSize="6.5" textAnchor="middle">Direct WhatsApp order link (+91 99065 41321) with disease stats</text>
+
+                  <rect x="388" y="558" width="324" height="22" rx="4" fill="#fef2f2" stroke="#fecaca" strokeWidth="0.8" />
+                  <text x="550" y="568" fill="#991b1b" fontFamily="monospace" fontSize="6.5" fontWeight="700" textAnchor="middle">Guaranteed 20% Discount on Prescribed Chemicals</text>
+                  <text x="550" y="576" fill="#7f1d1d" fontFamily="sans-serif" fontSize="6.2" textAnchor="middle">Direct dispensary fulfillment from Hari Singh High Street, Srinagar</text>
+                </g>
+              </svg>
+            </div>
+          )}
+
+          {/* Flowchart Steps Grid (Cards View) */}
+          {flowchartView === 'cards' && (
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
@@ -1062,8 +1309,9 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
               </p>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
+    )}
 
       {/* Main Two-Column Layout */}
       <div style={{

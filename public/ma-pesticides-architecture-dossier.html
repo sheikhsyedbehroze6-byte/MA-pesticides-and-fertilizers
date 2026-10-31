@@ -625,238 +625,305 @@
         </div>
         <div class="header-meta">
           MODULE: <strong>LEAF_DISEASE_DETECTOR.JSX</strong><br>
-          VISION ENGINE: <strong>CANVAS 2D PIXEL SEGMENTATION</strong><br>
-          AUDIO FEEDBACK: <strong>WEB AUDIO API SYNTHESIZER</strong>
+          SYSTEM: <strong>COMPUTER VISION ARCHITECTURE &amp; DIAGNOSTIC PIPELINE</strong><br>
+          ENGINE: <strong>HTML5 CANVAS 2D MATRIX • SKUAST-K CLASSIFIER</strong>
         </div>
       </div>
 
       <div class="page-title-strip">
         <div>
-          <h2>AI Leaf Disease Scanner &amp; Computer Vision Engine</h2>
-          <span style="color: #86efac;">Real-Time WebRTC Viewfinder • In-Browser Lesion Segmentation • Heatmap Overlay</span>
+          <h2>AI Leaf Disease Scanner: System Architecture &amp; Diagnostic Pipeline</h2>
+          <span style="color: #86efac;">Multi-Spectral Edge Vision • Feature Extraction • Lesion Heatmap • Auto-Prescription Bridge</span>
         </div>
         <div class="badge-pill" style="background: rgba(255,255,255,0.15); color: #ffffff; border-color: rgba(255,255,255,0.3);">
           PAGE 2 OF 5
         </div>
       </div>
 
-      <p class="lead-text">
-        The <strong>AI Leaf Disease Scanner</strong> is embedded directly into the Orchard Spray Dosage Calculator. Designed specifically for low-connectivity orchard environments, it captures or accepts high-resolution leaf photos and analyzes RGB color-space distributions in client memory without sending biometric or photographic telemetry to external servers.
+      <p class="lead-text" style="margin-bottom: 5px;">
+        The schematic below illustrates the complete <strong>top-to-bottom client-side Computer Vision architecture</strong> of the AI Leaf Disease Scanner. Operating 100% in-browser without external cloud dependency or data transmission, it ingests raw optical sensor frames, applies spatial matrix conditioning, segments foliar pathological color vectors, and triggers calibrated SKUAST-K spray tank prescriptions.
       </p>
 
-      <div class="section-headline">
+      <div class="section-headline" style="margin-top: 2px; margin-bottom: 4px;">
         <span class="indicator-dot"></span>
-        <span>1. Hardware WebRTC Camera Viewfinder &amp; Ingestion</span>
+        <span>1. AI Leaf Disease Scanner: Comprehensive Top-to-Bottom Processing Flowchart</span>
       </div>
 
-      <div class="grid-2">
-        <div class="arch-card">
-          <div class="arch-card-title">
-            <span>Video Stream Ingestion Pipeline</span>
-            <span class="badge-pill">WebRTC API</span>
-          </div>
-          <p>
-            Requests camera hardware access via <span class="code-chip">navigator.mediaDevices.getUserMedia</span> with video constraints specifying <span class="code-chip">{ ideal: 'environment' }</span> for mobile rear lens selection. Streams uncompressed frames up to $1280 \times 720$ resolution into an HTML5 <span class="code-chip">&lt;video&gt;</span> element with clean release of camera tracks on unmount.
-          </p>
-        </div>
-
-        <div class="arch-card">
-          <div class="arch-card-title">
-            <span>Interactive Scanner Viewfinder HUD</span>
-            <span class="badge-pill">Hardware Accelerated</span>
-          </div>
-          <p>
-            Renders an aerospace-style agricultural targeting overlay: four corner brackets (<span class="code-chip">.scanner-corner</span>), a pulsing laser sweep (<span class="code-chip">scanLaserSweep</span> keyframe animation), and a center framing reticle: <em>"Align leaf lesion inside frame • Hold steady in good sunlight"</em>.
-          </p>
-        </div>
-      </div>
-
-      <div class="section-headline" style="margin-top: 6px;">
-        <span class="indicator-dot"></span>
-        <span>2. End-to-End AI Leaf Disease Scanner Algorithmic Flowchart Diagram</span>
-      </div>
-
-      <div class="scanner-flowchart-container">
-        <!-- Visual Flowchart SVG Diagram -->
-        <svg viewBox="0 0 720 78" width="100%" height="auto" style="display: block; margin-bottom: 5px;">
+      <!-- Comprehensive Big Top-to-Bottom Architectural Flowchart (SVG) -->
+      <div style="background: var(--surface-card); border: 1.5px solid var(--border-accent); border-radius: 8px; padding: 6px 8px; margin: 3px 0 6px;">
+        <svg viewBox="0 0 740 595" width="100%" height="auto" style="display: block;">
           <defs>
-            <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M 0 1 L 10 5 L 0 9 z" fill="#9e6d28" />
+            <marker id="flowArrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#059669" />
             </marker>
-            <linearGradient id="stepGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <marker id="branchArrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#d97706" />
+            </marker>
+            <linearGradient id="tierHdrGrad" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stop-color="#143820" />
               <stop offset="100%" stop-color="#1e4d2b" />
             </linearGradient>
-            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#9e6d28" />
-              <stop offset="100%" stop-color="#b45309" />
+            <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#b45309" />
+              <stop offset="100%" stop-color="#d97706" />
+            </linearGradient>
+            <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#047857" />
+              <stop offset="100%" stop-color="#10b981" />
             </linearGradient>
           </defs>
 
-          <!-- Node 1: Capture -->
-          <rect x="2" y="10" width="124" height="58" rx="6" fill="#ffffff" stroke="#143820" stroke-width="1.5" />
-          <rect x="2" y="10" width="124" height="16" rx="6" fill="url(#stepGrad)" />
-          <text x="64" y="21" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="700" text-anchor="middle">1. INPUT INGESTION</text>
-          <text x="64" y="38" fill="#111827" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="700" text-anchor="middle">WebRTC / Photo</text>
-          <text x="64" y="52" fill="#4b5563" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.5" text-anchor="middle">Laser sweep HUD</text>
+          <!-- ==========================================
+               LEVEL 1: FOLIAR INGESTION & SENSOR INTERFACE
+               ========================================== -->
+          <g id="level1">
+            <rect x="20" y="6" width="700" height="66" rx="6" fill="#ffffff" stroke="#143820" stroke-width="1.4" />
+            <rect x="20" y="6" width="700" height="18" rx="6" fill="url(#tierHdrGrad)" />
+            <text x="370" y="18" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="700" text-anchor="middle" letter-spacing="0.5">LEVEL 1: OPTICAL INGESTION &amp; SENSOR CAPTURE INTERFACE</text>
+            
+            <!-- Col 1A -->
+            <rect x="30" y="28" width="215" height="38" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+            <text x="38" y="40" fill="#143820" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="700">WebRTC Live Stream (getUserMedia)</text>
+            <text x="38" y="50" fill="#64748b" font-family="'JetBrains Mono', monospace" font-size="6.5">facingMode: { ideal: 'environment' }</text>
+            <text x="38" y="60" fill="#4b5563" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.8">Rear autofocus orchard camera feed</text>
 
-          <!-- Connector 1 -->
-          <line x1="126" y1="39" x2="146" y2="39" stroke="#9e6d28" stroke-width="2" marker-end="url(#arrow)" />
+            <!-- Col 1B -->
+            <rect x="260" y="28" width="215" height="38" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+            <text x="268" y="40" fill="#143820" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="700">Optical Targeting HUD &amp; Shutter</text>
+            <text x="268" y="50" fill="#64748b" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.8">Animated green laser sweep reticle</text>
+            <text x="268" y="60" fill="#047857" font-family="'JetBrains Mono', monospace" font-size="6.5">Web Audio Shutter (320Hz → 140Hz)</text>
 
-          <!-- Node 2: Normalization -->
-          <rect x="148" y="10" width="124" height="58" rx="6" fill="#ffffff" stroke="#143820" stroke-width="1.5" />
-          <rect x="148" y="10" width="124" height="16" rx="6" fill="url(#stepGrad)" />
-          <text x="210" y="21" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="700" text-anchor="middle">2. NORMALIZATION</text>
-          <text x="210" y="38" fill="#111827" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="700" text-anchor="middle">160x160 Canvas</text>
-          <text x="210" y="52" fill="#4b5563" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.5" text-anchor="middle">Glare/Shadow mask</text>
+            <!-- Col 1C -->
+            <rect x="490" y="28" width="220" height="38" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+            <text x="498" y="40" fill="#143820" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="700">Image File Upload &amp; 11 Presets</text>
+            <text x="498" y="50" fill="#64748b" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.8">Supports 4K JPG, PNG, WebP drops</text>
+            <text x="498" y="60" fill="#d97706" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.8" font-weight="600">Pre-calibrated SKUAST-K orchard samples</text>
+          </g>
 
-          <!-- Connector 2 -->
-          <line x1="272" y1="39" x2="292" y2="39" stroke="#9e6d28" stroke-width="2" marker-end="url(#arrow)" />
+          <!-- Flow Arrow 1 -> 2 -->
+          <line x1="370" y1="72" x2="370" y2="92" stroke="#059669" stroke-width="2" marker-end="url(#flowArrow)" />
+          <rect x="290" y="76" width="160" height="12" rx="3" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="0.8" />
+          <text x="370" y="85" fill="#065f46" font-family="'JetBrains Mono', monospace" font-size="6.5" font-weight="600" text-anchor="middle">Raw Optical Frame (Bitmap / Video)</text>
 
-          <!-- Node 3: Segmentation -->
-          <rect x="294" y="10" width="126" height="58" rx="6" fill="#ffffff" stroke="#143820" stroke-width="1.5" />
-          <rect x="294" y="10" width="126" height="16" rx="6" fill="url(#stepGrad)" />
-          <text x="357" y="21" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="700" text-anchor="middle">3. CV SEGMENTATION</text>
-          <text x="357" y="38" fill="#111827" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="700" text-anchor="middle">7 Foliar Spectra</text>
-          <text x="357" y="52" fill="#4b5563" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.5" text-anchor="middle">Chlorophyll &amp; Scab</text>
+          <!-- ==========================================
+               LEVEL 2: MATRIX CONDITIONING & NORMALIZATION
+               ========================================== -->
+          <g id="level2">
+            <rect x="20" y="93" width="700" height="66" rx="6" fill="#ffffff" stroke="#143820" stroke-width="1.4" />
+            <rect x="20" y="93" width="700" height="18" rx="6" fill="url(#tierHdrGrad)" />
+            <text x="370" y="105" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="700" text-anchor="middle" letter-spacing="0.5">LEVEL 2: IN-BROWSER MATRIX CONDITIONING &amp; ZERO-CLOUD NORMALIZATION</text>
 
-          <!-- Connector 3 -->
-          <line x1="420" y1="39" x2="440" y2="39" stroke="#9e6d28" stroke-width="2" marker-end="url(#arrow)" />
+            <!-- Col 2A -->
+            <rect x="30" y="115" width="215" height="38" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+            <text x="38" y="127" fill="#143820" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="700">160×160 Canvas Downsampling</text>
+            <text x="38" y="137" fill="#64748b" font-family="'JetBrains Mono', monospace" font-size="6.5">25,600 sampled pixels matrix</text>
+            <text x="38" y="147" fill="#4b5563" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.8">Sub-30ms zero-latency execution</text>
 
-          <!-- Node 4: Pathology -->
-          <rect x="442" y="10" width="126" height="58" rx="6" fill="#ffffff" stroke="#143820" stroke-width="1.5" />
-          <rect x="442" y="10" width="126" height="16" rx="6" fill="url(#stepGrad)" />
-          <text x="505" y="21" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="700" text-anchor="middle">4. SKUAST MATCH</text>
-          <text x="505" y="38" fill="#111827" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="700" text-anchor="middle">Confidence &amp; Damage %</text>
-          <text x="505" y="52" fill="#4b5563" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.5" text-anchor="middle">Dynamic Heatmap</text>
+            <!-- Col 2B -->
+            <rect x="260" y="115" width="215" height="38" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+            <text x="268" y="127" fill="#143820" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="700">Solar Specular Glare Filter</text>
+            <text x="268" y="137" fill="#dc2626" font-family="'JetBrains Mono', monospace" font-size="6.5">R &gt; 248 &amp;&amp; G &gt; 248 &amp;&amp; B &gt; 248</text>
+            <text x="268" y="147" fill="#4b5563" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.8">Prunes sky/sunlight reflectance</text>
 
-          <!-- Connector 4 -->
-          <line x1="568" y1="39" x2="588" y2="39" stroke="#9e6d28" stroke-width="2" marker-end="url(#arrow)" />
+            <!-- Col 2C -->
+            <rect x="490" y="115" width="220" height="38" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+            <text x="498" y="127" fill="#143820" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="700">Canopy Shadow &amp; Edge Mask</text>
+            <text x="498" y="137" fill="#dc2626" font-family="'JetBrains Mono', monospace" font-size="6.5">R &lt; 18 &amp;&amp; G &lt; 18 &amp;&amp; B &lt; 18</text>
+            <text x="498" y="147" fill="#4b5563" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.8">Filters orchard ground shadows</text>
+          </g>
 
-          <!-- Node 5: Prescription -->
-          <rect x="590" y="10" width="128" height="58" rx="6" fill="#f0f7f2" stroke="#059669" stroke-width="1.8" />
-          <rect x="590" y="10" width="128" height="16" rx="6" fill="url(#goldGrad)" />
-          <text x="654" y="21" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="700" text-anchor="middle">5. TANK AUTO-DOSE</text>
-          <text x="654" y="38" fill="#047857" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="700" text-anchor="middle">200L–1000L Volume</text>
-          <text x="654" y="52" fill="#374151" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.5" text-anchor="middle">WhatsApp Dispatch</text>
+          <!-- Flow Arrow 2 -> 3 -->
+          <line x1="370" y1="159" x2="370" y2="179" stroke="#059669" stroke-width="2" marker-end="url(#flowArrow)" />
+          <rect x="285" y="163" width="170" height="12" rx="3" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="0.8" />
+          <text x="370" y="172" fill="#065f46" font-family="'JetBrains Mono', monospace" font-size="6.5" font-weight="600" text-anchor="middle">25,600 Normalized Clean Foliar Pixels</text>
+
+          <!-- ==========================================
+               LEVEL 3: MULTI-SPECTRAL COLOR SEGMENTATION
+               ========================================== -->
+          <g id="level3">
+            <rect x="20" y="180" width="700" height="88" rx="6" fill="#ffffff" stroke="#143820" stroke-width="1.4" />
+            <rect x="20" y="180" width="700" height="18" rx="6" fill="url(#tierHdrGrad)" />
+            <text x="370" y="192" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="700" text-anchor="middle" letter-spacing="0.5">LEVEL 3: MULTI-SPECTRAL FOLIAR COLOR-SPACE SEGMENTATION</text>
+
+            <!-- Row 1 -->
+            <!-- 3A: Chlorophyll -->
+            <rect x="30" y="202" width="215" height="30" rx="4" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1" />
+            <text x="38" y="214" fill="#065f46" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="700">🟢 Healthy Chlorophyll Green</text>
+            <text x="38" y="226" fill="#047857" font-family="'JetBrains Mono', monospace" font-size="6.5">G &gt; 1.08R &amp;&amp; G &gt; 1.15B &amp;&amp; G &gt; 45</text>
+
+            <!-- 3B: Scab Necrosis -->
+            <rect x="260" y="202" width="215" height="30" rx="4" fill="#fee2e2" stroke="#fca5a5" stroke-width="1" />
+            <text x="268" y="214" fill="#991b1b" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="700">🔴 Apple Scab Necrosis (Dark)</text>
+            <text x="268" y="226" fill="#b91c1c" font-family="'JetBrains Mono', monospace" font-size="6.5">R,G,B &lt; 85 || (R+G+B &lt; 210)</text>
+
+            <!-- 3C: Powdery Mildew -->
+            <rect x="490" y="202" width="220" height="30" rx="4" fill="#f0f9ff" stroke="#bae6fd" stroke-width="1" />
+            <text x="498" y="214" fill="#0369a1" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="700">⚪ Powdery Mildew Mycelium</text>
+            <text x="498" y="226" fill="#0284c7" font-family="'JetBrains Mono', monospace" font-size="6.5">R,G,B &gt; 165 &amp;&amp; |R-G| &lt; 25 &amp;&amp; ∑ &gt; 520</text>
+
+            <!-- Row 2 -->
+            <!-- 3D: Red Mite Bronzing -->
+            <rect x="30" y="235" width="215" height="28" rx="4" fill="#fef3c7" stroke="#fde68a" stroke-width="1" />
+            <text x="38" y="246" fill="#92400e" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="700">🟠 European Red Mite Bronze</text>
+            <text x="38" y="257" fill="#b45309" font-family="'JetBrains Mono', monospace" font-size="6.5">R &gt; 115 &amp;&amp; G &lt; 105 &amp;&amp; R &gt; 1.25G</text>
+
+            <!-- 3E: Collar Rot Chlorosis -->
+            <rect x="260" y="235" width="215" height="28" rx="4" fill="#fefce8" stroke="#fef08a" stroke-width="1" />
+            <text x="268" y="246" fill="#854d0e" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="700">🟡 Collar Rot Chlorosis Yellow</text>
+            <text x="268" y="257" fill="#a16207" font-family="'JetBrains Mono', monospace" font-size="6.5">R &gt; 135 &amp;&amp; G &gt; 135 &amp;&amp; B &lt; 95</text>
+
+            <!-- 3F: Purple Halo / Alternaria -->
+            <rect x="490" y="235" width="220" height="28" rx="4" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1" />
+            <text x="498" y="246" fill="#6b21a8" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="700">🟣 Purple Halo / Blotch Margins</text>
+            <text x="498" y="257" fill="#7e22ce" font-family="'JetBrains Mono', monospace" font-size="6.5">R &gt; 105 &amp;&amp; B &gt; 95 &amp;&amp; G &lt; 90 || R &gt; 1.4G</text>
+          </g>
+
+          <!-- Flow Arrow 3 -> 4 -->
+          <line x1="370" y1="268" x2="370" y2="288" stroke="#059669" stroke-width="2" marker-end="url(#flowArrow)" />
+          <rect x="280" y="272" width="180" height="12" rx="3" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="0.8" />
+          <text x="370" y="281" fill="#065f46" font-family="'JetBrains Mono', monospace" font-size="6.5" font-weight="600" text-anchor="middle">Foliar Symptom Color Feature Vectors</text>
+
+          <!-- ==========================================
+               LEVEL 4: SKUAST-K PATHOLOGICAL CLASSIFIER & DECISION DIAMOND
+               ========================================== -->
+          <g id="level4">
+            <rect x="20" y="289" width="700" height="114" rx="6" fill="#ffffff" stroke="#143820" stroke-width="1.4" />
+            <rect x="20" y="289" width="700" height="18" rx="6" fill="url(#tierHdrGrad)" />
+            <text x="370" y="301" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="700" text-anchor="middle" letter-spacing="0.5">LEVEL 4: SKUAST-K PATHOLOGICAL CLASSIFIER &amp; CONFIDENCE ENGINE</text>
+
+            <!-- Center Decision Diamond -->
+            <polygon points="370,314 435,347 370,380 305,347" fill="#fef3c7" stroke="#d97706" stroke-width="1.6" />
+            <text x="370" y="342" fill="#92400e" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="700" text-anchor="middle">Pathology Match</text>
+            <text x="370" y="353" fill="#92400e" font-family="'JetBrains Mono', monospace" font-size="7" font-weight="700" text-anchor="middle">Score ≥ 90%?</text>
+
+            <!-- Left Branch: YES -> Active Foliar Infection -->
+            <line x1="305" y1="347" x2="252" y2="347" stroke="#d97706" stroke-width="2" marker-end="url(#branchArrow)" />
+            <rect x="264" y="337" width="30" height="11" rx="2" fill="#fef3c7" />
+            <text x="279" y="345" fill="#b45309" font-family="'JetBrains Mono', monospace" font-size="6.5" font-weight="700" text-anchor="middle">YES</text>
+
+            <rect x="30" y="318" width="218" height="66" rx="5" fill="#fee2e2" stroke="#dc2626" stroke-width="1.2" />
+            <text x="38" y="332" fill="#991b1b" font-family="'Plus Jakarta Sans', sans-serif" font-size="8" font-weight="800">ACTIVE FOLIAR PATHOGEN IDENTIFIED</text>
+            <text x="38" y="344" fill="#7f1d1d" font-family="'Plus Jakarta Sans', sans-serif" font-size="7">• Scab (Venturia) / Powdery Mildew / Red Mite</text>
+            <text x="38" y="355" fill="#7f1d1d" font-family="'Plus Jakarta Sans', sans-serif" font-size="7">• Confidence: 90% – 99.4% • Severity: High/Critical</text>
+            <text x="38" y="366" fill="#b91c1c" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.8" font-weight="600">• SKUAST-K Curative Protocol Triggered</text>
+
+            <!-- Right Branch: NO -> Healthy Intact Canopy -->
+            <line x1="435" y1="347" x2="488" y2="347" stroke="#059669" stroke-width="2" marker-end="url(#flowArrow)" />
+            <rect x="446" y="337" width="28" height="11" rx="2" fill="#ecfdf5" />
+            <text x="460" y="345" fill="#047857" font-family="'JetBrains Mono', monospace" font-size="6.5" font-weight="700" text-anchor="middle">NO</text>
+
+            <rect x="492" y="318" width="218" height="66" rx="5" fill="#ecfdf5" stroke="#10b981" stroke-width="1.2" />
+            <text x="500" y="332" fill="#065f46" font-family="'Plus Jakarta Sans', sans-serif" font-size="8" font-weight="800">HEALTHY INTACT CANOPY (DAMAGE &lt; 5%)</text>
+            <text x="500" y="344" fill="#047857" font-family="'Plus Jakarta Sans', sans-serif" font-size="7">• Normal cuticular epidermis • No active fungus</text>
+            <text x="500" y="355" fill="#047857" font-family="'Plus Jakarta Sans', sans-serif" font-size="7">• Recommend bio-stimulants / foliar macro nutrition</text>
+            <text x="500" y="366" fill="#059669" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.8" font-weight="600">• Chemical pesticide NOT required at this stage</text>
+          </g>
+
+          <!-- Dual Flow Downward from Level 4 to Level 5 -->
+          <line x1="139" y1="403" x2="139" y2="425" stroke="#059669" stroke-width="2" marker-end="url(#flowArrow)" />
+          <line x1="601" y1="403" x2="601" y2="425" stroke="#059669" stroke-width="2" marker-end="url(#flowArrow)" />
+          <line x1="139" y1="414" x2="601" y2="414" stroke="#059669" stroke-width="1.2" stroke-dasharray="3,3" />
+
+          <!-- ==========================================
+               LEVEL 5A: DUAL-LAYER LESION HEATMAP ENGINE
+               ========================================== -->
+          <g id="level5a">
+            <rect x="20" y="426" width="340" height="160" rx="6" fill="#ffffff" stroke="#143820" stroke-width="1.4" />
+            <rect x="20" y="426" width="340" height="18" rx="6" fill="url(#tierHdrGrad)" />
+            <text x="190" y="438" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="700" text-anchor="middle">LEVEL 5A: DUAL-LAYER LESION HEATMAP ENGINE</text>
+
+            <rect x="28" y="449" width="324" height="24" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="0.8" />
+            <text x="35" y="460" fill="#143820" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.2" font-weight="700">Dynamic Alpha-Blending Canvas Overlay (0.45 Alpha)</text>
+            <text x="35" y="469" fill="#64748b" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.5">Toggleable between "AI Lesion Heatmap" and "Standard Leaf Photo"</text>
+
+            <text x="28" y="485" fill="#4b5563" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.8">• <tspan fill="#dc2626" font-weight="700">Red Highlight (#EF4444):</tspan> Active necrotic scab lesions &amp; spore beds</text>
+            <text x="28" y="497" fill="#4b5563" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.8">• <tspan fill="#0284c7" font-weight="700">Cyan Highlight (#06B6D4):</tspan> Powdery mildew mycelial colony clusters</text>
+            <text x="28" y="509" fill="#4b5563" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.8">• <tspan fill="#d97706" font-weight="700">Amber Highlight (#F59E0B):</tspan> European red mite stippling &amp; chlorosis</text>
+            <text x="28" y="521" fill="#4b5563" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.8">• <tspan fill="#059669" font-weight="700">Green Highlight (#10B981):</tspan> Intact healthy photosynthetic cuticular tissue</text>
+
+            <rect x="28" y="529" width="324" height="24" rx="4" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="0.8" />
+            <text x="190" y="540" fill="#065f46" font-family="'JetBrains Mono', monospace" font-size="6.8" font-weight="700" text-anchor="middle">Damage % = (Damaged Pixels / Leaf Pixels) × 100</text>
+            <text x="190" y="549" fill="#047857" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.5" text-anchor="middle">Differential Diagnosis: Identifies secondary pathogen co-infections</text>
+
+            <rect x="28" y="558" width="324" height="22" rx="4" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="0.8" />
+            <text x="190" y="568" fill="#143820" font-family="'JetBrains Mono', monospace" font-size="6.5" font-weight="700" text-anchor="middle">Web Audio API Diagnostic Acoustic Chime</text>
+            <text x="190" y="576" fill="#15803d" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.2" text-anchor="middle">Ascending tri-tone chord (C5, E5, G5) confirms positive disease match</text>
+          </g>
+
+          <!-- ==========================================
+               LEVEL 5B: TANK DILUTION BRIDGE & DISPENSARY
+               ========================================== -->
+          <g id="level5b">
+            <rect x="380" y="426" width="340" height="160" rx="6" fill="#ffffff" stroke="#059669" stroke-width="1.5" />
+            <rect x="380" y="426" width="340" height="18" rx="6" fill="url(#emeraldGrad)" />
+            <text x="550" y="438" fill="#ffffff" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="700" text-anchor="middle">LEVEL 5B: TANK DILUTION BRIDGE &amp; DISPENSARY</text>
+
+            <rect x="388" y="449" width="324" height="24" rx="4" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="0.8" />
+            <text x="395" y="460" fill="#065f46" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.2" font-weight="700">1-Click Auto-Dosing in Orchard Tank Calculator</text>
+            <text x="395" y="469" fill="#047857" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.5">Syncs category filter, switches tab, and focuses tank calculation card</text>
+
+            <text x="388" y="485" fill="#374151" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.8">• <tspan font-weight="700" fill="#143820">SKUAST-K Standard Chemical:</tspan> Dodine 65% WP / Luna / Mitofix</text>
+            <text x="388" y="497" fill="#374151" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.8">• <tspan font-weight="700" fill="#143820">Tank Math Dilution:</tspan> Quantity = Tank Volume (L) × Dilution Rate (g/ml)</text>
+            <text x="388" y="509" fill="#374151" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.8">• <tspan font-weight="700" fill="#143820">Kashmir Sprayer Calibration:</tspan> 200L Drum, 500L, 1000L or Kanals</text>
+            <text x="388" y="521" fill="#374151" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.8">• <tspan font-weight="700" fill="#143820">Chemist Precaution:</tspan> Rain-fast window &amp; anti-flocculation notices</text>
+
+            <rect x="388" y="529" width="324" height="24" rx="4" fill="#fffbeb" stroke="#fde68a" stroke-width="0.8" />
+            <text x="550" y="540" fill="#92400e" font-family="'JetBrains Mono', monospace" font-size="6.8" font-weight="700" text-anchor="middle">Pre-Formatted WhatsApp Report to Chemist Sheikh Ayoub</text>
+            <text x="550" y="549" fill="#b45309" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.5" text-anchor="middle">Direct WhatsApp order link (+91 99065 41321) with disease stats</text>
+
+            <rect x="388" y="558" width="324" height="22" rx="4" fill="#fef2f2" stroke="#fecaca" stroke-width="0.8" />
+            <text x="550" y="568" fill="#991b1b" font-family="'JetBrains Mono', monospace" font-size="6.5" font-weight="700" text-anchor="middle">Guaranteed 20% Discount on Prescribed Chemicals</text>
+            <text x="550" y="576" fill="#7f1d1d" font-family="'Plus Jakarta Sans', sans-serif" font-size="6.2" text-anchor="middle">Direct dispensary fulfillment from Hari Singh High Street, Srinagar</text>
+          </g>
         </svg>
-
-        <div class="scanner-flowchart-grid">
-          <!-- Step 1 -->
-          <div class="flow-step-card">
-            <div class="step-num-badge">STEP 1</div>
-            <div class="step-title">Foliar Capture &amp; Ingestion</div>
-            <div class="step-desc">WebRTC live viewfinder HUD (laser sweep) or photo gallery upload.</div>
-          </div>
-          <div class="flow-arrow">➔</div>
-
-          <!-- Step 2 -->
-          <div class="flow-step-card">
-            <div class="step-num-badge">STEP 2</div>
-            <div class="step-title">Canvas Normalization</div>
-            <div class="step-desc">Scales frame to 160×160 (25.6k pixels) &amp; masks glare/shadows.</div>
-          </div>
-          <div class="flow-arrow">➔</div>
-
-          <!-- Step 3 -->
-          <div class="flow-step-card">
-            <div class="step-num-badge">STEP 3</div>
-            <div class="step-title">Feature Extraction</div>
-            <div class="step-desc">Extracts chlorophyll, dark scab necrosis, white mildew &amp; mite rust.</div>
-          </div>
-          <div class="flow-arrow">➔</div>
-
-          <!-- Step 4 -->
-          <div class="flow-step-card">
-            <div class="step-num-badge">STEP 4</div>
-            <div class="step-title">SKUAST-K Matching</div>
-            <div class="step-desc">Scores against 11 disease matrices &amp; generates lesion heatmap.</div>
-          </div>
-          <div class="flow-arrow">➔</div>
-
-          <!-- Step 5 -->
-          <div class="flow-step-card">
-            <div class="step-num-badge">STEP 5</div>
-            <div class="step-title">Auto-Prescription</div>
-            <div class="step-desc">Selects chemical (Dodine/Luna) &amp; calculates 200L–1000L tank mix.</div>
-          </div>
-        </div>
       </div>
 
-      <div class="section-headline" style="margin-top: 7px;">
+      <div class="section-headline" style="margin-top: 4px; margin-bottom: 3px;">
         <span class="indicator-dot"></span>
-        <span>3. Mathematical Pixel Classification &amp; Symptom Segmentation</span>
+        <span>2. SKUAST-K Computer Vision Color-Space Segmentation Parameters</span>
       </div>
 
-      <table class="compact-table" style="margin: 3px 0 5px;">
+      <table class="compact-table" style="margin: 2px 0 4px;">
         <thead>
           <tr>
             <th>Pathological Class</th>
-            <th>Color Space Segmentation Condition</th>
-            <th>Target Diseases</th>
-            <th>Heatmap Highlight</th>
+            <th>Pixel Classification Condition (RGB Space)</th>
+            <th>Pathogen Target &amp; Symptoms</th>
+            <th>Prescribed SKUAST-K Cure</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><strong>Chlorophyll Green</strong></td>
             <td>$G > 1.08R \;\land\; G > 1.15B \;\land\; G > 45$</td>
-            <td>Healthy Folia / Undamaged Leaf</td>
-            <td>Emerald Green (<span class="code-chip">#10b981</span>, 20% alpha)</td>
+            <td>Healthy Folia (Non-Infected Cuticle)</td>
+            <td>IPL 5G Neo+ Bio-Stimulant @ 2.0ml/L or Multi-K</td>
           </tr>
           <tr>
-            <td><strong>Necrotic Scab Lesion</strong></td>
+            <td><strong>Scab Necrosis</strong></td>
             <td>$(R < 85 \land G < 80 \land B < 70) \lor (R+G+B < 210)$</td>
-            <td>Apple Scab, Alternaria Blotch</td>
-            <td>Ruby Red (<span class="code-chip">#ef4444</span>, 75% alpha)</td>
+            <td>Apple Scab (<em>Venturia inaequalis</em>)</td>
+            <td>Superstar Dodine 65% WP (1g/L) or Antracol (2.5g/L)</td>
           </tr>
           <tr>
-            <td><strong>Powdery Fungal Mold</strong></td>
+            <td><strong>Powdery Mildew</strong></td>
             <td>$R,G,B > 165 \;\land\; |R-G| < 25 \;\land\; (R+G+B > 520)$</td>
-            <td>Powdery Mildew, Woolly Aphid</td>
-            <td>Cyan Blue (<span class="code-chip">#06b6d4</span>, 75% alpha)</td>
+            <td>Powdery Mildew (<em>Podosphaera leucotricha</em>)</td>
+            <td>Luna Experience (1.0ml/L) or Hexaconazole 5% EC</td>
           </tr>
           <tr>
-            <td><strong>Copper / Rust Bronzing</strong></td>
+            <td><strong>Mite Rust / Bronze</strong></td>
             <td>$R > 115 \;\land\; G < 105 \;\land\; B < 85 \;\land\; R > 1.25G$</td>
-            <td>European Red Mite Damage</td>
-            <td>Amber Orange (<span class="code-chip">#f59e0b</span>, 70% alpha)</td>
-          </tr>
-          <tr>
-            <td><strong>Chlorosis Yellowing</strong></td>
-            <td>$R > 135 \;\land\; G > 135 \;\land\; B < 95$</td>
-            <td>Collar Rot, Iron Deficiency</td>
-            <td>Warm Yellow (<span class="code-chip">#eab308</span>, 70% alpha)</td>
-          </tr>
-          <tr>
-            <td><strong>Purplish Halos / Curl</strong></td>
-            <td>$R > 105 \;\land\; B > 95 \;\land\; G < 90 \;\text{or}\; R > 1.4G$</td>
-            <td>Peach Leaf Curl, Shot Hole</td>
-            <td>Violet Purple (<span class="code-chip">#9333ea</span>, 70% alpha)</td>
+            <td>European Red Mite (<em>Panonychus ulmi</em>)</td>
+            <td>Mitofix Propargite 57% EC (1.5ml/L) or Magister</td>
           </tr>
         </tbody>
       </table>
-
-      <div class="section-headline" style="margin-top: 6px;">
-        <span class="indicator-dot"></span>
-        <span>4. Multi-Layer Heatmap Overlay &amp; Audio Feedback</span>
-      </div>
-
-      <div class="grid-2">
-        <div class="flow-step-box">
-          <strong>Dual-Layer Visual Heatmap Inspector:</strong>
-          Generates an in-memory transparent visual lesion overlay. Farmers can toggle between <em>"AI Lesion Heatmap"</em> (highlighting clusters of necrotic tissue and active fungus) and <em>"Standard Leaf"</em> view for comparative physical verification.
-        </div>
-        <div class="flow-step-box">
-          <strong>Audio Synthesis Feedback (Web Audio API):</strong>
-          Oscillator-based synthesizer (<span class="code-chip">AudioContext</span>): triangle-wave shutter click ($320\text{Hz} \rightarrow 140\text{Hz}$) on image capture, and an ascending tri-tone harmonic chord ($C_5, E_5, G_5$) on completed diagnostic calculation.
-        </div>
-      </div>
     </div>
 
     <div class="running-footer">
       <span>M.A. PESTICIDES &amp; FERTILIZERS • TECHNICAL ARCHITECTURE REPORT</span>
-      <span>SECTION: COMPUTER VISION</span>
+      <span>SECTION: COMPUTER VISION BLUEPRINT</span>
       <div class="page-number-tag">PAGE 2 OF 5</div>
     </div>
   </div>
