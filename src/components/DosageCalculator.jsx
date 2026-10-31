@@ -1,7 +1,8 @@
-import { useState, useMemo } from 'react';
-import { Calculator, Droplets, TreeDeciduous, ShieldAlert, MessageCircle, Search, Filter, ShoppingBag, Check } from 'lucide-react';
+import { useState, useMemo, useRef } from 'react';
+import { Calculator, Droplets, TreeDeciduous, ShieldAlert, MessageCircle, Search, Filter, ShoppingBag, Check, Bug, X, ArrowDown } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { safeOpen } from '../utils/security';
+import LeafDiseaseDetector from './LeafDiseaseDetector';
 
 const CALCULATOR_PRODUCTS = [
   // --- FUNGICIDES ---
@@ -84,9 +85,13 @@ export default function DosageCalculator() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
   const [calcMode, setCalcMode] = useState('tank'); // 'tank' or 'land'
-  const [tankLiters, setTankLiters] = useState(0); // Default 0L
+  const [tankLiters, setTankLiters] = useState(200); // Default to standard 200L barrel
   const [kanals, setKanals] = useState(5); // 5 Kanals (~1/2 Acre)
   const [treeCount, setTreeCount] = useState(50); // 50 Apple Trees
+  const [activeTab, setActiveTab] = useState('detector'); // 'detector' or 'direct'
+  const [detectedDiseaseInfo, setDetectedDiseaseInfo] = useState(null);
+
+  const calcSectionRef = useRef(null);
 
   // Filter products based on category & search term
   const filteredProducts = useMemo(() => {
@@ -99,8 +104,23 @@ export default function DosageCalculator() {
     });
   }, [selectedCategory, searchTerm]);
 
-
   const product = CALCULATOR_PRODUCTS.find(p => p.id === selectedProductId) || CALCULATOR_PRODUCTS[0];
+
+  // Handler for leaf disease detector auto-prescription
+  const handleApplyDiseaseCure = (productId, disease) => {
+    setSelectedProductId(productId);
+    setDetectedDiseaseInfo(disease);
+    const foundProduct = CALCULATOR_PRODUCTS.find(p => p.id === productId);
+    if (foundProduct) {
+      setSelectedCategory(foundProduct.category);
+    }
+    if (!tankLiters || tankLiters === 0) {
+      setTankLiters(200);
+    }
+    setTimeout(() => {
+      calcSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 120);
+  };
 
   // Calculations
   let totalWaterLiters = 0;
@@ -122,6 +142,7 @@ export default function DosageCalculator() {
 
   const handleWhatsAppShare = () => {
     const text = `*Orchard Spray Dosage Calculation*\n\n` +
+      (detectedDiseaseInfo ? `*Diagnosed Disease:* ${detectedDiseaseInfo.name} (${detectedDiseaseInfo.nameUrdu})\n` : '') +
       `*Product:* ${product.name}\n` +
       `*Category:* ${product.category} (${product.type})\n` +
       `*Recommended Concentration:* ${product.ratePerLitre} ${product.unit} per Litre\n` +
@@ -142,18 +163,197 @@ export default function DosageCalculator() {
           </div>
           <div>
             <h3 style={{ margin: 0, fontSize: '1.25rem', fontFamily: 'var(--font-signifier)', fontWeight: 500, color: 'var(--color-ink-black)' }}>
-              Orchard Spray Dosage & Barrel Calculator
+              Orchard Spray Dosage &amp; Leaf Disease Calculator
             </h3>
             <span style={{ fontSize: '0.85rem', color: 'var(--color-slate-gray)' }}>
-              زرعی ادویات کی درست مقدار کا حساب لگائیں ({CALCULATOR_PRODUCTS.length} SKUAST-K Approved Chemicals)
+              زرعی ادویات کی درست مقدار کا حساب لگائیں اور پتوں کی بیماریوں کی تشخیص کریں ({CALCULATOR_PRODUCTS.length} SKUAST-K Approved Chemicals)
             </span>
           </div>
         </div>
       </div>
 
+      {/* Mode Switcher Tabs */}
+      <div style={{
+        display: 'flex',
+        borderBottom: '1px solid rgba(23, 25, 28, 0.08)',
+        backgroundColor: 'var(--surface-section-fog, #fafafb)',
+        padding: '0 20px',
+        gap: '8px',
+        overflowX: 'auto',
+        scrollbarWidth: 'none'
+      }}>
+        <button
+          type="button"
+          onClick={() => setActiveTab('detector')}
+          style={{
+            padding: '12px 18px',
+            fontSize: '13.5px',
+            fontWeight: activeTab === 'detector' ? 600 : 500,
+            color: activeTab === 'detector' ? 'var(--color-pine-green)' : 'var(--color-slate-gray)',
+            backgroundColor: activeTab === 'detector' ? '#ffffff' : 'transparent',
+            border: 'none',
+            borderTopLeftRadius: '10px',
+            borderTopRightRadius: '10px',
+            borderBottom: activeTab === 'detector' ? '3px solid var(--color-pine-green)' : '3px solid transparent',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          <Bug size={16} color="var(--color-pine-green)" />
+          <span>AI Leaf Disease Scanner &amp; Auto-Dose</span>
+          <span style={{
+            fontSize: '10px',
+            fontWeight: 700,
+            backgroundColor: '#10b981',
+            color: '#ffffff',
+            padding: '1px 7px',
+            borderRadius: '9999px',
+            letterSpacing: '0.4px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '3px'
+          }}>
+            AI SCANNER
+          </span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('direct')}
+          style={{
+            padding: '12px 18px',
+            fontSize: '13.5px',
+            fontWeight: activeTab === 'direct' ? 600 : 500,
+            color: activeTab === 'direct' ? 'var(--color-pine-green)' : 'var(--color-slate-gray)',
+            backgroundColor: activeTab === 'direct' ? '#ffffff' : 'transparent',
+            border: 'none',
+            borderTopLeftRadius: '10px',
+            borderTopRightRadius: '10px',
+            borderBottom: activeTab === 'direct' ? '3px solid var(--color-pine-green)' : '3px solid transparent',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          <Calculator size={15} />
+          <span>Direct Chemical Selection</span>
+        </button>
+      </div>
+
       <div className="dosage-calc-body">
+        {/* Leaf Disease Detection Section */}
+        {activeTab === 'detector' && (
+          <LeafDiseaseDetector 
+            onApplyDosage={handleApplyDiseaseCure}
+            selectedProductId={selectedProductId}
+          />
+        )}
+
+        {/* Informative helper banner in direct mode */}
+        {activeTab === 'direct' && !detectedDiseaseInfo && (
+          <div style={{
+            padding: '12px 16px',
+            borderRadius: '10px',
+            backgroundColor: 'rgba(28, 71, 42, 0.04)',
+            border: '1px dashed rgba(28, 71, 42, 0.25)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '10px'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Bug size={16} color="var(--color-pine-green)" />
+              <span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--color-ink-black)' }}>
+                Unsure which chemical to spray? Inspect your leaf symptoms to identify the disease and calculate the exact tank dosage.
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setActiveTab('detector')}
+              className="pill-button-ghost pill-button-sm"
+              style={{ borderColor: 'var(--color-pine-green)', color: 'var(--color-pine-green)', fontWeight: 600 }}
+            >
+              Diagnose Leaf Disease →
+            </button>
+          </div>
+        )}
+
+        {/* Prescribed Disease Banner */}
+        {detectedDiseaseInfo && (
+          <div style={{
+            padding: '16px 20px',
+            borderRadius: '12px',
+            backgroundColor: 'rgba(28, 71, 42, 0.08)',
+            border: '1.5px solid rgba(28, 71, 42, 0.25)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '14px',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.03)'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+              <img
+                src={detectedDiseaseInfo.image}
+                alt={detectedDiseaseInfo.name}
+                style={{ width: '48px', height: '48px', borderRadius: '10px', objectFit: 'cover', border: '1.5px solid rgba(28, 71, 42, 0.2)' }}
+                onError={(e) => { e.currentTarget.style.display = 'none'; }}
+              />
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                  <span style={{ fontSize: '10.5px', fontWeight: 700, textTransform: 'uppercase', color: '#047857', backgroundColor: '#d1fae5', padding: '2px 8px', borderRadius: '4px' }}>
+                    AI Leaf Prescription Active
+                  </span>
+                  <strong style={{ fontSize: '15px', color: 'var(--color-ink-black)' }}>
+                    {detectedDiseaseInfo.name}
+                  </strong>
+                  <span style={{ fontSize: '13px', fontFamily: 'urdu, serif', color: 'var(--color-slate-gray)' }}>
+                    ({detectedDiseaseInfo.nameUrdu})
+                  </span>
+                  {detectedDiseaseInfo.pathogen && (
+                    <span style={{ fontSize: '11.5px', fontStyle: 'italic', color: 'var(--color-pine-green)' }}>
+                      • {detectedDiseaseInfo.pathogen}
+                    </span>
+                  )}
+                </div>
+                <div style={{ fontSize: '12.5px', color: 'var(--color-slate-gray)', marginTop: '4px' }}>
+                  Prescribed SKUAST-K Cure: <strong style={{ color: 'var(--color-pine-green)' }}>{product.name}</strong> • Dilution: <strong>{product.ratePerLitre} {product.unit} / Litre</strong>
+                  {detectedDiseaseInfo.sprayStage && <span> • Stage: <strong>{detectedDiseaseInfo.sprayStage}</strong></span>}
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setDetectedDiseaseInfo(null)}
+              style={{
+                background: 'rgba(0,0,0,0.06)',
+                border: 'none',
+                borderRadius: '8px',
+                padding: '6px 14px',
+                fontSize: '12px',
+                fontWeight: 500,
+                color: 'var(--color-slate-gray)',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px'
+              }}
+            >
+              <X size={14} />
+              <span>Clear Prescription</span>
+            </button>
+          </div>
+        )}
+
         {/* Step 1: Filter & Product Selection */}
-        <div className="dosage-calc-field">
+        <div ref={calcSectionRef} className="dosage-calc-field">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
             <label style={{ margin: 0, color: 'var(--color-ink-black)', fontWeight: 600 }}>Select Chemical / Product ({filteredProducts.length} items):</label>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.82rem', color: 'var(--color-pine-green)', fontWeight: 550 }}>

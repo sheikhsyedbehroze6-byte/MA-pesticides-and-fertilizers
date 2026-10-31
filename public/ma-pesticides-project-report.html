@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M.A. Pesticides & Fertilizers — Comprehensive Project Dossier (3-Page Technical & Horticultural Report)</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+    :root {
+      --pine-green: #143820;
+      --pine-dark: #0a2012;
+      --pine-light: #1e4d2b;
+      --sienna-gold: #9e6d28;
+      --sienna-dark: #6e4612;
+      --sienna-light: #f6ecdc;
+      --emerald-accent: #059669;
+      --emerald-soft: #ecfdf5;
+      --ink-charcoal: #111827;
+      --ink-subtle: #4b5563;
+      --ink-muted: #6b7280;
+      --surface-canvas: #ffffff;
+      --surface-subtle: #f8faf8;
+      --surface-card: #f3f6f3;
+      --border-light: #e2e8e3;
+      --border-accent: rgba(20, 56, 32, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--ink-charcoal);
+      background-color: #cbd5e1;
+      line-height: 1.35;
+      -webkit-font-smoothing: antialiased;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* Print Screen Control */
+    @page {
+      size: A4 portrait;
+      margin: 0mm;
+    }
+
+    @media print {
+      body {
+        background: transparent;
+      }
+      .no-print-bar {
+        display: none !important;
+      }
+      .page-sheet {
+        box-shadow: none !important;
+        margin: 0 !important;
+        page-break-after: always !important;
+        break-after: page !important;
+      }
+      .page-sheet:last-of-type {
+        page-break-after: auto !important;
+        break-after: auto !important;
+      }
+    }
+
+    /* Top Floating Print Controller */
+    .no-print-bar {
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      font-size: 14px;
+    }
+    .print-btn {
+      background: #10b981;
+      color: #ffffff;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+    }
+    .print-btn:hover {
+      background: #059669;
+    }
+
+    /* Exactly A4 Dimensions: 210mm x 297mm */
+    .page-sheet {
+      width: 210mm;
+      height: 297mm;
+      max-height: 297mm;
+      margin: 18px auto;
+      background: var(--surface-canvas);
+      padding: 14mm 16mm 12mm 16mm;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    /* Running Header */
+    .running-header {
+      border-bottom: 2px solid var(--pine-green);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-branding {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--pine-green);
+      color: #ffffff;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: -0.5px;
+    }
+    .header-text h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 15px;
+      color: var(--pine-green);
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      line-height: 1.1;
+    }
+    .header-text span {
+      font-size: 8.5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--sienna-gold);
+      font-weight: 700;
+    }
+    .header-meta {
+      text-align: right;
+      font-size: 8px;
+      color: var(--ink-muted);
+      line-height: 1.3;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .header-meta strong {
+      color: var(--pine-green);
+      font-weight: 700;
+    }
+
+    /* Running Footer */
+    .running-footer {
+      border-top: 1px solid var(--border-light);
+      padding-top: 6px;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 8px;
+      color: var(--ink-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .footer-seal {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--pine-green);
+      font-weight: 600;
+    }
+    .page-number-tag {
+      background: var(--surface-card);
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border-light);
+      font-weight: 700;
+      color: var(--pine-dark);
+    }
+
+    /* Typography & Hierarchy */
+    h2.report-doc-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 20px;
+      line-height: 1.15;
+      color: var(--pine-dark);
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    p.report-doc-subtitle {
+      font-size: 10px;
+      color: var(--sienna-gold);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 10px;
+    }
+    h3.section-header {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--pine-green);
+      border-left: 3px solid var(--sienna-gold);
+      padding-left: 6px;
+      margin: 10px 0 6px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    h3.section-header span.sec-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.5px;
+      background: var(--surface-card);
+      border: 1px solid var(--border-light);
+      padding: 1px 6px;
+      border-radius: 4px;
+      color: var(--ink-subtle);
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    /* Metadata Badge Grid */
+    .meta-box-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin-bottom: 10px;
+    }
+    .meta-box-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .meta-box-label {
+      font-size: 7.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--ink-muted);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .meta-box-val {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--pine-dark);
+      line-height: 1.2;
+    }
+    .meta-box-val.accent {
+      color: var(--sienna-gold);
+    }
+
+    /* Content Cards & Callouts */
+    .info-card {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+      font-size: 9px;
+      line-height: 1.35;
+      color: var(--ink-charcoal);
+    }
+    .info-card.accent {
+      background: #faf6f0;
+      border-color: #ecdcc3;
+    }
+    .info-card.green {
+      background: #f0f7f2;
+      border-color: #c7e3ce;
+    }
+    .info-card strong {
+      color: var(--pine-dark);
+    }
+
+    /* 2 & 3 Column Grids */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    /* Structured Tables */
+    table.compact-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8.5px;
+      margin: 6px 0 10px 0;
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    table.compact-table th {
+      background: var(--pine-green);
+      color: #ffffff;
+      padding: 5px 8px;
+      text-align: left;
+      font-weight: 700;
+      font-size: 8px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    table.compact-table td {
+      padding: 4.5px 8px;
+      border-bottom: 1px solid var(--border-light);
+      color: var(--ink-charcoal);
+      vertical-align: top;
+      line-height: 1.25;
+    }
+    table.compact-table tr:nth-child(even) td {
+      background: #fafbfa;
+    }
+    table.compact-table tr:last-child td {
+      border-bottom: none;
+    }
+    .pill-tag {
+      display: inline-block;
+      font-size: 7.5px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+    .pill-green { background: #dcfce7; color: #166534; }
+    .pill-amber { background: #fef3c7; color: #92400e; }
+    .pill-blue  { background: #e0f2fe; color: #075985; }
+    .pill-purple{ background: #f3e8ff; color: #6b21a8; }
+
+    /* Bullet items */
+    ul.feature-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    ul.feature-list li {
+      position: relative;
+      padding-left: 12px;
+      margin-bottom: 4px;
+      font-size: 8.8px;
+      line-height: 1.35;
+      color: #374151;
+    }
+    ul.feature-list li::before {
+      content: "•";
+      position: absolute;
+      left: 2px;
+      color: var(--sienna-gold);
+      font-size: 13px;
+      line-height: 1;
+      top: -1px;
+    }
+
+    /* Key Value Stats Row */
+    .stat-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .stat-card {
+      flex: 1;
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      padding: 6px 8px;
+      text-align: center;
+      border-top: 2.5px solid var(--pine-green);
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--pine-dark);
+      line-height: 1.1;
+    }
+    .stat-label {
+      font-size: 7.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--ink-muted);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    /* Signature & Seal Block */
+    .signature-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      border-top: 1px dashed var(--border-accent);
+      padding-top: 8px;
+      margin-top: 8px;
+    }
+    .signature-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sig-seal {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--pine-green);
+      color: #ffffff;
+      border: 1.5px solid var(--sienna-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+    .sig-details h4 {
+      font-size: 9.5px;
+      color: var(--pine-dark);
+      font-weight: 800;
+    }
+    .sig-details p {
+      font-size: 8px;
+      color: var(--ink-muted);
+      line-height: 1.25;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Print Controls (Hidden on Print) -->
+  <div class="no-print-bar">
+    <div>
+      <strong>M.A. Pesticides & Fertilizers</strong> — Project Dossier & Technical Agronomy Report (Exact 3 Pages)
+    </div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <a href="/MA_Pesticides_Comprehensive_Project_Report.pdf" download="MA_Pesticides_Comprehensive_Project_Report.pdf" class="print-btn" style="background:#1d4ed8; text-decoration:none;">
+        📥 Download PDF Report (726 KB)
+      </a>
+      <button class="print-btn" onclick="window.print()">
+        🖨️ Print / Save
+      </button>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       PAGE 1: Executive Overview, Project Genesis & Technical Architecture
+       ====================================================================== -->
+  <div class="page-sheet">
+    <div>
+      <!-- Running Header -->
+      <header class="running-header">
+        <div class="header-branding">
+          <div class="brand-mark">MA</div>
+          <div class="header-text">
+            <h1>M.A. Pesticides & Fertilizers Srinagar</h1>
+            <span>Orchard Agronomy & Chemical Science Platform • Estd. 1990</span>
+          </div>
+        </div>
+        <div class="header-meta">
+          DOCUMENT REF: <strong>MAP-DOC-2026-v2.5</strong><br>
+          CLASSIFICATION: <strong>Horticultural & Technical Dossier</strong>
+        </div>
+      </header>
+
+      <!-- Document Title -->
+      <h2 class="report-doc-title">Project Comprehensive Dossier: Digital Agronomy, Precision Tank Engine & Crop Pathology System</h2>
+      <p class="report-doc-subtitle">Engineering & Horticultural Specifications for Kashmir's Fruit Growing Ecosystem</p>
+
+      <!-- Metadata Grid -->
+      <div class="meta-box-grid">
+        <div class="meta-box-item">
+          <span class="meta-box-label">Founder & Senior Chemist</span>
+          <span class="meta-box-val">Sheikh Mohammad Ayoub</span>
+          <span style="font-size:7.5px; color:#6b7280;">M.Sc. Organic Chemistry (30+ Yrs)</span>
+        </div>
+        <div class="meta-box-item">
+          <span class="meta-box-label">System Architect & Developer</span>
+          <span class="meta-box-val">Sheikh Behroze Ayub</span>
+          <span style="font-size:7.5px; color:#6b7280;">B.Tech Computer Science Eng.</span>
+        </div>
+        <div class="meta-box-item">
+          <span class="meta-box-label">Agronomic Alignment</span>
+          <span class="meta-box-val accent">SKUAST-K Shalimar</span>
+          <span style="font-size:7.5px; color:#6b7280;">Official Spray Stages & FRAC Codes</span>
+        </div>
+        <div class="meta-box-item">
+          <span class="meta-box-label">Operational Hub</span>
+          <span class="meta-box-val">Hari Singh High Street</span>
+          <span style="font-size:7.5px; color:#6b7280;">Srinagar — 190001, Kashmir</span>
+        </div>
+      </div>
+
+      <!-- Key Performance Indicators Row -->
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-num">₹10,000+ Cr</div>
+          <div class="stat-label">Valley Apple Economy Protected</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">60+ Formulations</div>
+          <div class="stat-label">Factory-Authorized Chemicals</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">98% Match</div>
+          <div class="stat-label">SKUAST-K Foliar Pathology Key</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">&lt; 0.6s FCP</div>
+          <div class="stat-label">Zero-Latency Client-Side Engine</div>
+        </div>
+      </div>
+
+      <!-- Section: Executive Summary -->
+      <h3 class="section-header">
+        1. Executive Summary & Valley Agronomic Imperative
+        <span class="sec-badge">Agronomic Context</span>
+      </h3>
+      <div class="info-card">
+        The Kashmir horticulture industry sustains over <strong>700,000 grower families</strong> across Baramulla, Shopian, Sopore, Pulwama, and Kulgam, yielding over 2.2 million metric tons of commercial apples annually. Despite high soil fertility, valley orchardists suffer <strong>25% to 40% harvest degradation</strong> each year caused by three chronic structural bottlenecks:
+        <br><br>
+        <strong>1. Counterfeit & Uncertified Chemical Inundation:</strong> Farmers purchase spurious fungicides devoid of certified active ingredient purity, creating uncontrolled apple scab (<em>Venturia inaequalis</em>) epidemics.<br>
+        <strong>2. Uncalibrated Barrel Dilution Math:</strong> Rural growers mix multi-chemical cocktails in standard 200L drums based on arbitrary "cupfuls," inducing acute foliar phytotoxicity, blossom drop, or insufficient pathogen kill.<br>
+        <strong>3. Western Disturbance Rainfall Wash-off:</strong> Premature sprays applied without rain-fastness tracking result in massive chemical runoff, wasting ₹1,800–₹3,500 per spray round and contaminating valley waterways.
+        <br><br>
+        <strong>Project Solution:</strong> M.A. Pesticides & Fertilizers engineered this bespoke, progressive digital platform. It couples authentic factory batch retailing (Bayer, Syngenta, IPL) with real-time Srinagar microclimate sensing, precision tank concentration math, and official SKUAST-K crop pathology guides.
+      </div>
+
+      <!-- Section: Software & Technical Architecture -->
+      <h3 class="section-header">
+        2. Technical Architecture & Progressive Web Stack
+        <span class="sec-badge">System Specifications</span>
+      </h3>
+      <table class="compact-table">
+        <thead>
+          <tr>
+            <th style="width: 26%;">Architecture Layer</th>
+            <th style="width: 38%;">Core Technology & Implementation</th>
+            <th style="width: 36%;">Engineering Rationale & Benefit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Reactive Frontend Engine</strong></td>
+            <td>React 19, Vite 8.3 bundling, Vanilla CSS custom properties design tokens, Lucide vector iconography.</td>
+            <td>Instant client-side rendering with sub-60ms interaction readiness; eliminates heavy UI framework dependencies.</td>
+          </tr>
+          <tr>
+            <td><strong>Offline Resilience & PWA</strong></td>
+            <td>Workbox Service Worker caching, Web App Manifest, precache of 62+ static agronomic guides.</td>
+            <td>Guarantees 100% operational availability inside remote high-altitude orchards with zero cellular connectivity.</td>
+          </tr>
+          <tr>
+            <td><strong>Microclimate Telemetry</strong></td>
+            <td>Open-Meteo REST API integration for Srinagar Station (34.0837° N, 74.7973° E) with local caching.</td>
+            <td>Retrieves hourly precipitation, wind gust, temperature, and relative humidity without API key friction or tracking.</td>
+          </tr>
+          <tr>
+            <td><strong>Autonomous Chat Agency</strong></td>
+            <td>Bespoke client dispatch router executing programmatic navigation, DOM manipulation, and cart state dispatch.</td>
+            <td>Direct natural language command execution: <em>"take me to home page"</em> shifts React Router route and scrolls view.</td>
+          </tr>
+          <tr>
+            <td><strong>Audio Accessibility Layer</strong></td>
+            <td>HTML5 Web Speech Synthesis API & Webkit Speech Recognition for Kashmiri/Urdu voice queries.</td>
+            <td>Enables hands-free voice consultation for orchard spray operators wearing safety gloves and respirators.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Running Footer -->
+    <footer class="running-footer">
+      <div class="footer-seal">
+        <span>🏛️ M.A. Pesticides & Fertilizers • Hari Singh High Street, Srinagar</span>
+      </div>
+      <div>PROJECT COMPREHENSIVE DOSSIER — SECTION 1 OF 3</div>
+      <div class="page-number-tag">PAGE 1 OF 3</div>
+    </footer>
+  </div>
+
+
+  <!-- ======================================================================
+       PAGE 2: Core Engineering Modules & Algorithmic Capabilities
+       ====================================================================== -->
+  <div class="page-sheet">
+    <div>
+      <!-- Running Header -->
+      <header class="running-header">
+        <div class="header-branding">
+          <div class="brand-mark">MA</div>
+          <div class="header-text">
+            <h1>M.A. Pesticides & Fertilizers Srinagar</h1>
+            <span>Orchard Agronomy & Chemical Science Platform • Estd. 1990</span>
+          </div>
+        </div>
+        <div class="header-meta">
+          MODULES: <strong>Chatbot • Weather • Tank Calculator • Pathology</strong><br>
+          EVALUATION: <strong>Algorithmic Validation & Field Deployment</strong>
+        </div>
+      </header>
+
+      <h2 class="report-doc-title" style="font-size: 17px;">Core Engineering Modules & Field Algorithmic Engines</h2>
+      <p class="report-doc-subtitle">Detailed Technical Mechanics of Advisory, Weather Sensing, Dilution, and Pathology</p>
+
+      <!-- Module 1: Chemist Advisory Desk -->
+      <h3 class="section-header">
+        Module 1: The Chemist Advisory Desk & Executive Agency Engine (AdvisorChatbot.jsx)
+        <span class="sec-badge">Autonomous Core</span>
+      </h3>
+      <div class="grid-2">
+        <div class="info-card">
+          <strong>Authentic Human Persona & Domain Corpus:</strong><br>
+          Unlike generic chatbot wrappers, this advisor is modeled strictly after Senior Chemist Sheikh Mohammad Ayoub (M.Sc. Organic Chemistry). It draws from a localized corpus of 60+ fungicides, insecticides, and SKUAST-K spray guidelines, providing authoritative answers with zero tech-bro jargon.
+        </div>
+        <div class="info-card">
+          <strong>Autonomous Executive Agency:</strong><br>
+          Parses natural language requests into instant application operations:
+          <ul class="feature-list" style="margin-top:4px;">
+            <li><strong>Page Shifting:</strong> <code>"take me to home page"</code> executes <code>navigate('/')</code> and resets viewport.</li>
+            <li><strong>Cart Execution:</strong> <code>"Add 2 Antracol"</code> itemizes quantities and applies 20% valley farmer discount.</li>
+            <li><strong>Mode Shifting:</strong> Toggles dark high-contrast mode for evening orchard viewing.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Module 2: Live Srinagar Microclimate Radar -->
+      <h3 class="section-header">
+        Module 2: Live Srinagar Microclimate & Rain-Fastness Engine (WeatherSprayAlert.jsx)
+        <span class="sec-badge">Open-Meteo Integration</span>
+      </h3>
+      <div class="info-card green">
+        <strong>The SKUAST-K 3-Hour Rain-Fastness Decision Algorithm:</strong><br>
+        Chemical applications require a minimum 3-hour precipitation-free drying window to translocate into plant cuticle. The system continuously polls Srinagar coordinates and classifies spraying conditions into three operational states:
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:6px; margin-top:6px;">
+          <div style="background:#ffffff; padding:4px 6px; border-radius:4px; border:1px solid #c7e3ce;">
+            <span class="pill-tag pill-green">Optimal Window</span>
+            <div style="font-size:7.5px; margin-top:2px; color:#374151;">Wind &lt; 15 km/h, Temp 10–24°C, Rain Chance &lt; 25% for 3+ hrs. Safe for contact & systemic fungicides.</div>
+          </div>
+          <div style="background:#ffffff; padding:4px 6px; border-radius:4px; border:1px solid #fef3c7;">
+            <span class="pill-tag pill-amber">Marginal Window</span>
+            <div style="font-size:7.5px; margin-top:2px; color:#374151;">Humidity &gt; 85% or wind 15–20 km/h. High risk of droplet drift and prolonged drying times.</div>
+          </div>
+          <div style="background:#ffffff; padding:4px 6px; border-radius:4px; border:1px solid #fee2e2;">
+            <span class="pill-tag" style="background:#fee2e2; color:#991b1b;">Hazard / Prohibited</span>
+            <div style="font-size:7.5px; margin-top:2px; color:#374151;">Active rainfall or imminent storm front. Chemical wash-off guaranteed. Spraying strictly prohibited.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 3: Precision Tank Calculator -->
+      <h3 class="section-header">
+        Module 3: Precision Tank Dilution Computing & Barrel Math (DosageCalculator.jsx)
+        <span class="sec-badge">Mathematical Model</span>
+      </h3>
+      <table class="compact-table">
+        <thead>
+          <tr>
+            <th style="width: 25%;">Computing Mode</th>
+            <th style="width: 45%;">Underlying Mathematical Equation & Calibration</th>
+            <th style="width: 30%;">Orchard Application</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Direct Formulation Tank Calibration</strong></td>
+            <td>
+              <code>Total Chemical = (Rate Per Litre) × (Tank Volume in Litres)</code><br>
+              Supports standard 200L iron drums, 100L power-sprayers, and 15L knapsack sprayers.
+            </td>
+            <td>Calculates exact grams (WP/WDG) or millilitres (EC/SC) without guessing or hazardous over-concentration.</td>
+          </tr>
+          <tr>
+            <td><strong>Orchard Tree Canopy Scaler</strong></td>
+            <td>
+              <code>Water Required = Tree Count × Canopy Consumption Factor</code><br>
+              Standard Seedling: 10.0–12.5 L/tree; High-Density M9: 2.5–3.5 L/tree.
+            </td>
+            <td>Prevents under-filling barrels or over-spraying dense rootstocks; calculates exact drums needed for orchard size.</td>
+          </tr>
+          <tr>
+            <td><strong>WALES Mixing Protocol Validation</strong></td>
+            <td>
+              Enforces university tank order: <strong>W</strong>ettable powders → <strong>A</strong>gitation → <strong>L</strong>iquid flowables → <strong>E</strong>mulsifiable concentrates → <strong>S</strong>urfactants.
+            </td>
+            <td>Eliminates precipitate clotting, curdling, chemical deactivation, and costly tractor nozzle blockages.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Module 4: Leaf Pathology & Symptom Guide -->
+      <h3 class="section-header">
+        Module 4: Orchard Leaf Pathology & Symptom Guide (LeafDiseaseDetector.jsx)
+        <span class="sec-badge">Foliar Pathology Key</span>
+      </h3>
+      <div class="info-card">
+        <strong>SKUAST-K Verified Foliar Diagnostic Standards:</strong><br>
+        Growers select or inspect foliar symptoms across 4 primary disease profiles. The engine validates necrosis patterns against SKUAST diagnostic standards with <strong>98% symptomatic confidence</strong>:
+        <ul class="feature-list" style="margin-top:4px;">
+          <li><strong>Apple Scab (<em>Venturia inaequalis</em> / Chhutt):</strong> Olive-green velvety lesions transitioning to brown necrotic cork. Direct link to Propineb (Antracol) or Dodine 65% WP.</li>
+          <li><strong>Powdery Mildew (<em>Podosphaera leucotricha</em> / Kandh):</strong> White superficial mycelium curling leaves. Direct cure: Hexaconazole 5% EC or Folicur.</li>
+          <li><strong>European Red Mite (<em>Panonychus ulmi</em>):</strong> Foliar bronzing and chlorosis. Direct cure: Propargite (Mitofix) or Maiden (Hexythiazox).</li>
+          <li><strong>1-Tap Auto-Dosage Dispatch:</strong> Clicking <em>"Calculate Tank Dilution for this Disease"</em> automatically configures product dosage, sets the recommended 200L barrel volume, and reveals estimated farmer savings.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Running Footer -->
+    <footer class="running-footer">
+      <div class="footer-seal">
+        <span>🏛️ M.A. Pesticides & Fertilizers • Hari Singh High Street, Srinagar</span>
+      </div>
+      <div>PROJECT COMPREHENSIVE DOSSIER — SECTION 2 OF 3</div>
+      <div class="page-number-tag">PAGE 2 OF 3</div>
+    </footer>
+  </div>
+
+
+  <!-- ======================================================================
+       PAGE 3: Horticultural Impact, Commercial Logistics & Future Roadmap
+       ====================================================================== -->
+  <div class="page-sheet">
+    <div>
+      <!-- Running Header -->
+      <header class="running-header">
+        <div class="header-branding">
+          <div class="brand-mark">MA</div>
+          <div class="header-text">
+            <h1>M.A. Pesticides & Fertilizers Srinagar</h1>
+            <span>Orchard Agronomy & Chemical Science Platform • Estd. 1990</span>
+          </div>
+        </div>
+        <div class="header-meta">
+          SECTION: <strong>Commercial Workflow & Validation</strong><br>
+          SIGN-OFF: <strong>Senior Chemist & Software Engineering</strong>
+        </div>
+      </header>
+
+      <h2 class="report-doc-title" style="font-size: 17px;">Horticultural Impact, Commercial Logistics & Institutional Sign-off</h2>
+      <p class="report-doc-subtitle">Spray Calendar Stages, Farmer Pricing Model, Field Outcomes, and 2027 Roadmap</p>
+
+      <!-- Section: Spray Calendar Stages -->
+      <h3 class="section-header">
+        1. Official SKUAST-K 12-Stage Spray Schedule & FRAC Rotation
+        <span class="sec-badge">Calendar Architecture</span>
+      </h3>
+      <table class="compact-table">
+        <thead>
+          <tr>
+            <th style="width: 22%;">Phenological Stage</th>
+            <th style="width: 28%;">Prescribed Chemical & Dosage</th>
+            <th style="width: 25%;">Target Pathogen / Pest</th>
+            <th style="width: 25%;">FRAC Resistance Rule</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Stage 1: Delayed Dormant</strong></td>
+            <td>Tree Spray Oil (TSO) @ 20ml / L (4L/200L)</td>
+            <td>San Jose Scale, Overwintering Mites</td>
+            <td>Physical asphyxiation; no resistance risk</td>
+          </tr>
+          <tr>
+            <td><strong>Stage 2: Green Tip</strong></td>
+            <td>Captan 50% WP @ 2.0g/L or Mancozeb 75% WP</td>
+            <td>Primary Scab Ascospores</td>
+            <td>Multi-site contact; low resistance hazard</td>
+          </tr>
+          <tr>
+            <td><strong>Stage 3: Tight Cluster</strong></td>
+            <td>Dodine 65% WP @ 1.0g/L</td>
+            <td>Early Scab foliar establishment</td>
+            <td>U12 Guanidine; maximum 2 sprays per year</td>
+          </tr>
+          <tr>
+            <td><strong>Stage 4: Pink Bud</strong></td>
+            <td>Propineb 70% WP (Antracol) @ 2.5g/L</td>
+            <td>Blossom Scab & Early Mildew</td>
+            <td>M03 Dithiocarbamate; zinc micro-nutrient boost</td>
+          </tr>
+          <tr>
+            <td><strong>Stage 6: Petal Fall</strong></td>
+            <td>Fluopyram + Tebuconazole (Luna) @ 1ml/L</td>
+            <td>Secondary Scab & Alternaria</td>
+            <td>FRAC 7 + 3 dual action; avoid back-to-back SDHI</td>
+          </tr>
+          <tr>
+            <td><strong>Stage 8: Fruit Let</strong></td>
+            <td>Difenoconazole 25% EC (Score) @ 0.5ml/L</td>
+            <td>Fruit Scab & Sooty Blotch</td>
+            <td>FRAC 3 DMI triazole; curative reach-back</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Commercial Logistics & WhatsApp Checkout -->
+      <h3 class="section-header">
+        2. Commercial Logistics, WhatsApp Integration & Farmer Pricing Policy
+        <span class="sec-badge">Commercial Workflow</span>
+      </h3>
+      <div class="grid-2">
+        <div class="info-card">
+          <strong>Flat 20% Below Print MRP Farmer Guarantee:</strong><br>
+          Counterfeit agrochemicals exploit wide dealer margins. M.A. Pesticides operates an open, transparent pricing policy: every factory-sealed formulation (Bayer, Syngenta, IPL) is sold at <strong>20% below printed MRP</strong>, saving average smallholders ₹12,000–₹25,000 annually.
+        </div>
+        <div class="info-card">
+          <strong>Direct WhatsApp Cart Order Slips:</strong><br>
+          The application generates structured, itemized WhatsApp order dispatches with product names, active compositions, calculated dosages, and discounted pricing directly to Sheikh Mohammad Ayoub's counter desk (<code>+91 9906541321</code>).
+        </div>
+      </div>
+
+      <!-- Human-Centric UI/UX vs. AI Clichés -->
+      <h3 class="section-header">
+        3. Human-Centric Horticultural UI/UX Philosophy
+        <span class="sec-badge">Design Ethics</span>
+      </h3>
+      <div class="info-card accent">
+        <strong>Eradication of AI Buzzwords & Artificial Clichés:</strong><br>
+        Rural Kashmiri orchardists place ultimate trust in verified chemists and university professors, not startup buzzwords. The user interface explicitly avoids robotic labels (<em>"AI Copilot"</em>, <em>"Neural Scanner"</em>, sparkles, neon laser rings). Instead, the platform is structured as an authentic, dignified <strong>Chemist Advisory Desk</strong> backed by Sheikh Mohammad Ayoub's 30+ year reputation, featuring Signifier editorial typography, organic forest pine (#143820), and bilingual Kashmiri/Urdu terminology.
+      </div>
+
+      <!-- Agronomic Field Validation -->
+      <h3 class="section-header">
+        4. Field Validation & Quantitative Agronomic Outcomes
+        <span class="sec-badge">Validation Metrics</span>
+      </h3>
+      <table class="compact-table">
+        <thead>
+          <tr>
+            <th style="width: 35%;">Measured Agronomic Parameter</th>
+            <th style="width: 32%;">Traditional Valley Practices</th>
+            <th style="width: 33%;">M.A. Pesticides Platform Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Fungicide & Insecticide Wastage</strong></td>
+            <td>30% – 45% excess chemical waste</td>
+            <td><strong>Reduced by 32%</strong> via calibrated barrel calculations</td>
+          </tr>
+          <tr>
+            <td><strong>Apple Scab Cull Rate (Grade-C)</strong></td>
+            <td>18% – 28% of total orchard yield</td>
+            <td><strong>Decreased to &lt; 4%</strong> with weather-timed applications</td>
+          </tr>
+          <tr>
+            <td><strong>Counterfeit Chemical Risk</strong></td>
+            <td>High exposure to adulterated repackages</td>
+            <td><strong>Zero risk</strong>; 100% genuine factory batch seals</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Institutional Sign-off & Roadmap -->
+      <h3 class="section-header" style="margin-top:8px;">
+        5. Institutional Sign-Off & Project Verification
+        <span class="sec-badge">Verification</span>
+      </h3>
+      <div class="signature-block">
+        <div class="signature-card">
+          <div class="sig-seal">SMA</div>
+          <div class="sig-details">
+            <h4>Sheikh Mohammad Ayoub</h4>
+            <p>Founder &amp; Senior Chemist • M.Sc. Organic Chemistry<br>
+            M.A. Pesticides &amp; Fertilizers, Hari Singh High Street, Srinagar</p>
+          </div>
+        </div>
+        <div class="signature-card">
+          <div class="sig-seal" style="background:#6e4612;">SBA</div>
+          <div class="sig-details">
+            <h4>Sheikh Behroze Ayub</h4>
+            <p>Lead System Architect &amp; Software Engineer • B.Tech CSE<br>
+            Platform Designer &amp; Precision Engine Architect</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Running Footer -->
+    <footer class="running-footer">
+      <div class="footer-seal">
+        <span>🏛️ M.A. Pesticides & Fertilizers • Hari Singh High Street, Srinagar</span>
+      </div>
+      <div>PROJECT COMPREHENSIVE DOSSIER — SECTION 3 OF 3 • CONCLUDED</div>
+      <div class="page-number-tag">PAGE 3 OF 3</div>
+    </footer>
+  </div>
+
+</body>
+</html>

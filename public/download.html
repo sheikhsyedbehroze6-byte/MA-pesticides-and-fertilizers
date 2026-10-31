@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download Project Report — M.A. Pesticides & Fertilizers</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0b130e;
+      color: #f1f5f9;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .download-card {
+      background: #14241a;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 580px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(16, 185, 129, 0.1);
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      color: #ffffff;
+      margin: 0 0 10px 0;
+      line-height: 1.25;
+    }
+
+    p {
+      color: #94a3b8;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #10b981;
+      color: #ffffff;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.35);
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .btn-download:hover {
+      background: #059669;
+      transform: translateY(-2px);
+    }
+
+    .file-meta-box {
+      margin-top: 24px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px 18px;
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    .file-meta-box span.label {
+      color: #64748b;
+      display: inline-block;
+      width: 130px;
+    }
+
+    .file-meta-box span.val {
+      color: #38bdf8;
+      word-break: break-all;
+    }
+
+    .action-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 20px;
+      font-size: 13px;
+    }
+
+    .action-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .action-links a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="download-card">
+    <div class="badge">Verified 3-Page PDF Report</div>
+    <h1>M.A. Pesticides & Fertilizers</h1>
+    <p>Comprehensive Project Dossier: Digital Agronomy, Precision Tank Engine & Crop Pathology System.</p>
+
+    <a id="downloadLink" href="/MA_Pesticides_Comprehensive_Project_Report.pdf" download="MA_Pesticides_Comprehensive_Project_Report.pdf" class="btn-download">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
+      </svg>
+      <span>Download PDF Report (726 KB)</span>
+    </a>
+
+    <div class="file-meta-box">
+      <div><span class="label">Filename:</span> <span class="val">MA_Pesticides_Comprehensive_Project_Report.pdf</span></div>
+      <div><span class="label">Page Count:</span> <span class="val">3 Pages (A4 Standard)</span></div>
+      <div><span class="label">File Size:</span> <span class="val">726 KB (Vector Crisp)</span></div>
+      <div><span class="label">Already In:</span> <span class="val">C:\Users\Ask\Downloads\</span></div>
+    </div>
+
+    <div class="action-links">
+      <a href="/ma-pesticides-project-report.html" target="_blank">View HTML Dossier</a>
+      <span>•</span>
+      <a href="/" target="_blank">Back to Main Website</a>
+    </div>
+  </div>
+
+  <script>
+    // Automatically trigger download after brief load
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const link = document.getElementById('downloadLink');
+        if (link) {
+          link.click();
+        }
+      }, 500);
+    });
+  </script>
+</body>
+</html>

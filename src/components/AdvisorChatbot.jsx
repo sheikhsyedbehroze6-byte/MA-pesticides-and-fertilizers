@@ -6,10 +6,12 @@ import {
   Bot, X, Send, Sparkles, MessageCircle, ExternalLink, RefreshCw,
   ArrowRight, Mic, MicOff, Volume2, VolumeX, ShieldAlert, Droplets,
   Calendar, Phone, MapPin, CheckCircle, Info, Beaker, Leaf, AlertTriangle,
-  ShoppingCart, Plus, Check, Sun, Moon, Compass, Zap, Calculator, PhoneCall, Search
+  ShoppingCart, Plus, Check, Sun, Moon, Compass, Zap, Calculator, PhoneCall, Search,
+  CloudRain, Wind, Thermometer
 } from 'lucide-react';
 import { products, diseases } from '../data/agricultureData';
 import { safeOpen, sanitizeInput, checkRateLimit } from '../utils/security';
+import { fetchLiveWeatherData, buildWeatherChatResponse } from '../utils/weatherService';
 import '../pages/urdu.css';
 
 // ============================================================================
@@ -193,14 +195,14 @@ const GENERAL_AGRONOMY_KB = [
   },
   {
     keywords: ['behroze', 'sheikh behroze', 'developer', 'who created', 'who made this website', 'engineer', 'btech', 'developed this'],
-    title: '👨‍💻 Sheikh Behroze Ayub (Website Developer)',
-    response: `👨‍💻 **Developer Information:**\n\n**Sheikh Behroze Ayub (B.Tech CSE)** has developed it.\n\nHe designed, engineered, and developed this digital platform for **M.A. Pesticides & Fertilizers**, creating features such as the AI Crop Advisor, Interactive Dosage Calculator, SKUAST-guided Spray Schedules, and Orchard Health Analytics.`,
+    title: '👨‍💻 Sheikh Behroze Ayub (Platform Engineer)',
+    response: `👨‍💻 **Digital Platform Engineer:**\n\n**Sheikh Behroze Ayub (B.Tech CSE)** has engineered this platform.\n\nHe built this digital agrochemical service for **M.A. Pesticides & Fertilizers**, creating tools such as the Chemist Advisory Desk, Precision Tank Dosage Calculator, SKUAST-guided Spray Schedules, and Orchard Health Analytics.`,
     imageEmbed: '/sheikh-behroze-signature.webp'
   },
   {
     keywords: ['who are you', 'what are you', 'kya kar sakte ho', 'help me', 'about yourself', 'what is this bot'],
-    title: '🤖 About M.A. Pesticides AI Advisor',
-    response: `🤖 **About M.A. Pesticides AI Crop Advisor:**\n\nI am your dedicated digital agronomy assistant for Kashmir fruit farming, powered by the chemical expertise of **Sheikh Mohammad Ayoub** (M.Sc. Organic Chemistry) and technical engineering of **Sheikh Behroze Ayub** (B.Tech CSE).\n\n💡 **I can answer ANY question about:**\n- 🍏 **Disease & Pest Diagnosis:** Apple Scab, Mites, Codling Moth, Canker, Mildew, Fire Blight\n- 🧮 **Precision Dosage:** Exact chemical grams/ml for any tree count or tank capacity\n- 🗓️ **SKUAST-K Schedules:** Stage-by-stage spray recommendations from Dormant to Harvest\n- ⚠️ **Tank Mix Compatibility:** Safe chemical combinations and WALES mixing order\n- 🌾 **Soil & Tree Nutrition:** Urea, Calcium Nitrate, Boron, NPK, Vermicompost\n- 📍 **Store & Discounts:** Genuine factory batches with 20% flat discount on print MRP`
+    title: '🌿 About M.A. Pesticides Advisory Desk',
+    response: `🌿 **About M.A. Pesticides Advisory Desk:**\n\nThis is the digital agronomy desk for **M.A. Pesticides & Fertilizers**, drawing on decades of organic chemistry and field agronomy from **Sheikh Mohammad Ayoub** (M.Sc. Organic Chemistry, B.Ed. — University of Kashmir).\n\n💡 **We provide guidance on:**\n- 🍏 **Disease & Pest Diagnosis:** Apple Scab, Mites, Codling Moth, Canker, Mildew, Fire Blight\n- 🧮 **Precision Dosage:** Exact chemical grams/ml for any tree count or tank capacity\n- 🗓️ **SKUAST-K Schedules:** Stage-by-stage spray recommendations from Dormant to Harvest\n- ⚠️ **Tank Mix Compatibility:** Safe chemical combinations and WALES mixing order\n- 🌾 **Soil & Tree Nutrition:** Urea, Calcium Nitrate, Boron, NPK, Vermicompost\n- 📍 **Store & Discounts:** Genuine factory batches with 20% flat discount on print MRP`
   },
   {
     keywords: ['thank', 'thanks', 'shukriya', 'dhanwad', 'great', 'good job', 'zabardast'],
@@ -277,7 +279,7 @@ function generateUniversalAnswer(userText, query, _words) {
 // ============================================================================
 // 4. Master AI Decision & Advisory Engine
 // ============================================================================
-function getBotResponse(userText, messageHistory = []) {
+async function getBotResponse(userText, messageHistory = []) {
   const query = userText.toLowerCase().trim();
   const words = query
     .split(/[\s,?.!]+/)
@@ -498,14 +500,16 @@ function getBotResponse(userText, messageHistory = []) {
   }
 
   // --------------------------------------------------------------------------
-  // INTENT 6: Weather & Spray Timing Window
+  // INTENT 6: Live Weather & Spray Timing Window (Real-time Open-Meteo Feed)
   // --------------------------------------------------------------------------
-  if (query.includes('weather') || query.includes('srinagar') || query.includes('rain') || query.includes('forecast') || query.includes('barish') || query.includes('mausam')) {
-    return {
-      text: `🌤️ **Srinagar Orchard Weather & Spray Suitability Window:**\n\n- 🌡️ **Temperature:** Optimal Spray Range: **15°C – 25°C** (Avoid sprays above 28°C or below 4°C).\n- 🌬️ **Wind Speed:** < 10 km/h (Calm – prevents chemical drift and wastage).\n- 🌧️ **Rain-Fastness Advisory:**\n  - **Contact Fungicides (Antracol, Mancozeb):** Require **4–6 hours** of rain-free drying time to form a protective layer.\n  - **Systemic Fungicides (Luna, Score, Hexaconazole):** Absorbed into plant tissue within **2 hours**.\n\n⚠️ **Chemist Rule:** Spray contact fungicide **before** anticipated rainfall to protect emerging buds from moisture-borne scab ascospores!`,
-      actionLink: `https://wa.me/919906541321?text=${encodeURIComponent('Hello Sheikh Mohammad Ayoub, what is the best spray timing for Srinagar weather today?')}`,
-      suggestions: ['🍏 Apple Scab Treatment', '⚡ 200L Tank Dosage Calc', '🗓️ Spray Calendar', '📍 Srinagar Store Details']
-    };
+  const isWeatherQuery = (
+    /(weather|mausam|rain|barish|forecast|temperature|humidity|wind\s*speed|climate|spray\s*timing|spray\s*window|safe\s*to\s*spray|can\s*i\s*spray)/i.test(query) &&
+    !/(soil|fertilizer|npk|address|shop|counter|bhejo|transport|delivery|dukaan|kahan)/i.test(query)
+  );
+
+  if (isWeatherQuery) {
+    const liveWeather = await fetchLiveWeatherData();
+    return buildWeatherChatResponse(liveWeather);
   }
 
   // --------------------------------------------------------------------------
@@ -524,9 +528,9 @@ function getBotResponse(userText, messageHistory = []) {
   // --------------------------------------------------------------------------
   if (query.match(/^(hi|hello|hey|salam|assalamu|good morning|namaste|adaab)/i)) {
     return {
-      text: `Assalamu Alaikum! 👋\n\nI am the **M.A. Pesticides AI Orchard Advisor**, guided by decades of organic chemistry expertise from **Sheikh Mohammad Ayoub**.\n\nHow can I protect your harvest today?\n\n- 🍏 **Crop Disease Doctor:** Diagnose Apple Scab, Red Mites, Mildew & Canker\n- 🧮 **Precision Dosage Calculator:** Tell me your tree count or tank size (e.g. \`50 trees\` or \`200L\`)\n- 🗓️ **SKUAST-K Spray Calendar:** Get stage-by-stage spray recommendations\n- ⚠️ **Tank Mixing Safety:** Check chemical compatibility & WALES mixing rules`,
+      text: `Assalamu Alaikum! 👋\n\nWelcome to the **M.A. Pesticides Consultation Desk**, guided by decades of organic chemistry expertise from **Sheikh Mohammad Ayoub**.\n\nHow can we help protect your harvest today?\n\n- 🍏 **Crop Disease Doctor:** Diagnose Apple Scab, Red Mites, Mildew & Canker\n- 🧮 **Precision Dosage Calculator:** Tell me your tree count or tank size (e.g. \`50 trees\` or \`200L\`)\n- 🗓️ **SKUAST-K Spray Calendar:** Get stage-by-stage spray recommendations\n- ⚠️ **Tank Mixing Safety:** Check chemical compatibility & WALES mixing rules`,
       actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20have%20a%20question%20about%20my%20crops.",
-      suggestions: ['🍏 Apple Scab Treatment', '⚡ 200L Tank Dosage Calc', '🗓️ Pink Bud Stage Spray', '⚠️ Dodine + Oil Safety']
+      suggestions: ['🍏 Apple Scab Treatment', '🧮 200L Tank Dosage Calc', '🗓️ Pink Bud Stage Spray', '⚠️ Dodine + Oil Safety']
     };
   }
 
@@ -648,7 +652,8 @@ function executeWebsiteCommand({
   messageHistory = [],
   navigate,
   cart,
-  themeContext
+  themeContext,
+  closeChatOnMobile
 }) {
   const query = userText.toLowerCase().trim();
 
@@ -674,15 +679,14 @@ function executeWebsiteCommand({
         isCommand: true,
         response: {
           sender: 'bot',
-          actionExecuted: `Added ${quantity > 1 ? `${quantity}× ` : ''}"${targetProduct.name}" to Cart`,
-          text: `🛒 **Action Executed! Added ${quantity > 1 ? `${quantity}× ` : ''}${targetProduct.name} to your Cart.**\n\n- 🧪 **Formulation:** ${targetProduct.composition || targetProduct.type}\n- 💧 **Recommended Dosage:** ${targetProduct.dosage}\n- 💰 **Est. Price:** ₹${(priceInfo.discounted * quantity).toLocaleString('en-IN')} (20% valley discount applied)\n- 📦 **Cart Status:** Total **${cart.totalItems + quantity} item(s)** in your cart.\n\nWould you like me to open your cart drawer, calculate your tank dosage, or add another product?`,
+          text: `🛒 **Added ${quantity > 1 ? `${quantity}× ` : ''}${targetProduct.name} to your Cart.**\n\n- 🧪 **Formulation:** ${targetProduct.composition || targetProduct.type}\n- 💧 **Recommended Dosage:** ${targetProduct.dosage}\n- 💰 **Est. Price:** ₹${(priceInfo.discounted * quantity).toLocaleString('en-IN')} (20% valley discount applied)\n- 📦 **Cart Status:** Total **${cart.totalItems + quantity} item(s)** in your cart.\n\nWould you like me to open your cart drawer, calculate your tank dosage, or add another product?`,
           productEmbed: targetProduct,
           actionButtons: [
-            { label: '⚡ Open Cart Drawer', action: 'open_cart', primary: true, icon: 'cart' },
-            { label: '🧮 Compute Tank Dosage', action: 'nav_calc', icon: 'calc' },
-            { label: '🛍️ Browse More Products', action: 'nav_products', icon: 'compass' }
+            { label: 'Open Cart Drawer', action: 'open_cart', primary: true, icon: 'cart' },
+            { label: 'Compute Tank Dosage', action: 'nav_calc', icon: 'calc' },
+            { label: 'Browse More Products', action: 'nav_products', icon: 'compass' }
           ],
-          suggestions: ['⚡ Open Cart Drawer', '🧮 Calculate 200L Dosage', '🛍️ Go to Products', '🌙 Dark Mode']
+          suggestions: ['Open Cart Drawer', '🧮 Calculate 200L Dosage', '🛍️ Go to Products', '🌙 Dark Mode']
         }
       };
     }
@@ -695,11 +699,10 @@ function executeWebsiteCommand({
       isCommand: true,
       response: {
         sender: 'bot',
-        actionExecuted: 'Opened Cart Drawer on Screen',
-        text: `⚡ **Cart Drawer opened!**\n\nYou currently have **${cart.totalItems} item(s)** in your cart (Est. Value: ~₹${cart.subtotal.toLocaleString('en-IN')}).\n\nYou can review items, select orchard delivery or shop pickup at Tengpora Bypass Srinagar, and finalize your order.`,
+        text: `🛒 **Cart drawer opened.**\n\nYou currently have **${cart.totalItems} item(s)** in your cart (Est. Value: ~₹${cart.subtotal.toLocaleString('en-IN')}).\n\nYou can review items, select orchard delivery or shop pickup at Tengpora Bypass Srinagar, and finalize your order.`,
         actionButtons: [
-          { label: '🛍️ Add More Products', action: 'nav_products', icon: 'compass' },
-          { label: '🗑️ Clear Cart', action: 'clear_cart', icon: 'zap' }
+          { label: 'Browse Products', action: 'nav_products', icon: 'compass' },
+          { label: 'Clear Cart', action: 'clear_cart', icon: 'zap' }
         ],
         suggestions: ['🛍️ Go to Products', '🧮 Dosage Calculator', '🗓️ Spray Calendar']
       }
@@ -713,9 +716,8 @@ function executeWebsiteCommand({
       isCommand: true,
       response: {
         sender: 'bot',
-        actionExecuted: 'Closed Cart Drawer',
-        text: `🔒 **Cart drawer closed.** You can reopen it at any time by asking me or tapping the floating cart badge!`,
-        suggestions: ['⚡ Open Cart Drawer', '🛍️ Browse Products', '🗓️ Spray Calendar']
+        text: `🔒 **Cart drawer closed.** You can reopen it at any time by asking me or tapping the cart badge!`,
+        suggestions: ['Open Cart Drawer', '🛍️ Browse Products', '🗓️ Spray Calendar']
       }
     };
   }
@@ -727,11 +729,10 @@ function executeWebsiteCommand({
       isCommand: true,
       response: {
         sender: 'bot',
-        actionExecuted: 'Emptied All Cart Items',
-        text: `🗑️ **Done! I have cleared your cart.**\n\nYour basket is now empty and ready for fresh items.`,
+        text: `🗑️ **Your cart has been cleared.**\n\nYour basket is now empty and ready for fresh items.`,
         actionButtons: [
-          { label: '🛍️ Browse Products', action: 'nav_products', icon: 'compass' },
-          { label: '🗓️ View Spray Stages', action: 'nav_calendar', icon: 'compass' }
+          { label: 'Browse Products', action: 'nav_products', icon: 'compass' },
+          { label: 'View Spray Stages', action: 'nav_calendar', icon: 'compass' }
         ],
         suggestions: ['🛍️ Go to Products', '🗓️ Spray Calendar', '🍏 Apple Scab Treatment']
       }
@@ -745,14 +746,13 @@ function executeWebsiteCommand({
         isCommand: true,
         response: {
           sender: 'bot',
-          actionExecuted: `Checked Cart (${cart.totalItems} items)`,
           text: `🛒 **You have ${cart.totalItems} item(s) in your Cart:**\n\n${cart.cartItems.map((item, idx) => `${idx + 1}. **${item.name}** × ${item.quantity} — ₹${(item.price * item.quantity).toLocaleString('en-IN')}`).join('\n')}\n\n💰 **Subtotal:** ~₹${cart.subtotal.toLocaleString('en-IN')}\n🏷️ **Total Farmer Savings:** ₹${cart.savings.toLocaleString('en-IN')} (20% valley discount)`,
           actionButtons: [
-            { label: '⚡ Open Cart Drawer', action: 'open_cart', primary: true, icon: 'cart' },
-            { label: '🗑️ Clear Cart', action: 'clear_cart', icon: 'zap' },
-            { label: '🛍️ Add More Products', action: 'nav_products', icon: 'compass' }
+            { label: 'Open Cart Drawer', action: 'open_cart', primary: true, icon: 'cart' },
+            { label: 'Clear Cart', action: 'clear_cart', icon: 'zap' },
+            { label: 'Add More Products', action: 'nav_products', icon: 'compass' }
           ],
-          suggestions: ['⚡ Open Cart Drawer', '🛍️ Go to Products', '🧮 Dosage Calculator']
+          suggestions: ['Open Cart Drawer', '🛍️ Go to Products', '🧮 Dosage Calculator']
         }
       };
     } else {
@@ -760,13 +760,12 @@ function executeWebsiteCommand({
         isCommand: true,
         response: {
           sender: 'bot',
-          actionExecuted: 'Checked Cart (Empty)',
           text: `🛒 **Your cart is currently empty.**\n\nTell me which chemical or stage you're preparing for (e.g., "Add Antracol to cart", "Pink Bud Stage"), and I will add the right genuine formulation for you!`,
           actionButtons: [
-            { label: '🛍️ Browse Products', action: 'nav_products', primary: true, icon: 'compass' },
-            { label: '🗓️ Check Spray Calendar', action: 'nav_calendar', icon: 'compass' }
+            { label: 'Browse Products', action: 'nav_products', primary: true, icon: 'compass' },
+            { label: 'Check Spray Calendar', action: 'nav_calendar', icon: 'compass' }
           ],
-          suggestions: ['🛍️ Go to Products', '🍏 Apple Scab Treatment', '⚡ 200L Tank Dosage Calc']
+          suggestions: ['🛍️ Go to Products', '🍏 Apple Scab Treatment', '🧮 200L Tank Dosage Calc']
         }
       };
     }
@@ -779,11 +778,10 @@ function executeWebsiteCommand({
       isCommand: true,
       response: {
         sender: 'bot',
-        actionExecuted: 'Opened Checkout in Cart',
-        text: `⚡ **Opening Cart Checkout for you!**\n\nYou have **${cart.totalItems} item(s)** in your cart (Est. Total: ~₹${cart.subtotal.toLocaleString('en-IN')}).\n\nYou can send your order directly to Sheikh Ayoub on WhatsApp or choose shop pickup at Tengpora Bypass Srinagar with 20% discount.`,
+        text: `🛒 **Opening Cart Checkout...**\n\nYou have **${cart.totalItems} item(s)** in your cart (Est. Total: ~₹${cart.subtotal.toLocaleString('en-IN')}).\n\nYou can send your order directly to Sheikh Ayoub on WhatsApp or choose shop pickup at Tengpora Bypass Srinagar with 20% discount.`,
         actionButtons: [
-          { label: '⚡ Review Cart', action: 'open_cart', primary: true, icon: 'cart' },
-          { label: '📞 Call Shop (+91 9906541321)', action: 'call_shop', icon: 'phone' }
+          { label: 'Review Cart', action: 'open_cart', primary: true, icon: 'cart' },
+          { label: 'Call Shop (+91 9906541321)', action: 'call_shop', icon: 'phone' }
         ],
         suggestions: ['🛍️ Browse Products', '🧮 Dosage Calculator', '🗓️ Spray Calendar']
       }
@@ -839,74 +837,116 @@ function executeWebsiteCommand({
     };
   }
 
-  // 8. AUTONOMOUS SITE NAVIGATION
-  // Products Catalog
-  if (/(go\s+to\s+products|open\s+products|show\s+products|view\s+products|take\s+me\s+to\s+products|open\s+catalog|show\s+catalog|open\s+shop|pesticides\s+page)/i.test(query)) {
-    navigate('/products');
+  // 8. AUTONOMOUS SITE NAVIGATION (Instant Page Shifting)
+  // Home Page (Highest Priority Navigation)
+  if (
+    /^(take\s+me\s+(to\s+)?(the\s+)?home(\s*page)?|go\s+to\s+(the\s+)?home(\s*page)?|open\s+(the\s+)?home(\s*page)?|shift(\s+(me|the\s+page))?\s+(and\s+take\s+me\s+)?to\s+(the\s+)?home(\s*page)?|switch\s+to\s+(the\s+)?home(\s*page)?|navigate\s+to\s+(the\s+)?home(\s*page)?|redirect\s+to\s+(the\s+)?home(\s*page)?|return\s+(to\s+)?(the\s+)?home(\s*page)?|back\s+to\s+(the\s+)?home(\s*page)?|take\s+me\s+home|return\s+home|home\s*page|main\s*page|landing\s*page|front\s*page|^homepage$|^home$)/i.test(query) ||
+    /\b(take\s+me\s+(to\s+)?(the\s+)?home(\s*page)?|shift\s+(the\s+page\s+to|to)\s+(the\s+)?home(\s*page)?|go\s+to\s+(the\s+)?home(\s*page)?|open\s+(the\s+)?home(\s*page)?)\b/i.test(query)
+  ) {
+    navigate('/');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof closeChatOnMobile === 'function') closeChatOnMobile();
     return {
       isCommand: true,
       response: {
         sender: 'bot',
-        actionExecuted: 'Navigated to Products Catalog (/products)',
-        text: `🚀 **Navigating you to the Products Catalog!**\n\nBrowse 100% genuine factory-sealed formulations from Bayer, Syngenta, and IPL Biologicals at 20% discount on print MRP.`,
+        text: `🏠 **Shifted to the Homepage!**\n\nI have shifted your screen to the main Home Page. Explore authorized dealerships (Bayer, Syngenta, IPL Biologicals), SKUAST spray calendar stages, and orchard advisory tools.`,
         actionButtons: [
-          { label: '🧮 Dosage Calculator', action: 'nav_calc', icon: 'calc' },
-          { label: '🗓️ Spray Calendar', action: 'nav_calendar', icon: 'compass' },
-          { label: '⚡ Open Cart', action: 'open_cart', icon: 'cart' }
+          { label: 'View Full Homepage', action: 'close_chat', primary: true, icon: 'compass' },
+          { label: 'Browse Products', action: 'nav_products', icon: 'compass' },
+          { label: 'Spray Calendar', action: 'nav_calendar', icon: 'compass' }
         ],
-        suggestions: ['🧮 Open Dosage Calculator', '🗓️ Open Spray Calendar', '⚡ Open Cart Drawer']
+        suggestions: ['🛍️ Browse Products', '🗓️ Spray Calendar', '🧮 Dosage Calculator']
+      }
+    };
+  }
+
+  // Products Catalog
+  if (
+    /^(take\s+me\s+(to\s+)?(the\s+)?products?(\s*page)?|go\s+to\s+(the\s+)?products?(\s*page)?|open\s+(the\s+)?products?(\s*page)?|shift(\s+(me|the\s+page))?\s+(and\s+take\s+me\s+)?to\s+(the\s+)?products?(\s*page)?|show\s+products?|view\s+products?|open\s+catalog|show\s+catalog|open\s+shop|pesticides\s*page|^products?$|^catalog$|^shop$)/i.test(query) ||
+    /\b(take\s+me\s+(to\s+)?(the\s+)?products?(\s*page)?|go\s+to\s+(the\s+)?products?(\s*page)?|shift\s+(the\s+page\s+to|to)\s+(the\s+)?products?(\s*page)?)\b/i.test(query)
+  ) {
+    navigate('/products');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof closeChatOnMobile === 'function') closeChatOnMobile();
+    return {
+      isCommand: true,
+      response: {
+        sender: 'bot',
+        text: `🛍️ **Shifted to the Products Catalog!**\n\nBrowse 100% genuine factory-sealed formulations from Bayer, Syngenta, and IPL Biologicals at 20% discount on print MRP.`,
+        actionButtons: [
+          { label: 'View Products Catalog', action: 'close_chat', primary: true, icon: 'compass' },
+          { label: 'Dosage Calculator', action: 'nav_calc', icon: 'calc' },
+          { label: 'Spray Calendar', action: 'nav_calendar', icon: 'compass' }
+        ],
+        suggestions: ['🧮 Dosage Calculator', '🗓️ Spray Calendar', 'Open Cart Drawer']
       }
     };
   }
 
   // Spray Calendar
-  if (/(go\s+to\s+spray\s+calendar|open\s+spray\s+calendar|show\s+spray\s+calendar|open\s+calendar|spray\s+schedule|stage\s+schedule|spray\s+stages)/i.test(query)) {
+  if (
+    /^(take\s+me\s+(to\s+)?(the\s+)?spray\s*calendar(\s*page)?|go\s+to\s+(the\s+)?spray\s*calendar(\s*page)?|open\s+(the\s+)?spray\s*calendar(\s*page)?|shift(\s+(me|the\s+page))?\s+(and\s+take\s+me\s+)?to\s+(the\s+)?spray\s*calendar(\s*page)?|show\s+spray\s*calendar|view\s+spray\s*calendar|open\s+calendar|spray\s*schedule|stage\s*schedule|spray\s*stages?|^calendar$)/i.test(query) ||
+    /\b(take\s+me\s+(to\s+)?(the\s+)?spray\s*calendar(\s*page)?|go\s+to\s+(the\s+)?spray\s*calendar(\s*page)?|shift\s+(the\s+page\s+to|to)\s+(the\s+)?spray\s*calendar(\s*page)?)\b/i.test(query)
+  ) {
     navigate('/spray-calendar');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof closeChatOnMobile === 'function') closeChatOnMobile();
     return {
       isCommand: true,
       response: {
         sender: 'bot',
-        actionExecuted: 'Navigated to Spray Calendar (/spray-calendar)',
-        text: `🗓️ **Navigating you to the SKUAST-K Apple Spray Calendar!**\n\nFollow official stages from Dormant winter spray through Petal Fall and Pre-Harvest.`,
+        text: `🗓️ **Shifted to the SKUAST-K Apple Spray Calendar!**\n\nFollow official stages from Dormant winter spray through Petal Fall and Pre-Harvest.`,
         actionButtons: [
-          { label: '🧮 Calculate Dosage', action: 'nav_calc', icon: 'calc' },
-          { label: '🛍️ View Products', action: 'nav_products', icon: 'compass' }
+          { label: 'View Spray Calendar', action: 'close_chat', primary: true, icon: 'compass' },
+          { label: 'Calculate Dosage', action: 'nav_calc', icon: 'calc' },
+          { label: 'View Products', action: 'nav_products', icon: 'compass' }
         ],
-        suggestions: ['🧮 Dosage Calculator', '🛍️ Products Page', '⚡ Open Cart Drawer']
+        suggestions: ['🧮 Dosage Calculator', '🛍️ Products Page', 'Open Cart Drawer']
       }
     };
   }
 
-  // Dosage Calculator
-  if (/(go\s+to\s+dosage\s+calculator|open\s+dosage\s+calculator|open\s+calculator|tank\s+calculator|calculate\s+tank|barrel\s+calculator|dosage\s+tool)/i.test(query)) {
+  // Dosage Calculator & Leaf Disease Detection
+  if (
+    /^(take\s+me\s+(to\s+)?(the\s+)?(dosage\s*calculator|calculator|tank\s*calculator)(\s*page)?|go\s+to\s+(the\s+)?(dosage\s*calculator|calculator|tank\s*calculator)(\s*page)?|open\s+(the\s+)?(dosage\s*calculator|calculator|tank\s*calculator)(\s*page)?|shift(\s+(me|the\s+page))?\s+(and\s+take\s+me\s+)?to\s+(the\s+)?(dosage\s*calculator|calculator|tank\s*calculator)(\s*page)?|leaf\s*disease|detect\s*leaf|leaf\s*detector|leaf\s*scan|scan\s*leaf|leaf\s*doctor|tank\s*calculator|calculate\s*tank|barrel\s*calculator|dosage\s*tool|^calculator$)/i.test(query) ||
+    /\b(take\s+me\s+(to\s+)?(the\s+)?(dosage\s*calculator|calculator|tank\s*calculator)(\s*page)?|go\s+to\s+(the\s+)?(dosage\s*calculator|calculator|tank\s*calculator)(\s*page)?|shift\s+(the\s+page\s+to|to)\s+(the\s+)?(dosage\s*calculator|calculator|tank\s*calculator)(\s*page)?)\b/i.test(query)
+  ) {
     navigate('/dosage-calculator');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof closeChatOnMobile === 'function') closeChatOnMobile();
     return {
       isCommand: true,
       response: {
         sender: 'bot',
-        actionExecuted: 'Navigated to Dosage Calculator (/dosage-calculator)',
-        text: `🧮 **Navigating you to the Precision Dosage & Tank Calculator!**\n\nSelect your barrel volume (200L, 500L, 1000L) or tree count for exact gram and milliliter dilutions.`,
+        text: `🍃 **Shifted to Leaf Disease Pathology & Tank Dosage Guide!**\n\nExamine foliar symptoms against SKUAST-K pathology keys and calculate precise chemical tank dilutions for your barrel.`,
         actionButtons: [
-          { label: '🗓️ Spray Calendar', action: 'nav_calendar', icon: 'compass' },
-          { label: '🛍️ Browse Products', action: 'nav_products', icon: 'compass' }
+          { label: 'View Dosage Calculator', action: 'close_chat', primary: true, icon: 'compass' },
+          { label: 'Open Leaf Pathology Guide', action: 'nav_calc', icon: 'calc' },
+          { label: 'Spray Calendar', action: 'nav_calendar', icon: 'compass' }
         ],
-        suggestions: ['🗓️ Spray Calendar', '🛍️ Products Page', '⚡ Open Cart Drawer']
+        suggestions: ['🌿 Leaf Pathology Guide', '🗓️ Spray Calendar', 'Open Cart Drawer']
       }
     };
   }
 
   // Disease Guide
-  if (/(go\s+to\s+disease\s+guide|open\s+disease\s+guide|show\s+disease\s+guide|plant\s+doctor|disease\s+diagnosis|open\s+diseases|disease\s+guide\s+page)/i.test(query)) {
+  if (
+    /^(take\s+me\s+(to\s+)?(the\s+)?disease\s*guide(\s*page)?|go\s+to\s+(the\s+)?disease\s*guide(\s*page)?|open\s+(the\s+)?disease\s*guide(\s*page)?|shift(\s+(me|the\s+page))?\s+(and\s+take\s+me\s+)?to\s+(the\s+)?disease\s*guide(\s*page)?|show\s+disease\s*guide|plant\s*doctor|disease\s*diagnosis|open\s+diseases?|disease\s*guide\s*page|^diseases?$)/i.test(query) ||
+    /\b(take\s+me\s+(to\s+)?(the\s+)?disease\s*guide(\s*page)?|go\s+to\s+(the\s+)?disease\s*guide(\s*page)?|shift\s+(the\s+page\s+to|to)\s+(the\s+)?disease\s*guide(\s*page)?)\b/i.test(query)
+  ) {
     navigate('/disease-guide');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof closeChatOnMobile === 'function') closeChatOnMobile();
     return {
       isCommand: true,
       response: {
         sender: 'bot',
-        actionExecuted: 'Navigated to Disease Guide (/disease-guide)',
-        text: `🔬 **Navigating you to the Disease & Pest Identification Guide!**\n\nHigh-resolution symptom galleries and chemical cures for Apple Scab, Powdery Mildew, Mites, and Canker.`,
+        text: `🔬 **Shifted to the Disease & Pest Identification Guide!**\n\nHigh-resolution symptom galleries and chemical cures for Apple Scab, Powdery Mildew, Mites, and Canker.`,
         actionButtons: [
-          { label: '🛍️ Recommended Chemicals', action: 'nav_products', icon: 'compass' },
-          { label: '🗓️ Stage Calendar', action: 'nav_calendar', icon: 'compass' }
+          { label: 'View Disease Guide', action: 'close_chat', primary: true, icon: 'compass' },
+          { label: 'Recommended Chemicals', action: 'nav_products', icon: 'compass' },
+          { label: 'Stage Calendar', action: 'nav_calendar', icon: 'compass' }
         ],
         suggestions: ['🛍️ Products Page', '🗓️ Spray Calendar', '🧮 Dosage Calculator']
       }
@@ -914,17 +954,22 @@ function executeWebsiteCommand({
   }
 
   // Videos
-  if (/(go\s+to\s+videos|open\s+videos|show\s+videos|video\s+gallery|watch\s+videos|tutorials)/i.test(query)) {
+  if (
+    /^(take\s+me\s+(to\s+)?(the\s+)?videos?(\s*page|\s*gallery)?|go\s+to\s+(the\s+)?videos?(\s*page|\s*gallery)?|open\s+(the\s+)?videos?(\s*page|\s*gallery)?|shift(\s+(me|the\s+page))?\s+(and\s+take\s+me\s+)?to\s+(the\s+)?videos?(\s*page|\s*gallery)?|show\s+videos?|video\s*gallery|watch\s*videos?|tutorials?|^videos?$)/i.test(query) ||
+    /\b(take\s+me\s+(to\s+)?(the\s+)?videos?(\s*page|\s*gallery)?|go\s+to\s+(the\s+)?videos?(\s*page|\s*gallery)?|shift\s+(the\s+page\s+to|to)\s+(the\s+)?videos?(\s*page|\s*gallery)?)\b/i.test(query)
+  ) {
     navigate('/videos');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof closeChatOnMobile === 'function') closeChatOnMobile();
     return {
       isCommand: true,
       response: {
         sender: 'bot',
-        actionExecuted: 'Navigated to Video Tutorials (/videos)',
-        text: `🎥 **Navigating you to the Farmer Video Gallery!**\n\nStep-by-step demonstrations on spray methods, WALES mixing order, and orchard management.`,
+        text: `🎥 **Shifted to the Farmer Video Gallery!**\n\nStep-by-step demonstrations on spray methods, WALES mixing order, and orchard management.`,
         actionButtons: [
-          { label: '🏠 Return Home', action: 'nav_home', icon: 'compass' },
-          { label: '🛍️ Products', action: 'nav_products', icon: 'compass' }
+          { label: 'View Video Gallery', action: 'close_chat', primary: true, icon: 'compass' },
+          { label: 'Return Home', action: 'nav_home', icon: 'compass' },
+          { label: 'Products', action: 'nav_products', icon: 'compass' }
         ],
         suggestions: ['🏠 Return Home', '🛍️ Products Page', '🗓️ Spray Calendar']
       }
@@ -932,17 +977,22 @@ function executeWebsiteCommand({
   }
 
   // Contact / Shop
-  if (/(go\s+to\s+contact|open\s+contact|contact\s+page|where\s+is\s+your\s+shop|shop\s+address|visit\s+shop|srinagar\s+location|contact\s+us)/i.test(query)) {
+  if (
+    /^(take\s+me\s+(to\s+)?(the\s+)?contact(\s*page)?|go\s+to\s+(the\s+)?contact(\s*page)?|open\s+(the\s+)?contact(\s*page)?|shift(\s+(me|the\s+page))?\s+(and\s+take\s+me\s+)?to\s+(the\s+)?contact(\s*page)?|contact\s*page|where\s+is\s+(your\s+|the\s+)?shop|shop\s*address|visit\s*shop|srinagar\s*location|contact\s*us|^contact$)/i.test(query) ||
+    /\b(take\s+me\s+(to\s+)?(the\s+)?contact(\s*page)?|go\s+to\s+(the\s+)?contact(\s*page)?|shift\s+(the\s+page\s+to|to)\s+(the\s+)?contact(\s*page)?)\b/i.test(query)
+  ) {
     navigate('/contact');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof closeChatOnMobile === 'function') closeChatOnMobile();
     return {
       isCommand: true,
       response: {
         sender: 'bot',
-        actionExecuted: 'Navigated to Contact & Store Page (/contact)',
-        text: `📍 **Navigating you to Store Contact & Location!**\n\nM.A. Pesticides & Fertilizers is located at Tengpora Bypass, Batamaloo, Srinagar, Kashmir.\n\n- 📞 Phone: +91 9906541321\n- 👨‍🔬 Founder: Sheikh Mohammad Ayoub (M.Sc. Organic Chemistry)`,
+        text: `📍 **Shifted to Store Contact & Location!**\n\nM.A. Pesticides & Fertilizers is located at Hari Singh High Street / Tengpora Bypass, Srinagar, Kashmir.\n\n- 📞 Phone: +91 9906541321\n- 👨‍🔬 Founder: Sheikh Mohammad Ayoub (M.Sc. Organic Chemistry)`,
         actionButtons: [
-          { label: '📞 Call Shop (+91 9906541321)', action: 'call_shop', primary: true, icon: 'phone' },
-          { label: '🗺️ Open Google Maps', action: 'open_map', icon: 'compass' }
+          { label: 'View Contact Page', action: 'close_chat', primary: true, icon: 'compass' },
+          { label: 'Call Shop (+91 9906541321)', action: 'call_shop', icon: 'phone' },
+          { label: 'Open Google Maps', action: 'open_map', icon: 'compass' }
         ],
         suggestions: ['📞 Call Shop', '🗺️ Open Google Maps', '🛍️ Browse Products']
       }
@@ -950,37 +1000,24 @@ function executeWebsiteCommand({
   }
 
   // About Us
-  if (/(go\s+to\s+about|open\s+about|about\s+page|who\s+are\s+you|about\s+company|about\s+us)/i.test(query)) {
+  if (
+    /^(take\s+me\s+(to\s+)?(the\s+)?about(\s*us|\s*page)?|go\s+to\s+(the\s+)?about(\s*us|\s*page)?|open\s+(the\s+)?about(\s*us|\s*page)?|shift(\s+(me|the\s+page))?\s+(and\s+take\s+me\s+)?to\s+(the\s+)?about(\s*us|\s*page)?|about\s*page|who\s+are\s+you|about\s*company|about\s*us|^about$)/i.test(query) ||
+    /\b(take\s+me\s+(to\s+)?(the\s+)?about(\s*us|\s*page)?|go\s+to\s+(the\s+)?about(\s*us|\s*page)?|shift\s+(the\s+page\s+to|to)\s+(the\s+)?about(\s*us|\s*page)?)\b/i.test(query)
+  ) {
     navigate('/about');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof closeChatOnMobile === 'function') closeChatOnMobile();
     return {
       isCommand: true,
       response: {
         sender: 'bot',
-        actionExecuted: 'Navigated to About Us Page (/about)',
-        text: `📖 **Navigating you to the About Us Page!**\n\nRead about Sheikh Mohammad Ayoub's 30+ year commitment to pesticide authenticity and Kashmir horticulture.`,
+        text: `📖 **Shifted to the About Us Page!**\n\nRead about Sheikh Mohammad Ayoub's 30+ year commitment to pesticide authenticity and Kashmir horticulture.`,
         actionButtons: [
-          { label: '🏠 Return Home', action: 'nav_home', icon: 'compass' },
-          { label: '🛍️ Products', action: 'nav_products', icon: 'compass' }
+          { label: 'View About Page', action: 'close_chat', primary: true, icon: 'compass' },
+          { label: 'Return Home', action: 'nav_home', icon: 'compass' },
+          { label: 'Products', action: 'nav_products', icon: 'compass' }
         ],
         suggestions: ['🏠 Return Home', '🛍️ Products Page', '🗓️ Spray Calendar']
-      }
-    };
-  }
-
-  // Home Page
-  if (/(go\s+to\s+home|open\s+home|take\s+me\s+home|return\s+home|homepage|main\s+page)/i.test(query)) {
-    navigate('/');
-    return {
-      isCommand: true,
-      response: {
-        sender: 'bot',
-        actionExecuted: 'Navigated to Homepage (/)',
-        text: `🏠 **Navigating you to the Homepage!**\n\nExplore authorized dealerships (Bayer, Syngenta, IPL Biologicals), spray calendar stages, and quick advisory tools.`,
-        actionButtons: [
-          { label: '🛍️ Browse Products', action: 'nav_products', icon: 'compass' },
-          { label: '🗓️ Spray Calendar', action: 'nav_calendar', icon: 'compass' }
-        ],
-        suggestions: ['🛍️ Browse Products', '🗓️ Spray Calendar', '🧮 Dosage Calculator']
       }
     };
   }
@@ -1082,8 +1119,8 @@ export default function AdvisorChatbot() {
   const [messages, setMessages] = useState([
     {
       sender: 'bot',
-      text: "👋 Assalamu Alaikum! I am the **M.A. Pesticides AI Copilot**.\n\nI have **full executive control** of this website! You can ask me **ANY question**, or command me directly:\n- 🛒 **Manage Cart:** *\"Add Antracol to cart\"*, *\"Open my cart\"*, *\"Clear cart\"*\n- 🚀 **Navigate Pages:** *\"Take me to Dosage Calculator\"*, *\"Open Spray Calendar\"*\n- 🌙 **Display Mode:** *\"Turn on dark mode\"*, *\"Switch to light mode\"*\n- 📞 **Direct Contact:** *\"Call shop\"*, *\"Open Google Maps\"*",
-      suggestions: ['🛒 Add Antracol to Cart', '🧮 Dosage Calculator', '🗓️ Pink Bud Stage Spray', '🌙 Dark Mode']
+      text: "Assalamu Alaikum! 👋 Welcome to **M.A. Pesticides & Fertilizers**.\n\nI am your digital consultation desk, drawing on decades of organic chemistry and field agronomy from **Sheikh Mohammad Ayoub** (M.Sc. Organic Chemistry, B.Ed. — University of Kashmir).\n\nHow can we help protect your orchard today?\n- 🌤️ **Live Weather Window:** Srinagar orchard temperature, rain risk & spray safety\n- 🍏 **Crop Disease Diagnosis:** Identify Apple Scab, Red Mites, Mildew, and Canker\n- 🧮 **Spray Dilution:** Compute exact formulation grams for 200L barrels or orchard acreage\n- 🗓️ **SKUAST-K Calendar:** Official stage-by-stage spray recommendations\n- 🛒 **Store Orders:** Inquire about genuine factory batches & 20% discount on print MRP",
+      suggestions: ['🌤️ What is the weather right now', '🍏 Apple Scab Treatment', '🧮 200L Tank Dosage Calc', '🗓️ Pink Bud Stage Spray']
     }
   ]);
   const [input, setInput] = useState('');
@@ -1222,29 +1259,40 @@ export default function AdvisorChatbot() {
       case 'clear_cart':
         cart.clearCart();
         break;
+      case 'close_chat':
+        setIsOpen(false);
+        break;
       case 'nav_products':
         navigate('/products');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         break;
       case 'nav_calendar':
         navigate('/spray-calendar');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         break;
       case 'nav_calc':
         navigate('/dosage-calculator');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         break;
       case 'nav_diseases':
         navigate('/disease-guide');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         break;
       case 'nav_videos':
         navigate('/videos');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         break;
       case 'nav_contact':
         navigate('/contact');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         break;
       case 'nav_about':
         navigate('/about');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         break;
       case 'nav_home':
         navigate('/');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         break;
       case 'toggle_dark':
         if (themeContext.theme !== 'dark') themeContext.toggleTheme();
@@ -1294,14 +1342,21 @@ export default function AdvisorChatbot() {
     if (!textToSend) setInput('');
     setIsTyping(true);
 
-    setTimeout(() => {
+    setTimeout(async () => {
       // 1. Try autonomous website executive action
       const commandResult = executeWebsiteCommand({
         userText: queryText,
         messageHistory: messages,
         navigate,
         cart,
-        themeContext
+        themeContext,
+        closeChatOnMobile: () => {
+          if (typeof window !== 'undefined' && window.innerWidth <= 768) {
+            setTimeout(() => {
+              setIsOpen(false);
+            }, 1200);
+          }
+        }
       });
 
       if (commandResult && commandResult.isCommand) {
@@ -1311,7 +1366,7 @@ export default function AdvisorChatbot() {
       }
 
       // 2. Synthesize domain response & inject contextual actions
-      const response = getBotResponse(queryText, messages);
+      const response = await getBotResponse(queryText, messages);
       setMessages(prev => [...prev, { sender: 'bot', ...response }]);
       setIsTyping(false);
     }, 180);
@@ -1344,6 +1399,14 @@ export default function AdvisorChatbot() {
         { label: '📞 Call Store Now', query: 'call shop' },
         { label: '🗺️ Google Maps Directions', query: 'open map directions' },
         { label: '🗑️ Clear My Cart', query: 'clear my cart' }
+      ];
+    }
+    if (activeCategory === 'weather') {
+      return [
+        { label: '🌤️ Weather Right Now', query: 'what is the weather right now' },
+        { label: '🛡️ Safe to Spray Today?', query: 'is it safe to spray right now' },
+        { label: '🌧️ Srinagar Rain Chance', query: 'is it going to rain in srinagar today' },
+        { label: '⏱️ Rain-Fastness Window', query: 'how much rain free drying time needed for fungicide' }
       ];
     }
     if (activeCategory === 'dosage') {
@@ -1388,6 +1451,7 @@ export default function AdvisorChatbot() {
       ];
     }
     return [
+      { label: '🌤️ Weather Right Now', query: 'what is the weather right now' },
       { label: '🛒 Open My Cart', query: 'open my cart' },
       { label: '🍏 Apple Scab Cure', query: 'Apple Scab spray' },
       { label: '⚡ 200L Tank Dosage Calc', query: '200 litre tank dosage' },
@@ -1405,23 +1469,25 @@ export default function AdvisorChatbot() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="pill-button-filled advisor-chatbot-fab"
-        aria-label="Open AI Site Copilot & Crop Advisor"
+        aria-label="Open Sheikh Mohammad Ayoub Advisory Desk"
         style={{
           boxShadow: '0 8px 30px rgba(28, 71, 42, 0.35)',
           background: 'var(--color-pine-green)',
           color: '#ffffff',
-          fontWeight: 500
+          fontWeight: 500,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px'
         }}
       >
-        <Sparkles size={17} style={{ color: '#fbe1d1' }} />
-        <span>AI Assistant &amp; Copilot</span>
+        <MessageCircle size={17} style={{ color: '#ffffff' }} />
+        <span>Chemist Advisory Desk</span>
         <span style={{
           display: 'inline-block',
-          width: '8px',
-          height: '8px',
+          width: '7px',
+          height: '7px',
           borderRadius: '50%',
-          backgroundColor: '#10b981',
-          boxShadow: '0 0 8px #10b981'
+          backgroundColor: '#34d399'
         }} />
       </button>
 
@@ -1433,7 +1499,7 @@ export default function AdvisorChatbot() {
             onClick={() => setIsOpen(false)}
             aria-hidden="true"
           />
-          <div className="advisor-chatbot-modal" role="dialog" aria-modal="true" aria-label="Orchard AI Copilot">
+          <div className="advisor-chatbot-modal" role="dialog" aria-modal="true" aria-label="Sheikh Mohammad Ayoub Orchard Advisory Desk">
             {/* Mobile Sheet Handle */}
             <div className="advisor-mobile-handle" />
 
@@ -1507,7 +1573,7 @@ export default function AdvisorChatbot() {
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
                     <h4 style={{ fontFamily: 'var(--font-signifier)', fontSize: '17px', fontWeight: 500, margin: 0, color: 'var(--color-ink-black)' }}>
-                      Orchard AI Copilot
+                      Sheikh Mohammad Ayoub
                     </h4>
                     <span style={{
                       fontSize: '9.5px',
@@ -1522,11 +1588,11 @@ export default function AdvisorChatbot() {
                       alignItems: 'center',
                       gap: '3px'
                     }}>
-                      <Zap size={9} /> Full Site Control
+                      SKUAST-K Aligned
                     </span>
                   </div>
                   <span style={{ fontSize: '11px', color: 'var(--color-slate-gray)' }}>
-                    Voice &amp; Text Assistant — Navigates, Adds to Cart &amp; Controls Site
+                    Senior Chemist &amp; Agronomist • Hari Singh High Street, Srinagar
                   </span>
                 </div>
               </div>
@@ -1581,6 +1647,7 @@ export default function AdvisorChatbot() {
             }}>
               {[
                 { id: 'all', label: '✨ All' },
+                { id: 'weather', label: '🌤️ Weather' },
                 { id: 'actions', label: '⚡ Actions' },
                 { id: 'dosage', label: '🧮 Dosage' },
                 { id: 'stages', label: '🗓️ Stages' },
@@ -1634,14 +1701,6 @@ export default function AdvisorChatbot() {
                     fontFamily: 'var(--font-sohne)'
                   }}
                 >
-                  {/* Executive Action Executed Badge */}
-                  {msg.actionExecuted && (
-                    <div className="advisor-action-badge">
-                      <Zap size={11} />
-                      <span>Action: {msg.actionExecuted}</span>
-                    </div>
-                  )}
-
                   {/* Message Header with Text-to-Speech toggle */}
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
                     <div style={{ whiteSpace: 'pre-line', flex: 1 }}>{formatBotText(msg.text)}</div>
@@ -1770,6 +1829,111 @@ export default function AdvisorChatbot() {
                         >
                           <Compass size={12} />
                           <span>Catalog</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Embedded Live Weather Radar Card */}
+                  {msg.weatherEmbed && (
+                    <div style={{
+                      marginTop: '12px',
+                      padding: '14px',
+                      borderRadius: '14px',
+                      background: 'linear-gradient(135deg, rgba(28, 71, 42, 0.08) 0%, rgba(28, 71, 42, 0.02) 100%)',
+                      border: '1px solid rgba(28, 71, 42, 0.16)',
+                      boxShadow: '0 4px 14px rgba(0, 0, 0, 0.04)'
+                    }}>
+                      {/* Header */}
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <span style={{
+                            width: '8px',
+                            height: '8px',
+                            borderRadius: '50%',
+                            backgroundColor: '#10b981',
+                            display: 'inline-block',
+                            boxShadow: '0 0 6px #10b981'
+                          }} />
+                          <span style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--color-pine-green)' }}>
+                            Srinagar Weather Station (Open-Meteo)
+                          </span>
+                        </div>
+                        <span style={{
+                          fontSize: '11px',
+                          fontWeight: 600,
+                          padding: '3px 8px',
+                          borderRadius: '9999px',
+                          backgroundColor: msg.weatherEmbed.sprayStatus === 'SAFE' ? 'rgba(16, 185, 129, 0.15)' : msg.weatherEmbed.sprayStatus === 'CAUTION' ? 'rgba(245, 158, 11, 0.15)' : 'rgba(239, 68, 68, 0.15)',
+                          color: msg.weatherEmbed.sprayStatus === 'SAFE' ? '#047857' : msg.weatherEmbed.sprayStatus === 'CAUTION' ? '#b45309' : '#b91c1c'
+                        }}>
+                          {msg.weatherEmbed.sprayStatus === 'SAFE' ? 'SAFE TO SPRAY' : msg.weatherEmbed.sprayStatus === 'CAUTION' ? 'EXERCISE CAUTION' : 'UNSAFE TO SPRAY'}
+                        </span>
+                      </div>
+
+                      {/* Primary Temp & Condition Banner */}
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '12px' }}>
+                        <span style={{ fontSize: '32px', fontWeight: 700, fontFamily: 'var(--font-signifier)', color: 'var(--color-ink-black)', lineHeight: 1 }}>
+                          {msg.weatherEmbed.temp}
+                        </span>
+                        <div style={{ fontSize: '13px', fontWeight: 500, color: 'var(--color-slate-gray)' }}>
+                          {msg.weatherEmbed.condition?.emoji} {msg.weatherEmbed.condition?.text} • {msg.weatherEmbed.location}
+                        </div>
+                      </div>
+
+                      {/* Metric Chips Grid */}
+                      <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(4, 1fr)',
+                        gap: '6px',
+                        marginBottom: '10px'
+                      }}>
+                        <div style={{ padding: '8px 6px', backgroundColor: '#ffffff', borderRadius: '8px', textAlign: 'center', border: '1px solid rgba(0,0,0,0.05)' }}>
+                          <span style={{ fontSize: '10px', color: 'var(--color-ash-gray)', display: 'block' }}>Humidity</span>
+                          <strong style={{ fontSize: '12px', fontWeight: 600, color: 'var(--color-ink-black)' }}>{msg.weatherEmbed.humidity}</strong>
+                        </div>
+                        <div style={{ padding: '8px 6px', backgroundColor: '#ffffff', borderRadius: '8px', textAlign: 'center', border: '1px solid rgba(0,0,0,0.05)' }}>
+                          <span style={{ fontSize: '10px', color: 'var(--color-ash-gray)', display: 'block' }}>Rain Risk</span>
+                          <strong style={{ fontSize: '12px', fontWeight: 600, color: 'var(--color-ink-black)' }}>{msg.weatherEmbed.rainProbability}%</strong>
+                        </div>
+                        <div style={{ padding: '8px 6px', backgroundColor: '#ffffff', borderRadius: '8px', textAlign: 'center', border: '1px solid rgba(0,0,0,0.05)' }}>
+                          <span style={{ fontSize: '10px', color: 'var(--color-ash-gray)', display: 'block' }}>Wind</span>
+                          <strong style={{ fontSize: '12px', fontWeight: 600, color: 'var(--color-ink-black)' }}>{msg.weatherEmbed.wind}</strong>
+                        </div>
+                        <div style={{ padding: '8px 6px', backgroundColor: '#ffffff', borderRadius: '8px', textAlign: 'center', border: '1px solid rgba(0,0,0,0.05)' }}>
+                          <span style={{ fontSize: '10px', color: 'var(--color-ash-gray)', display: 'block' }}>Dry Window</span>
+                          <strong style={{ fontSize: '12px', fontWeight: 600, color: 'var(--color-ink-black)' }}>{msg.weatherEmbed.dryWindow}</strong>
+                        </div>
+                      </div>
+
+                      {/* SKUAST-K Advisory Note */}
+                      <div style={{ fontSize: '11.5px', color: 'var(--color-slate-gray)', lineHeight: '1.4', marginBottom: '10px', padding: '6px 8px', borderRadius: '6px', backgroundColor: 'rgba(255,255,255,0.7)' }}>
+                        <strong>SKUAST-K Rule:</strong> {msg.weatherEmbed.advisory}
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                        <button
+                          onClick={() => navigate('/spray-calendar')}
+                          className="advisor-control-btn advisor-control-btn-primary"
+                        >
+                          <Calendar size={12} />
+                          <span>Open Spray Calendar</span>
+                        </button>
+                        <button
+                          onClick={() => navigate('/dosage-calculator')}
+                          className="advisor-control-btn"
+                        >
+                          <Calculator size={12} />
+                          <span>Tank Dosage</span>
+                        </button>
+                        <button
+                          onClick={() => handleSend('what is the weather right now')}
+                          className="advisor-control-btn"
+                          title="Refresh live satellite weather feed"
+                        >
+                          <RefreshCw size={12} />
+                          <span>Refresh Live</span>
                         </button>
                       </div>
                     </div>

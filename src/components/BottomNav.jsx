@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { Home, Package, Calculator, Calendar, Sparkles } from 'lucide-react';
+import { Home, Package, Calculator, Calendar, MessageSquare } from 'lucide-react';
 import { preloadRoute } from '../utils/routePreloader';
 
 export default function BottomNav() {
@@ -92,19 +92,18 @@ export default function BottomNav() {
           </NavLink>
         </li>
 
-        {/* Tab 5: Native Ask AI Advisor Trigger */}
+        {/* Tab 5: Orchard Advisory Desk Trigger */}
         <li className="bottom-nav-item">
           <button
             type="button"
             onClick={handleOpenAiChat}
-            className="bottom-nav-link bottom-nav-ai-btn"
-            aria-label="Open Orchard AI Crop Advisor"
+            className="bottom-nav-link"
+            aria-label="Open Orchard Chemist Advisory Desk"
           >
             <div className="bottom-nav-icon-wrapper">
-              <Sparkles size={22} strokeWidth={2.2} className="bottom-nav-ai-icon" />
-              <span className="bottom-nav-pulse-ring" />
+              <MessageSquare size={21} strokeWidth={2.0} color="var(--color-pine-green)" />
             </div>
-            <span className="bottom-nav-label" style={{ fontWeight: 650 }}>Ask AI</span>
+            <span className="bottom-nav-label" style={{ fontWeight: 600, color: 'var(--color-pine-green)' }}>Advisory</span>
           </button>
         </li>
       </ul>

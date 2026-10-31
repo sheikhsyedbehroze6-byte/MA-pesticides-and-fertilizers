@@ -19,14 +19,25 @@ export default function DosageCalculatorPage() {
         <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 36px' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
             <span className="tag-label-green">SKUAST-K Standardized Formulations</span>
+            <span style={{
+              fontSize: '11px',
+              fontWeight: 700,
+              backgroundColor: '#10b981',
+              color: '#ffffff',
+              padding: '2px 8px',
+              borderRadius: '9999px',
+              letterSpacing: '0.4px'
+            }}>
+              AI VISION SCANNER
+            </span>
           </div>
 
           <h1 className="text-heading-lg" style={{ marginBottom: '16px', color: 'var(--color-ink-black)' }}>
-            Orchard spray dosage & tank calculator.
+            AI leaf disease detection scanner &amp; orchard dosage calculator.
           </h1>
 
           <p className="text-body-lg" style={{ color: 'var(--color-slate-gray)', marginBottom: '24px' }}>
-            Compute exact chemical volumes and water ratios for standard Kashmiri 200L, 500L, and 1000L spray motors, or calculate by kanal acreage and mature tree count.
+            Scan orchard leaves with live camera or photo upload to diagnose foliar pathogens with AI lesion heatmaps, and compute exact chemical volumes and water ratios for Kashmiri 200L barrels, 500L tanks, 1000L spray motors, or tree acreage.
           </p>
 
           {/* Cross-link to Disease Guide */}

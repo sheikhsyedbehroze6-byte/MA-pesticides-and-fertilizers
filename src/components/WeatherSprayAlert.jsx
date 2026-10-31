@@ -1,13 +1,13 @@
 import { useState, useEffect, memo } from 'react';
-import { CloudRain, Sun, Wind, Thermometer, ShieldCheck, AlertCircle, Droplets } from 'lucide-react';
+import { fetchLiveWeatherData } from '../utils/weatherService';
 
 function WeatherSprayAlert() {
   const [loading, setLoading] = useState(true);
   const [isLive, setIsLive] = useState(false);
   const [weather, setWeather] = useState({
     location: 'Srinagar, Kashmir',
-    temp: '20°C',
-    wind: '3 km/h',
+    temp: '18°C',
+    wind: '4 km/h',
     rainProbability: 15,
     dryWindow: '6+ Hours',
     sprayStatus: 'SAFE',
@@ -16,81 +16,25 @@ function WeatherSprayAlert() {
 
   useEffect(() => {
     let isMounted = true;
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 4000);
 
-    const fetchLiveWeather = async () => {
+    const loadWeather = async () => {
       try {
         setLoading(true);
-        const res = await fetch(
-          'https://api.open-meteo.com/v1/forecast?latitude=34.0837&longitude=74.7973&current=temperature_2m,relative_humidity_2m,precipitation,rain,weather_code,wind_speed_10m&hourly=precipitation_probability,temperature_2m,wind_speed_10m',
-          { signal: controller.signal }
-        );
-        clearTimeout(timeoutId);
-        if (!res.ok) throw new Error('Weather API error');
-        const data = await res.json();
-
-        if (!isMounted) return;
-
-        const currentTemp = Math.round(data.current?.temperature_2m ?? 20);
-        const windSpeed = Math.round(data.current?.wind_speed_10m ?? 4);
-        const hourlyProb = data.hourly?.precipitation_probability || [];
-        const currentRainProb = Math.max(
-          data.current?.rain > 0 ? 85 : 0,
-          hourlyProb[0] ?? 10
-        );
-
-        let dryHours = 0;
-        for (let i = 0; i < Math.min(12, hourlyProb.length); i++) {
-          if (hourlyProb[i] < 35) {
-            dryHours++;
-          } else {
-            break;
-          }
+        const data = await fetchLiveWeatherData();
+        if (isMounted && data) {
+          setWeather(data);
+          setIsLive(data.isLive);
         }
-        const dryWindowText = dryHours >= 8 ? '8+ Hours' : dryHours >= 4 ? `${dryHours}+ Hours` : '1-2 Hours';
-
-        let status = 'SAFE';
-        if (currentRainProb > 45 || (data.current?.rain ?? 0) > 0.5 || windSpeed > 22) {
-          status = 'UNSAFE';
-        } else if (currentRainProb >= 25 || windSpeed >= 12 || currentTemp > 30) {
-          status = 'CAUTION';
-        }
-
-        let advisoryText = '';
-        if (status === 'UNSAFE') {
-          advisoryText = 'Rain or high wind detected in Srinagar Valley. Postpone chemical sprays to prevent chemical wash-off.';
-        } else if (currentTemp > 25) {
-          advisoryText = `High temp (${currentTemp}°C). Spray early morning (6–9 AM) to avoid leaf scorch.`;
-        } else {
-          advisoryText = 'Ideal weather in Srinagar. Excellent rain-fastness window for fungicides & insecticides.';
-        }
-
-        setWeather({
-          location: 'Srinagar, Kashmir',
-          temp: `${currentTemp}°C`,
-          wind: `${windSpeed} km/h`,
-          rainProbability: currentRainProb,
-          dryWindow: dryWindowText,
-          sprayStatus: status,
-          advisory: advisoryText
-        });
-        setIsLive(true);
       } catch (err) {
-        // Graceful fallback on slow network / offline
-        if (err.name !== 'AbortError') {
-          console.warn('Using seasonal weather fallback:', err);
-        }
+        console.warn('Weather fetch error:', err);
       } finally {
         if (isMounted) setLoading(false);
       }
     };
 
-    fetchLiveWeather();
+    loadWeather();
     return () => {
       isMounted = false;
-      clearTimeout(timeoutId);
-      controller.abort();
     };
   }, []);
 

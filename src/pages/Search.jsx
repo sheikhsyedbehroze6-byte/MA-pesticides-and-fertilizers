@@ -4,9 +4,10 @@ import ProductCard from '../components/ProductCard';
 import { diseases, products } from '../data/agricultureData';
 import { Search as SearchIcon, X, ArrowUpRight } from 'lucide-react';
 import Breadcrumb from '../components/Breadcrumb';
+import WeatherSprayAlert from '../components/WeatherSprayAlert';
 
 const QUICK_CHIPS = [
-  'Apple Scab', 'Fungicide', 'Spider Mites', 'Powdery Mildew', 'Blight', 'Insecticide', 'Antracol', 'Syngenta Alika'
+  'Live Weather', 'Apple Scab', 'Fungicide', 'Spider Mites', 'Powdery Mildew', 'Blight', 'Insecticide', 'Antracol', 'Syngenta Alika'
 ];
 
 export default function Search() {
@@ -69,6 +70,11 @@ export default function Search() {
     );
   }, [deferredQuery]);
 
+  const isWeatherMatch = useMemo(() => {
+    if (!deferredQuery.trim()) return false;
+    return /(weather|mausam|rain|barish|forecast|temp|climate)/i.test(deferredQuery);
+  }, [deferredQuery]);
+
   return (
     <div style={{ backgroundColor: 'var(--surface-canvas)', minHeight: '100vh' }} className="section-padding">
       <div className="page-container">
@@ -76,9 +82,9 @@ export default function Search() {
 
         {/* Header */}
         <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 48px' }}>
-          <span className="tag-label">Global Srinagar Search Engine</span>
+          <span className="tag-label">Kashmir Agrochem &amp; Disease Directory</span>
           <h1 className="text-heading-lg" style={{ marginBottom: '16px' }}>
-            Instant formulation & disease lookup.
+            Formulation &amp; crop disease lookup.
           </h1>
           <p className="text-body-lg" style={{ color: 'var(--color-slate-gray)' }}>
             Search across 60+ authorized chemicals, SKUAST spray stages, and crop pathology guides.
@@ -125,6 +131,12 @@ export default function Search() {
         {/* Search Results Display */}
         {query.trim() ? (
           <div>
+            {/* Live Weather & Spray Advisory */}
+            {isWeatherMatch && (
+              <div style={{ marginBottom: '40px' }}>
+                <WeatherSprayAlert />
+              </div>
+            )}
             {/* Matched Diseases */}
             {matchedDiseases.length > 0 && (
               <div style={{ marginBottom: '48px' }}>

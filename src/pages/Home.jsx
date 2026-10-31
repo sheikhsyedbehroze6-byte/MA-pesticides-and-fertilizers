@@ -313,9 +313,9 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Artifact 4: AI Composer Question Bar Input */}
+            {/* Artifact 4: Chemist Advisory Search Bar */}
             <div className="floating-product-artifact gsap-hero-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <span className="tag-label" style={{ marginBottom: '8px' }}>AI Advisor Composer</span>
+              <span className="tag-label" style={{ marginBottom: '8px' }}>Chemist Advisory Desk</span>
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -325,12 +325,12 @@ export default function Home() {
               >
                 <input
                   type="text"
-                  placeholder="Ask anything about apple scab, dosage, or spray timing..."
+                  placeholder="Ask Sheikh Mohammad Ayoub about apple scab, tank dosage, or spray timing..."
                   value={heroSearch}
                   onChange={(e) => setHeroSearch(e.target.value)}
-                  style={{ fontSize: '16px' }}
+                  style={{ fontSize: '15px' }}
                 />
-                <button type="submit" className="ai-composer-send-btn" aria-label="Ask AI Advisor">
+                <button type="submit" className="ai-composer-send-btn" aria-label="Ask Chemist Desk">
                   <ArrowRight size={16} />
                 </button>
               </form>
@@ -493,9 +493,9 @@ export default function Home() {
       <section className="section-padding section-fog-bg gsap-scroll-section">
         <div className="page-container">
           <div className="section-header gsap-scroll-item">
-            <span className="tag">Live Analytics</span>
-            <h2>Real-time weather & crop diagnostics.</h2>
-            <p>Monitor Srinagar microclimates and identify fungal threats instantly.</p>
+            <span className="tag">Srinagar Valley Weather</span>
+            <h2>Local weather windows &amp; crop diagnostics.</h2>
+            <p>Real-time spray conditions for Srinagar orchards and field treatments aligned with SKUAST-K guidelines.</p>
           </div>
 
           <div className="gsap-scroll-item" style={{ marginBottom: '40px' }}>
