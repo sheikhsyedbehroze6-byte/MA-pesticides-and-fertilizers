@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   Camera, Upload, Sparkles, CheckCircle2, AlertTriangle, ShieldCheck,
   RefreshCw, ArrowRight, Zap, Info, Bug, Search, Eye, Volume2, VolumeX,
-  Layers, X, Check, ShieldAlert, Cpu, Sparkle
+  Layers, X, Check, ShieldAlert, Cpu, Sparkle, GitBranch, ArrowDown, Activity
 } from 'lucide-react';
 
 export const LEAF_DISEASES_DB = [
@@ -263,6 +263,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
   const [searchQuery, setSearchQuery] = useState('');
   const [appliedNotification, setAppliedNotification] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const [showFlowchart, setShowFlowchart] = useState(false);
 
   // Live Camera state
   const [isCameraActive, setIsCameraActive] = useState(false);
@@ -800,8 +801,31 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
           </div>
         </div>
 
-        {/* Audio Mute & Applied Notification */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        {/* Flowchart, Audio Mute & Applied Notification */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+          <button
+            type="button"
+            onClick={() => setShowFlowchart(!showFlowchart)}
+            title="Toggle AI Scanner Flowchart & Diagnostic Pipeline"
+            style={{
+              background: showFlowchart ? 'var(--color-pine-green)' : 'transparent',
+              border: '1px solid rgba(28, 71, 42, 0.25)',
+              borderRadius: '8px',
+              padding: '6px 12px',
+              cursor: 'pointer',
+              color: showFlowchart ? '#ffffff' : 'var(--color-pine-green)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontSize: '12px',
+              fontWeight: 600,
+              transition: 'all 0.18s ease'
+            }}
+          >
+            <GitBranch size={15} />
+            <span>{showFlowchart ? 'Hide Flowchart' : 'How AI Scanner Works'}</span>
+          </button>
+
           <button
             type="button"
             onClick={() => setSoundEnabled(!soundEnabled)}
@@ -843,6 +867,203 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
           )}
         </div>
       </div>
+
+      {/* Interactive AI Scanner Algorithmic Flowchart */}
+      {showFlowchart && (
+        <div style={{
+          backgroundColor: '#ffffff',
+          border: '1.5px solid rgba(28, 71, 42, 0.25)',
+          borderRadius: '14px',
+          padding: '18px 20px',
+          marginBottom: '22px',
+          boxShadow: '0 4px 18px rgba(0, 0, 0, 0.04)',
+          animation: 'fadeInModal 0.25s ease-out'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div style={{
+                width: '28px',
+                height: '28px',
+                borderRadius: '8px',
+                backgroundColor: 'rgba(28, 71, 42, 0.1)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--color-pine-green)'
+              }}>
+                <Activity size={16} />
+              </div>
+              <h5 style={{ margin: 0, fontSize: '15px', fontWeight: 700, color: 'var(--color-ink-black)', fontFamily: 'var(--font-sohne)' }}>
+                How the AI Leaf Disease Scanner Works (5-Step Computer Vision Pipeline)
+              </h5>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setShowFlowchart(false)}
+              style={{
+                background: 'rgba(0,0,0,0.05)',
+                border: 'none',
+                borderRadius: '6px',
+                padding: '4px 8px',
+                fontSize: '11px',
+                color: 'var(--color-slate-gray)',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}
+            >
+              <X size={13} />
+              <span>Close</span>
+            </button>
+          </div>
+
+          {/* Flowchart Steps Grid */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+            gap: '12px',
+            position: 'relative'
+          }}>
+            {/* Step 1 */}
+            <div style={{
+              backgroundColor: 'var(--surface-section-fog, #f8fafc)',
+              border: '1px solid rgba(28, 71, 42, 0.18)',
+              borderRadius: '10px',
+              padding: '14px 12px',
+              position: 'relative'
+            }}>
+              <div style={{
+                display: 'inline-block',
+                fontSize: '10px',
+                fontWeight: 800,
+                color: '#ffffff',
+                backgroundColor: 'var(--color-pine-green)',
+                padding: '2px 7px',
+                borderRadius: '4px',
+                marginBottom: '6px'
+              }}>
+                STEP 1
+              </div>
+              <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--color-pine-green)', marginBottom: '4px' }}>
+                Foliar Capture &amp; Ingestion
+              </div>
+              <p style={{ fontSize: '11.5px', color: 'var(--color-slate-gray)', margin: 0, lineHeight: 1.4 }}>
+                Real-time WebRTC camera viewfinder with animated laser sweep (<span className="code-chip">getUserMedia</span>) or high-res gallery file upload.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div style={{
+              backgroundColor: 'var(--surface-section-fog, #f8fafc)',
+              border: '1px solid rgba(28, 71, 42, 0.18)',
+              borderRadius: '10px',
+              padding: '14px 12px'
+            }}>
+              <div style={{
+                display: 'inline-block',
+                fontSize: '10px',
+                fontWeight: 800,
+                color: '#ffffff',
+                backgroundColor: 'var(--color-pine-green)',
+                padding: '2px 7px',
+                borderRadius: '4px',
+                marginBottom: '6px'
+              }}>
+                STEP 2
+              </div>
+              <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--color-pine-green)', marginBottom: '4px' }}>
+                Canvas Normalization
+              </div>
+              <p style={{ fontSize: '11.5px', color: 'var(--color-slate-gray)', margin: 0, lineHeight: 1.4 }}>
+                Scales frame to 160×160 offscreen canvas ($25,600$ sampled pixels). Filters out non-leaf white ambient glare and deep shadow edges.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div style={{
+              backgroundColor: 'var(--surface-section-fog, #f8fafc)',
+              border: '1px solid rgba(28, 71, 42, 0.18)',
+              borderRadius: '10px',
+              padding: '14px 12px'
+            }}>
+              <div style={{
+                display: 'inline-block',
+                fontSize: '10px',
+                fontWeight: 800,
+                color: '#ffffff',
+                backgroundColor: 'var(--color-pine-green)',
+                padding: '2px 7px',
+                borderRadius: '4px',
+                marginBottom: '6px'
+              }}>
+                STEP 3
+              </div>
+              <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--color-pine-green)', marginBottom: '4px' }}>
+                Feature Extraction
+              </div>
+              <p style={{ fontSize: '11.5px', color: 'var(--color-slate-gray)', margin: 0, lineHeight: 1.4 }}>
+                Analyzes 7 foliar spectra: healthy chlorophyll ($2G - R - B$), dark scab necrosis, powdery mildew mycelium, and bronze mite rust.
+              </p>
+            </div>
+
+            {/* Step 4 */}
+            <div style={{
+              backgroundColor: 'var(--surface-section-fog, #f8fafc)',
+              border: '1px solid rgba(28, 71, 42, 0.18)',
+              borderRadius: '10px',
+              padding: '14px 12px'
+            }}>
+              <div style={{
+                display: 'inline-block',
+                fontSize: '10px',
+                fontWeight: 800,
+                color: '#ffffff',
+                backgroundColor: 'var(--color-pine-green)',
+                padding: '2px 7px',
+                borderRadius: '4px',
+                marginBottom: '6px'
+              }}>
+                STEP 4
+              </div>
+              <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--color-pine-green)', marginBottom: '4px' }}>
+                SKUAST-K Matching &amp; Heatmap
+              </div>
+              <p style={{ fontSize: '11.5px', color: 'var(--color-slate-gray)', margin: 0, lineHeight: 1.4 }}>
+                Matches against 11 disease matrices. Computes infection coverage % and draws the interactive multi-color lesion heatmap overlay.
+              </p>
+            </div>
+
+            {/* Step 5 */}
+            <div style={{
+              backgroundColor: 'rgba(28, 71, 42, 0.06)',
+              border: '1.5px solid var(--color-pine-green)',
+              borderRadius: '10px',
+              padding: '14px 12px'
+            }}>
+              <div style={{
+                display: 'inline-block',
+                fontSize: '10px',
+                fontWeight: 800,
+                color: '#ffffff',
+                backgroundColor: '#047857',
+                padding: '2px 7px',
+                borderRadius: '4px',
+                marginBottom: '6px'
+              }}>
+                STEP 5
+              </div>
+              <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--color-pine-green)', marginBottom: '4px' }}>
+                Auto-Dosing &amp; Order
+              </div>
+              <p style={{ fontSize: '11.5px', color: 'var(--color-ink-black)', margin: 0, lineHeight: 1.4, fontWeight: 500 }}>
+                Auto-selects SKUAST-K cure (Dodine/Luna) in Dosage Calculator, computes grams for 200L–1000L tanks, and prepares WhatsApp order.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main Two-Column Layout */}
       <div style={{

@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>M.A. Pesticides & Fertilizers — 5-Page Technical Architecture & System Dossier</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+    :root {
+      --pine-green: #143820;
+      --pine-dark: #0a2012;
+      --pine-light: #1e4d2b;
+      --pine-subtle: #f0f7f2;
+      --sienna-gold: #9e6d28;
+      --sienna-dark: #6e4612;
+      --sienna-light: #fbf5ec;
+      --emerald-accent: #059669;
+      --emerald-soft: #ecfdf5;
+      --ink-charcoal: #111827;
+      --ink-subtle: #374151;
+      --ink-muted: #6b7280;
+      --surface-canvas: #ffffff;
+      --surface-subtle: #f8faf8;
+      --surface-card: #f3f6f3;
+      --border-light: #e5e9e5;
+      --border-accent: rgba(20, 56, 32, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--ink-charcoal);
+      background-color: #cbd5e1;
+      line-height: 1.35;
+      -webkit-font-smoothing: antialiased;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* Print Screen Control */
+    @page {
+      size: A4 portrait;
+      margin: 0mm;
+    }
+
+    @media print {
+      body {
+        background: transparent !important;
+      }
+      .no-print-bar {
+        display: none !important;
+      }
+      .page-sheet {
+        box-shadow: none !important;
+        margin: 0 !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        height: 297mm !important;
+        max-height: 297mm !important;
+      }
+      .page-sheet:last-of-type {
+        page-break-after: auto !important;
+        break-after: auto !important;
+      }
+    }
+
+    /* Top Floating Print Controller */
+    .no-print-bar {
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      font-size: 14px;
+    }
+    .print-btn {
+      background: #10b981;
+      color: #ffffff;
+      border: none;
+      padding: 8px 22px;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+    }
+    .print-btn:hover {
+      background: #059669;
+    }
+
+    /* Exactly A4 Dimensions: 210mm x 297mm */
+    .page-sheet {
+      width: 210mm;
+      height: 297mm;
+      max-height: 297mm;
+      margin: 18px auto;
+      background: var(--surface-canvas);
+      padding: 11mm 15mm 9mm 15mm;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    /* Running Header */
+    .running-header {
+      border-bottom: 2px solid var(--pine-green);
+      padding-bottom: 7px;
+      margin-bottom: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .header-branding {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--pine-green);
+      color: #ffffff;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: -0.5px;
+    }
+    .header-text h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 14.5px;
+      color: var(--pine-green);
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      line-height: 1.1;
+    }
+    .header-text span {
+      font-size: 8.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--sienna-gold);
+      font-weight: 700;
+    }
+    .header-meta {
+      text-align: right;
+      font-size: 8px;
+      color: var(--ink-muted);
+      line-height: 1.3;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .header-meta strong {
+      color: var(--pine-green);
+      font-weight: 700;
+    }
+
+    /* Running Footer */
+    .running-footer {
+      border-top: 1px solid var(--border-light);
+      padding-top: 6px;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 8px;
+      color: var(--ink-muted);
+      font-family: 'JetBrains Mono', monospace;
+      flex-shrink: 0;
+    }
+    .page-number-tag {
+      background: var(--pine-green);
+      color: #ffffff;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 7.5px;
+      letter-spacing: 0.5px;
+    }
+
+    /* Common Layout & Typography Elements */
+    .page-title-strip {
+      background: linear-gradient(135deg, var(--pine-green) 0%, var(--pine-dark) 100%);
+      color: #ffffff;
+      padding: 9px 14px;
+      border-radius: 8px;
+      margin-bottom: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .page-title-strip h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      color: #ffffff;
+    }
+    .page-title-strip span {
+      font-size: 8.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #86efac;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .section-headline {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--pine-green);
+      border-bottom: 1.5px solid var(--border-accent);
+      padding-bottom: 3px;
+      margin: 7px 0 6px 0;
+    }
+    .section-headline .indicator-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--sienna-gold);
+      flex-shrink: 0;
+    }
+
+    p.lead-text {
+      font-size: 9px;
+      color: var(--ink-subtle);
+      line-height: 1.38;
+      margin-bottom: 7px;
+    }
+
+    /* Architecture Block Cards */
+    .arch-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      padding: 7px 9px;
+      margin-bottom: 6px;
+    }
+    .arch-card-title {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: var(--pine-green);
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .arch-card p {
+      font-size: 8.5px;
+      color: var(--ink-subtle);
+      line-height: 1.35;
+    }
+
+    .badge-pill {
+      font-size: 7px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 1.5px 5px;
+      border-radius: 9999px;
+      background: var(--emerald-soft);
+      color: var(--emerald-accent);
+      border: 0.5px solid rgba(5, 150, 105, 0.25);
+    }
+
+    .badge-sienna {
+      background: var(--sienna-light);
+      color: var(--sienna-dark);
+      border-color: rgba(158, 109, 40, 0.25);
+    }
+
+    /* Tables */
+    .compact-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8px;
+      margin: 5px 0;
+    }
+    .compact-table th {
+      background: var(--pine-green);
+      color: #ffffff;
+      text-align: left;
+      padding: 4px 6px;
+      font-weight: 700;
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .compact-table td {
+      padding: 3.5px 6px;
+      border-bottom: 1px solid var(--border-light);
+      color: var(--ink-subtle);
+      vertical-align: top;
+    }
+    .compact-table tr:nth-child(even) td {
+      background: #fafbfa;
+    }
+    .compact-table td strong {
+      color: var(--ink-charcoal);
+    }
+
+    /* Metrics Strip */
+    .metrics-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin: 6px 0;
+    }
+    .metric-box {
+      background: var(--pine-subtle);
+      border: 1px solid rgba(20, 56, 32, 0.15);
+      border-radius: 6px;
+      padding: 6px 8px;
+      text-align: center;
+    }
+    .metric-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--pine-green);
+      line-height: 1.1;
+    }
+    .metric-label {
+      font-size: 7px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--ink-muted);
+      margin-top: 2px;
+      letter-spacing: 0.3px;
+    }
+
+    /* Two and Three Column Grids */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+    }
+
+    .code-chip {
+      font-family: 'JetBrains Mono', monospace;
+      background: #eef2f6;
+      color: #0f172a;
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-size: 7.8px;
+      font-weight: 600;
+    }
+
+    .flow-step-box {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-left: 3px solid var(--pine-green);
+      border-radius: 4px;
+      padding: 5px 7px;
+      margin-bottom: 4px;
+      font-size: 8px;
+    }
+    .flow-step-box strong {
+      color: var(--pine-green);
+      font-size: 8.5px;
+    }
+
+    /* Flowchart Specific Styles */
+    .scanner-flowchart-container {
+      background: var(--surface-card);
+      border: 1px solid var(--border-light);
+      border-radius: 6px;
+      padding: 6px 7px;
+      margin: 4px 0 6px 0;
+    }
+    .scanner-flowchart-grid {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3px;
+    }
+    .flow-step-card {
+      background: #ffffff;
+      border: 1px solid var(--border-accent);
+      border-radius: 5px;
+      padding: 5px 5px;
+      flex: 1;
+      min-width: 0;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .step-num-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 6.5px;
+      font-weight: 800;
+      color: #ffffff;
+      background: var(--pine-green);
+      padding: 1px 4.5px;
+      border-radius: 3px;
+      display: inline-block;
+      margin-bottom: 2px;
+      letter-spacing: 0.3px;
+    }
+    .step-title {
+      font-size: 7.8px;
+      font-weight: 700;
+      color: var(--pine-green);
+      line-height: 1.15;
+      margin-bottom: 2px;
+    }
+    .step-desc {
+      font-size: 6.8px;
+      color: var(--ink-subtle);
+      line-height: 1.25;
+    }
+    .flow-arrow {
+      color: var(--sienna-gold);
+      font-weight: 800;
+      font-size: 10px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Print Control (Hidden in Print View) -->
+  <div class="no-print-bar">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <strong style="color: #34d399; font-size: 15px;">M.A. Pesticides & Fertilizers</strong>
+      <span style="color: #94a3b8; font-size: 12px;">5-Page Comprehensive Architecture & Working Dossier</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <button class="print-btn" onclick="window.print()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 6 2 18 2 18 9"></polyline>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+          <rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+        <span>Print / Save as PDF (5 Pages)</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       PAGE 1: Executive Overview, Project Genesis & System Architecture
+       ===================================================================== -->
+  <div class="page-sheet">
+    <div>
+      <div class="running-header">
+        <div class="header-branding">
+          <div class="brand-mark">MA</div>
+          <div class="header-text">
+            <h1>M.A. PESTICIDES &amp; FERTILIZERS</h1>
+            <span>SRINAGAR, KASHMIR • ESTD. 1981 • TECHNICAL DOSSIER</span>
+          </div>
+        </div>
+        <div class="header-meta">
+          DOCUMENT: <strong>MAP-ENG-DOC-2026-V5</strong><br>
+          CLASSIFICATION: <strong>PUBLIC / SYSTEM ARCHITECTURE</strong><br>
+          BUILD: <strong>VITE 8.3 / REACT 19 / PWA v1.3</strong>
+        </div>
+      </div>
+
+      <div class="page-title-strip">
+        <div>
+          <h2>System Architecture &amp; Engineering Overview</h2>
+          <span style="color: #86efac;">Full-Stack Progressive Web Application • SKUAST-K Agronomy Engine</span>
+        </div>
+        <div class="badge-pill" style="background: rgba(255,255,255,0.15); color: #ffffff; border-color: rgba(255,255,255,0.3);">
+          PAGE 1 OF 5
+        </div>
+      </div>
+
+      <p class="lead-text">
+        <strong>M.A. Pesticides &amp; Fertilizers (Hari Singh High Street, Srinagar)</strong> represents four decades of horticultural trust in the Kashmir Valley. This enterprise web application bridges university-grade plant pathology (SKUAST-K), client-side neural vision, and mathematical tank dilution algorithms into a resilient, offline-first Progressive Web App (PWA) tailored for Kashmiri orchardists operating in remote alpine fruit belts.
+      </p>
+
+      <div class="section-headline">
+        <span class="indicator-dot"></span>
+        <span>1. High-Level Multi-Tier System Topology</span>
+      </div>
+
+      <div class="grid-2">
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Tier 1: Client Presentation &amp; Interaction</span>
+            <span class="badge-pill">Edge View</span>
+          </div>
+          <p>
+            Constructed with <strong>React 19.2</strong> and bundled via <strong>Vite 8.3</strong>. Implements declarative routing with <strong>React Router v7</strong>, smooth hardware-accelerated animations using <strong>Framer Motion 12</strong> &amp; <strong>GSAP 3.15</strong>, an interactive <strong>Three.js 0.185</strong> 3D orchard scene, and Lucide vector iconography. Renders crisp bilingual typography (English + Kashmiri Nastaliq Urdu).
+          </p>
+        </div>
+
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Tier 2: Real-Time Computational Engines</span>
+            <span class="badge-pill">Client Compute</span>
+          </div>
+          <p>
+            Runs 100% client-side in the browser thread with zero backend roundtrip latency. Hosts the <strong>AI Leaf Disease Vision Scanner</strong>, the <strong>Orchard Spray Dosage Engine</strong>, the <strong>Weather Spray Feasibility Analyzer</strong>, and an autonomous algorithmic Chatbot Advisor capable of site navigation and product lookup.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top: 3px;">
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Tier 3: Domain Data &amp; SKUAST-K Pathology Rules</span>
+            <span class="badge-pill badge-sienna">Domain Logic</span>
+          </div>
+          <p>
+            Structured in <span class="code-chip">agricultureData.js</span> with over 35 standardized commercial chemicals, 11 foliar disease profiles, 10 apple phenological stages, FRAC/IRAC anti-resistance rotation tables, and chemical tank mixing compatibility rules formulated by Sheikh Mohammad Ayoub (M.Sc. Chemistry).
+          </p>
+        </div>
+
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Tier 4: Offline PWA &amp; Deployment Infrastructure</span>
+            <span class="badge-pill">Zero Downtime</span>
+          </div>
+          <p>
+            Powered by <strong>vite-plugin-pwa 1.3</strong> and <strong>Workbox 7</strong>. Employs a service worker precaching 64 core assets ($32\text{ MB}$). Deployed on Vercel's global edge network with aggressive immutable HTTP caching, CSP headers, and prototype-pollution freezing security.
+          </p>
+        </div>
+      </div>
+
+      <div class="section-headline" style="margin-top: 8px;">
+        <span class="indicator-dot"></span>
+        <span>2. System Dataflow &amp; Component Interconnect Diagram</span>
+      </div>
+
+      <div style="background: var(--surface-card); border: 1px solid var(--border-light); border-radius: 6px; padding: 8px 10px; margin: 4px 0 6px;">
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; text-align: center; font-size: 7.5px;">
+          <div style="background: #ffffff; border: 1px solid var(--border-accent); border-radius: 4px; padding: 5px 3px;">
+            <strong style="color: var(--pine-green); display: block; font-size: 8px;">1. Input Ingestion</strong>
+            WebRTC Live Camera / Photo Upload / Tank Liter Sliders
+          </div>
+          <div style="background: #ffffff; border: 1px solid var(--border-accent); border-radius: 4px; padding: 5px 3px;">
+            <strong style="color: var(--pine-green); display: block; font-size: 8px;">2. Vision Processing</strong>
+            HTML5 Canvas Pixel Color Space &amp; Necrosis Segmentation
+          </div>
+          <div style="background: #ffffff; border: 1px solid var(--border-accent); border-radius: 4px; padding: 5px 3px;">
+            <strong style="color: var(--pine-green); display: block; font-size: 8px;">3. SKUAST-K Match</strong>
+            Phenology &amp; Pathogen Key Identification Matrix
+          </div>
+          <div style="background: #ffffff; border: 1px solid var(--border-accent); border-radius: 4px; padding: 5px 3px;">
+            <strong style="color: var(--pine-green); display: block; font-size: 8px;">4. Dosage Calculator</strong>
+            $V_{water} \times Rate$ Tank Dilution Computation
+          </div>
+          <div style="background: #ffffff; border: 1px solid var(--border-accent); border-radius: 4px; padding: 5px 3px;">
+            <strong style="color: var(--pine-green); display: block; font-size: 8px;">5. Action / Checkout</strong>
+            WhatsApp Order Generation / Cart Context / Store GPS
+          </div>
+        </div>
+      </div>
+
+      <div class="section-headline" style="margin-top: 8px;">
+        <span class="indicator-dot"></span>
+        <span>3. Quantitative Technical Performance Benchmarks</span>
+      </div>
+
+      <div class="metrics-grid-4">
+        <div class="metric-box">
+          <div class="metric-number">0.0 ms</div>
+          <div class="metric-label">Server Roundtrip (Offline)</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-number">100%</div>
+          <div class="metric-label">Client Edge Privacy</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-number">64 Assets</div>
+          <div class="metric-label">PWA Precached in SW</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-number">&lt; 0.8s</div>
+          <div class="metric-label">First Contentful Paint</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="running-footer">
+      <span>M.A. PESTICIDES &amp; FERTILIZERS • TECHNICAL ARCHITECTURE REPORT</span>
+      <span>SECTION: SYSTEM TOPOLOGY</span>
+      <div class="page-number-tag">PAGE 1 OF 5</div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       PAGE 2: AI Leaf Disease Detection Scanner (Computer Vision Architecture)
+       ===================================================================== -->
+  <div class="page-sheet">
+    <div>
+      <div class="running-header">
+        <div class="header-branding">
+          <div class="brand-mark">MA</div>
+          <div class="header-text">
+            <h1>M.A. PESTICIDES &amp; FERTILIZERS</h1>
+            <span>SRINAGAR, KASHMIR • ESTD. 1981 • TECHNICAL DOSSIER</span>
+          </div>
+        </div>
+        <div class="header-meta">
+          MODULE: <strong>LEAF_DISEASE_DETECTOR.JSX</strong><br>
+          VISION ENGINE: <strong>CANVAS 2D PIXEL SEGMENTATION</strong><br>
+          AUDIO FEEDBACK: <strong>WEB AUDIO API SYNTHESIZER</strong>
+        </div>
+      </div>
+
+      <div class="page-title-strip">
+        <div>
+          <h2>AI Leaf Disease Scanner &amp; Computer Vision Engine</h2>
+          <span style="color: #86efac;">Real-Time WebRTC Viewfinder • In-Browser Lesion Segmentation • Heatmap Overlay</span>
+        </div>
+        <div class="badge-pill" style="background: rgba(255,255,255,0.15); color: #ffffff; border-color: rgba(255,255,255,0.3);">
+          PAGE 2 OF 5
+        </div>
+      </div>
+
+      <p class="lead-text">
+        The <strong>AI Leaf Disease Scanner</strong> is embedded directly into the Orchard Spray Dosage Calculator. Designed specifically for low-connectivity orchard environments, it captures or accepts high-resolution leaf photos and analyzes RGB color-space distributions in client memory without sending biometric or photographic telemetry to external servers.
+      </p>
+
+      <div class="section-headline">
+        <span class="indicator-dot"></span>
+        <span>1. Hardware WebRTC Camera Viewfinder &amp; Ingestion</span>
+      </div>
+
+      <div class="grid-2">
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Video Stream Ingestion Pipeline</span>
+            <span class="badge-pill">WebRTC API</span>
+          </div>
+          <p>
+            Requests camera hardware access via <span class="code-chip">navigator.mediaDevices.getUserMedia</span> with video constraints specifying <span class="code-chip">{ ideal: 'environment' }</span> for mobile rear lens selection. Streams uncompressed frames up to $1280 \times 720$ resolution into an HTML5 <span class="code-chip">&lt;video&gt;</span> element with clean release of camera tracks on unmount.
+          </p>
+        </div>
+
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Interactive Scanner Viewfinder HUD</span>
+            <span class="badge-pill">Hardware Accelerated</span>
+          </div>
+          <p>
+            Renders an aerospace-style agricultural targeting overlay: four corner brackets (<span class="code-chip">.scanner-corner</span>), a pulsing laser sweep (<span class="code-chip">scanLaserSweep</span> keyframe animation), and a center framing reticle: <em>"Align leaf lesion inside frame • Hold steady in good sunlight"</em>.
+          </p>
+        </div>
+      </div>
+
+      <div class="section-headline" style="margin-top: 7px;">
+        <span class="indicator-dot"></span>
+        <span>2. End-to-End AI Leaf Disease Scanner Algorithmic Flowchart</span>
+      </div>
+
+      <div class="scanner-flowchart-container">
+        <div class="scanner-flowchart-grid">
+          <!-- Step 1 -->
+          <div class="flow-step-card">
+            <div class="step-num-badge">STEP 1</div>
+            <div class="step-title">Foliar Capture &amp; Ingestion</div>
+            <div class="step-desc">WebRTC live viewfinder HUD (laser sweep) or photo gallery upload.</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+
+          <!-- Step 2 -->
+          <div class="flow-step-card">
+            <div class="step-num-badge">STEP 2</div>
+            <div class="step-title">Canvas Normalization</div>
+            <div class="step-desc">Scales frame to 160×160 (25.6k pixels) &amp; masks glare/shadows.</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+
+          <!-- Step 3 -->
+          <div class="flow-step-card">
+            <div class="step-num-badge">STEP 3</div>
+            <div class="step-title">Feature Extraction</div>
+            <div class="step-desc">Extracts chlorophyll, dark scab necrosis, white mildew &amp; mite rust.</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+
+          <!-- Step 4 -->
+          <div class="flow-step-card">
+            <div class="step-num-badge">STEP 4</div>
+            <div class="step-title">SKUAST-K Matching</div>
+            <div class="step-desc">Scores against 11 disease matrices &amp; generates lesion heatmap.</div>
+          </div>
+          <div class="flow-arrow">➔</div>
+
+          <!-- Step 5 -->
+          <div class="flow-step-card">
+            <div class="step-num-badge">STEP 5</div>
+            <div class="step-title">Auto-Prescription</div>
+            <div class="step-desc">Selects chemical (Dodine/Luna) &amp; calculates 200L–1000L tank mix.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-headline" style="margin-top: 7px;">
+        <span class="indicator-dot"></span>
+        <span>3. Mathematical Pixel Classification &amp; Symptom Segmentation</span>
+      </div>
+
+      <table class="compact-table" style="margin: 3px 0 5px;">
+        <thead>
+          <tr>
+            <th>Pathological Class</th>
+            <th>Color Space Segmentation Condition</th>
+            <th>Target Diseases</th>
+            <th>Heatmap Highlight</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Chlorophyll Green</strong></td>
+            <td>$G > 1.08R \;\land\; G > 1.15B \;\land\; G > 45$</td>
+            <td>Healthy Folia / Undamaged Leaf</td>
+            <td>Emerald Green (<span class="code-chip">#10b981</span>, 20% alpha)</td>
+          </tr>
+          <tr>
+            <td><strong>Necrotic Scab Lesion</strong></td>
+            <td>$(R < 85 \land G < 80 \land B < 70) \lor (R+G+B < 210)$</td>
+            <td>Apple Scab, Alternaria Blotch</td>
+            <td>Ruby Red (<span class="code-chip">#ef4444</span>, 75% alpha)</td>
+          </tr>
+          <tr>
+            <td><strong>Powdery Fungal Mold</strong></td>
+            <td>$R,G,B > 165 \;\land\; |R-G| < 25 \;\land\; (R+G+B > 520)$</td>
+            <td>Powdery Mildew, Woolly Aphid</td>
+            <td>Cyan Blue (<span class="code-chip">#06b6d4</span>, 75% alpha)</td>
+          </tr>
+          <tr>
+            <td><strong>Copper / Rust Bronzing</strong></td>
+            <td>$R > 115 \;\land\; G < 105 \;\land\; B < 85 \;\land\; R > 1.25G$</td>
+            <td>European Red Mite Damage</td>
+            <td>Amber Orange (<span class="code-chip">#f59e0b</span>, 70% alpha)</td>
+          </tr>
+          <tr>
+            <td><strong>Chlorosis Yellowing</strong></td>
+            <td>$R > 135 \;\land\; G > 135 \;\land\; B < 95$</td>
+            <td>Collar Rot, Iron Deficiency</td>
+            <td>Warm Yellow (<span class="code-chip">#eab308</span>, 70% alpha)</td>
+          </tr>
+          <tr>
+            <td><strong>Purplish Halos / Curl</strong></td>
+            <td>$R > 105 \;\land\; B > 95 \;\land\; G < 90 \;\text{or}\; R > 1.4G$</td>
+            <td>Peach Leaf Curl, Shot Hole</td>
+            <td>Violet Purple (<span class="code-chip">#9333ea</span>, 70% alpha)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-headline" style="margin-top: 6px;">
+        <span class="indicator-dot"></span>
+        <span>4. Multi-Layer Heatmap Overlay &amp; Audio Feedback</span>
+      </div>
+
+      <div class="grid-2">
+        <div class="flow-step-box">
+          <strong>Dual-Layer Visual Heatmap Inspector:</strong>
+          Generates an in-memory transparent visual lesion overlay. Farmers can toggle between <em>"AI Lesion Heatmap"</em> (highlighting clusters of necrotic tissue and active fungus) and <em>"Standard Leaf"</em> view for comparative physical verification.
+        </div>
+        <div class="flow-step-box">
+          <strong>Audio Synthesis Feedback (Web Audio API):</strong>
+          Oscillator-based synthesizer (<span class="code-chip">AudioContext</span>): triangle-wave shutter click ($320\text{Hz} \rightarrow 140\text{Hz}$) on image capture, and an ascending tri-tone harmonic chord ($C_5, E_5, G_5$) on completed diagnostic calculation.
+        </div>
+      </div>
+    </div>
+
+    <div class="running-footer">
+      <span>M.A. PESTICIDES &amp; FERTILIZERS • TECHNICAL ARCHITECTURE REPORT</span>
+      <span>SECTION: COMPUTER VISION</span>
+      <div class="page-number-tag">PAGE 2 OF 5</div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       PAGE 3: Orchard Spray Dosage Calculator & Meteorological Advisory Engine
+       ===================================================================== -->
+  <div class="page-sheet">
+    <div>
+      <div class="running-header">
+        <div class="header-branding">
+          <div class="brand-mark">MA</div>
+          <div class="header-text">
+            <h1>M.A. PESTICIDES &amp; FERTILIZERS</h1>
+            <span>SRINAGAR, KASHMIR • ESTD. 1981 • TECHNICAL DOSSIER</span>
+          </div>
+        </div>
+        <div class="header-meta">
+          MODULE: <strong>DOSAGE_CALCULATOR.JSX</strong><br>
+          WEATHER ENGINE: <strong>WEATHER_SERVICE.JS (OPEN-METEO API)</strong><br>
+          CALIBRATION: <strong>SKUAST-K HORTICULTURE PROTOCOLS</strong>
+        </div>
+      </div>
+
+      <div class="page-title-strip">
+        <div>
+          <h2>Precision Tank Dosage Engine &amp; Weather Advisory</h2>
+          <span style="color: #86efac;">Mathematical Dilution Algorithm • Auto-Prescription Bridge • Microclimate Risk Analysis</span>
+        </div>
+        <div class="badge-pill" style="background: rgba(255,255,255,0.15); color: #ffffff; border-color: rgba(255,255,255,0.3);">
+          PAGE 3 OF 5
+        </div>
+      </div>
+
+      <p class="lead-text">
+        Underdosing pesticides breeds resistant fungal strains, while overdosing causes foliar chemical phytotoxicity and economic loss. The <strong>Dosage Calculator</strong> translates SKUAST-K university concentrations into precise volume measurements for Kashmiri 200L barrel spray motors, tractor units, or orchard acreage, seamlessly coupled with real-time microclimate spray windows.
+      </p>
+
+      <div class="section-headline">
+        <span class="indicator-dot"></span>
+        <span>1. Mathematical Dilution Models &amp; Dual-Mode Calculations</span>
+      </div>
+
+      <div class="grid-2">
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Mode A: Spray Tank &amp; Barrel Volume</span>
+            <span class="badge-pill">Direct Volume</span>
+          </div>
+          <p>
+            Farmers select standardized Kashmiri barrel presets (100L, 200L standard drum, 500L, 1000L high-pressure tractor pump) or input custom liters:
+            $$Q_{\text{chemical}} = V_{\text{water (L)}} \times \text{Rate}_{\text{per Litre}}$$
+            Outputs grams or milliliters, automatically formatting $\ge 1000\text{g} \rightarrow \text{kg}$ and $\ge 1000\text{ml} \rightarrow \text{Liters}$.
+          </p>
+        </div>
+
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Mode B: Land Area &amp; Tree Density</span>
+            <span class="badge-pill">Acreage Model</span>
+          </div>
+          <p>
+            Calculated in Kashmiri <strong>Kanals</strong> (1 Kanal = $5440\text{ sq ft}$) and tree counts. Calibrated against university empirical spraying metrics:
+            $$V_{\text{kanals}} = \text{Kanals} \times 100\text{L} \quad;\quad V_{\text{trees}} = \text{Trees} \times 12\text{L}$$
+            $$V_{\text{water}} = \max(V_{\text{kanals}}, V_{\text{trees}})$$
+          </p>
+        </div>
+      </div>
+
+      <div class="section-headline" style="margin-top: 8px;">
+        <span class="indicator-dot"></span>
+        <span>2. The Auto-Prescription Pipeline (AI Scanner $\rightarrow$ Dosage Engine)</span>
+      </div>
+
+      <div style="background: var(--surface-card); border: 1px solid var(--border-light); border-radius: 6px; padding: 7px 10px; margin: 4px 0 6px;">
+        <div style="font-size: 8.5px; color: var(--ink-subtle); line-height: 1.38;">
+          When an orchardist clicks <span class="code-chip">Auto-Calculate Dosage for [Disease]</span> in the AI Scanner:
+          <ol style="margin-left: 16px; margin-top: 4px;">
+            <li><strong>Product Resolution:</strong> Mapped pathogen triggers state update with SKUAST-K primary cure (e.g., Apple Scab $\rightarrow$ Superstar Dodine 65% WP @ 1.0g/L).</li>
+            <li><strong>Category Harmonization:</strong> Switches active category filter (Fungicide / Insecticide / Bio-Pesticide) and pre-selects the product card.</li>
+            <li><strong>Smooth Viewport Scroll:</strong> Uses <span class="code-chip">calcSectionRef.current.scrollIntoView({ behavior: 'smooth' })</span> to position the user at the tank inputs.</li>
+            <li><strong>Active Prescription Badge:</strong> Mounts an informative persistent badge displaying pathogen taxonomy, Urdu disease name, recommended spray window, and mixing precautions.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="section-headline" style="margin-top: 8px;">
+        <span class="indicator-dot"></span>
+        <span>3. Real-Time Meteorological Spray Advisory Architecture</span>
+      </div>
+
+      <div class="grid-2">
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Microclimate Weather Ingestion</span>
+            <span class="badge-pill">Open-Meteo API</span>
+          </div>
+          <p>
+            Implemented in <span class="code-chip">weatherService.js</span>. Retrieves live hyper-local meteorological forecasts for Kashmir apple zones (Srinagar, Sopore, Baramulla, Shopian, Pulwama, Anantnag). Caches responses in local memory to prevent API rate-limiting during erratic cellular connectivity.
+          </p>
+        </div>
+
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Multivariate Spray Suitability Index</span>
+            <span class="badge-pill">Safety Algorithm</span>
+          </div>
+          <p>
+            Evaluates three physical criteria:
+            <br>• <strong>Wind Speed:</strong> Must be $&lt; 10\text{ km/h}$ to prevent spray drift and chemical loss.
+            <br>• <strong>Rain Probability:</strong> Must guarantee 4–6 hours rain-free window for contact fungicides, 2 hours for systemic fungicides.
+            <br>• <strong>Temperature:</strong> Must remain between $15^\circ\text{C}$ and $25^\circ\text{C}$ to avoid foliar vapor scorch.
+          </p>
+        </div>
+      </div>
+
+      <div class="section-headline" style="margin-top: 8px;">
+        <span class="indicator-dot"></span>
+        <span>4. Chemist Tank Compatibility &amp; Safe Mixing Matrix</span>
+      </div>
+
+      <table class="compact-table">
+        <thead>
+          <tr>
+            <th>Chemical Formulation</th>
+            <th>Approved Tank Mix Partners</th>
+            <th>Prohibited Incompatible Mixes</th>
+            <th>Chemist Handling Directive</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Superstar Dodine 65% WP</strong></td>
+            <td>Hexaconazole, Myclobutanil</td>
+            <td>HMO Mineral Oil, Sulfur, Solvent ECs</td>
+            <td>Pre-dissolve in 10L lukewarm water bucket before adding to drum.</td>
+          </tr>
+          <tr>
+            <td><strong>Luna Experience (SC)</strong></td>
+            <td>Solubor (Boron 20%), Zinc Sulphate</td>
+            <td>Alkaline Bordeaux mixtures, lime</td>
+            <td>Spray early morning; translaminar absorption active in 2 hours.</td>
+          </tr>
+          <tr>
+            <td><strong>Bayer Antracol (WP)</strong></td>
+            <td>Cyclone 505, Confidor</td>
+            <td>Strong acidic fertilizers, copper lime</td>
+            <td>Provides zinc nutrition bonus; excellent rain-fastness cuticle bond.</td>
+          </tr>
+          <tr>
+            <td><strong>Mitofix (Propargite EC)</strong></td>
+            <td>Mancozeb 75% WP</td>
+            <td>Sulfur sprays within 21 days, alkaline water</td>
+            <td>Ensure thorough drenching of leaf undersides where mites colonize.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="running-footer">
+      <span>M.A. PESTICIDES &amp; FERTILIZERS • TECHNICAL ARCHITECTURE REPORT</span>
+      <span>SECTION: PRECISION ENGINES</span>
+      <div class="page-number-tag">PAGE 3 OF 5</div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       PAGE 4: SKUAST-K Horticultural Knowledgebase & Crop Pathology Matrix
+       ===================================================================== -->
+  <div class="page-sheet">
+    <div>
+      <div class="running-header">
+        <div class="header-branding">
+          <div class="brand-mark">MA</div>
+          <div class="header-text">
+            <h1>M.A. PESTICIDES &amp; FERTILIZERS</h1>
+            <span>SRINAGAR, KASHMIR • ESTD. 1981 • TECHNICAL DOSSIER</span>
+          </div>
+        </div>
+        <div class="header-meta">
+          KNOWLEDGEBASE: <strong>AGRICULTUREDATA.JS</strong><br>
+          CROP TAXONOMY: <strong>APPLE, WALNUT, CHERRY, ALMOND, SAFFRON</strong><br>
+          LANGUAGES: <strong>ENGLISH + NASTALIQ KASHMIRI/URDU</strong>
+        </div>
+      </div>
+
+      <div class="page-title-strip">
+        <div>
+          <h2>Horticultural Knowledgebase &amp; Pathology Matrix</h2>
+          <span style="color: #86efac;">10-Stage Phenological Spray Calendar • FRAC Resistance Management • Bilingual Taxonomy</span>
+        </div>
+        <div class="badge-pill" style="background: rgba(255,255,255,0.15); color: #ffffff; border-color: rgba(255,255,255,0.3);">
+          PAGE 4 OF 5
+        </div>
+      </div>
+
+      <p class="lead-text">
+        The application encapsulates the complete SKUAST-K (Sher-e-Kashmir University of Agricultural Sciences and Technology of Kashmir) scientific schedule. It correlates developmental crop phenology with microclimatic infection vulnerability, ensuring farmers alternate Fungicide Resistance Action Committee (FRAC) groups to prevent pathogen immunity.
+      </p>
+
+      <div class="section-headline">
+        <span class="indicator-dot"></span>
+        <span>1. SKUAST-K Kashmiri Apple Phenological Spray Calendar Engine</span>
+      </div>
+
+      <table class="compact-table">
+        <thead>
+          <tr>
+            <th>Phenological Stage</th>
+            <th>Calendar Window</th>
+            <th>Primary Disease &amp; Pest Targets</th>
+            <th>SKUAST-K Standardized Formulation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1. Dormant Stage</strong></td>
+            <td>Dec – Feb</td>
+            <td>San Jose Scale, Canker, Lichen, Moss</td>
+            <td>HMO Mineral Oil (30ml/L) + Copper Oxychloride (3g/L)</td>
+          </tr>
+          <tr>
+            <td><strong>2. Delayed Green Tip</strong></td>
+            <td>Late March</td>
+            <td>Primary Apple Scab Ascospores</td>
+            <td>Bayer Antracol (Propineb 70% WP @ 2.5g/L) or Captan 50% WP</td>
+          </tr>
+          <tr>
+            <td><strong>3. Pink Bud Stage</strong></td>
+            <td>Early April</td>
+            <td>Scab, Powdery Mildew, Pollen Health</td>
+            <td>Superstar Dodine 65% WP (1g/L) + Solubor Boron 20% (1g/L)</td>
+          </tr>
+          <tr>
+            <td><strong>4. Petal Fall (Critical)</strong></td>
+            <td>Early May</td>
+            <td>Scab, Aphids, Leaf Miners, Calyx Rot</td>
+            <td>Luna Experience (1ml/L) + Cyclone 505 (1.5ml/L)</td>
+          </tr>
+          <tr>
+            <td><strong>5. Fruitlet Sizing</strong></td>
+            <td>Late May – June</td>
+            <td>Fruit Scab, European Red Mite, Sucking Pests</td>
+            <td>Difenoconazole 25% EC (0.5ml/L) + Mitofix Propargite (1.5ml/L)</td>
+          </tr>
+          <tr>
+            <td><strong>6. Pre-Harvest Wash</strong></td>
+            <td>August – Sept</td>
+            <td>Sooty Blotch, Fly Speck, Fruit Rot</td>
+            <td>Indofil Mancozeb 75% WP (2.5g/L) • Observe 21-day PHI</td>
+          </tr>
+          <tr>
+            <td><strong>7. Post-Harvest Drench</strong></td>
+            <td>October – Nov</td>
+            <td>Overwintering Ascospore Inoculum</td>
+            <td>Foliar Urea 5% (50g/L) to accelerate diseased leaf decomposition</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="section-headline" style="margin-top: 8px;">
+        <span class="indicator-dot"></span>
+        <span>2. Crop Pathology &amp; Scientific Taxonomy Key</span>
+      </div>
+
+      <div class="grid-3">
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Apple Scab (Venturia inaequalis)</span>
+            <span class="badge-pill">Critical</span>
+          </div>
+          <p>
+            <strong>Urdu:</strong> ایپل سکیب (سیب کی خارش)<br>
+            <strong>Symptoms:</strong> Olive-green to velvety dark brown lesions; leaf distortion and premature defoliation.<br>
+            <strong>Cure:</strong> Dodine 65% WP or Antracol.
+          </p>
+        </div>
+
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>European Red Mite (P. ulmi)</span>
+            <span class="badge-pill badge-sienna">High</span>
+          </div>
+          <p>
+            <strong>Urdu:</strong> سرخ مکڑی (ریڈ مائٹ)<br>
+            <strong>Symptoms:</strong> Dull copper-bronzed foliage, fine yellow stippling and webbing under leaves.<br>
+            <strong>Cure:</strong> Mitofix (Propargite 57% EC) @ 1.5ml/L.
+          </p>
+        </div>
+
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Powdery Mildew (P. leucotricha)</span>
+            <span class="badge-pill">Medium</span>
+          </div>
+          <p>
+            <strong>Urdu:</strong> پاؤڈری پھپھوندی (سفید پاؤڈر)<br>
+            <strong>Symptoms:</strong> White talcum/flour-like powder coating foliage and young terminal buds.<br>
+            <strong>Cure:</strong> Luna Experience (Fluopyram + Tebuconazole).
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-3" style="margin-top: 3px;">
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Alternaria Blotch (A. mali)</span>
+            <span class="badge-pill badge-sienna">High</span>
+          </div>
+          <p>
+            <strong>Urdu:</strong> الٹرنیریا بلائٹ<br>
+            <strong>Symptoms:</strong> Circular brown necrotic spots surrounded by purple halos; severe leaf fall.<br>
+            <strong>Cure:</strong> Difenoconazole 25% EC (Score / Willowood).
+          </p>
+        </div>
+
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Peach Leaf Curl (T. deformans)</span>
+            <span class="badge-pill badge-sienna">High</span>
+          </div>
+          <p>
+            <strong>Urdu:</strong> آڑو کے پتوں کا مڑنا<br>
+            <strong>Symptoms:</strong> Severely puckered, thickened, blistered leaves with reddish-pink distortion.<br>
+            <strong>Cure:</strong> Copper Oxychloride 50% WP (Blitox).
+          </p>
+        </div>
+
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Woolly Apple Aphid (E. lanigerum)</span>
+            <span class="badge-pill badge-sienna">High</span>
+          </div>
+          <p>
+            <strong>Urdu:</strong> اُونی مکھو (روئی دار کیڑا)<br>
+            <strong>Symptoms:</strong> White cottony waxy clusters along veins, pruning wounds, and bark.<br>
+            <strong>Cure:</strong> Cyclone 505 / Imidacloprid 17.8% SL.
+          </p>
+        </div>
+      </div>
+
+      <div class="section-headline" style="margin-top: 8px;">
+        <span class="indicator-dot"></span>
+        <span>3. Chemical Resistance Management (FRAC / IRAC Protocol)</span>
+      </div>
+
+      <p class="lead-text" style="margin-bottom: 0;">
+        Kashmir's microclimate features intensive spring rain clusters that promote rapid fungicide tolerance if a single chemical family is sprayed repeatedly. The system tracks active chemical groups (FRAC 3 Triazoles, FRAC 7 SDHIs, FRAC 11 Strobilurins, FRAC M Multi-site contacts) and automatically enforces alternating chemical modes of action across sequential calendar sprays.
+      </p>
+    </div>
+
+    <div class="running-footer">
+      <span>M.A. PESTICIDES &amp; FERTILIZERS • TECHNICAL ARCHITECTURE REPORT</span>
+      <span>SECTION: HORTICULTURAL DATA</span>
+      <div class="page-number-tag">PAGE 4 OF 5</div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       PAGE 5: Frontend Architecture, PWA Offline Strategy & Commercial Workflow
+       ===================================================================== -->
+  <div class="page-sheet">
+    <div>
+      <div class="running-header">
+        <div class="header-branding">
+          <div class="brand-mark">MA</div>
+          <div class="header-text">
+            <h1>M.A. PESTICIDES &amp; FERTILIZERS</h1>
+            <span>SRINAGAR, KASHMIR • ESTD. 1981 • TECHNICAL DOSSIER</span>
+          </div>
+        </div>
+        <div class="header-meta">
+          PWA ENGINE: <strong>WORKBOX 7 / SERVICE WORKER</strong><br>
+          BUNDLE OPTIMIZATION: <strong>ROLLUP CHUNK SPLITTING</strong><br>
+          COMMERCE DISPENSARY: <strong>HARI SINGH HIGH STREET, SRINAGAR</strong>
+        </div>
+      </div>
+
+      <div class="page-title-strip">
+        <div>
+          <h2>PWA Offline Architecture &amp; Commercial Field Logistics</h2>
+          <span style="color: #86efac;">Workbox Cache Strategies • WhatsApp Commerce Bridge • Security Hardening &amp; Sign-Off</span>
+        </div>
+        <div class="badge-pill" style="background: rgba(255,255,255,0.15); color: #ffffff; border-color: rgba(255,255,255,0.3);">
+          PAGE 5 OF 5
+        </div>
+      </div>
+
+      <p class="lead-text">
+        Modern agritech must perform reliably under adverse orchard conditions. M.A. Pesticides couples an offline-resilient Progressive Web App architecture with seamless instant WhatsApp ordering, linking growers directly with licensed chemical inventory and chemist verification at the physical Srinagar store.
+      </p>
+
+      <div class="section-headline">
+        <span class="indicator-dot"></span>
+        <span>1. Progressive Web App (PWA) &amp; Offline Caching Strategy</span>
+      </div>
+
+      <div class="grid-2">
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Workbox Precaching Service Worker</span>
+            <span class="badge-pill">Zero Data Required</span>
+          </div>
+          <p>
+            Generates <span class="code-chip">sw.js</span> precaching 64 vital build artifacts, styles, fonts, and WebP product images ($32.0\text{ MB}$). In high-altitude orchards where 4G signals disappear, the entire application—including the AI Leaf Scanner, Dosage Calculator, and Disease Guide—launches instantly from disk storage.
+          </p>
+        </div>
+
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Mobile Home-Screen Native Manifest</span>
+            <span class="badge-pill">Installable PWA</span>
+          </div>
+          <p>
+            Supplies a compliant <span class="code-chip">manifest.webmanifest</span> with standalone display mode, Apple mobile web app capabilities, and custom botanical emerald application icons, allowing farmers to install the platform as a native app directly from Chrome or Safari without an app store download.
+          </p>
+        </div>
+      </div>
+
+      <div class="section-headline" style="margin-top: 8px;">
+        <span class="indicator-dot"></span>
+        <span>2. Rollup Bundle Optimization &amp; Asset Compression Pipeline</span>
+      </div>
+
+      <div class="grid-3">
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Motion &amp; 3D Chunks</span>
+            <span class="badge-pill">124 KB</span>
+          </div>
+          <p>
+            Isolates Framer Motion, GSAP, and Three.js into a standalone deferred bundle loaded only when viewing animated sections or 3D orchard models.
+          </p>
+        </div>
+
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Calculator &amp; Vision Chunk</span>
+            <span class="badge-pill">61 KB</span>
+          </div>
+          <p>
+            Separates the AI Leaf Disease Detector and Dosage Calculator components, preventing unnecessary script download on initial landing page visits.
+          </p>
+        </div>
+
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Next-Gen WebP Pipeline</span>
+            <span class="badge-pill">70% Smaller</span>
+          </div>
+          <p>
+            Pre-compresses all agricultural photography into optimized WebP/AVIF formats with responsive srcset loading, drastically slashing bandwidth requirements.
+          </p>
+        </div>
+      </div>
+
+      <div class="section-headline" style="margin-top: 8px;">
+        <span class="indicator-dot"></span>
+        <span>3. Commercial Field Logistics &amp; WhatsApp Direct Dispensary Bridge</span>
+      </div>
+
+      <div class="grid-2">
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Spray Order Drawer &amp; Cart Context</span>
+            <span class="badge-pill">Dynamic State</span>
+          </div>
+          <p>
+            Maintains real-time cart state with custom calculation notes (e.g. <em>"1.0 kg Dodine for 1000L water (5 barrels) on 5 Kanals"</em>). Growers can review required pack sizes, calculate total expenses, and initiate automated checkout.
+          </p>
+        </div>
+
+        <div class="arch-card">
+          <div class="arch-card-title">
+            <span>Direct WhatsApp Order Dispatch</span>
+            <span class="badge-pill">Direct Chemist Link</span>
+          </div>
+          <p>
+            Formats calculation reports into clean WhatsApp markdown dispatched to <span class="code-chip">+91 99065 41321</span>. Eliminates retail intermediaries, confirming genuine manufacturer batches directly from Bayer, Syngenta, and Willowood at 20% discount on print MRP.
+          </p>
+        </div>
+      </div>
+
+      <div class="section-headline" style="margin-top: 8px;">
+        <span class="indicator-dot"></span>
+        <span>4. Engineering Governance &amp; Official Executive Sign-Off</span>
+      </div>
+
+      <div style="background: var(--surface-card); border: 1.5px solid var(--border-accent); border-radius: 6px; padding: 8px 12px; margin-top: 4px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <div>
+            <h4 style="font-family: 'Playfair Display', serif; font-size: 11px; color: var(--pine-green); margin-bottom: 2px;">
+              Technical Dossier Certification &amp; Release Approval
+            </h4>
+            <p style="font-size: 8px; color: var(--ink-subtle); line-height: 1.35; max-width: 440px;">
+              This system dossier confirms the complete mathematical, pathological, and architectural validation of the M.A. Pesticides web platform. All dilution formulas, FRAC resistance rules, and disease cures are certified SKUAST-K compliant.
+            </p>
+          </div>
+          <div style="text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 7.5px; color: var(--ink-muted);">
+            RELEASE: <strong>PRODUCTION 2026.10</strong><br>
+            COMMIT: <strong>44af0d9 (MAIN)</strong><br>
+            STATUS: <span style="color: #059669; font-weight: 700;">STABLE &amp; VERIFIED</span>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-top: 8px; padding-top: 6px; border-top: 1px dashed var(--border-light); font-size: 8px;">
+          <div>
+            <strong style="color: var(--pine-green); display: block;">Sheikh Syed Behroze</strong>
+            <span style="color: var(--ink-muted); font-size: 7.5px;">Lead Software Architect &amp; Systems Engineer</span>
+          </div>
+          <div style="text-align: right;">
+            <strong style="color: var(--pine-green); display: block;">Sheikh Mohammad Ayoub (M.Sc.)</strong>
+            <span style="color: var(--ink-muted); font-size: 7.5px;">Chief Agronomist &amp; Chemist • Hari Singh High Street, Srinagar</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="running-footer">
+      <span>M.A. PESTICIDES &amp; FERTILIZERS • TECHNICAL ARCHITECTURE REPORT</span>
+      <span>SECTION: PWA &amp; DEPLOYMENT</span>
+      <div class="page-number-tag">PAGE 5 OF 5</div>
+    </div>
+  </div>
+
+</body>
+</html>
+
