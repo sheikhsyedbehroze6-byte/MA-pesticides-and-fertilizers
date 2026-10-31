@@ -287,25 +287,97 @@ async function getBotResponse(userText, messageHistory = []) {
 
   // --------------------------------------------------------------------------
   // INTENT 0: Product Price & 20% Discount Query
-  // ("what is the price of that product", "price of Luna", "how much is it", "rate of Antracol", "kitne ka hai")
+  // ("what is the price of that product", "price of Luna", "how much is it", "rate of Antracol", "kitne ka hai", "pricing of products", "price list")
   // --------------------------------------------------------------------------
-  const isPriceQuery = /(price|cost|rate|mrp|discount|kitne|kitna|dam|daam|paisa|paise|kitne ka|how much|worth|retail|pricing)/i.test(query);
+  const isPriceQuery = /(price|pricing|cost|costs|rate|rates|mrp|discount|discounts|kitne|kitna|dam|daam|paisa|paise|kitne ka|how much|worth|retail|wholesale|keemat|qemat|bhav|cheap|expensive|offers|rate list|price list)/i.test(query);
 
   if (isPriceQuery) {
+    // 0a. Check if this is a general/catalog pricing query without a single specific product
+    const isCatalogPricing = (
+      /(pricing of products|product pric|prices of products|price list|rate list|all products|catalog price|complete price|how much are the products|cost of products|rates of products|product rates|rates chart|rate chart|price chart|pricing chart|list of prices)/i.test(query) ||
+      (query === 'pricing' || query === 'prices' || query === 'rates' || query === 'price list' || query === 'rate list' || query === 'discount' || query === 'discounts') ||
+      (/(what|how|show|tell|give|send).*(price|pricing|cost|rate|discount).*(products|all|everything|items|medicines|chemicals|sprays)/i.test(query))
+    );
+
+    // 0b. Check for Category-Specific Pricing queries
+    const isFungicideCategory = /(fungicide|fungicides|phaphundi|scab spray|mildew spray|blotch spray)/i.test(query);
+    const isInsecticideCategory = /(insecticide|insecticides|acaricide|miticide|red mite|mite spray|keeda|keede|aphid|scale)/i.test(query);
+    const isFertilizerCategory = /(fertilizer|fertilizers|bio-stimulant|biostimulant|tonic|plant food|khad|vermicompost|nutrient)/i.test(query);
+    const isOilCategory = /(oil|hmo|mineral oil|tree spray|spreader|sticker|adjuvant|surfactant)/i.test(query);
+
+    // If category pricing requested:
+    if (isFungicideCategory && !/(luna|antracol|dodine|filpostar|carmel|score|difenoconazole|blitox|copper)/i.test(query)) {
+      const fungicides = products.filter(p => p.type === 'Fungicide' || p.type === 'Bio-Fungicide').slice(0, 6);
+      const listText = fungicides.map(p => {
+        const { mrp, discounted } = estimateProductPrice(p);
+        return `• **${p.name}** (${p.composition || 'Fungicide'})\n  ~~₹${mrp.toLocaleString('en-IN')}~~ ➔ **₹${discounted.toLocaleString('en-IN')}** *(20% OFF • Save ₹${mrp - discounted})* • Dosage: \`${p.dosage}\``;
+      }).join('\n\n');
+
+      return {
+        text: `🌾 **M.A. Pesticides — SKUAST-K Approved Fungicides Price List (Flat 20% OFF):**\n\nAll authorized factory-sealed fungicides for Apple Scab, Powdery Mildew, and Alternaria carry our unconditional **20% flat discount on print MRP**:\n\n${listText}\n\n📍 **Store Location:** Hari Singh High Street, Srinagar (opp. High Court Complex)\n🚚 **Valley Delivery:** Direct dispatch to Baramulla, Shopian, Sopore, Pulwama, and Budgam.`,
+        actionLink: `https://wa.me/919906541321?text=${encodeURIComponent('Hello Sheikh Mohammad Ayoub, I want to inquire about Fungicide prices and order stock.')}`,
+        suggestions: ['🏷️ Price of Luna', '🏷️ Price of Superstar Dodine', '🏷️ Price of Bayer Antracol', '🧮 Calculate 200L Tank Dosage']
+      };
+    }
+
+    if (isInsecticideCategory && !/(alika|cyclone|505|mitofix|takumi|kozen|propargite)/i.test(query)) {
+      const insecticides = products.filter(p => p.type === 'Insecticide' || p.type === 'Bio-Insecticide').slice(0, 6);
+      const listText = insecticides.map(p => {
+        const { mrp, discounted } = estimateProductPrice(p);
+        return `• **${p.name}** (${p.composition || 'Insecticide'})\n  ~~₹${mrp.toLocaleString('en-IN')}~~ ➔ **₹${discounted.toLocaleString('en-IN')}** *(20% OFF • Save ₹${mrp - discounted})* • Dosage: \`${p.dosage}\``;
+      }).join('\n\n');
+
+      return {
+        text: `🐛 **M.A. Pesticides — Insecticides & Miticides Price List (Flat 20% OFF):**\n\nHigh-potency broad-spectrum insecticides and targeted acaricides for European Red Mite, San Jose Scale, Aphids, and Borers:\n\n${listText}\n\n💰 **Guaranteed Discount:** Flat 20% below print MRP on genuine factory seals.\n📞 **Chemist Helpline:** +91 99065 41321`,
+        actionLink: `https://wa.me/919906541321?text=${encodeURIComponent('Hello Sheikh Mohammad Ayoub, I want to order Insecticides and Mite sprays with 20% discount.')}`,
+        suggestions: ['🏷️ Price of Syngenta Alika', '🏷️ Price of Mitofix', '🏷️ Price of Cyclone 505', '🧮 Calculate 200L Tank Dosage']
+      };
+    }
+
+    if (isFertilizerCategory && !/(neo|vermicompost|sikri|bublin)/i.test(query)) {
+      const ferts = products.filter(p => p.type.includes('Fertilizer') || p.type.includes('Bio-Stimulant') || p.type.includes('Tonic')).slice(0, 6);
+      const listText = ferts.map(p => {
+        const { mrp, discounted } = estimateProductPrice(p);
+        return `• **${p.name}** (${p.type})\n  ~~₹${mrp.toLocaleString('en-IN')}~~ ➔ **₹${discounted.toLocaleString('en-IN')}** *(20% OFF • Save ₹${mrp - discounted})* • Dosage: \`${p.dosage}\``;
+      }).join('\n\n');
+
+      return {
+        text: `🌿 **M.A. Pesticides — Bio-Stimulants & Orchard Fertilizers Price List (20% OFF):**\n\nCertified foliar nutrition, micronutrient formulations, and organic soil enrichers for fruit sizing, shoot vigor, and cold resilience:\n\n${listText}\n\n📍 In stock at Hari Singh High Street, Srinagar.`,
+        actionLink: `https://wa.me/919906541321?text=${encodeURIComponent('Hello Sheikh Mohammad Ayoub, please send me Bio-Stimulant and Fertilizer prices.')}`,
+        suggestions: ['🏷️ Price of IPL 5G Neo+', '🏷️ Price of Sikri Vermicompost', '🧮 Calculate Orchard Dosage', '📍 Store Location']
+      };
+    }
+
+    if (isOilCategory && !/(cyclone|alika)/i.test(query)) {
+      const oils = products.filter(p => p.name.includes('Oil') || p.name.includes('HMO') || p.type === 'Adjuvant').slice(0, 5);
+      const listText = oils.map(p => {
+        const { mrp, discounted } = estimateProductPrice(p);
+        return `• **${p.name}** (${p.composition || p.type})\n  ~~₹${mrp.toLocaleString('en-IN')}~~ ➔ **₹${discounted.toLocaleString('en-IN')}** *(20% OFF • Save ₹${mrp - discounted})* • Dosage: \`${p.dosage}\``;
+      }).join('\n\n');
+
+      return {
+        text: `🛢️ **M.A. Pesticides — Dormant Oils & Adjuvants Price List (20% OFF):**\n\nEssential winter washes for San Jose scale suffocation and non-ionic spreaders for maximum rain-fastness:\n\n${listText}\n\n📍 In stock at Hari Singh High Street, Srinagar.`,
+        actionLink: `https://wa.me/919906541321?text=${encodeURIComponent('Hello Sheikh Mohammad Ayoub, I want to order HMO Mineral Oil and Spreaders.')}`,
+        suggestions: ['🏷️ Price of HMO Oil', '🏷️ Price of Life80 Spreader', '🗓️ Dormant Spray Guide', '🧮 200L Barrel Dosage']
+      };
+    }
+
+    // 1. Search if a specific product was explicitly typed
     let targetProduct = null;
     let maxScore = 0;
 
-    // 1. Search if a product name was explicitly typed in the user's text
-    products.forEach(p => {
-      const score = scoreMatch(p.name, words) * 3 + scoreMatch(p.composition, words);
-      if (score > maxScore) {
-        maxScore = score;
-        targetProduct = p;
-      }
-    });
+    if (!isCatalogPricing) {
+      products.forEach(p => {
+        const score = scoreMatch(p.name, words) * 3 + scoreMatch(p.composition, words) * 1.5;
+        if (score > maxScore) {
+          maxScore = score;
+          targetProduct = p;
+        }
+      });
+    }
 
-    // 2. If no explicit product named in user query, check history for the last referenced product
-    if ((!targetProduct || maxScore < 3) && Array.isArray(messageHistory)) {
+    // 2. If no explicit product named and not a catalog query, check history for the last referenced product
+    if (!isCatalogPricing && (!targetProduct || maxScore < 3) && Array.isArray(messageHistory)) {
       for (let i = messageHistory.length - 1; i >= 0; i--) {
         const msg = messageHistory[i];
         if (msg.productEmbed) {
@@ -332,30 +404,55 @@ async function getBotResponse(userText, messageHistory = []) {
       }
     }
 
-    // 3. If a product was identified (either from query or conversation context):
-    if (targetProduct) {
+    // 3. If a specific product was identified:
+    if (targetProduct && !isCatalogPricing) {
       const { mrp, discounted } = estimateProductPrice(targetProduct);
       const savings = mrp - discounted;
 
       return {
-        text: `🏷️ **Price & Discount Breakdown for ${targetProduct.name}:**\n\n- 🏷️ **Print MRP:** ~~₹${mrp.toLocaleString('en-IN')}~~\n- 💚 **MA Pesticides Store Price (20% OFF):** **₹${discounted.toLocaleString('en-IN')}**\n- 💰 **Your Direct Savings:** **₹${savings.toLocaleString('en-IN')} (20% Below Print MRP)**\n\n🧪 **Active Formulation:** ${targetProduct.composition || 'Genuine Factory Batch'}\n💧 **Standard Dosage:** ${targetProduct.dosage}\n✨ **Key Benefit:** ${targetProduct.benefits}\n\n📍 **Store Privilege:** 100% factory-sealed original product available at our Hari Singh High Street store in Srinagar with instant valley delivery.`,
+        text: `🏷️ **Price & Discount Breakdown for ${targetProduct.name}:**\n\n- 🏷️ **Print MRP:** ~~₹${mrp.toLocaleString('en-IN')}~~\n- 💚 **MA Pesticides Store Price (20% OFF):** **₹${discounted.toLocaleString('en-IN')}**\n- 💰 **Your Direct Savings:** **₹${savings.toLocaleString('en-IN')} (Flat 20% Below Print MRP)**\n\n🧪 **Active Formulation:** ${targetProduct.composition || 'Authorized Factory Formulation'}\n💧 **Standard SKUAST-K Dosage:** **${targetProduct.dosage}**\n🎯 **Targets / Uses:** ${targetProduct.diseases?.join(', ') || targetProduct.uses}\n✨ **Key Benefit:** ${targetProduct.benefits}\n\n📍 **Store Privilege:** 100% factory-sealed original product available at our Hari Singh High Street store in Srinagar with instant valley delivery.`,
         productEmbed: targetProduct,
         actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, I want to order genuine ${targetProduct.name} at discounted price ₹${discounted} (MRP ₹${mrp}).`)}`,
-        suggestions: ['🧮 Calculate 200L Tank Dosage', '🛒 Reserve for Pickup in Srinagar', '🗓️ SKUAST Spray Stages', '📍 Visit Srinagar Store']
+        suggestions: ['🧮 Calculate 200L Tank Dosage', '🛒 Add to Cart', '🗓️ SKUAST Spray Stages', '📍 Visit Srinagar Store']
       };
     }
 
-    // 4. Fallback if no specific product context was found: Provide catalog price list preview
-    const topProds = products.slice(0, 5);
-    const priceListText = topProds.map(p => {
-      const { mrp, discounted } = estimateProductPrice(p);
-      return `• **${p.name}**: ~~₹${mrp}~~ ➔ **₹${discounted}** (Save ₹${mrp - discounted})`;
-    }).join('\n');
+    // 4. Master Product Pricing & Catalog Breakdown
+    const sampleFungicides = [
+      products.find(p => p.name.includes('Luna')) || products[3],
+      products.find(p => p.name.includes('Superstar') || p.name.includes('Dodeine')) || products[1],
+      products.find(p => p.name.includes('Antracol')) || products[4],
+      products.find(p => p.name.includes('Filpostar')) || products[2]
+    ].filter(Boolean);
+
+    const sampleInsecticides = [
+      products.find(p => p.name.includes('Alika')) || products[8],
+      products.find(p => p.name.includes('Cyclone')) || products[0],
+      products.find(p => p.name.includes('Mitofix')) || products[12],
+      products.find(p => p.name.includes('Takumi')) || products[9]
+    ].filter(Boolean);
+
+    const sampleOthers = [
+      products.find(p => p.name.includes('Mineral Oil') || p.name.includes('HMO')) || products[10],
+      products.find(p => p.name.includes('Life80') || p.name.includes('Neo+')) || products[15]
+    ].filter(Boolean);
+
+    const formatCatalogSection = (title, items) => {
+      const rows = items.map(p => {
+        const { mrp, discounted } = estimateProductPrice(p);
+        return `• **${p.name}**\n  Print MRP: ~~₹${mrp.toLocaleString('en-IN')}~~ ➔ **₹${discounted.toLocaleString('en-IN')}** *(Save ₹${mrp - discounted} • 20% OFF)*\n  Dosage: \`${p.dosage}\``;
+      }).join('\n');
+      return `### ${title}\n${rows}`;
+    };
+
+    const fungSec = formatCatalogSection('🌾 Top Fungicides (Apple Scab, Mildew & Rot)', sampleFungicides);
+    const insSec = formatCatalogSection('🐛 Insecticides & Mite Sprays (Red Mite, Aphids & Scales)', sampleInsecticides);
+    const othSec = formatCatalogSection('🌿 Tonics, Dormant Oils & Adjuvants', sampleOthers);
 
     return {
-      text: `🏷️ **MA Pesticides Srinagar — Guaranteed 20% Below Print MRP Price List:**\n\nAll authorized formulations from Bayer, Syngenta, and IPL Biologicals are available at a **flat 20% discount on print MRP**:\n\n${priceListText}\n\n💡 *Ask "what is the price of Luna" or ask "what is the price of that product" after inquiring about any formulation to get instant pricing!*`,
-      actionLink: `https://wa.me/919906541321?text=${encodeURIComponent('Hello Sheikh Mohammad Ayoub, please send me the complete product price list.')}`,
-      suggestions: ['🏷️ Price of Luna', '🏷️ Price of Cyclone 505', '🏷️ Price of Superstar Dodine', '🧮 Calculate 200L Dosage']
+      text: `🏷️ **M.A. Pesticides Srinagar — Official Product Pricing & 20% Discount Catalog:**\n\nAs authorized distributor for **Bayer, Syngenta, IPL Biologicals, Tata, and Willowood**, all genuine factory batches carry an unconditional **20% flat discount on print MRP**:\n\n${fungSec}\n\n${insSec}\n\n${othSec}\n\n💰 **Wholesale Privilege:** Direct factory-sealed stock with batch certificates.\n📍 **Counter Location:** Hari Singh High Street, Srinagar (opp. High Court Complex).\n🚚 **Valley Delivery:** Same-day dispatch to Baramulla, Sopore, Shopian, Pulwama, and Anantnag.\n\n💡 *Ask me for the price of any specific chemical (e.g. "Price of Luna" or "Price of Alika") to see full dosage and barrel calculation!*`,
+      actionLink: `https://wa.me/919906541321?text=${encodeURIComponent('Hello Sheikh Mohammad Ayoub, please send me the complete product price list for my orchard.')}`,
+      suggestions: ['🏷️ Price of Luna', '🏷️ Price of Syngenta Alika', '🏷️ Price of Superstar Dodine', '🏷️ Price of Bayer Antracol', '🧮 200L Tank Dosage Calc']
     };
   }
 
@@ -528,9 +625,9 @@ async function getBotResponse(userText, messageHistory = []) {
   // --------------------------------------------------------------------------
   if (query.match(/^(hi|hello|hey|salam|assalamu|good morning|namaste|adaab)/i)) {
     return {
-      text: `Assalamu Alaikum! 👋\n\nWelcome to the **M.A. Pesticides Consultation Desk**, guided by decades of organic chemistry expertise from **Sheikh Mohammad Ayoub**.\n\nHow can we help protect your harvest today?\n\n- 🍏 **Crop Disease Doctor:** Diagnose Apple Scab, Red Mites, Mildew & Canker\n- 🧮 **Precision Dosage Calculator:** Tell me your tree count or tank size (e.g. \`50 trees\` or \`200L\`)\n- 🗓️ **SKUAST-K Spray Calendar:** Get stage-by-stage spray recommendations\n- ⚠️ **Tank Mixing Safety:** Check chemical compatibility & WALES mixing rules`,
+      text: `Assalamu Alaikum! 👋\n\nWelcome to the **M.A. Pesticides Consultation Desk**, guided by decades of organic chemistry expertise from **Sheikh Mohammad Ayoub**.\n\nHow can we help protect your harvest today?\n\n- 🏷️ **Product Pricing & Rates:** Ask "pricing of products" or "price of Luna" to see verified store rates with **20% flat discount on print MRP**\n- 🍏 **Crop Disease Doctor:** Diagnose Apple Scab, Red Mites, Mildew & Canker\n- 🧮 **Precision Dosage Calculator:** Tell me your tree count or tank size (e.g. \`50 trees\` or \`200L\`)\n- 🗓️ **SKUAST-K Spray Calendar:** Get stage-by-stage spray recommendations\n- ⚠️ **Tank Mixing Safety:** Check chemical compatibility & WALES mixing rules`,
       actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20have%20a%20question%20about%20my%20crops.",
-      suggestions: ['🍏 Apple Scab Treatment', '🧮 200L Tank Dosage Calc', '🗓️ Pink Bud Stage Spray', '⚠️ Dodine + Oil Safety']
+      suggestions: ['🏷️ Pricing of Products', '🍏 Apple Scab Treatment', '🧮 200L Tank Dosage Calc', '🗓️ Pink Bud Stage Spray']
     };
   }
 
@@ -553,11 +650,19 @@ async function getBotResponse(userText, messageHistory = []) {
   });
 
   if (bestDisease && maxDiseaseScore >= 3) {
+    const cureLower = (bestDisease.cure || '').toLowerCase();
+    const matchedProd = products.find(p => cureLower.includes(p.name.toLowerCase()) || p.name.toLowerCase().includes(cureLower));
+    let priceNote = 'Available at guaranteed 20% discount on print MRP.';
+    if (matchedProd) {
+      const { mrp, discounted } = estimateProductPrice(matchedProd);
+      priceNote = `**${matchedProd.name}:** ~~₹${mrp.toLocaleString('en-IN')}~~ ➔ **₹${discounted.toLocaleString('en-IN')}** *(Save ₹${mrp - discounted} • 20% OFF)*`;
+    }
+
     return {
-      text: `🔬 **Crop Disease Advisory: ${bestDisease.name}**\n*${bestDisease.nameUrdu || ''}* (${bestDisease.crop})\n\n- 🚨 **Severity:** **${bestDisease.severity} Risk**\n- 🩺 **Symptoms:** ${bestDisease.symptoms}\n- 💊 **Recommended Cure:** **${bestDisease.cure}**\n- ⚡ **Dosage Rate:** ${bestDisease.dosage}\n\n💡 **Application Tip:** Spray early morning (7–10 AM) or late afternoon (4–7 PM) when relative humidity ensures uniform droplet coverage on foliage.`,
+      text: `🔬 **Crop Disease Advisory: ${bestDisease.name}**\n*${bestDisease.nameUrdu || ''}* (${bestDisease.crop})\n\n- 🚨 **Severity:** **${bestDisease.severity} Risk**\n- 🩺 **Symptoms:** ${bestDisease.symptoms}\n- 💊 **Recommended Cure:** **${bestDisease.cure}**\n- ⚡ **Dosage Rate:** ${bestDisease.dosage}\n- 💰 **Prescription Pricing:** ${priceNote}\n\n💡 **Application Tip:** Spray early morning (7–10 AM) or late afternoon (4–7 PM) when relative humidity ensures uniform droplet coverage on foliage.`,
       diseaseEmbed: bestDisease,
       actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, I need treatment for ${bestDisease.name} in my orchard.`)}`,
-      suggestions: ['🧮 Calculate Tank Dosage for this Cure', '⚠️ Check Tank Mix Compatibility', '🌤️ Srinagar Spray Window', '📦 Check In-Store Stock']
+      suggestions: ['🧮 Calculate Tank Dosage for this Cure', '🏷️ Price of ' + (matchedProd?.name || 'Cure'), '⚠️ Check Tank Mix Compatibility', '🌤️ Srinagar Spray Window']
     };
   }
 
@@ -579,11 +684,14 @@ async function getBotResponse(userText, messageHistory = []) {
   });
 
   if (bestProd && maxProdScore >= 3) {
+    const { mrp, discounted } = estimateProductPrice(bestProd);
+    const savings = mrp - discounted;
+
     return {
-      text: `🌿 **${bestProd.name}** (${bestProd.type})\n\n- 🧪 **Active Formulation:** ${bestProd.composition || 'Authorized Formulation'}\n- 🎯 **Target Uses:** ${bestProd.uses}\n- 💧 **Recommended Dosage:** **${bestProd.dosage}**\n- ✨ **Benefits:** ${bestProd.benefits}\n\n🏷️ **MA Pesticides Pricing:** Guaranteed **20% discount on print MRP** with 100% genuine factory batch seal.`,
+      text: `🌿 **${bestProd.name}** (${bestProd.type})\n\n- 🧪 **Active Formulation:** ${bestProd.composition || 'Authorized Formulation'}\n- 🎯 **Target Uses:** ${bestProd.uses}\n- 💧 **Recommended Dosage:** **${bestProd.dosage}**\n- ✨ **Benefits:** ${bestProd.benefits}\n\n💰 **Guaranteed Store Pricing (Flat 20% OFF):**\n- 🏷️ **Print MRP:** ~~₹${mrp.toLocaleString('en-IN')}~~\n- 💚 **MA Pesticides Store Price:** **₹${discounted.toLocaleString('en-IN')}**\n- 💵 **Your Direct Savings:** **₹${savings.toLocaleString('en-IN')} (20% Below Print MRP)**\n\n📍 100% factory-sealed original batch in stock at Hari Singh High Street, Srinagar.`,
       productEmbed: bestProd,
-      actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello, I want to purchase genuine ${bestProd.name} with 20% discount.`)}`,
-      suggestions: ['🧮 Calculate 200L Barrel Dosage', '⚠️ Check Tank Mix Compatibility', '🗓️ Spray Calendar Stage', '📍 Srinagar Shop Location']
+      actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, I want to purchase genuine ${bestProd.name} with 20% discount (Store Price: ₹${discounted}).`)}`,
+      suggestions: ['🧮 Calculate 200L Barrel Dosage', '🛒 Add to Cart', '⚠️ Check Tank Mix Compatibility', '🗓️ Spray Calendar Stage']
     };
   }
 
@@ -1387,6 +1495,19 @@ export default function AdvisorChatbot() {
 
   // Filter tab quick prompts
   const activePrompts = useMemo(() => {
+    if (activeCategory === 'pricing') {
+      return [
+        { label: '🏷️ Products Price List', query: 'what is the pricing of products' },
+        { label: '🌾 Fungicide Prices', query: 'what is the price of fungicides' },
+        { label: '🐛 Insecticide Prices', query: 'what is the price of insecticides' },
+        { label: '🏷️ Price of Luna Experience', query: 'what is the price of Luna' },
+        { label: '🏷️ Price of Superstar Dodine', query: 'what is the price of Superstar Dodine' },
+        { label: '🏷️ Price of Bayer Antracol', query: 'what is the price of Antracol' },
+        { label: '🏷️ Price of Syngenta Alika', query: 'what is the price of Alika' },
+        { label: '🛢️ Price of HMO Oil', query: 'what is the price of HMO' },
+        { label: '🌿 Bio-Stimulant Prices', query: 'what is the price of bio stimulants' }
+      ];
+    }
     if (activeCategory === 'actions') {
       return [
         { label: '🛒 Open Cart Drawer', query: 'open my cart' },
@@ -1451,6 +1572,7 @@ export default function AdvisorChatbot() {
       ];
     }
     return [
+      { label: '🏷️ Pricing of Products (20% OFF)', query: 'what is the pricing of products' },
       { label: '🌤️ Weather Right Now', query: 'what is the weather right now' },
       { label: '🛒 Open My Cart', query: 'open my cart' },
       { label: '🍏 Apple Scab Cure', query: 'Apple Scab spray' },
@@ -1647,6 +1769,7 @@ export default function AdvisorChatbot() {
             }}>
               {[
                 { id: 'all', label: '✨ All' },
+                { id: 'pricing', label: '🏷️ Pricing' },
                 { id: 'weather', label: '🌤️ Weather' },
                 { id: 'actions', label: '⚡ Actions' },
                 { id: 'dosage', label: '🧮 Dosage' },
