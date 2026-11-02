@@ -4,7 +4,7 @@ import {
   Camera, Upload, Sparkles, CheckCircle2, AlertTriangle, ShieldCheck,
   RefreshCw, ArrowRight, Zap, Info, Bug, Search, Eye, Volume2, VolumeX,
   Layers, X, Check, ShieldAlert, Cpu, Sparkle, GitBranch, ArrowDown, Activity,
-  Copy, Sliders, Gauge
+  Copy, Sliders, Gauge, History, RotateCcw
 } from 'lucide-react';
 
 // Persistent Web Audio context singleton to prevent resource exhaustion and browser audio lag
@@ -20,6 +20,34 @@ function getSharedAudioContext() {
     globalAudioCtx.resume().catch(() => {});
   }
   return globalAudioCtx;
+}
+
+// Persistent offscreen canvas pool to avoid repeated DOM allocation & garbage collection
+let sharedSampleCanvas = null;
+let sharedSampleCtx = null;
+let sharedHeatCanvas = null;
+let sharedHeatCtx = null;
+
+function getSharedCanvasPipeline(w = 160, h = 160) {
+  if (typeof document === 'undefined') return null;
+  if (!sharedSampleCanvas) {
+    sharedSampleCanvas = document.createElement('canvas');
+    sharedSampleCanvas.width = w;
+    sharedSampleCanvas.height = h;
+    sharedSampleCtx = sharedSampleCanvas.getContext('2d', { willReadFrequently: true });
+  }
+  if (!sharedHeatCanvas) {
+    sharedHeatCanvas = document.createElement('canvas');
+    sharedHeatCanvas.width = w;
+    sharedHeatCanvas.height = h;
+    sharedHeatCtx = sharedHeatCanvas.getContext('2d');
+  }
+  return {
+    sampleCanvas: sharedSampleCanvas,
+    sampleCtx: sharedSampleCtx,
+    heatCanvas: sharedHeatCanvas,
+    heatCtx: sharedHeatCtx
+  };
 }
 
 /* eslint-disable react-refresh/only-export-components */
@@ -333,6 +361,19 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
   const [isTurboMode, setIsTurboMode] = useState(false); // Ultra-fast instant 0ms diagnosis
   const [autoEnhanceExposure, setAutoEnhanceExposure] = useState(false); // Adaptive contrast & lighting normalization
   const [copiedDiagnosis, setCopiedDiagnosis] = useState(false);
+  const [scanHistory, setScanHistory] = useState([]);
+
+  // Batch session analytics across multi-sample orchard leaves
+  const batchStats = useMemo(() => {
+    if (scanHistory.length === 0) return null;
+    const avgDamage = Math.round((scanHistory.reduce((acc, s) => acc + s.damagePercent, 0) / scanHistory.length) * 10) / 10;
+    const sorted = scanHistory.slice().sort((a, b) => b.damagePercent - a.damagePercent);
+    return {
+      total: scanHistory.length,
+      avgDamage,
+      highestRisk: sorted[0]
+    };
+  }, [scanHistory]);
 
   // Live Camera state
   const [isCameraActive, setIsCameraActive] = useState(false);
@@ -486,23 +527,15 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
         return cached.report;
       }
 
-      const sampleCanvas = document.createElement('canvas');
       const w = 160;
       const h = 160;
-      sampleCanvas.width = w;
-      sampleCanvas.height = h;
-      const ctx = sampleCanvas.getContext('2d', { willReadFrequently: true });
-      ctx.drawImage(imgElement, 0, 0, w, h);
-      const imgData = ctx.getImageData(0, 0, w, h);
-      const data = imgData.data;
+      const pipeline = getSharedCanvasPipeline(w, h);
+      pipeline.sampleCtx.drawImage(imgElement, 0, 0, w, h);
+      const imgData = pipeline.sampleCtx.getImageData(0, 0, w, h);
+      const uint32Data = new Uint32Array(imgData.data.buffer);
 
-      // Create overlay canvas for lesion heatmap
-      const heatCanvas = document.createElement('canvas');
-      heatCanvas.width = w;
-      heatCanvas.height = h;
-      const heatCtx = heatCanvas.getContext('2d');
-      const heatData = heatCtx.createImageData(w, h);
-      const hPixels = heatData.data;
+      const heatData = pipeline.heatCtx.createImageData(w, h);
+      const heatUint32 = new Uint32Array(heatData.data.buffer);
 
       let leafPixels = 0;
       let greenPixels = 0;
@@ -516,12 +549,25 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
       // Coordinate tracking for lesion spatial clustering
       const lesionGrid = new Uint8Array(16 * 16);
 
+      // Pre-calculated 32-bit Little-Endian RGBA highlight words: (A << 24) | (B << 16) | (G << 8) | R
+      const COLOR_NECROTIC = 0xC84444EF; // RGBA(239, 68, 68, 200) - Red
+      const COLOR_MILDEW   = 0xC8D4B606; // RGBA(6, 182, 212, 200) - Cyan
+      const COLOR_CURL     = 0xC8481DE1; // RGBA(225, 29, 72, 200) - Magenta
+      const COLOR_PURPLE   = 0xBEEA3393; // RGBA(147, 51, 234, 190) - Violet
+      const COLOR_BRONZE   = 0xB40B9EF5; // RGBA(245, 158, 11, 180) - Amber
+      const COLOR_CHLORO   = 0xA008B3EA; // RGBA(234, 179, 8, 160) - Yellow-amber
+      const COLOR_HEALTHY  = 0x2D81B910; // RGBA(16, 185, 129, 45) - Soft green
+
       // Optional exposure & contrast normalization for shadowy/overexposed orchard photos
       let minLum = 255;
       let maxLum = 0;
       if (options.enhance) {
-        for (let i = 0; i < data.length; i += 16) {
-          const lum = (data[i] * 299 + data[i + 1] * 587 + data[i + 2] * 114) / 1000;
+        for (let i = 0; i < uint32Data.length; i += 4) {
+          const p = uint32Data[i];
+          const r = p & 0xFF;
+          const g = (p >> 8) & 0xFF;
+          const b = (p >> 16) & 0xFF;
+          const lum = (r * 299 + g * 587 + b * 114) / 1000;
           if (lum > 20 && lum < 240) {
             if (lum < minLum) minLum = lum;
             if (lum > maxLum) maxLum = lum;
@@ -530,15 +576,17 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
       }
       const lumRange = Math.max(30, maxLum - minLum);
 
-      // Single-pass typed traversal with normalized foliar chromaticity
-      for (let i = 0; i < data.length; i += 4) {
-        let r = data[i];
-        let g = data[i + 1];
-        let b = data[i + 2];
-        const a = data[i + 3];
+      // Single-pass 32-bit register traversal with normalized foliar chromaticity
+      for (let i = 0; i < uint32Data.length; i++) {
+        const p = uint32Data[i];
+        const a = (p >> 24) & 0xFF;
 
         // 1. Transparency rejection
         if (a < 50) continue;
+
+        let r = p & 0xFF;
+        let g = (p >> 8) & 0xFF;
+        let b = (p >> 16) & 0xFF;
 
         // 2. Pure specular sheet glare / pure white background
         if (r > 242 && g > 242 && b > 242) continue;
@@ -561,26 +609,22 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
         const lum = (r * 299 + g * 587 + b * 114) / 1000;
 
         // 4. Human skin tone rejection (fingers / hand holding leaf)
-        const isSkin = (r > 125 && g > 75 && b > 55 && r > g && g > b && (r - g) > 18 && exG < -15 && rNorm > 0.44);
-        if (isSkin) continue;
+        if (r > 125 && g > 75 && b > 55 && r > g && g > b && (r - g) > 18 && exG < -15 && rNorm > 0.44) continue;
 
         // 5. Blue sky / bright blue wall background rejection
-        const isBlueSky = (b > 115 && bNorm > 0.40 && b > g * 1.15 && b > r * 1.30);
-        if (isBlueSky) continue;
+        if (b > 115 && bNorm > 0.40 && b > g * 1.15 && b > r * 1.30) continue;
 
         // 6. Neutral desk/notebook rejection (uniform grey/beige where plant pigments are completely absent)
-        const isNeutralSurface = (lum > 40 && lum < 225 && Math.abs(r - g) < 10 && Math.abs(g - b) < 10 && exG < -5);
-        if (isNeutralSurface) continue;
+        if (lum > 40 && lum < 225 && Math.abs(r - g) < 10 && Math.abs(g - b) < 10 && exG < -5) continue;
 
         // Accept as valid foliar leaf pixel
         leafPixels++;
 
-        const pixelIndex = i / 4;
-        const px = pixelIndex % w;
-        const py = Math.floor(pixelIndex / w);
-        const gx = Math.min(15, Math.floor(px / 10));
-        const gy = Math.min(15, Math.floor(py / 10));
-        const gridCell = gy * 16 + gx;
+        const px = i % w;
+        const py = (i / w) | 0;
+        const gx = Math.min(15, (px / 10) | 0);
+        const gy = Math.min(15, (py / 10) | 0);
+        const gridCell = (gy << 4) + gx;
 
         // Symptom Classification:
         // A. Healthy Green: high Excess Green & balanced green dominance
@@ -621,33 +665,33 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
         if (isNecrotic) {
           darkNecroticPixels++;
           lesionGrid[gridCell]++;
-          hPixels[i] = 239; hPixels[i + 1] = 68; hPixels[i + 2] = 68; hPixels[i + 3] = 200; // Red
+          heatUint32[i] = COLOR_NECROTIC;
         } else if (isWhiteMold) {
           whiteMildewPixels++;
           lesionGrid[gridCell]++;
-          hPixels[i] = 6; hPixels[i + 1] = 182; hPixels[i + 2] = 212; hPixels[i + 3] = 200; // Cyan
+          heatUint32[i] = COLOR_MILDEW;
         } else if (isCurledRed) {
           curledRedPixels++;
           lesionGrid[gridCell]++;
-          hPixels[i] = 225; hPixels[i + 1] = 29; hPixels[i + 2] = 72; hPixels[i + 3] = 200; // Magenta
+          heatUint32[i] = COLOR_CURL;
         } else if (isPurpleHalo) {
           purpleHaloPixels++;
           lesionGrid[gridCell]++;
-          hPixels[i] = 147; hPixels[i + 1] = 51; hPixels[i + 2] = 234; hPixels[i + 3] = 190; // Violet
+          heatUint32[i] = COLOR_PURPLE;
         } else if (isBronze) {
           bronzeMitePixels++;
-          hPixels[i] = 245; hPixels[i + 1] = 158; hPixels[i + 2] = 11; hPixels[i + 3] = 180; // Amber
+          heatUint32[i] = COLOR_BRONZE;
         } else if (isChlorosis) {
           chlorosisPixels++;
-          hPixels[i] = 234; hPixels[i + 1] = 179; hPixels[i + 2] = 8; hPixels[i + 3] = 160; // Yellow-amber
+          heatUint32[i] = COLOR_CHLORO;
         } else if (isGreen) {
           greenPixels++;
-          hPixels[i] = 16; hPixels[i + 1] = 185; hPixels[i + 2] = 129; hPixels[i + 3] = 45; // Soft green
+          heatUint32[i] = COLOR_HEALTHY;
         }
       }
 
-      heatCtx.putImageData(heatData, 0, 0);
-      const heatmapUrl = heatCanvas.toDataURL('image/png');
+      pipeline.heatCtx.putImageData(heatData, 0, 0);
+      const heatmapUrl = pipeline.heatCanvas.toDataURL('image/png');
       setHeatmapOverlayUrl(heatmapUrl);
 
       const safeLeafPixels = Math.max(leafPixels, 80);
@@ -820,6 +864,20 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
       setScanProgress(100);
       setIsScanning(false);
       playSoundEffect('chime');
+
+      // Record to multi-leaf orchard session history
+      setScanHistory(prev => {
+        const item = {
+          id: Date.now() + Math.random(),
+          image: imageSrc,
+          diseaseName: report.matchedDisease.name,
+          diseaseId: report.matchedDisease.id,
+          severity: report.matchedDisease.severity,
+          damagePercent: report.damagePercent,
+          confidence: report.confidence
+        };
+        return [item, ...prev.filter(p => p.image !== imageSrc)].slice(0, 5);
+      });
     };
 
     const img = new Image();
@@ -853,7 +911,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
       return;
     }
 
-    setScanProgress(28);
+    setScanProgress(40);
     setScanPhaseText('Isolating foliar contour & rejecting ambient background...');
 
     let precomputedReport = null;
@@ -876,16 +934,11 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
     img.src = imageSrc;
 
     const t1 = setTimeout(() => {
-      setScanProgress(68);
+      setScanProgress(75);
       setScanPhaseText('Computing Excess Green index & segmenting necrotic lesions...');
-    }, 120);
+    }, 70);
 
     const t2 = setTimeout(() => {
-      setScanProgress(92);
-      setScanPhaseText('Evaluating Euclidean vector distance across SKUAST-K profiles...');
-    }, 240);
-
-    const t3 = setTimeout(() => {
       if (precomputedReport) {
         applyResults(precomputedReport);
       } else {
@@ -894,9 +947,9 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
           applyResults(report);
         };
       }
-    }, 360);
+    }, 150);
 
-    scanTimeoutsRef.current = [t1, t2, t3];
+    scanTimeoutsRef.current = [t1, t2];
   }, [clearScanTimeouts, isTurboMode, autoEnhanceExposure, analyzeImagePixels, playSoundEffect]);
 
   // Handle snap photo from live camera with downscaling & blob object URL
@@ -2042,6 +2095,82 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
           )}
 
           <div>
+            {/* Orchard Multi-Leaf Batch Session Banner */}
+            {batchStats && (
+              <div style={{
+                marginBottom: '14px',
+                padding: '10px 12px',
+                borderRadius: '10px',
+                backgroundColor: 'rgba(28, 71, 42, 0.05)',
+                border: '1px solid rgba(28, 71, 42, 0.16)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '6px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <History size={13} style={{ color: 'var(--color-pine-green)' }} />
+                    <span style={{ fontSize: '11.5px', fontWeight: 700, color: 'var(--color-pine-green)' }}>
+                      Row Sampling Session ({batchStats.total} {batchStats.total === 1 ? 'leaf' : 'leaves'})
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '11px', color: 'var(--color-ink-black)', fontWeight: 600 }}>
+                      Avg Damage: <strong style={{ color: batchStats.avgDamage > 25 ? '#dc2626' : 'var(--color-pine-green)' }}>{batchStats.avgDamage}%</strong>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setScanHistory([])}
+                      title="Clear session batch"
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: '2px 4px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '3px',
+                        fontSize: '10.5px',
+                        color: 'var(--color-ash-gray)'
+                      }}
+                    >
+                      <RotateCcw size={10} />
+                      Reset
+                    </button>
+                  </div>
+                </div>
+
+                {/* Thumbnails of scanned leaves in current batch */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', overflowX: 'auto', paddingBottom: '2px' }}>
+                  {scanHistory.map((item, idx) => (
+                    <div
+                      key={item.id}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        padding: '3px 8px',
+                        borderRadius: '6px',
+                        backgroundColor: '#ffffff',
+                        border: '1px solid rgba(0, 0, 0, 0.08)',
+                        fontSize: '10.5px',
+                        flexShrink: 0
+                      }}
+                    >
+                      <img
+                        src={item.image}
+                        alt={`Sample ${idx + 1}`}
+                        style={{ width: '18px', height: '18px', borderRadius: '4px', objectFit: 'cover' }}
+                      />
+                      <span style={{ fontWeight: 600, color: 'var(--color-ink-black)' }}>
+                        #{batchStats.total - idx}: {item.diseaseName.split(' ')[0]} ({item.damagePercent}%)
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* View Mode Switcher (Original / AI Heatmap / Split) */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
