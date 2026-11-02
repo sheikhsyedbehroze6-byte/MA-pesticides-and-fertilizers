@@ -161,7 +161,7 @@ export async function fetchLiveWeatherData(forceRefresh = false) {
     }
 
     return weatherData;
-  } catch (err) {
+  } catch {
     clearTimeout(timeoutId);
 
     // Provide reliable seasonal Srinagar fallback
