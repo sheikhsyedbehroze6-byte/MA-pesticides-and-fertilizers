@@ -129,10 +129,37 @@ export default function About() {
           <span style={{
             fontSize: '12.5px',
             color: 'rgba(255, 255, 255, 0.5)',
-            letterSpacing: '0.4px'
+            letterSpacing: '0.4px',
+            display: 'block',
+            marginBottom: '16px'
           }}>
             Full-Stack Agritech Architecture &bull; Srinagar, Kashmir
           </span>
+
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <a
+              href="/download.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 18px',
+                borderRadius: '9999px',
+                backgroundColor: 'rgba(212, 175, 55, 0.15)',
+                border: '1px solid rgba(212, 175, 55, 0.4)',
+                color: '#d4af37',
+                fontSize: '13px',
+                fontWeight: 600,
+                textDecoration: 'none',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              <span>Download IEEE Architecture PDF</span>
+              <ArrowUpRight size={14} />
+            </a>
+          </div>
         </div>
       </div>
     </div>

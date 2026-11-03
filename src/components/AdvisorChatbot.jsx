@@ -605,7 +605,13 @@ async function getBotResponse(userText, messageHistory = []) {
   );
 
   if (isWeatherQuery) {
-    const liveWeather = await fetchLiveWeatherData();
+    let districtKey = 'srinagar';
+    if (/shopian|shupiyan/i.test(query)) districtKey = 'shopian';
+    else if (/sopore|baramulla|baramula/i.test(query)) districtKey = 'sopore';
+    else if (/pulwama/i.test(query)) districtKey = 'pulwama';
+    else if (/anantnag|islamabad/i.test(query)) districtKey = 'anantnag';
+
+    const liveWeather = await fetchLiveWeatherData(districtKey);
     return buildWeatherChatResponse(liveWeather);
   }
 

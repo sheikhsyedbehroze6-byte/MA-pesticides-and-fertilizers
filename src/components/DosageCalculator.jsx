@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef } from 'react';
-import { Calculator, Droplets, TreeDeciduous, ShieldAlert, MessageCircle, Search, Filter, ShoppingBag, Check, Bug, X, ArrowDown } from 'lucide-react';
+import { Calculator, Droplets, TreeDeciduous, ShieldAlert, MessageCircle, Search, Filter, ShoppingBag, Check, Bug, X, ArrowDown, Copy } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { safeOpen } from '../utils/security';
 import LeafDiseaseDetector from './LeafDiseaseDetector';
@@ -139,6 +139,25 @@ export default function DosageCalculator() {
     : (product.unit === 'g' 
         ? (chemicalAmount >= 1000 ? `${(chemicalAmount / 1000).toFixed(2)} kg` : `${chemicalAmount} g`)
         : (chemicalAmount >= 1000 ? `${(chemicalAmount / 1000).toFixed(2)} Liters` : `${chemicalAmount} ml`));
+
+  const [copiedRecipe, setCopiedRecipe] = useState(false);
+
+  const handleCopyRecipe = () => {
+    const text = `🌿 SKUAST-K Spray Dilution Recipe (MA Pesticides Srinagar)\n` +
+      (detectedDiseaseInfo ? `• Disease: ${detectedDiseaseInfo.name} (${detectedDiseaseInfo.nameUrdu})\n` : '') +
+      `• Chemical: ${product.name}\n` +
+      `• Recommended Rate: ${product.ratePerLitre} ${product.unit} per Litre\n` +
+      `• Total Spray Water: ${totalWaterLiters} Liters\n` +
+      `• Required Chemical: ${chemicalInKgOrL}\n\n` +
+      `Safety Precaution: Mix with WALES procedure. Spray early morning or late afternoon. Genuine batch guarantee via MA Pesticides Srinagar (+91 99065 41321).`;
+
+    if (navigator?.clipboard?.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        setCopiedRecipe(true);
+        setTimeout(() => setCopiedRecipe(false), 2200);
+      }).catch(() => {});
+    }
+  };
 
   const handleWhatsAppShare = () => {
     const text = `*Orchard Spray Dosage Calculation*\n\n` +
@@ -539,7 +558,30 @@ export default function DosageCalculator() {
               onClick={handleWhatsAppShare}
               className="dosage-whatsapp-btn"
             >
-              <MessageCircle size={16} /> Send Calculation on WhatsApp
+              <MessageCircle size={16} /> Send to WhatsApp
+            </button>
+
+            <button
+              type="button"
+              onClick={handleCopyRecipe}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '10px 16px',
+                borderRadius: '8px',
+                border: '1px solid rgba(28, 71, 42, 0.25)',
+                backgroundColor: copiedRecipe ? 'rgba(16, 185, 129, 0.12)' : 'transparent',
+                color: copiedRecipe ? '#047857' : 'var(--color-pine-green)',
+                fontSize: '13.5px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.18s ease'
+              }}
+              title="Copy formatted recipe for orchard sprayers or field diary"
+            >
+              {copiedRecipe ? <Check size={15} /> : <Copy size={15} />}
+              <span>{copiedRecipe ? 'Recipe Copied!' : 'Copy Recipe'}</span>
             </button>
           </div>
         </div>

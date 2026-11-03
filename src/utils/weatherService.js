@@ -4,9 +4,55 @@
  * rain-fastness drying windows, and SKUAST-K spray suitability advisories.
  */
 
-const SRINAGAR_LAT = 34.0837;
-const SRINAGAR_LON = 74.7973;
-const CACHE_KEY = 'ma_srinagar_live_weather';
+export const KASHMIR_DISTRICTS = {
+  srinagar: {
+    id: 'srinagar',
+    name: 'Srinagar',
+    nameUrdu: 'سرینگر',
+    zone: 'Central Valley',
+    lat: 34.0837,
+    lon: 74.7973,
+    baseTemp: 18
+  },
+  shopian: {
+    id: 'shopian',
+    name: 'Shopian',
+    nameUrdu: 'شوپیاں',
+    zone: 'Apple Bowl of Kashmir',
+    lat: 33.7208,
+    lon: 74.8322,
+    baseTemp: 16
+  },
+  sopore: {
+    id: 'sopore',
+    name: 'Sopore / Baramulla',
+    nameUrdu: 'سوپور / بارہمولہ',
+    zone: 'North Fruit Belt',
+    lat: 34.2989,
+    lon: 74.4697,
+    baseTemp: 18
+  },
+  pulwama: {
+    id: 'pulwama',
+    name: 'Pulwama',
+    nameUrdu: 'پلوامہ',
+    zone: 'South Fruit Belt',
+    lat: 33.8741,
+    lon: 74.8988,
+    baseTemp: 17
+  },
+  anantnag: {
+    id: 'anantnag',
+    name: 'Anantnag',
+    nameUrdu: 'اننت ناگ',
+    zone: 'South Valley',
+    lat: 33.7311,
+    lon: 75.1487,
+    baseTemp: 17
+  }
+};
+
+const CACHE_KEY_PREFIX = 'ma_live_weather_';
 const CACHE_DURATION_MS = 3 * 60 * 1000; // 3 minutes
 
 export const WMO_WEATHER_CODES = {
@@ -44,31 +90,31 @@ export function getWeatherCondition(code) {
   return WMO_WEATHER_CODES[code] || { text: 'Fair Weather', emoji: '🌤️' };
 }
 
-let memoryCache = null;
-let memoryCacheTime = 0;
+let memoryCaches = {};
 
 /**
- * Fetches real-time weather from Open-Meteo for Srinagar Valley
+ * Fetches real-time weather from Open-Meteo for Kashmir Valley districts
  * Includes caching and resilient fallback.
  */
-export async function fetchLiveWeatherData(forceRefresh = false) {
+export async function fetchLiveWeatherData(districtKey = 'srinagar', forceRefresh = false) {
+  const district = KASHMIR_DISTRICTS[districtKey] || KASHMIR_DISTRICTS.srinagar;
   const now = Date.now();
+  const cacheKey = `${CACHE_KEY_PREFIX}${district.id}`;
 
   // Return in-memory cache if fresh
-  if (!forceRefresh && memoryCache && now - memoryCacheTime < CACHE_DURATION_MS) {
-    return memoryCache;
+  if (!forceRefresh && memoryCaches[district.id] && now - memoryCaches[district.id].time < CACHE_DURATION_MS) {
+    return memoryCaches[district.id].data;
   }
 
   // Check localStorage cache
   if (!forceRefresh && typeof window !== 'undefined') {
     try {
-      const cached = localStorage.getItem(CACHE_KEY);
+      const cached = localStorage.getItem(cacheKey);
       if (cached) {
         const parsed = JSON.parse(cached);
         if (now - parsed.timestamp < CACHE_DURATION_MS) {
-          memoryCache = parsed.data;
-          memoryCacheTime = parsed.timestamp;
-          return memoryCache;
+          memoryCaches[district.id] = { data: parsed.data, time: parsed.timestamp };
+          return parsed.data;
         }
       }
     } catch {
@@ -80,7 +126,7 @@ export async function fetchLiveWeatherData(forceRefresh = false) {
   const timeoutId = setTimeout(() => controller.abort(), 4500);
 
   try {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${SRINAGAR_LAT}&longitude=${SRINAGAR_LON}&current=temperature_2m,relative_humidity_2m,precipitation,rain,weather_code,wind_speed_10m&hourly=precipitation_probability,temperature_2m,wind_speed_10m`;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${district.lat}&longitude=${district.lon}&current=temperature_2m,relative_humidity_2m,precipitation,rain,weather_code,wind_speed_10m&hourly=precipitation_probability,temperature_2m,wind_speed_10m`;
 
     const res = await fetch(url, { signal: controller.signal });
     clearTimeout(timeoutId);
@@ -88,7 +134,7 @@ export async function fetchLiveWeatherData(forceRefresh = false) {
     if (!res.ok) throw new Error(`Weather API returned status: ${res.status}`);
     const data = await res.json();
 
-    const currentTemp = Math.round(data.current?.temperature_2m ?? 18);
+    const currentTemp = Math.round(data.current?.temperature_2m ?? district.baseTemp);
     const humidity = Math.round(data.current?.relative_humidity_2m ?? 50);
     const windSpeed = Math.round(data.current?.wind_speed_10m ?? 4);
     const weatherCode = data.current?.weather_code ?? 0;
@@ -121,18 +167,21 @@ export async function fetchLiveWeatherData(forceRefresh = false) {
 
     let advisoryText = '';
     if (status === 'UNSAFE') {
-      advisoryText = 'Rain or high wind detected in Srinagar Valley. Postpone chemical sprays to prevent chemical wash-off and droplet drift.';
+      advisoryText = `Rain or high wind detected in ${district.name} orchards. Postpone chemical sprays to prevent chemical wash-off and droplet drift.`;
     } else if (currentTemp > 25) {
-      advisoryText = `High temperature (${currentTemp}°C). Spray during early morning (6–9 AM) or late afternoon to avoid leaf scorch.`;
+      advisoryText = `High temperature in ${district.name} (${currentTemp}°C). Spray during early morning (6–9 AM) or late afternoon to avoid leaf scorch.`;
     } else if (currentTemp < 10) {
-      advisoryText = `Cool conditions (${currentTemp}°C). Ensure spray foliage dries thoroughly before nightfall.`;
+      advisoryText = `Cool conditions in ${district.name} (${currentTemp}°C). Ensure spray foliage dries thoroughly before nightfall.`;
     } else {
-      advisoryText = 'Ideal weather in Srinagar Valley. Excellent rain-fastness window for fungicides & insecticides.';
+      advisoryText = `Ideal spraying weather in ${district.name} (${district.zone}). Excellent rain-fastness window for fungicides & insecticides.`;
     }
 
     const weatherData = {
-      location: 'Srinagar, Kashmir',
-      coordinates: '34.08° N, 74.80° E',
+      districtId: district.id,
+      location: `${district.name}, Kashmir`,
+      zone: district.zone,
+      nameUrdu: district.nameUrdu,
+      coordinates: `${district.lat.toFixed(2)}° N, ${district.lon.toFixed(2)}° E`,
       temp: `${currentTemp}°C`,
       tempRaw: currentTemp,
       humidity: `${humidity}%`,
@@ -149,12 +198,11 @@ export async function fetchLiveWeatherData(forceRefresh = false) {
       lastUpdated: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
-    memoryCache = weatherData;
-    memoryCacheTime = now;
+    memoryCaches[district.id] = { data: weatherData, time: now };
 
     if (typeof window !== 'undefined') {
       try {
-        localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: now, data: weatherData }));
+        localStorage.setItem(cacheKey, JSON.stringify({ timestamp: now, data: weatherData }));
       } catch {
         // Ignore
       }
@@ -164,12 +212,15 @@ export async function fetchLiveWeatherData(forceRefresh = false) {
   } catch {
     clearTimeout(timeoutId);
 
-    // Provide reliable seasonal Srinagar fallback
+    // Provide reliable seasonal district fallback
     const fallbackData = {
-      location: 'Srinagar, Kashmir',
-      coordinates: '34.08° N, 74.80° E',
-      temp: '18°C',
-      tempRaw: 18,
+      districtId: district.id,
+      location: `${district.name}, Kashmir`,
+      zone: district.zone,
+      nameUrdu: district.nameUrdu,
+      coordinates: `${district.lat.toFixed(2)}° N, ${district.lon.toFixed(2)}° E`,
+      temp: `${district.baseTemp}°C`,
+      tempRaw: district.baseTemp,
       humidity: '52%',
       humidityRaw: 52,
       wind: '4 km/h',
@@ -179,7 +230,7 @@ export async function fetchLiveWeatherData(forceRefresh = false) {
       weatherCode: 1,
       dryWindow: '6+ Hours',
       sprayStatus: 'SAFE',
-      advisory: 'Favorable conditions for fungicide & insecticide application in Srinagar Valley. Morning spray window recommended.',
+      advisory: `Favorable conditions for fungicide & insecticide application in ${district.name} (${district.zone}). Morning spray window recommended.`,
       isLive: false,
       lastUpdated: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
@@ -199,7 +250,7 @@ export function buildWeatherChatResponse(weather) {
     ? 'EXERCISE CAUTION' 
     : 'UNSAFE TO SPRAY (POSTPONE)';
 
-  const text = `🌤️ **Live Srinagar Orchard Weather & Spray Details:**
+  const text = `🌤️ **Live ${weather.location} Orchard Weather & Spray Details:**
 📍 **Location:** ${weather.location} (${weather.isLive ? '📡 Live Satellite Feed' : 'Seasonal Valley Baseline'})
 🕒 **Observation:** ${weather.lastUpdated}
 
@@ -220,7 +271,7 @@ ${statusEmoji} **Spray Safety Status: ${statusBadge}**
   return {
     text,
     weatherEmbed: weather,
-    actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, regarding Srinagar weather (${weather.temp}, ${weather.condition.text}, ${weather.wind} wind), is it safe to spray my orchard today?`)}`,
+    actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, regarding ${weather.location} weather (${weather.temp}, ${weather.condition.text}, ${weather.wind} wind), is it safe to spray my orchard today?`)}`,
     actionButtons: [
       { label: '🗓️ Open Spray Calendar', action: 'nav_calendar', primary: true, icon: 'compass' },
       { label: '🧮 Compute Tank Dosage', action: 'nav_calc', icon: 'calc' },

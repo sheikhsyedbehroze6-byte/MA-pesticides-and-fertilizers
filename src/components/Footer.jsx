@@ -41,6 +41,7 @@ function Footer() {
               <li><Link to="/search" onMouseEnter={() => preloadRoute('/search')} onTouchStart={() => preloadRoute('/search')}>Search Inventory</Link></li>
               <li><Link to="/about" onMouseEnter={() => preloadRoute('/about')} onTouchStart={() => preloadRoute('/about')}>About MA Pesticides</Link></li>
               <li><Link to="/contact" onMouseEnter={() => preloadRoute('/contact')} onTouchStart={() => preloadRoute('/contact')}>Visit Store</Link></li>
+              <li><a href="/download.html" target="_blank" rel="noopener noreferrer">IEEE Architecture Dossier</a></li>
               <li><button onClick={() => window.dispatchEvent(new Event('trigger-pwa-install'))} style={{ background: 'none', border: 'none', color: 'var(--color-pine-green)', font: 'inherit', cursor: 'pointer', padding: 0, fontWeight: 500 }}>Install Mobile App</button></li>
             </ul>
           </div>
