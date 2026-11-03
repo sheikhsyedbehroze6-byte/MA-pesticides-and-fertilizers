@@ -122,7 +122,12 @@ export default function Home() {
         <div className="page-container">
           <div style={{ textAlign: 'center', maxWidth: '1020px', margin: '0 auto 56px' }}>
             {/* Tag / Category Label */}
-            <span className="tag-label-green gsap-hero-tag">Kashmir Crop Protection & Agronomy</span>
+            <div className="gsap-hero-tag" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '9999px', backgroundColor: 'var(--color-sage-tint)', border: '1px solid rgba(26, 67, 46, 0.18)', marginBottom: '20px' }}>
+              <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: 'var(--color-pine-green)' }}></span>
+              <span style={{ fontFamily: 'var(--font-sohne)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.8px', textTransform: 'uppercase', color: 'var(--color-pine-green)' }}>
+                Kashmir Crop Protection &bull; Official Dealerships
+              </span>
+            </div>
 
             {/* Signature Serif Display Headline */}
             <h1 className="text-display gsap-hero-title" style={{ marginBottom: '24px', color: 'var(--color-ink-black)', fontSize: 'clamp(34px, 5.2vw, 76px)', lineHeight: 1.22 }}>
@@ -484,22 +489,66 @@ export default function Home() {
       </section>
 
       {/* ========================================================================
-          SECTION 2 — Paper White Canvas with 1 Accent Peach Card (#fbe1d1)
+          SECTION 2 — Paper White Canvas with Bespoke Atelier Letterpress Certificate
           ======================================================================== */}
       <section className="section-padding section-paper-bg gsap-scroll-section">
         <div className="page-container">
-          <div className="card-peach gsap-scroll-item">
-            <span className="tag-label" style={{ color: 'var(--color-sienna-brown)', opacity: 0.8 }}>
-              FOUNDER'S COMMITMENT
-            </span>
-            <h3 style={{ fontFamily: 'var(--font-sohne)', fontSize: '26px', fontWeight: 450, letterSpacing: '-0.23px', marginBottom: '16px' }}>
-              "We stock what works — and we explain why."
-            </h3>
-            <p style={{ fontFamily: 'var(--font-sohne)', fontSize: '18px', fontWeight: 430, lineHeight: 1.5, marginBottom: '24px', maxWidth: '820px' }}>
-              Every fungicide and insecticide recommendation is grounded in chemical precision and decades of hands-on Kashmir orchard experience. Zero counterfeits, zero generic fillers.
+          <div className="card-peach gsap-scroll-item" style={{ position: 'relative' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '24px', flexWrap: 'wrap', marginBottom: '24px' }}>
+              <div>
+                <span className="tag-label" style={{ color: 'var(--color-sienna-brown)', opacity: 0.85, letterSpacing: '1px' }}>
+                  FOUNDER'S COMMITMENT &bull; SRINAGAR
+                </span>
+                <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: 'clamp(24px, 3.2vw, 36px)', fontWeight: 400, letterSpacing: '-0.3px', margin: '8px 0 0', color: 'var(--color-sienna-brown)' }}>
+                  &ldquo;We stock what works &mdash; <span className="editorial-italic" style={{ color: 'var(--color-pine-green)' }}>and we explain why</span>.&rdquo;
+                </h3>
+              </div>
+
+              {/* Monogram Seal */}
+              <div style={{
+                width: '56px',
+                height: '56px',
+                borderRadius: '50%',
+                border: '1.5px solid rgba(93, 42, 26, 0.25)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                color: 'var(--color-sienna-brown)',
+                backgroundColor: 'rgba(255, 255, 255, 0.4)',
+                flexShrink: 0
+              }}>
+                <span style={{ fontFamily: 'var(--font-signifier)', fontSize: '16px', fontWeight: 600, letterSpacing: '1px', lineHeight: 1 }}>SMA</span>
+                <span style={{ fontSize: '8px', textTransform: 'uppercase', letterSpacing: '0.5px', marginTop: '2px', opacity: 0.8 }}>EST. 1980</span>
+              </div>
+            </div>
+
+            <p style={{ fontFamily: 'var(--font-sohne)', fontSize: '17px', fontWeight: 400, lineHeight: 1.6, marginBottom: '28px', maxWidth: '820px', color: 'var(--color-sienna-brown)', opacity: 0.95 }}>
+              Every fungicide and insecticide recommendation is grounded in chemical precision and decades of hands-on Kashmir orchard experience. Zero counterfeits, zero generic fillers &mdash; only authentic manufacturer batches matched to exact SKUAST-K phenological stages.
             </p>
-            <div style={{ fontFamily: 'var(--font-sohne)', fontSize: '14px', fontWeight: 400 }}>
-              — Sheikh Mohammad Ayoub, Senior Chemist & Founder, MA Pesticides Srinagar
+
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '16px',
+              borderTop: '1px solid rgba(93, 42, 26, 0.12)',
+              paddingTop: '20px',
+              flexWrap: 'wrap'
+            }}>
+              <div>
+                <div style={{ fontFamily: 'var(--font-sohne)', fontSize: '15px', fontWeight: 600, color: 'var(--color-sienna-brown)' }}>
+                  Sheikh Mohammad Ayoub
+                </div>
+                <div style={{ fontFamily: 'var(--font-sohne)', fontSize: '13px', color: 'var(--color-sienna-brown)', opacity: 0.8 }}>
+                  Senior Agricultural Chemist (M.Sc.) &bull; Founder, M.A. Pesticides &amp; Fertilizers Srinagar
+                </div>
+              </div>
+
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '9999px', backgroundColor: 'rgba(93, 42, 26, 0.08)', fontSize: '12px', fontWeight: 600, color: 'var(--color-sienna-brown)', letterSpacing: '0.3px' }}>
+                <ShieldCheck size={14} color="var(--color-pine-green)" />
+                <span>Authorized Valley Distributor</span>
+              </div>
             </div>
           </div>
         </div>
@@ -710,23 +759,30 @@ export default function Home() {
             {/* Free Leaf & Soil Diagnosis Feature Card */}
             <div className="card-peach gsap-scroll-item" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
-                <span className="tag-label" style={{ color: 'var(--color-sienna-brown)', opacity: 0.85 }}>
-                  COMPLIMENTARY SERVICE
-                </span>
-                <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '26px', fontWeight: 400, color: 'var(--color-sienna-brown)', marginBottom: '14px' }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 10px', borderRadius: '9999px', backgroundColor: 'rgba(93, 42, 26, 0.08)', marginBottom: '12px' }}>
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--color-pine-green)' }}></span>
+                  <span style={{ fontFamily: 'var(--font-sohne)', fontSize: '11.5px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.8px', color: 'var(--color-sienna-brown)' }}>
+                    Complimentary In-Store Service
+                  </span>
+                </div>
+                <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: 'clamp(22px, 2.5vw, 28px)', fontWeight: 400, color: 'var(--color-sienna-brown)', marginBottom: '14px', letterSpacing: '-0.2px' }}>
                   Bring Your Orchard Samples
                 </h3>
-                <p style={{ fontSize: '15px', color: 'var(--color-sienna-brown)', opacity: 0.95, lineHeight: 1.5, marginBottom: '20px' }}>
+                <p style={{ fontSize: '14.5px', color: 'var(--color-sienna-brown)', opacity: 0.95, lineHeight: 1.55, marginBottom: '20px' }}>
                   Facing mysterious leaf yellowing, fruit spotting, or shoot wilting? Bring fresh leaf or soil samples to our Srinagar store for complimentary visual &amp; chemical pathology inspection by Senior Chemist Sheikh Mohammad Ayoub (M.Sc.).
                 </p>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13.5px', color: 'var(--color-sienna-brown)' }}>
-                    <CheckCircle2 size={16} color="var(--color-pine-green)" />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px', color: 'var(--color-sienna-brown)' }}>
+                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: 'var(--color-sage-tint)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <CheckCircle2 size={13} color="var(--color-pine-green)" />
+                    </div>
                     <span>Instant pathogen identification (Scab, Blight, Psylla)</span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13.5px', color: 'var(--color-sienna-brown)' }}>
-                    <CheckCircle2 size={16} color="var(--color-pine-green)" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px', color: 'var(--color-sienna-brown)' }}>
+                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: 'var(--color-sage-tint)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <CheckCircle2 size={13} color="var(--color-pine-green)" />
+                    </div>
                     <span>Exact tank dilution calculation based on your orchard tree count</span>
                   </div>
                 </div>
