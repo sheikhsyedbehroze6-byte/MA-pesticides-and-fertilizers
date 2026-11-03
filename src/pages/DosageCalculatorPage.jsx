@@ -28,16 +28,16 @@ export default function DosageCalculatorPage() {
               borderRadius: '9999px',
               letterSpacing: '0.4px'
             }}>
-              AI VISION SCANNER
+              FOLIAR PATHOLOGY SCANNER
             </span>
           </div>
 
           <h1 className="text-heading-lg" style={{ marginBottom: '16px', color: 'var(--color-ink-black)' }}>
-            AI leaf disease detection scanner &amp; orchard dosage calculator.
+            Leaf disease diagnostic scanner &amp; orchard dosage calculator.
           </h1>
 
           <p className="text-body-lg" style={{ color: 'var(--color-slate-gray)', marginBottom: '24px' }}>
-            Scan orchard leaves with live camera or photo upload to diagnose foliar pathogens with AI lesion heatmaps, and compute exact chemical volumes and water ratios for Kashmiri 200L barrels, 500L tanks, 1000L spray motors, or tree acreage.
+            Scan orchard leaves using your camera or upload a photo to identify foliar pathogens with lesion symptom overlays, and calculate exact chemical volumes and water ratios for Kashmiri 200L barrels, 500L tanks, 1000L spray motors, or tree acreage.
           </p>
 
           {/* Cross-link to Disease Guide */}

@@ -14,7 +14,7 @@ function Footer() {
           <div className="footer-brand">
             <h3>MA Pesticides</h3>
             <p style={{ marginBottom: '24px' }}>
-              Editorial-grade crop protection, genuine fungicides, and SKUAST-guided spray schedules for Kashmir's fruit growers.
+              Authentic crop protection, genuine fungicides, and SKUAST-guided spray schedules for Kashmir's fruit growers.
             </p>
             <a
               href="https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20want%20expert%20crop%20advice..."
@@ -32,16 +32,16 @@ function Footer() {
           <div className="footer-col">
             <h4>Explore</h4>
             <ul>
-              <li><Link to="/" onMouseEnter={() => preloadRoute('/')} onTouchStart={() => preloadRoute('/')}>Home Canvas</Link></li>
-              <li><Link to="/products" onMouseEnter={() => preloadRoute('/products')} onTouchStart={() => preloadRoute('/products')}>Product Catalog</Link></li>
+              <li><Link to="/" onMouseEnter={() => preloadRoute('/')} onTouchStart={() => preloadRoute('/')}>Home</Link></li>
+              <li><Link to="/products" onMouseEnter={() => preloadRoute('/products')} onTouchStart={() => preloadRoute('/products')}>Products Catalog</Link></li>
               <li><Link to="/disease-guide" onMouseEnter={() => preloadRoute('/disease-guide')} onTouchStart={() => preloadRoute('/disease-guide')}>Crop Disease Guide</Link></li>
               <li><Link to="/dosage-calculator" onMouseEnter={() => preloadRoute('/dosage-calculator')} onTouchStart={() => preloadRoute('/dosage-calculator')}>Dosage Calculator</Link></li>
               <li><Link to="/spray-calendar" onMouseEnter={() => preloadRoute('/spray-calendar')} onTouchStart={() => preloadRoute('/spray-calendar')}>Spray Calendar</Link></li>
-              <li><Link to="/videos" onMouseEnter={() => preloadRoute('/videos')} onTouchStart={() => preloadRoute('/videos')}>Video Advisory Gallery</Link></li>
-              <li><Link to="/search" onMouseEnter={() => preloadRoute('/search')} onTouchStart={() => preloadRoute('/search')}>Global Search</Link></li>
+              <li><Link to="/videos" onMouseEnter={() => preloadRoute('/videos')} onTouchStart={() => preloadRoute('/videos')}>Video Advisory Guides</Link></li>
+              <li><Link to="/search" onMouseEnter={() => preloadRoute('/search')} onTouchStart={() => preloadRoute('/search')}>Search Inventory</Link></li>
               <li><Link to="/about" onMouseEnter={() => preloadRoute('/about')} onTouchStart={() => preloadRoute('/about')}>About MA Pesticides</Link></li>
               <li><Link to="/contact" onMouseEnter={() => preloadRoute('/contact')} onTouchStart={() => preloadRoute('/contact')}>Visit Store</Link></li>
-              <li><button onClick={() => window.dispatchEvent(new Event('trigger-pwa-install'))} style={{ background: 'none', border: 'none', color: 'var(--color-pine-green)', font: 'inherit', cursor: 'pointer', padding: 0, fontWeight: 500 }}>Install Mobile App 📱</button></li>
+              <li><button onClick={() => window.dispatchEvent(new Event('trigger-pwa-install'))} style={{ background: 'none', border: 'none', color: 'var(--color-pine-green)', font: 'inherit', cursor: 'pointer', padding: 0, fontWeight: 500 }}>Install Mobile App</button></li>
             </ul>
           </div>
 

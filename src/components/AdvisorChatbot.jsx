@@ -476,7 +476,7 @@ async function getBotResponse(userText, messageHistory = []) {
 
   if (isDevQuery) {
     return {
-      text: `👨‍💻 **Developer Information:**\n\n**Sheikh Behroze Ayub (B.Tech CSE)** has developed it.\n\nHe designed, engineered, and developed this digital platform for **M.A. Pesticides & Fertilizers**, creating features such as the AI Crop Advisor, Interactive Dosage Calculator, SKUAST-guided Spray Schedules, and Orchard Health Analytics.`,
+      text: `👨‍💻 **Developer Information:**\n\n**Sheikh Behroze Ayub (B.Tech CSE)** has developed it.\n\nHe designed, engineered, and developed this digital platform for **M.A. Pesticides & Fertilizers**, creating features such as the Agronomist Advisory Desk, Interactive Dosage Calculator, SKUAST-guided Spray Schedules, and Orchard Health Analytics.`,
       imageEmbed: '/sheikh-behroze-signature.webp',
       actionLink: `https://wa.me/919906541321?text=${encodeURIComponent('Hello Sheikh Behroze Ayub, I visited the MA Pesticides website developed by you.')}`,
       suggestions: ['🍏 Ask Crop Disease Question', '🧮 Calculate Orchard Dosage', '🗓️ SKUAST Spray Schedule', '📍 Visit Srinagar Store']
@@ -1487,8 +1487,8 @@ export default function AdvisorChatbot() {
     setMessages([
       {
         sender: 'bot',
-        text: "👋 Assalamu Alaikum! Conversation reset.\n\nI have **full executive control** of this website! Ask me **ANY question** or command me to navigate, add items to cart, or toggle site modes.",
-        suggestions: ['🍏 Apple Scab Treatment', '⚡ 200L Tank Dosage Calc', '🗓️ Pink Bud Stage Spray', '🌙 Dark Mode']
+        text: "Assalamu Alaikum! Conversation reset.\n\nWelcome to the **M.A. Pesticides Consultation Desk**. How can we help your orchard today? You can ask about product prices (with 20% discount on print MRP), spray timing, tank dilutions, or disease control.",
+        suggestions: ['🍏 Apple Scab Treatment', '🧮 200L Tank Dosage Calc', '🗓️ Pink Bud Stage Spray', '🏷️ Products Price List']
       }
     ]);
   };

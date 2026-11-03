@@ -1128,7 +1128,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
               <h4 style={{ margin: 0, fontFamily: 'var(--font-signifier)', fontSize: '20px', fontWeight: 600, color: 'var(--color-ink-black)' }}>
-                AI Leaf Disease Detection Scanner
+                Foliar Pathology &amp; Disease Scanner
               </h4>
               <span style={{
                 fontSize: '11px',
@@ -1142,7 +1142,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
                 alignItems: 'center',
                 gap: '4px'
               }}>
-                <Sparkle size={11} /> SKUAST-K Neural Vision v2.5
+                <ShieldCheck size={11} /> SKUAST-K Pathology Standard
               </span>
             </div>
             <span style={{ fontSize: '13px', color: 'var(--color-slate-gray)' }}>
@@ -1202,7 +1202,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
           <button
             type="button"
             onClick={() => setShowFlowchart(!showFlowchart)}
-            title="Toggle AI Scanner Flowchart & Diagnostic Pipeline"
+            title="View Diagnostic Pipeline Flowchart"
             style={{
               background: showFlowchart ? 'var(--color-pine-green)' : 'transparent',
               border: '1px solid rgba(28, 71, 42, 0.25)',
@@ -1219,13 +1219,13 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
             }}
           >
             <GitBranch size={15} />
-            <span>{showFlowchart ? 'Hide Flowchart' : 'How AI Scanner Works'}</span>
+            <span>{showFlowchart ? 'Hide Flowchart' : 'How Pathology Scanner Works'}</span>
           </button>
 
           <button
             type="button"
             onClick={() => setSoundEnabled(!soundEnabled)}
-            title={soundEnabled ? 'Mute AI Shutter & Chimes' : 'Enable AI Audio Feedback'}
+            title={soundEnabled ? 'Mute Shutter & Chimes' : 'Enable Audio Feedback'}
             style={{
               background: 'transparent',
               border: '1px solid rgba(23, 25, 28, 0.12)',
@@ -1290,7 +1290,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
                 <Activity size={16} />
               </div>
               <h5 style={{ margin: 0, fontSize: '15px', fontWeight: 700, color: 'var(--color-ink-black)', fontFamily: 'var(--font-sohne)' }}>
-                How the AI Leaf Disease Scanner Works (5-Step Computer Vision Pipeline)
+                Diagnostic Pathology Workflow (5-Step Computer Vision Pipeline)
               </h5>
             </div>
 
@@ -1517,7 +1517,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
 
                   <rect x="28" y="449" width="324" height="24" rx="4" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="0.8" />
                   <text x="35" y="460" fill="#143820" fontFamily="sans-serif" fontSize="7.2" fontWeight="700">Dynamic Alpha-Blending Canvas Overlay (0.45 Alpha)</text>
-                  <text x="35" y="469" fill="#64748b" fontFamily="sans-serif" fontSize="6.5">Toggleable between "AI Lesion Heatmap" and "Standard Leaf Photo"</text>
+                  <text x="35" y="469" fill="#64748b" fontFamily="sans-serif" fontSize="6.5">Toggleable between "Lesion Symptom Map" and "Standard Leaf Photo"</text>
 
                   <text x="28" y="485" fill="#4b5563" fontFamily="sans-serif" fontSize="6.8">• <tspan fill="#dc2626" fontWeight="700">Red Highlight (#EF4444):</tspan> Active necrotic scab lesions &amp; spore beds</text>
                   <text x="28" y="497" fill="#4b5563" fontFamily="sans-serif" fontSize="6.8">• <tspan fill="#0284c7" fontWeight="700">Cyan Highlight (#06B6D4):</tspan> Powdery mildew mycelial colony clusters</text>
@@ -1890,7 +1890,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
                 type="button"
                 onClick={captureCameraFrame}
                 className="scanner-shutter-btn"
-                title="Capture and run AI analysis"
+                title="Capture and analyze leaf"
               >
                 <div className="scanner-shutter-inner">
                   <Camera size={20} />
@@ -2068,7 +2068,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
                 marginBottom: '16px'
               }} />
               <div style={{ fontWeight: 700, fontSize: '15px', color: 'var(--color-pine-green)', marginBottom: '6px' }}>
-                AI Pathological Neural Inspection
+                Pathological Tissue Inspection
               </div>
               <div style={{ fontSize: '12.5px', color: 'var(--color-slate-gray)', maxWidth: '280px', minHeight: '38px' }}>
                 {scanPhaseText}
@@ -2185,7 +2185,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
                   onClick={() => setViewMode('heatmap')}
                 >
                   <Layers size={13} />
-                  <span>AI Lesion Heatmap</span>
+                  <span>Lesion Symptom Map</span>
                 </button>
                 <button
                   type="button"
@@ -2220,7 +2220,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
                 {viewMode === 'heatmap' && heatmapOverlayUrl && (
                   <img
                     src={heatmapOverlayUrl}
-                    alt="AI Lesion Heatmap"
+                    alt="Lesion Symptom Map"
                     style={{
                       position: 'absolute',
                       inset: 0,

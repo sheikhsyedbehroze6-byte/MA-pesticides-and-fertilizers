@@ -203,7 +203,7 @@ export default function DosageCalculator() {
           }}
         >
           <Bug size={16} color="var(--color-pine-green)" />
-          <span>AI Leaf Disease Scanner &amp; Auto-Dose</span>
+          <span>Leaf Disease Scanner &amp; Prescription</span>
           <span style={{
             fontSize: '10px',
             fontWeight: 700,
@@ -216,7 +216,7 @@ export default function DosageCalculator() {
             alignItems: 'center',
             gap: '3px'
           }}>
-            AI SCANNER
+            PATHOLOGY SCANNER
           </span>
         </button>
 
@@ -308,7 +308,7 @@ export default function DosageCalculator() {
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                   <span style={{ fontSize: '10.5px', fontWeight: 700, textTransform: 'uppercase', color: '#047857', backgroundColor: '#d1fae5', padding: '2px 8px', borderRadius: '4px' }}>
-                    AI Leaf Prescription Active
+                    Diagnostic Prescription Active
                   </span>
                   <strong style={{ fontSize: '15px', color: 'var(--color-ink-black)' }}>
                     {detectedDiseaseInfo.name}

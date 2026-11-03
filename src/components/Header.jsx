@@ -6,13 +6,13 @@ import { useCart } from '../context/CartContext';
 import { preloadRoute } from '../utils/routePreloader';
 
 const NAV_ITEMS = [
-  { to: '/', label: 'Home Canvas', Icon: Home, section: 'Overview' },
-  { to: '/products', label: 'Formulations Catalog', Icon: Package, section: 'Inventory' },
+  { to: '/', label: 'Home', Icon: Home, section: 'Overview' },
+  { to: '/products', label: 'Products & Formulations', Icon: Package, section: 'Inventory' },
   { to: '/spray-calendar', label: 'SKUAST Spray Calendar', Icon: Calendar, section: 'Agronomy Tools' },
   { to: '/dosage-calculator', label: 'Dosage & Tank Calculator', Icon: Calculator, section: 'Agronomy Tools' },
   { to: '/disease-guide', label: 'Crop Disease Guide', Icon: Bug, section: 'Agronomy Tools' },
-  { to: '/videos', label: 'Video Advisory Gallery', Icon: Video, section: 'Agronomy Tools' },
-  { to: '/search', label: 'Global Inventory Search', Icon: Search, section: 'Inventory' },
+  { to: '/videos', label: 'Video Advisory Guides', Icon: Video, section: 'Agronomy Tools' },
+  { to: '/search', label: 'Search Catalog', Icon: Search, section: 'Inventory' },
   { to: '/about', label: 'About Store & Chemist', Icon: Sprout, section: 'Store' },
   { to: '/contact', label: 'Store Location & Directions', Icon: Phone, section: 'Store' },
 ];

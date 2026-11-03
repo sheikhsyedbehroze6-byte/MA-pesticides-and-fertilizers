@@ -255,67 +255,85 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Artifact 2: Activation & Orchard Yield Line Chart with Sienna Brown Stroke */}
+            {/* Artifact 2: Valley Weather & Spray Fastness Window */}
             <div className="floating-product-artifact hero-artifact-tilt-right gsap-hero-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-                  <span className="tag-label" style={{ margin: 0 }}>Orchard Yield Index</span>
-                  <div className="avatar-bubble bg-green" title="Live Interaction">
-                    JB
-                  </div>
+                  <span className="tag-label" style={{ margin: 0 }}>Valley Spray Fastness Window</span>
+                  <span style={{
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    padding: '2px 8px',
+                    borderRadius: '9999px',
+                    backgroundColor: 'rgba(28, 71, 42, 0.08)',
+                    color: 'var(--color-pine-green)'
+                  }}>
+                    Srinagar &amp; North Kashmir
+                  </span>
                 </div>
-                <div style={{ fontFamily: 'var(--font-sohne)', fontSize: '26px', fontWeight: 500, color: 'var(--color-ink-black)' }}>
-                  46.2% <span style={{ fontSize: '14px', color: 'var(--color-slate-gray)', fontWeight: 400 }}>↑ 5.5x scab control vs 2025</span>
+                <div style={{ fontFamily: 'var(--font-sohne)', fontSize: '24px', fontWeight: 500, color: 'var(--color-ink-black)' }}>
+                  48–72h <span style={{ fontSize: '13.5px', color: 'var(--color-slate-gray)', fontWeight: 400 }}>Rain-fast drying requirement</span>
                 </div>
               </div>
 
-              {/* Gestural Minimal Chart in Sienna Brown (#5d2a1a) */}
-              <div style={{ height: '80px', marginTop: '16px', position: 'relative' }}>
-                <svg viewBox="0 0 300 80" fill="none" style={{ width: '100%', height: '100%' }}>
+              {/* Minimalist seasonal curve */}
+              <div style={{ height: '70px', marginTop: '14px', position: 'relative' }}>
+                <svg viewBox="0 0 300 70" fill="none" style={{ width: '100%', height: '100%' }}>
                   <path
-                    d="M0 65 C 40 60, 70 75, 110 40 C 150 5, 200 50, 240 25 C 270 10, 290 15, 300 5"
-                    stroke="var(--color-sienna-brown)"
-                    strokeWidth="3"
+                    d="M0 55 C 40 50, 70 65, 110 32 C 150 5, 200 42, 240 20 C 270 10, 290 14, 300 8"
+                    stroke="var(--color-pine-green)"
+                    strokeWidth="2.5"
                     strokeLinecap="round"
                   />
                 </svg>
               </div>
 
-              <div style={{ fontSize: '13px', color: 'var(--color-ash-gray)', marginTop: '8px' }}>
-                August – November Kashmir Fruit Quality Monitoring
+              <div style={{ fontSize: '12.5px', color: 'var(--color-ash-gray)', marginTop: '6px' }}>
+                March – June Ascospore Infection Pressure Monitoring
               </div>
             </div>
           </div>
 
-          {/* Secondary Artifact Row (AI Composer & Stat Card) */}
+          {/* Secondary Artifact Row (Consultation Desk & Pathology Card) */}
           <div className="hero-artifacts-grid hero-artifacts-row-2">
-            {/* Artifact 3: Disease Quick Stat Card */}
+            {/* Artifact 3: Disease Clinical Management Card */}
             <div className="floating-product-artifact gsap-hero-card">
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-                <div className="avatar-bubble bg-peach">
-                  AF
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
+                <div style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  backgroundColor: 'rgba(93, 42, 26, 0.1)',
+                  color: 'var(--color-sienna-brown)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '14px',
+                  fontWeight: 600
+                }}>
+                  SMA
                 </div>
                 <div>
-                  <h4 style={{ fontFamily: 'var(--font-sohne)', fontSize: '16px', fontWeight: 500, margin: 0 }}>
-                    Apple Scab Diagnostic Precision
+                  <h4 style={{ fontFamily: 'var(--font-sohne)', fontSize: '15px', fontWeight: 600, margin: 0, color: 'var(--color-ink-black)' }}>
+                    Apple Scab Clinical Management
                   </h4>
-                  <span style={{ fontSize: '12px', color: 'var(--color-slate-gray)' }}>
-                    Verified by Sheikh M. Ayoub (M.Sc.)
+                  <span style={{ fontSize: '11.5px', color: 'var(--color-slate-gray)' }}>
+                    Formulation verified by Sheikh M. Ayoub (M.Sc.)
                   </span>
                 </div>
               </div>
 
-              <div style={{ fontSize: '22px', fontFamily: 'var(--font-signifier)', fontWeight: 400, color: 'var(--color-ink-black)', marginBottom: '8px' }}>
-                99.4% Eradication Rate
+              <div style={{ fontSize: '20px', fontFamily: 'var(--font-signifier)', fontWeight: 400, color: 'var(--color-ink-black)', marginBottom: '6px' }}>
+                Preventive &amp; Curative Regimen
               </div>
-              <p style={{ fontSize: '14px', color: 'var(--color-slate-gray)', margin: 0, lineHeight: 1.45 }}>
-                Double systemic fungicide application window prevents perithecia spore release during early spring humidity.
+              <p style={{ fontSize: '13.5px', color: 'var(--color-slate-gray)', margin: 0, lineHeight: 1.45 }}>
+                Pre-rain contact spray (Antracol/Dodine) followed by translaminar systemic (Luna/Score) halts perithecia spore germination without fruit russeting.
               </p>
             </div>
 
             {/* Artifact 4: Chemist Advisory Search Bar */}
             <div className="floating-product-artifact gsap-hero-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <span className="tag-label" style={{ marginBottom: '8px' }}>Chemist Advisory Desk</span>
+              <span className="tag-label" style={{ marginBottom: '8px' }}>Agronomist Advisory Desk</span>
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -325,10 +343,10 @@ export default function Home() {
               >
                 <input
                   type="text"
-                  placeholder="Ask Sheikh Mohammad Ayoub about apple scab, tank dosage, or spray timing..."
+                  placeholder="Ask about apple scab sprays, 200L tank dosage, or SKUAST timing..."
                   value={heroSearch}
                   onChange={(e) => setHeroSearch(e.target.value)}
-                  style={{ fontSize: '15px' }}
+                  style={{ fontSize: '14.5px' }}
                 />
                 <button type="submit" className="ai-composer-send-btn" aria-label="Ask Chemist Desk">
                   <ArrowRight size={16} />

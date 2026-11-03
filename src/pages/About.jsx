@@ -123,7 +123,7 @@ export default function About() {
             lineHeight: 1.6,
             marginBottom: '12px'
           }}>
-            Designed and engineered by <strong style={{ color: '#d4af37', fontWeight: 600 }}>Sheikh Behroze Ayub (B.Tech CSE)</strong>. Modernizing Kashmir’s agricultural ecosystem through artificial intelligence crop advisory systems, precision tank dosage calculators, and official SKUAST-K spray synchronization.
+            Designed and engineered by <strong style={{ color: '#d4af37', fontWeight: 600 }}>Sheikh Behroze Ayub (B.Tech CSE)</strong>. Empowering Kashmir’s fruit growers through digital leaf pathology diagnosis, precision tank dosage calculators, and official SKUAST-K spray synchronization.
           </p>
 
           <span style={{
