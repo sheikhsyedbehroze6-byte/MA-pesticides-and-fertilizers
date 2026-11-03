@@ -7,7 +7,7 @@ import {
   ArrowRight, Mic, MicOff, Volume2, VolumeX, ShieldAlert, Droplets,
   Calendar, Phone, MapPin, CheckCircle, Info, Beaker, Leaf, AlertTriangle,
   ShoppingCart, Plus, Check, Sun, Moon, Compass, Zap, Calculator, PhoneCall, Search,
-  CloudRain, Wind, Thermometer
+  CloudRain, Wind, Thermometer, Copy, Layers
 } from 'lucide-react';
 import { products, diseases } from '../data/agricultureData';
 import { safeOpen, sanitizeInput, checkRateLimit } from '../utils/security';
@@ -123,6 +123,21 @@ const SKUAST_STAGES = [
 // 2. Comprehensive Agronomy & Horticultural Knowledge Base
 // ============================================================================
 const GENERAL_AGRONOMY_KB = [
+  {
+    keywords: ['saeb', 'saeb manz', 'scab lagyomut', 'kharash', 'chhaanik', 'kya karun', 'che chhaanik', 'saeb kharab'],
+    title: '🍏 Apple Scab (سیب کی خارش) Management Protocol',
+    response: `🍏 **Apple Scab (سیب کی خارش / کھاراش) Comprehensive Protocol:**\n\nIn Kashmir orchards, Apple Scab (*Venturia inaequalis*) spreads aggressively during spring rain breaks.\n\n- 🛡️ **Pre-Rain Preventive Shield:** Spray **Bayer Antracol 70% WP** @ 2.5 g/L (500g / 200L) or **Superstar Dodine 65% WP** @ 1 g/L (200g / 200L) before rain starts.\n- 🧬 **Post-Rain Curative Eradication:** If rain exceeded 24 hours, apply systemic **Bayer Luna Experience** @ 1 ml/L (200ml / 200L) or **Score (Difenoconazole)** @ 0.5 ml/L to kill active fungal germ-tubes inside leaf tissue.\n- 💰 **Store Privilege:** 20% discount on print MRP directly at MA Pesticides Srinagar.`
+  },
+  {
+    keywords: ['red mite', 'surakh mite', 'lal keeda', 'chote keede', 'makdi', 'spider mite', 'jal'],
+    title: '🕷️ European Red Mite (سرخ مائٹس) Cure',
+    response: `🕷️ **European Red Mite (سرخ مائٹس) Treatment:**\n\nRed Mites flare up during warm dry spells in June–July, producing bronze dusty leaves and early defoliation.\n\n- 🩺 **Acaricide Spray:** Spray **Mitofix (Propargite 57% EC)** @ 1.5 ml/L (300ml / 200L barrel).\n- 💧 **Add Non-Ionic Spreader:** Mix **Life80** (0.5 ml/L) so spray droplets spread uniformly underneath leaves where mites hide.\n- ⏰ **Best Time:** Early morning (6:00 AM – 9:00 AM) when temperature is below 25°C.`
+  },
+  {
+    keywords: ['canker', 'chhaal kharab', 'tahni sukhna', 'chaubatia', 'silver leaf', 'wound'],
+    title: '🩹 Apple Tree Canker & Bark Wound Treatment',
+    response: `🩹 **Apple Canker & Stem Wound Recovery (SKUAST Standard):**\n\nCanker fungi (*Botryosphaeria*) enter via unsealed pruning cuts and frost injuries.\n\n- ✂️ **Sanitation:** Scrape diseased bark down to healthy green wood using a sanitized curved knife.\n- 🎨 **Protective Sealant:** Apply **Proma Gro Chaubatia Paste** (Copper Carbonate + Red Lead + Linseed oil) directly over the cut surface.\n- 🌿 **Soil Drenching:** Drench the tree root collar with **IPL Sanjeevni Trichoderma** (10 g/L) to prevent soil-borne reinfection.`
+  },
   {
     keywords: ['prun', 'cutting', 'katayi', 'shakh tarashi', 'trimming'],
     title: '✂️ Apple & Fruit Tree Pruning Advisory',
@@ -486,27 +501,131 @@ async function getBotResponse(userText, messageHistory = []) {
   // --------------------------------------------------------------------------
   // INTENT 2: Chemical Tank Mix Compatibility & WALES Rule
   // --------------------------------------------------------------------------
-  const isTankMixQuery = query.includes('mix') || query.includes('compatib') || query.includes('milana') || query.includes('milaye');
+  const isTankMixQuery = query.includes('mix') || query.includes('compatib') || query.includes('milana') || query.includes('milaye') || query.includes('wales') || query.includes('can i mix');
   if (isTankMixQuery) {
-    if ((query.includes('dodine') || query.includes('dodeine')) && (query.includes('oil') || query.includes('hmo') || query.includes('mineral'))) {
-      return {
-        text: `🚨 **STRICT INCOMPATIBILITY WARNING:**\n\n**DO NOT mix Dodine with Horticultural Mineral Oil (HMO)!**\n\n- 🚫 **The Danger:** Mixing Dodine (Superstar Dodine) with oils, or applying within **14 days** of each other, dissolves the protective wax cuticles on apple leaves.\n- 💥 **Result:** Rapid phytotoxicity, severe leaf scorching, yellowing, and defoliation on Delicious varieties.\n- ⏱️ **Safe Practice:** Keep a strict **14-day gap** between an HMO oil spray and any Dodine application.`,
-        actionLink: `https://wa.me/919906541321?text=${encodeURIComponent('Hello Sheikh Mohammad Ayoub, can you advise me on Dodine and oil spraying gap?')}`,
-        suggestions: ['🧮 200L Tank Dosage Calc', '🗓️ Delayed Dormancy / Green Tip Stage', '🍏 Apple Scab Alternative']
+    const q = query.toLowerCase();
+    let mixResult = null;
+
+    if ((q.includes('dodine') || q.includes('dodeine')) && (q.includes('oil') || q.includes('hmo') || q.includes('mineral'))) {
+      mixResult = {
+        status: 'INCOMPATIBLE_HAZARD',
+        badge: 'STRICT INCOMPATIBILITY HAZARD',
+        badgeColor: '#dc2626',
+        headline: 'DO NOT mix Superstar Dodine with Horticultural Mineral Oil (HMO)',
+        danger: 'Severe phytotoxicity, wax cuticle destruction, and rapid defoliation on apple trees.',
+        explanation: 'Dodine acts as a strong surfactant and disrupts cell membranes if combined with penetrant petroleum oil. Applying them together or within 14 days of each other dissolves the protective wax cuticles on apple foliage, causing widespread necrotic scorching and leaf drop.',
+        rule: 'Maintain a minimum 14-day gap between any HMO oil spray and Dodine application.',
+        safeAlternative: 'Use Bayer Antracol (Propineb) or Mancozeb as a contact pre-rain fungicide near oil spray windows.'
+      };
+    } else if ((q.includes('sulfur') || q.includes('sulphur')) && (q.includes('oil') || q.includes('hmo') || q.includes('mineral'))) {
+      mixResult = {
+        status: 'INCOMPATIBLE_HAZARD',
+        badge: 'CATASTROPHIC HAZARD',
+        badgeColor: '#dc2626',
+        headline: 'NEVER mix Wettable Sulfur with Horticultural Mineral Oil',
+        danger: 'Extreme foliar burn, terminal shoot dieback, and fruit russeting.',
+        explanation: 'Oils dissolve the epidermal wax and carry elemental sulfur into leaf mesophyll cells, causing acute chemical defoliation (50–90% canopy loss).',
+        rule: 'Keep a strict 30-day interval between sulfur applications and oil sprays.',
+        safeAlternative: 'For Powdery Mildew, use systemic Hexaconazole (Contaf) or Luna Experience instead of elemental sulfur if oil was recently sprayed.'
+      };
+    } else if ((q.includes('copper') || q.includes('blitox') || q.includes('bordeaux')) && (q.includes('lime') || q.includes('sulfur') || q.includes('sulphur') || q.includes('acid'))) {
+      mixResult = {
+        status: 'INCOMPATIBLE_HAZARD',
+        badge: 'CHEMICAL BREAKDOWN HAZARD',
+        badgeColor: '#dc2626',
+        headline: 'Do NOT mix Copper Fungicides with Lime Sulphur or Acidic Sprays',
+        danger: 'Precipitate curdling and release of toxic free cupric ions (Cu²⁺).',
+        explanation: 'Alkaline or acidic additives destabilize copper hydroxide/oxychloride matrices, burning young spring foliage and causing severe fruit russeting.',
+        rule: 'Always spray Copper Oxychloride strictly alone on dormant bark or post-harvest leaf fall.',
+        safeAlternative: 'Apply Copper as a standalone wash with clean water (pH 6.5–7.0).'
+      };
+    } else if ((q.includes('captan') || q.includes('captaf')) && (q.includes('oil') || q.includes('hmo'))) {
+      mixResult = {
+        status: 'INCOMPATIBLE_HAZARD',
+        badge: 'PHYTOTOXIC HAZARD',
+        badgeColor: '#dc2626',
+        headline: 'Incompatible: Captan 50% WP + Horticultural Oil',
+        danger: 'Severe foliar chlorosis, leaf spot necrosis, and fruit finish injury.',
+        explanation: 'Petroleum oils facilitate excessive penetration of Captan molecules into tender leaf tissue.',
+        rule: 'Wait at least 10–14 days between Captan and petroleum oil sprays.',
+        safeAlternative: 'Use Bayer Antracol or Dodine during delayed dormancy.'
+      };
+    } else if ((q.includes('calcium') || q.includes('calc')) && (q.includes('phosphate') || q.includes('sulfate') || q.includes('sulphate') || q.includes('npk'))) {
+      mixResult = {
+        status: 'INCOMPATIBLE_HAZARD',
+        badge: 'PRECIPITATION CLOGGING HAZARD',
+        badgeColor: '#dc2626',
+        headline: 'Incompatible: Calcium Nitrate + Phosphates / Sulphates',
+        danger: 'Forms insoluble Calcium Phosphate / Gypsum sludge that clogs spray nozzles and prevents nutrient uptake.',
+        explanation: 'Free calcium ions (Ca²⁺) bond instantly with phosphate and sulfate ions in the tank water to form insoluble chalk.',
+        rule: 'Apply Calcium Nitrate foliar sprays as a standalone treatment or mix only with compatible Boron (Solubor).',
+        safeAlternative: 'Spray Calcium + Boron together at Pink Bud/Walnut stage; apply NPK fertilizers separately.'
+      };
+    } else if ((q.includes('luna') || q.includes('fluopyram')) && (q.includes('alika') || q.includes('thiamethoxam'))) {
+      mixResult = {
+        status: 'COMPATIBLE_SAFE',
+        badge: 'FULLY COMPATIBLE TANK MIX',
+        badgeColor: '#047857',
+        headline: 'Fully Compatible: Bayer Luna Experience + Syngenta Alika',
+        benefit: 'Premier curative apple scab & systemic sucking pest control.',
+        explanation: 'Luna (SC flowable suspension) and Alika (ZC microcapsule) blend smoothly with zero curdling and excellent translaminar absorption.',
+        walesOrder: '1. Fill tank 60% water -> 2. Run pump agitator -> 3. Add Luna Experience (SC) -> 4. Add Syngenta Alika (ZC) -> 5. Fill remaining water.'
+      };
+    } else if ((q.includes('antracol') || q.includes('propineb')) && (q.includes('alika') || q.includes('thiamethoxam'))) {
+      mixResult = {
+        status: 'COMPATIBLE_SAFE',
+        badge: 'FULLY COMPATIBLE TANK MIX',
+        badgeColor: '#047857',
+        headline: 'Fully Compatible: Bayer Antracol 70% WP + Syngenta Alika',
+        benefit: 'Protective multi-site fungal barrier + broad systemic insect knockdown.',
+        explanation: 'Antracol provides external foliar rain-fast coverage while Alika controls aphids, thrips, and beetles.',
+        walesOrder: '1. Fill tank 50% water -> 2. Pre-slurry Antracol (WP) in bucket and add -> 3. Agitate thoroughly -> 4. Add Alika (ZC) -> 5. Fill to mark.'
+      };
+    } else if ((q.includes('dodine') || q.includes('superstar')) && (q.includes('captan') || q.includes('mancozeb'))) {
+      mixResult = {
+        status: 'COMPATIBLE_SAFE',
+        badge: 'COMPATIBLE (RESISTANCE MANAGEMENT)',
+        badgeColor: '#047857',
+        headline: 'Fully Compatible: Superstar Dodine 65% + Captan / Mancozeb',
+        benefit: 'Dual-site contact synergy to prevent Apple Scab fungicide resistance.',
+        explanation: 'Combines Dodine membrane disruption with multi-site sulfhydryl enzyme inhibition of Mancozeb/Captan.',
+        walesOrder: 'Pre-slurry both wettable powders together in clean water before adding to agitated tank.'
+      };
+    } else if ((q.includes('score') || q.includes('difenoconazole')) && (q.includes('mitofix') || q.includes('propargite'))) {
+      mixResult = {
+        status: 'COMPATIBLE_SAFE',
+        badge: 'FULLY COMPATIBLE TANK MIX',
+        badgeColor: '#047857',
+        headline: 'Fully Compatible: Score (Difenoconazole) + Mitofix (Propargite)',
+        benefit: 'Curative Scab protection + European Red Mite summer eradication.',
+        explanation: 'Ideal for June/July summer sprays when warm humid conditions promote both secondary scab and spider mite flares.',
+        walesOrder: '1. Fill tank 60% water -> 2. Agitate -> 3. Add Score (EC) -> 4. Add Mitofix (EC) -> 5. Add Life80 non-ionic surfactant last.'
+      };
+    } else {
+      mixResult = {
+        status: 'WALES_GUIDE',
+        badge: 'SCIENTIFIC TANK MIXING PROTOCOL',
+        badgeColor: '#0284c7',
+        headline: 'Standard WALES Sequence (Prevents Curdling & Nozzle Clogs)',
+        explanation: 'Always follow the WALES order whenever combining two or more agrochemicals in a 200L or 500L orchard tank.',
+        walesOrder: '1. W (Water): Fill tank 50% to 70% with clean water (pH 5.5–6.5)\n2. W (Wettable Powders): Pre-slurry WP powders (Antracol, Dodine, Mancozeb) in bucket\n3. A (Agitate): Turn on tank agitator / pump recirculation\n4. L (Liquid Flowables): Add SC, ZC or CS suspensions (Luna, Alika, Kozen)\n5. E (Emulsifiable Concentrates): Add EC formulations (Cyclone, Mitofix, HMO)\n6. S (Solubles & Surfactants): Add foliar tonics and non-ionic spreaders (Life80) last'
       };
     }
 
-    if (query.includes('copper') && (query.includes('sulfur') || query.includes('sulphur') || query.includes('lime'))) {
-      return {
-        text: `⚠️ **TANK MIX WARNING:**\n\n**Never mix Copper Fungicides with Lime Sulphur!**\n\n- 🚫 Chemical reaction causes precipitate breakdown and releases toxic free copper ions, scorching leaves and fruit russeting.\n- 💡 Always spray Copper Oxychloride strictly as a standalone formulation or dormant wash.`,
-        suggestions: ['🗓️ Dormant Spray Guide', '⚡ Tank Mixing Order (WALES)']
-      };
+    let textOut = '';
+    if (mixResult.status === 'INCOMPATIBLE_HAZARD') {
+      textOut = `🚨 **${mixResult.badge}:**\n\n**${mixResult.headline}**\n\n- 🚫 **Danger:** ${mixResult.danger}\n- 💥 **Biochemical Cause:** ${mixResult.explanation}\n- ⏱️ **Rule:** ${mixResult.rule}\n- 💡 **Safe Alternative:** ${mixResult.safeAlternative}`;
+    } else if (mixResult.status === 'COMPATIBLE_SAFE') {
+      textOut = `✅ **${mixResult.badge}:**\n\n**${mixResult.headline}**\n\n- 🌟 **Agronomic Benefit:** ${mixResult.benefit}\n- 🔬 **Mode of Action:** ${mixResult.explanation}\n- 📋 **Mixing Order:** ${mixResult.walesOrder}`;
+    } else {
+      textOut = `🧪 **${mixResult.badge}:**\n\n**${mixResult.headline}**\n\n${mixResult.explanation}\n\n${mixResult.walesOrder}`;
     }
 
     return {
-      text: `🧪 **Scientific Tank Mixing Protocol (The WALES Method):**\n\nTo prevent chemical curdling, nozzle clogging, or crop injury, always mix chemicals in this exact order:\n\n1. 💧 **W (Water):** Fill spray barrel 50%–70% full with clean water (pH 5.5 – 6.5). Avoid muddy ditch water!\n2. 🌾 **W (Wettable Powders):** Pre-mix WP powders (**Antracol 70%**, **Dodine 65%**) in a bucket with a little water before pouring in.\n3. 🔄 **A (Agitate):** Stir or run pump agitation continuously.\n4. 💧 **L (Liquid Flowables):** Add SC, ZC or flowable suspensions (**Alika**, **Kozen**, **Luna**).\n5. 🛢️ **E (Emulsifiable Concentrates):** Add EC formulations (**Cyclone 505**, **Mitofix**, **HMO**).\n6. 🧼 **S (Solubles & Surfactants):** Add foliar tonics and non-ionic spreaders (**Life80**) last for uniform leaf wetting.`,
-      actionLink: `https://wa.me/919906541321?text=${encodeURIComponent('Hello Sheikh Mohammad Ayoub, please verify my tank mix compatibility.')}`,
-      suggestions: ['🍏 Apple Scab Treatment', '⚡ 200L Tank Dosage Calc', '🗓️ SKUAST-K Spray Stages']
+      text: textOut,
+      tankMixEmbed: mixResult,
+      actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, can you confirm tank mix compatibility for: "${query}"?`)}`,
+      suggestions: ['🧮 200L Tank Dosage Calc', '🗓️ SKUAST-K Spray Stages', '🍏 Apple Scab Treatment', '🌤️ Check Spray Weather']
     };
   }
 
@@ -545,9 +664,9 @@ async function getBotResponse(userText, messageHistory = []) {
   const treeMatch = query.match(/(\d+)\s*(?:tree|trees|پودے|درخت|apple trees)/i);
   const barrelMatch = query.match(/(\d+)\s*(?:barrel|barrels|drum|drums|tank|tanks|200l)/i);
   const litreMatch = query.match(/(\d+)\s*(?:litre|litres|liter|liters|l\b)/i);
-  const isDosageQuery = query.includes('dosage') || query.includes('calculate') || query.includes('quantity') || query.includes('kitna') || query.includes('tanki') || query.includes('dawa kitni');
+  const isDosageQuery = query.includes('dosage') || query.includes('calculate') || query.includes('quantity') || query.includes('kitna') || query.includes('tanki') || query.includes('dawa kitni') || query.includes('how much');
 
-  if (kanalMatch || treeMatch || barrelMatch || litreMatch || (isDosageQuery && query.length < 50)) {
+  if (kanalMatch || treeMatch || barrelMatch || litreMatch || (isDosageQuery && query.length < 65)) {
     let estWaterLitre = 200;
     let scaleDescription = '1 Standard Orchard Barrel (200 Litres)';
 
@@ -569,15 +688,111 @@ async function getBotResponse(userText, messageHistory = []) {
     }
 
     const barrels200L = (estWaterLitre / 200).toFixed(1);
-    const antracolGrams = Math.round(estWaterLitre * 2.5);
-    const dodineGrams = Math.round(estWaterLitre * 1.0);
-    const alikaMl = Math.round(estWaterLitre * 0.5);
-    const hmoLitres = (estWaterLitre * 0.02).toFixed(1);
+
+    // Detect if a specific chemical was requested
+    const calcProducts = [];
+    if (query.includes('luna') || query.includes('fluopyram')) {
+      const ml = Math.round(estWaterLitre * 1.0);
+      const packs = Math.ceil(ml / 100);
+      const price = packs * 1160;
+      calcProducts.push({
+        name: 'Bayer Luna Experience (Fluopyram + Tebuconazole)',
+        rate: '1.0 ml / L',
+        requiredQty: ml >= 1000 ? `${(ml / 1000).toFixed(2)} Litres` : `${ml} ml`,
+        packDesc: `${packs} bottle(s) of 100ml / 250ml`,
+        price,
+        rawProduct: products.find(p => p.name.includes('Luna'))
+      });
+    } else if (query.includes('antracol') || query.includes('propineb')) {
+      const g = Math.round(estWaterLitre * 2.5);
+      const packs = Math.ceil(g / 500);
+      const price = packs * 520;
+      calcProducts.push({
+        name: 'Bayer Antracol 70% WP (Propineb)',
+        rate: '2.5 g / L',
+        requiredQty: g >= 1000 ? `${(g / 1000).toFixed(2)} kg` : `${g} g`,
+        packDesc: `${packs} packet(s) of 500g`,
+        price,
+        rawProduct: products.find(p => p.name.includes('Antracol'))
+      });
+    } else if (query.includes('dodine') || query.includes('superstar')) {
+      const g = Math.round(estWaterLitre * 1.0);
+      const packs = Math.ceil(g / 500);
+      const price = packs * 680;
+      calcProducts.push({
+        name: 'Superstar Dodine 65% WP',
+        rate: '1.0 g / L',
+        requiredQty: g >= 1000 ? `${(g / 1000).toFixed(2)} kg` : `${g} g`,
+        packDesc: `${packs} packet(s) of 500g`,
+        price,
+        rawProduct: products.find(p => p.name.includes('Dodeine') || p.name.includes('Dodine'))
+      });
+    } else if (query.includes('alika') || query.includes('thiamethoxam')) {
+      const ml = Math.round(estWaterLitre * 0.5);
+      const packs = Math.ceil(ml / 80);
+      const price = packs * 600;
+      calcProducts.push({
+        name: 'Syngenta Alika (Thiamethoxam + Lambda)',
+        rate: '0.5 ml / L',
+        requiredQty: ml >= 1000 ? `${(ml / 1000).toFixed(2)} Litres` : `${ml} ml`,
+        packDesc: `${packs} bottle(s) of 80ml / 200ml`,
+        price,
+        rawProduct: products.find(p => p.name.includes('Alika'))
+      });
+    } else if (query.includes('oil') || query.includes('hmo') || query.includes('mineral')) {
+      const l = (estWaterLitre * 0.02).toFixed(1);
+      const cans = Math.ceil(parseFloat(l) / 5);
+      const price = cans * 1440;
+      calcProducts.push({
+        name: 'Horticultural Mineral Oil (HMO 2%)',
+        rate: '20 ml / L',
+        requiredQty: `${l} Litres`,
+        packDesc: `${cans} can(s) of 5L`,
+        price,
+        rawProduct: products.find(p => p.name.includes('Cyclone') || p.name.includes('505'))
+      });
+    } else {
+      // Default: Standard Spring Scab & Pest Shield (Antracol 70% + Syngenta Alika)
+      const gAntracol = Math.round(estWaterLitre * 2.5);
+      const packsAntracol = Math.ceil(gAntracol / 500);
+      const mlAlika = Math.round(estWaterLitre * 0.5);
+      const packsAlika = Math.ceil(mlAlika / 80);
+
+      calcProducts.push({
+        name: 'Bayer Antracol 70% WP (Scab Protective)',
+        rate: '2.5 g / L',
+        requiredQty: gAntracol >= 1000 ? `${(gAntracol / 1000).toFixed(2)} kg` : `${gAntracol} g`,
+        packDesc: `${packsAntracol} packet(s) of 500g`,
+        price: packsAntracol * 520,
+        rawProduct: products.find(p => p.name.includes('Antracol'))
+      });
+      calcProducts.push({
+        name: 'Syngenta Alika (Sucking Insect Knockdown)',
+        rate: '0.5 ml / L',
+        requiredQty: mlAlika >= 1000 ? `${(mlAlika / 1000).toFixed(2)} Litres` : `${mlAlika} ml`,
+        packDesc: `${packsAlika} bottle(s) of 80ml`,
+        price: packsAlika * 600,
+        rawProduct: products.find(p => p.name.includes('Alika'))
+      });
+    }
+
+    const totalEstimate = calcProducts.reduce((sum, p) => sum + p.price, 0);
+
+    const dosageEmbed = {
+      scaleDescription,
+      waterLiters: estWaterLitre,
+      barrels: barrels200L,
+      products: calcProducts,
+      totalEstimate
+    };
+
+    const productLines = calcProducts.map(p => `• **${p.name}:** **${p.requiredQty}** (${p.packDesc}) ~₹${p.price.toLocaleString('en-IN')}`).join('\n');
 
     return {
-      text: `🧮 **Precision Chemical Dosage Calculation:**\n\n- 🌳 **Orchard / Tank Scale:** **${scaleDescription}**\n- 💧 **Total Water Volume:** **${estWaterLitre} Litres** (${barrels200L} x 200L barrels)\n\n📦 **SKUAST-K Standard Quantities:**\n1. 🍏 **Bayer Antracol 70% WP (Scab Contact):** **${antracolGrams}g** (${(antracolGrams / 500).toFixed(1)} packets of 500g)\n2. 🛡️ **Superstar Dodine 65% WP (Curative):** **${dodineGrams}g** (${(dodineGrams / 500).toFixed(1)} packets)\n3. 🐛 **Syngenta Alika Insecticide:** **${alikaMl} ml** (${(alikaMl / 100).toFixed(1)} bottles of 100ml)\n4. 🛢️ **Horticultural Mineral Oil (HMO 2%):** **${hmoLitres} Litres** (${(hmoLitres / 5).toFixed(1)} cans of 5L)\n\n💰 **Shop Privilege:** Get all factory-sealed stock at **20% flat discount on print MRP** directly at MA Pesticides Srinagar!`,
-      actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, please reserve spray products for ${scaleDescription} (${estWaterLitre}L water).`)}`,
-      suggestions: ['⚠️ Tank Mixing Order (WALES)', '🗓️ Pink Bud Stage Schedule', '🌤️ Spray Weather Window', '📍 Store Location Srinagar']
+      text: `🧮 **Precision Chemical Dosage Calculation:**\n\n- 🌳 **Orchard / Tank Scale:** **${scaleDescription}**\n- 💧 **Total Water Volume:** **${estWaterLitre} Litres** (${barrels200L} × 200L barrels)\n\n📦 **SKUAST-K Recommended Quantities:**\n${productLines}\n\n💰 **Estimated Store Total:** **~₹${totalEstimate.toLocaleString('en-IN')}** *(with guaranteed 20% discount on print MRP)*`,
+      dosageEmbed,
+      actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, please reserve spray products for ${scaleDescription} (${estWaterLitre}L water, Est: ₹${totalEstimate}).`)}`,
+      suggestions: ['⚠️ Check Tank Mix Compatibility', '🛒 Open Cart', '🗓️ Spray Calendar Stages', '🌤️ Check Weather Window']
     };
   }
 
@@ -1243,6 +1458,7 @@ export default function AdvisorChatbot() {
   const [speakingIdx, setSpeakingIdx] = useState(null);
   const [activeCategory, setActiveCategory] = useState('all');
   const [addedItemNotification, setAddedItemNotification] = useState(null);
+  const [copiedPrescriptionId, setCopiedPrescriptionId] = useState(null);
 
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
@@ -1428,6 +1644,22 @@ export default function AdvisorChatbot() {
         break;
       default:
         break;
+    }
+  };
+
+  // Copy spray dilution prescription to clipboard
+  const handleCopyPrescription = (embed, msgIdx) => {
+    const text = `🌿 SKUAST-K Spray Dilution Recipe (MA Pesticides Srinagar)\n` +
+      `• Scale: ${embed.scaleDescription}\n` +
+      `• Total Spray Water: ${embed.waterLiters}L (${embed.barrels} Barrels)\n\n` +
+      embed.products.map(p => `• ${p.name}: ${p.requiredQty} (${p.packDesc}) ~₹${p.price.toLocaleString('en-IN')}`).join('\n') +
+      `\n\nEstimated Cost: ~₹${embed.totalEstimate.toLocaleString('en-IN')} (20% OFF MRP)\n` +
+      `Mix using WALES order. Apply early morning or late afternoon. MA Pesticides Srinagar (+91 99065 41321).`;
+    if (navigator?.clipboard?.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        setCopiedPrescriptionId(msgIdx);
+        setTimeout(() => setCopiedPrescriptionId(null), 2200);
+      }).catch(() => {});
     }
   };
 
@@ -2098,6 +2330,250 @@ export default function AdvisorChatbot() {
                         >
                           <Calculator size={12} />
                           <span>Compute Dilution</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Embedded Interactive Dosage Calculation Card */}
+                  {msg.dosageEmbed && (
+                    <div style={{
+                      marginTop: '12px',
+                      padding: '14px',
+                      borderRadius: '14px',
+                      backgroundColor: 'rgba(28, 71, 42, 0.05)',
+                      border: '1px solid rgba(28, 71, 42, 0.2)',
+                      fontSize: '12px'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px', paddingBottom: '6px', borderBottom: '1px solid rgba(28, 71, 42, 0.12)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <Calculator size={15} style={{ color: 'var(--color-pine-green)' }} />
+                          <span style={{ fontWeight: 700, color: 'var(--color-pine-green)', fontSize: '12.5px' }}>
+                            Orchard Spray Dilution Card
+                          </span>
+                        </div>
+                        <span style={{ fontSize: '11px', padding: '2px 8px', borderRadius: '12px', backgroundColor: 'rgba(28, 71, 42, 0.12)', color: 'var(--color-pine-green)', fontWeight: 600 }}>
+                          {msg.dosageEmbed.barrels} Barrels (200L)
+                        </span>
+                      </div>
+
+                      <div style={{ fontSize: '11.5px', color: 'var(--color-slate-gray)', marginBottom: '10px' }}>
+                        <span>Target Scale: <strong>{msg.dosageEmbed.scaleDescription}</strong> ({msg.dosageEmbed.waterLiters}L Water)</span>
+                      </div>
+
+                      {/* Product Formulation Breakdown */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px' }}>
+                        {msg.dosageEmbed.products.map((p, pIdx) => (
+                          <div key={pIdx} style={{
+                            padding: '8px 10px',
+                            borderRadius: '8px',
+                            backgroundColor: 'rgba(255, 255, 255, 0.85)',
+                            border: '1px solid rgba(28, 71, 42, 0.1)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            gap: '8px'
+                          }}>
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <div style={{ fontWeight: 600, color: '#111827', fontSize: '12px' }}>
+                                {p.name}
+                              </div>
+                              <div style={{ fontSize: '11px', color: '#6b7280', marginTop: '1px' }}>
+                                Dilution: <strong style={{ color: '#059669' }}>{p.rate}</strong> • Qty: <strong>{p.requiredQty}</strong> ({p.packDesc})
+                              </div>
+                            </div>
+                            <div style={{ textAlign: 'right', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                              <span style={{ fontWeight: 700, color: 'var(--color-pine-green)', fontSize: '12px' }}>
+                                ~₹{p.price.toLocaleString('en-IN')}
+                              </span>
+                              {p.rawProduct && (
+                                <button
+                                  type="button"
+                                  onClick={() => handleExecuteAction('add_to_cart', p.rawProduct)}
+                                  className="advisor-control-btn advisor-control-btn-primary"
+                                  style={{ padding: '3px 8px', fontSize: '10.5px' }}
+                                  title={`Add ${p.name} to cart`}
+                                >
+                                  <Plus size={11} />
+                                  <span>Cart</span>
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Total & Action Controls */}
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px', paddingTop: '8px', borderTop: '1px solid rgba(28, 71, 42, 0.12)' }}>
+                        <div style={{ fontSize: '11.5px', color: 'var(--color-slate-gray)' }}>
+                          Total Est: <strong style={{ color: 'var(--color-pine-green)', fontSize: '13px' }}>~₹{msg.dosageEmbed.totalEstimate.toLocaleString('en-IN')}</strong> <span style={{ fontSize: '10px', color: '#059669' }}>(20% OFF)</span>
+                        </div>
+                        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                          <button
+                            type="button"
+                            onClick={() => handleCopyPrescription(msg.dosageEmbed, idx)}
+                            className="advisor-control-btn"
+                            title="Copy prescription to clipboard"
+                          >
+                            {copiedPrescriptionId === idx ? <Check size={12} style={{ color: '#059669' }} /> : <Copy size={12} />}
+                            <span>{copiedPrescriptionId === idx ? 'Copied Recipe!' : 'Copy Recipe'}</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              msg.dosageEmbed.products.forEach(p => {
+                                if (p.rawProduct) {
+                                  cart.addToCart(p.rawProduct, 1, { openDrawer: false });
+                                }
+                              });
+                              setAddedItemNotification('All Recipe Items');
+                              setTimeout(() => setAddedItemNotification(null), 2500);
+                            }}
+                            className="advisor-control-btn advisor-control-btn-primary"
+                            title="Add all recipe products to shopping cart"
+                          >
+                            <ShoppingCart size={12} />
+                            <span>Add All to Cart</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => navigate('/dosage-calculator')}
+                            className="advisor-control-btn"
+                            title="Open full interactive dosage calculator"
+                          >
+                            <ExternalLink size={12} />
+                            <span>Full Calc</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Embedded Tank Mix Biochemical Compatibility Card */}
+                  {msg.tankMixEmbed && (
+                    <div style={{
+                      marginTop: '12px',
+                      padding: '14px',
+                      borderRadius: '14px',
+                      backgroundColor: msg.tankMixEmbed.status === 'INCOMPATIBLE_HAZARD'
+                        ? 'rgba(239, 68, 68, 0.06)'
+                        : msg.tankMixEmbed.status === 'COMPATIBLE_SAFE'
+                        ? 'rgba(16, 185, 129, 0.06)'
+                        : 'rgba(2, 132, 199, 0.06)',
+                      border: `1px solid ${
+                        msg.tankMixEmbed.status === 'INCOMPATIBLE_HAZARD'
+                          ? 'rgba(239, 68, 68, 0.3)'
+                          : msg.tankMixEmbed.status === 'COMPATIBLE_SAFE'
+                          ? 'rgba(16, 185, 129, 0.3)'
+                          : 'rgba(2, 132, 199, 0.3)'
+                      }`,
+                      fontSize: '12px'
+                    }}>
+                      {/* Header Badge */}
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px', paddingBottom: '6px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          {msg.tankMixEmbed.status === 'INCOMPATIBLE_HAZARD' ? (
+                            <AlertTriangle size={16} style={{ color: '#dc2626' }} />
+                          ) : msg.tankMixEmbed.status === 'COMPATIBLE_SAFE' ? (
+                            <CheckCircle size={16} style={{ color: '#059669' }} />
+                          ) : (
+                            <Beaker size={16} style={{ color: '#0284c7' }} />
+                          )}
+                          <span style={{
+                            fontWeight: 700,
+                            fontSize: '11px',
+                            letterSpacing: '0.4px',
+                            textTransform: 'uppercase',
+                            color: msg.tankMixEmbed.badgeColor || '#1f2937'
+                          }}>
+                            {msg.tankMixEmbed.badge}
+                          </span>
+                        </div>
+                        <span style={{
+                          fontSize: '10px',
+                          padding: '2px 8px',
+                          borderRadius: '10px',
+                          backgroundColor: msg.tankMixEmbed.status === 'INCOMPATIBLE_HAZARD' ? '#fee2e2' : msg.tankMixEmbed.status === 'COMPATIBLE_SAFE' ? '#d1fae5' : '#e0f2fe',
+                          color: msg.tankMixEmbed.status === 'INCOMPATIBLE_HAZARD' ? '#991b1b' : msg.tankMixEmbed.status === 'COMPATIBLE_SAFE' ? '#065f46' : '#075985',
+                          fontWeight: 700
+                        }}>
+                          {msg.tankMixEmbed.status === 'INCOMPATIBLE_HAZARD' ? 'PROHIBITED TANK MIX' : msg.tankMixEmbed.status === 'COMPATIBLE_SAFE' ? 'VERIFIED COMPATIBLE' : 'SKUAST-K PROTOCOL'}
+                        </span>
+                      </div>
+
+                      <div style={{ fontWeight: 600, color: '#111827', fontSize: '12.5px', marginBottom: '6px' }}>
+                        {msg.tankMixEmbed.headline}
+                      </div>
+
+                      {/* Incompatible specific details */}
+                      {msg.tankMixEmbed.status === 'INCOMPATIBLE_HAZARD' && (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '8px' }}>
+                          <div style={{ color: '#b91c1c', fontSize: '11.5px', padding: '6px 8px', borderRadius: '6px', backgroundColor: '#fef2f2' }}>
+                            <strong>Danger:</strong> {msg.tankMixEmbed.danger}
+                          </div>
+                          <div style={{ color: '#4b5563', fontSize: '11.5px' }}>
+                            <strong>Rule:</strong> {msg.tankMixEmbed.rule}
+                          </div>
+                          <div style={{ color: '#047857', fontSize: '11.5px', padding: '6px 8px', borderRadius: '6px', backgroundColor: '#ecfdf5' }}>
+                            <strong>Safe Alternative:</strong> {msg.tankMixEmbed.safeAlternative}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Compatible specific details */}
+                      {msg.tankMixEmbed.status === 'COMPATIBLE_SAFE' && (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '8px' }}>
+                          <div style={{ color: '#047857', fontSize: '11.5px' }}>
+                            <strong>Agronomic Benefit:</strong> {msg.tankMixEmbed.benefit}
+                          </div>
+                          <div style={{ color: '#374151', fontSize: '11.5px', padding: '6px 8px', borderRadius: '6px', backgroundColor: 'rgba(255,255,255,0.7)' }}>
+                            <strong>Mixing Order:</strong> {msg.tankMixEmbed.walesOrder}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* WALES Guide details */}
+                      {msg.tankMixEmbed.status === 'WALES_GUIDE' && (
+                        <div style={{
+                          whiteSpace: 'pre-line',
+                          fontFamily: 'monospace',
+                          fontSize: '11px',
+                          color: '#1e293b',
+                          padding: '8px 10px',
+                          borderRadius: '8px',
+                          backgroundColor: 'rgba(255, 255, 255, 0.85)',
+                          border: '1px solid rgba(2, 132, 199, 0.2)',
+                          marginBottom: '8px'
+                        }}>
+                          {msg.tankMixEmbed.walesOrder}
+                        </div>
+                      )}
+
+                      {/* Controls */}
+                      <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: '8px', paddingTop: '8px', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+                        <button
+                          type="button"
+                          onClick={() => navigate('/dosage-calculator')}
+                          className="advisor-control-btn advisor-control-btn-primary"
+                        >
+                          <Calculator size={12} />
+                          <span>Tank Calculator</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => navigate('/spray-calendar')}
+                          className="advisor-control-btn"
+                        >
+                          <Calendar size={12} />
+                          <span>Spray Calendar</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleSend('what is WALES sequence in spray mixing')}
+                          className="advisor-control-btn"
+                        >
+                          <Layers size={12} />
+                          <span>WALES Rules</span>
                         </button>
                       </div>
                     </div>
