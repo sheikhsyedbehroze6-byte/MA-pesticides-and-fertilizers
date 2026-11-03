@@ -90,7 +90,7 @@ export default function DiseaseGuide() {
         </div>
 
         {/* Language Translation Switcher Bar */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '32px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '32px', flexWrap: 'wrap' }}>
           <Globe size={16} color="var(--color-slate-gray)" />
           <span style={{ fontSize: '13px', color: 'var(--color-slate-gray)', fontFamily: 'var(--font-sohne)', marginRight: '4px' }}>Language:</span>
           

@@ -118,9 +118,9 @@ export default function Home() {
       {/* ========================================================================
           STEEP HERO SECTION — Editorial Collage with Interactive 3D Agronomy
           ======================================================================== */}
-      <section className="section-padding" style={{ paddingTop: '56px', paddingBottom: '88px', overflow: 'hidden' }}>
+      <section className="section-padding home-hero-section" style={{ overflow: 'hidden' }}>
         <div className="page-container">
-          <div style={{ textAlign: 'center', maxWidth: '1020px', margin: '0 auto 56px' }}>
+          <div style={{ textAlign: 'center', maxWidth: '1020px', margin: '0 auto 48px' }}>
             {/* Tag / Category Label */}
             <div className="gsap-hero-tag" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '9999px', backgroundColor: 'var(--color-sage-tint)', border: '1px solid rgba(26, 67, 46, 0.18)', marginBottom: '20px' }}>
               <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: 'var(--color-pine-green)' }}></span>
@@ -130,7 +130,7 @@ export default function Home() {
             </div>
 
             {/* Signature Serif Display Headline */}
-            <h1 className="text-display gsap-hero-title" style={{ marginBottom: '24px', color: 'var(--color-ink-black)', fontSize: 'clamp(34px, 5.2vw, 76px)', lineHeight: 1.22 }}>
+            <h1 className="text-display gsap-hero-title" style={{ marginBottom: '24px', color: 'var(--color-ink-black)', fontSize: 'clamp(28px, 5.5vw, 76px)', lineHeight: 1.22 }}>
               Scientific crop protection <span className="editorial-italic" style={{ marginRight: '0.18em' }}>tailored for Kashmir</span> orchards.
             </h1>
 

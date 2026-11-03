@@ -101,9 +101,10 @@ export default function BottomNav() {
             aria-label="Open Orchard Chemist Advisory Desk"
           >
             <div className="bottom-nav-icon-wrapper">
-              <MessageSquare size={21} strokeWidth={2.0} color="var(--color-pine-green)" />
+              <MessageSquare size={21} strokeWidth={2.0} />
+              <span className="bottom-nav-pulse-dot" />
             </div>
-            <span className="bottom-nav-label" style={{ fontWeight: 600, color: 'var(--color-pine-green)' }}>Advisory</span>
+            <span className="bottom-nav-label" style={{ fontWeight: 600 }}>Advisory</span>
           </button>
         </li>
       </ul>

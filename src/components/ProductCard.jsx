@@ -75,17 +75,20 @@ function ProductCard({ product, langMode = 'both' }) {
       </div>
 
       {/* Product Image Crop Container */}
-      <div style={{
-        height: '180px',
-        borderRadius: 'var(--radius-images)',
-        backgroundColor: 'var(--surface-elevated-white)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '16px',
-        marginBottom: '20px',
-        boxShadow: 'var(--shadow-subtle)'
-      }}>
+      <div
+        className="product-card-img-wrap"
+        style={{
+          height: '180px',
+          borderRadius: 'var(--radius-images)',
+          backgroundColor: 'var(--surface-elevated-white)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '16px',
+          marginBottom: '20px',
+          boxShadow: 'var(--shadow-subtle)'
+        }}
+      >
         <img
           src={product.image}
           alt={product.name}

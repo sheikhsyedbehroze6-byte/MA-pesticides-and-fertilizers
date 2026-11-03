@@ -12,6 +12,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { CartProvider } from './context/CartContext';
 import SprayOrderDrawer from './components/SprayOrderDrawer';
 import FloatingCartButton from './components/FloatingCartButton';
+import BottomNav from './components/BottomNav';
 import './App.css';
 import ErrorBoundary from './components/ErrorBoundary';
 import NetworkStatusBanner from './components/NetworkStatusBanner';
@@ -125,6 +126,9 @@ function App() {
 
               {/* Floating Quick Order Cart Button */}
               <FloatingCartButton />
+
+              {/* Native Mobile Bottom Navigation Dock */}
+              <BottomNav />
             </div>
           </Router>
         </CartProvider>
