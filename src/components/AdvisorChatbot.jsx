@@ -7,7 +7,7 @@ import {
   ArrowRight, Mic, MicOff, Volume2, VolumeX, ShieldAlert, Droplets,
   Calendar, Phone, MapPin, CheckCircle, Info, Beaker, Leaf, AlertTriangle,
   ShoppingCart, Plus, Check, Sun, Moon, Compass, Zap, Calculator, PhoneCall, Search,
-  CloudRain, Wind, Thermometer, Copy, Layers
+  CloudRain, Wind, Thermometer, Copy, Layers, Brain, ChevronDown, ChevronUp
 } from 'lucide-react';
 import { products, diseases } from '../data/agricultureData';
 import { safeOpen, sanitizeInput, checkRateLimit } from '../utils/security';
@@ -239,16 +239,196 @@ function scoreMatch(text, words) {
   return score;
 }
 
-// Helper: Format bold markdown safely
-function formatBotText(text) {
+// Helper: Parse inline markdown: **bold**, ~~strikethrough~~, `code/dosage`, [label](url)
+function formatInlineMarkdown(text) {
   if (!text) return null;
-  const parts = text.split(/(\*\*.*?\*\*)/g);
+  const regex = /(\[.*?\]\(.*?\)|\*\*.*?\*\*|~~.*?~~|`.*?`)/g;
+  const parts = text.split(regex);
+
   return parts.map((part, index) => {
-    if (part.startsWith('**') && part.endsWith('**')) {
-      return <strong key={index} style={{ fontWeight: 600 }}>{part.slice(2, -2)}</strong>;
+    if (!part) return null;
+
+    // Link: [label](url)
+    const linkMatch = part.match(/^\[(.*?)\]\((.*?)\)$/);
+    if (linkMatch) {
+      const [, label, url] = linkMatch;
+      return (
+        <a
+          key={index}
+          href={url}
+          target={url.startsWith('http') ? '_blank' : '_self'}
+          rel={url.startsWith('http') ? 'noopener noreferrer' : undefined}
+          style={{
+            color: 'var(--color-pine-green, #1c472a)',
+            fontWeight: 650,
+            textDecoration: 'underline',
+            textUnderlineOffset: '2px'
+          }}
+        >
+          {label}
+        </a>
+      );
     }
+
+    // Bold: **text**
+    if (part.startsWith('**') && part.endsWith('**') && part.length >= 4) {
+      return (
+        <strong key={index} style={{ fontWeight: 650, color: 'inherit' }}>
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+
+    // Strikethrough: ~~text~~
+    if (part.startsWith('~~') && part.endsWith('~~') && part.length >= 4) {
+      return (
+        <span
+          key={index}
+          style={{
+            textDecoration: 'line-through',
+            opacity: 0.65,
+            color: '#6b7280',
+            marginRight: '3px'
+          }}
+        >
+          {part.slice(2, -2)}
+        </span>
+      );
+    }
+
+    // Code / Dosage tag: `text`
+    if (part.startsWith('`') && part.endsWith('`') && part.length >= 2) {
+      return (
+        <code
+          key={index}
+          style={{
+            backgroundColor: 'rgba(28, 71, 42, 0.08)',
+            color: 'var(--color-pine-green, #1c472a)',
+            padding: '1px 6px',
+            borderRadius: '4px',
+            fontSize: '0.88em',
+            fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+            fontWeight: 600,
+            border: '1px solid rgba(28, 71, 42, 0.15)'
+          }}
+        >
+          {part.slice(1, -1)}
+        </code>
+      );
+    }
+
     return part;
   });
+}
+
+// Structured Bot Message Content with crisp visual hierarchy & clear sections
+function StructuredBotMessage({ text }) {
+  if (!text) return null;
+
+  const lines = text.split('\n');
+  const elements = [];
+  let currentList = [];
+
+  const flushList = (keyPrefix) => {
+    if (currentList.length > 0) {
+      elements.push(
+        <div key={`${keyPrefix}-list`} style={{ display: 'flex', flexDirection: 'column', gap: '5px', margin: '6px 0' }}>
+          {currentList.map((item, itemIdx) => (
+            <div key={itemIdx} style={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '8px',
+              fontSize: '13.5px',
+              lineHeight: '1.45',
+              padding: '4px 8px',
+              borderRadius: '6px',
+              backgroundColor: 'rgba(0, 0, 0, 0.02)'
+            }}>
+              <span style={{
+                color: 'var(--color-pine-green, #1c472a)',
+                fontWeight: 700,
+                fontSize: '13px',
+                lineHeight: '1.3',
+                flexShrink: 0
+              }}>•</span>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                {formatInlineMarkdown(item)}
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+      currentList = [];
+    }
+  };
+
+  lines.forEach((line, lineIdx) => {
+    const trimmed = line.trim();
+
+    // Empty line -> flush list
+    if (!trimmed) {
+      flushList(lineIdx);
+      return;
+    }
+
+    // Bullet item line: starts with '- ' or '• ' or '* '
+    if (trimmed.startsWith('- ') || trimmed.startsWith('• ') || trimmed.startsWith('* ')) {
+      const content = trimmed.replace(/^[-•*]\s+/, '');
+      currentList.push(content);
+      return;
+    }
+
+    // Flush any pending list before other elements
+    flushList(lineIdx);
+
+    // Callout / Alert box line (e.g. 💡 **Application Tip:** or ⚠️ **Warning:** or 🚨 **Danger:** or 🔬 **Rain-Fastness Protocol:**)
+    const isCallout = /^(💡|⚠️|🚨|✅|🧪|🔬|🏷️)\s+\*\*/.test(trimmed);
+    if (isCallout) {
+      elements.push(
+        <div key={lineIdx} style={{
+          margin: '8px 0',
+          padding: '8px 12px',
+          borderRadius: '8px',
+          backgroundColor: trimmed.startsWith('🚨') ? 'rgba(239, 68, 68, 0.08)' : trimmed.startsWith('💡') ? 'rgba(245, 158, 11, 0.08)' : 'rgba(28, 71, 42, 0.06)',
+          borderLeft: `3px solid ${trimmed.startsWith('🚨') ? '#ef4444' : trimmed.startsWith('💡') ? '#f59e0b' : 'var(--color-pine-green, #1c472a)'}`,
+          fontSize: '12.5px',
+          lineHeight: '1.45'
+        }}>
+          {formatInlineMarkdown(trimmed)}
+        </div>
+      );
+      return;
+    }
+
+    // Title / Header line (e.g. starts with emoji + bold, or ###, or starts with Assalamu Alaikum)
+    const isHeader = /^(#{1,3}\s+|\p{Extended_Pictographic}\s+\*\*)/u.test(trimmed);
+    if (isHeader) {
+      elements.push(
+        <div key={lineIdx} style={{
+          fontSize: '14.5px',
+          fontWeight: 700,
+          color: 'var(--color-ink-black)',
+          marginTop: lineIdx === 0 ? '0' : '10px',
+          marginBottom: '6px',
+          lineHeight: '1.35',
+          fontFamily: 'var(--font-sohne), system-ui, sans-serif'
+        }}>
+          {formatInlineMarkdown(trimmed.replace(/^[#]{1,3}\s+/, ''))}
+        </div>
+      );
+      return;
+    }
+
+    // Normal paragraph
+    elements.push(
+      <p key={lineIdx} style={{ margin: '4px 0', fontSize: '13.5px', lineHeight: '1.5' }}>
+        {formatInlineMarkdown(trimmed)}
+      </p>
+    );
+  });
+
+  flushList('end');
+  return <div style={{ display: 'flex', flexDirection: 'column' }}>{elements}</div>;
 }
 
 // Strip markdown for TTS voice
@@ -256,9 +436,77 @@ function cleanTextForSpeech(text) {
   if (!text) return '';
   return text
     .replace(/\*\*/g, '')
+    .replace(/~~.*?~~/g, '')
+    .replace(/`.*?`/g, (m) => m.slice(1, -1))
     .replace(/\p{Extended_Pictographic}/gu, '')
-    .replace(/\[.*?\]/g, '')
+    .replace(/\[(.*?)\]\(.*?\)/g, '$1')
+    .replace(/^[-•*]\s+/gm, '')
     .trim();
+}
+
+// Generator: Step-by-step reasoning thought process for each intent
+function generateThoughtProcess(intentType, details = {}) {
+  switch (intentType) {
+    case 'price':
+      return [
+        { title: '1. Catalog Price & MRP Verification', detail: `Located official inventory entry for ${details.productName || 'agrochemical formulation'} in store database.` },
+        { title: '2. Direct Distributor Margin Calculation', detail: 'Applied guaranteed 20% discount on print MRP (verified direct-from-distributor rate).' },
+        { title: '3. Genuine Batch & Counter Availability', detail: 'Confirmed factory-sealed batch availability at Hari Singh High Street, Srinagar store counter.' }
+      ];
+    case 'tank_mix':
+      return [
+        { title: '1. Chemical Formulation & Surfactant Analysis', detail: `Screened formulation types and active molecules for ${details.chemicals || 'tank mixture'}.` },
+        { title: '2. Biochemical Compatibility Check', detail: details.isHazard ? `FLAGGED INCOMPATIBILITY: ${details.hazardDesc || 'Phytotoxic cuticle destruction or precipitation hazard'}.` : 'Verified molecular compatibility; zero precipitate curdling or active ingredient degradation detected.' },
+        { title: '3. WALES Mixing Protocol Verification', detail: details.isHazard ? 'Formulated mandatory safety gap rule and safe protective alternative.' : 'Calibrated standard WALES order (Water -> WP -> Agitate -> Liquids -> EC -> Surfactants).' }
+      ];
+    case 'stage':
+      return [
+        { title: '1. Phenological Timing Calibration', detail: `Mapped inquiry to official SKUAST-K Stage: ${details.stageName || 'Orchard Phenology'}.` },
+        { title: '2. Pathogen Inoculum & Pest Pressure', detail: `Evaluated primary seasonal threats: ${details.pests || 'Fungal spores and insect eggs'}.` },
+        { title: '3. Formulation & Spray Condition Check', detail: `Selected recommended treatment: ${details.recommendation || 'Approved chemistry'} with temperature and rainfastness rules.` }
+      ];
+    case 'dosage':
+      return [
+        { title: '1. Scale & Tree Metric Parsing', detail: `Determined target water volume: ${details.waterLiters || 200} Litres (${details.barrels || 1.0} standard 200L barrels) for ${details.scaleDescription || 'orchard scale'}.` },
+        { title: '2. SKUAST-K Dilution Calibration', detail: 'Converted recommended g/L and ml/L concentrations to net required bulk formulation quantities.' },
+        { title: '3. Commercial Packaging & Discount', detail: `Calculated commercial packaging count with guaranteed 20% store discount (Estimated Total: ~₹${details.totalEstimate || 0}).` }
+      ];
+    case 'disease':
+      return [
+        { title: '1. Symptom & Pathology Identification', detail: `Diagnosed ${details.diseaseName || 'Crop Disease'} (${details.crop || 'Apple'}). Assessed severity as ${details.severity || 'Moderate'} risk.` },
+        { title: '2. Kashmir Climate & Spore Inoculum Analysis', detail: 'Correlated prevailing temperature and humidity thresholds triggering sporulation.' },
+        { title: '3. Targeted Curative Chemistry Selection', detail: `Prescribed: ${details.cure || 'Recommended formulation'} @ ${details.dosage || 'standard rate'} for rapid fungal eradication.` }
+      ];
+    case 'product':
+      return [
+        { title: '1. Registered Product Match', detail: `Retrieved ${details.productName || 'Product'} (${details.type || 'Agrochemical'}) from authorized company catalog.` },
+        { title: '2. Active Molecule & Label Claims', detail: `Active ingredient: ${details.composition || 'Active formulation'}. Verified registered targets and mode of action.` },
+        { title: '3. Commercial Rate & Store Availability', detail: `Calculated 20% store discount below print MRP. Factory batch verified at Srinagar counter.` }
+      ];
+    case 'weather':
+      return [
+        { title: '1. Real-Time Meteorological Interrogation', detail: `Retrieved live satellite & ground station telemetry for ${details.location || 'Srinagar'} fruit belt.` },
+        { title: '2. Microclimate Spray Suitability Matrix', detail: `Analyzed temperature (${details.temp || 'N/A'}), rain risk (${details.rain || 0}%), and wind speed (${details.wind || 'N/A'}).` },
+        { title: '3. SKUAST-K Spray Decision & Drying Window', detail: `Determined spray status: ${details.sprayStatus || 'SAFE'}. Calculated minimum rain-free drying window.` }
+      ];
+    case 'agronomy':
+      return [
+        { title: '1. Query & Crop Physiology Parsing', detail: `Parsed topic: "${details.title || 'Agronomy consultation'}" under Kashmir temperate valley conditions.` },
+        { title: '2. Organic Chemistry & Nutrition Correlation', detail: 'Reviewed senior chemist principles (soil pH balance, foliar micronutrients, tree vigor).' },
+        { title: '3. Practical Grower Action Steps', detail: 'Synthesized direct, high-contrast instructions for field application and orchard protection.' }
+      ];
+    case 'action':
+      return [
+        { title: '1. Autonomous Command Parsing', detail: `Recognized user operational request: "${details.command || 'Autonomous Action'}".` },
+        { title: '2. Application State Execution', detail: 'Dispatched immediate routing and viewport synchronization for seamless user experience.' }
+      ];
+    default:
+      return [
+        { title: '1. Horticultural Inquiry Parsing', detail: `Analyzed grower inquiry: "${details.query || 'agronomy query'}" for Kashmir orchard conditions.` },
+        { title: '2. Chemical Mode of Action Correlation', detail: 'Cross-referenced contact vs systemic action with standard university advisory guidelines.' },
+        { title: '3. Clear Practical Recommendation', detail: 'Formulated direct actionable steps, optimal application windows, and authorized store formulations.' }
+      ];
+  }
 }
 
 // ============================================================================
@@ -286,6 +534,7 @@ function generateUniversalAnswer(userText, query, _words) {
 
   return {
     text: `✨ **Expert Chemist Advisory on: "${userText}"**\n\nRegarding your question for **${fruitName}** in Kashmir conditions:\n\nIn Kashmir horticulture, success depends on aligning chemical action with SKUAST-K stage phenology and local microclimate conditions.${customAdvice}\n\n🏷️ **Store Privilege:** All authorized formulations from Bayer, Syngenta, and IPL Biologicals are available at **20% flat discount on print MRP** directly at our Srinagar store.`,
+    thoughtProcess: generateThoughtProcess('universal', { query: userText }),
     actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, I need expert guidance regarding: "${userText}"`)}`,
     suggestions: ['🧮 Calculate 200L Tank Dosage', '🗓️ SKUAST Spray Stages', '⚠️ Check Tank Mix Rules', '📍 Srinagar Store Details']
   };
@@ -330,6 +579,7 @@ async function getBotResponse(userText, messageHistory = []) {
 
       return {
         text: `🌾 **M.A. Pesticides — SKUAST-K Approved Fungicides Price List (Flat 20% OFF):**\n\nAll authorized factory-sealed fungicides for Apple Scab, Powdery Mildew, and Alternaria carry our unconditional **20% flat discount on print MRP**:\n\n${listText}\n\n📍 **Store Location:** Hari Singh High Street, Srinagar (opp. High Court Complex)\n🚚 **Valley Delivery:** Direct dispatch to Baramulla, Shopian, Sopore, Pulwama, and Budgam.`,
+        thoughtProcess: generateThoughtProcess('price', { productName: 'SKUAST-K Approved Fungicides' }),
         actionLink: `https://wa.me/919906541321?text=${encodeURIComponent('Hello Sheikh Mohammad Ayoub, I want to inquire about Fungicide prices and order stock.')}`,
         suggestions: ['🏷️ Price of Luna', '🏷️ Price of Superstar Dodine', '🏷️ Price of Bayer Antracol', '🧮 Calculate 200L Tank Dosage']
       };
@@ -344,6 +594,7 @@ async function getBotResponse(userText, messageHistory = []) {
 
       return {
         text: `🐛 **M.A. Pesticides — Insecticides & Miticides Price List (Flat 20% OFF):**\n\nHigh-potency broad-spectrum insecticides and targeted acaricides for European Red Mite, San Jose Scale, Aphids, and Borers:\n\n${listText}\n\n💰 **Guaranteed Discount:** Flat 20% below print MRP on genuine factory seals.\n📞 **Chemist Helpline:** +91 99065 41321`,
+        thoughtProcess: generateThoughtProcess('price', { productName: 'Insecticides & Mite Sprays' }),
         actionLink: `https://wa.me/919906541321?text=${encodeURIComponent('Hello Sheikh Mohammad Ayoub, I want to order Insecticides and Mite sprays with 20% discount.')}`,
         suggestions: ['🏷️ Price of Syngenta Alika', '🏷️ Price of Mitofix', '🏷️ Price of Cyclone 505', '🧮 Calculate 200L Tank Dosage']
       };
@@ -358,6 +609,7 @@ async function getBotResponse(userText, messageHistory = []) {
 
       return {
         text: `🌿 **M.A. Pesticides — Bio-Stimulants & Orchard Fertilizers Price List (20% OFF):**\n\nCertified foliar nutrition, micronutrient formulations, and organic soil enrichers for fruit sizing, shoot vigor, and cold resilience:\n\n${listText}\n\n📍 In stock at Hari Singh High Street, Srinagar.`,
+        thoughtProcess: generateThoughtProcess('price', { productName: 'Bio-Stimulants & Orchard Fertilizers' }),
         actionLink: `https://wa.me/919906541321?text=${encodeURIComponent('Hello Sheikh Mohammad Ayoub, please send me Bio-Stimulant and Fertilizer prices.')}`,
         suggestions: ['🏷️ Price of IPL 5G Neo+', '🏷️ Price of Sikri Vermicompost', '🧮 Calculate Orchard Dosage', '📍 Store Location']
       };
@@ -372,6 +624,7 @@ async function getBotResponse(userText, messageHistory = []) {
 
       return {
         text: `🛢️ **M.A. Pesticides — Dormant Oils & Adjuvants Price List (20% OFF):**\n\nEssential winter washes for San Jose scale suffocation and non-ionic spreaders for maximum rain-fastness:\n\n${listText}\n\n📍 In stock at Hari Singh High Street, Srinagar.`,
+        thoughtProcess: generateThoughtProcess('price', { productName: 'Dormant Oils & Adjuvants' }),
         actionLink: `https://wa.me/919906541321?text=${encodeURIComponent('Hello Sheikh Mohammad Ayoub, I want to order HMO Mineral Oil and Spreaders.')}`,
         suggestions: ['🏷️ Price of HMO Oil', '🏷️ Price of Life80 Spreader', '🗓️ Dormant Spray Guide', '🧮 200L Barrel Dosage']
       };
@@ -427,6 +680,7 @@ async function getBotResponse(userText, messageHistory = []) {
       return {
         text: `🏷️ **Price & Discount Breakdown for ${targetProduct.name}:**\n\n- 🏷️ **Print MRP:** ~~₹${mrp.toLocaleString('en-IN')}~~\n- 💚 **MA Pesticides Store Price (20% OFF):** **₹${discounted.toLocaleString('en-IN')}**\n- 💰 **Your Direct Savings:** **₹${savings.toLocaleString('en-IN')} (Flat 20% Below Print MRP)**\n\n🧪 **Active Formulation:** ${targetProduct.composition || 'Authorized Factory Formulation'}\n💧 **Standard SKUAST-K Dosage:** **${targetProduct.dosage}**\n🎯 **Targets / Uses:** ${targetProduct.diseases?.join(', ') || targetProduct.uses}\n✨ **Key Benefit:** ${targetProduct.benefits}\n\n📍 **Store Privilege:** 100% factory-sealed original product available at our Hari Singh High Street store in Srinagar with instant valley delivery.`,
         productEmbed: targetProduct,
+        thoughtProcess: generateThoughtProcess('price', { productName: targetProduct.name }),
         actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, I want to order genuine ${targetProduct.name} at discounted price ₹${discounted} (MRP ₹${mrp}).`)}`,
         suggestions: ['🧮 Calculate 200L Tank Dosage', '🛒 Add to Cart', '🗓️ SKUAST Spray Stages', '📍 Visit Srinagar Store']
       };
@@ -466,6 +720,7 @@ async function getBotResponse(userText, messageHistory = []) {
 
     return {
       text: `🏷️ **M.A. Pesticides Srinagar — Official Product Pricing & 20% Discount Catalog:**\n\nAs authorized distributor for **Bayer, Syngenta, IPL Biologicals, Tata, and Willowood**, all genuine factory batches carry an unconditional **20% flat discount on print MRP**:\n\n${fungSec}\n\n${insSec}\n\n${othSec}\n\n💰 **Wholesale Privilege:** Direct factory-sealed stock with batch certificates.\n📍 **Counter Location:** Hari Singh High Street, Srinagar (opp. High Court Complex).\n🚚 **Valley Delivery:** Same-day dispatch to Baramulla, Sopore, Shopian, Pulwama, and Anantnag.\n\n💡 *Ask me for the price of any specific chemical (e.g. "Price of Luna" or "Price of Alika") to see full dosage and barrel calculation!*`,
+      thoughtProcess: generateThoughtProcess('price', { productName: 'Comprehensive Store Catalog' }),
       actionLink: `https://wa.me/919906541321?text=${encodeURIComponent('Hello Sheikh Mohammad Ayoub, please send me the complete product price list for my orchard.')}`,
       suggestions: ['🏷️ Price of Luna', '🏷️ Price of Syngenta Alika', '🏷️ Price of Superstar Dodine', '🏷️ Price of Bayer Antracol', '🧮 200L Tank Dosage Calc']
     };
@@ -493,6 +748,7 @@ async function getBotResponse(userText, messageHistory = []) {
     return {
       text: `👨‍💻 **Developer Information:**\n\n**Sheikh Behroze Ayub (B.Tech CSE)** has developed it.\n\nHe designed, engineered, and developed this digital platform for **M.A. Pesticides & Fertilizers**, creating features such as the Agronomist Advisory Desk, Interactive Dosage Calculator, SKUAST-guided Spray Schedules, and Orchard Health Analytics.`,
       imageEmbed: '/sheikh-behroze-signature.webp',
+      thoughtProcess: generateThoughtProcess('agronomy', { title: 'Platform Architecture & Engineering by Sheikh Behroze Ayub' }),
       actionLink: `https://wa.me/919906541321?text=${encodeURIComponent('Hello Sheikh Behroze Ayub, I visited the MA Pesticides website developed by you.')}`,
       suggestions: ['🍏 Ask Crop Disease Question', '🧮 Calculate Orchard Dosage', '🗓️ SKUAST Spray Schedule', '📍 Visit Srinagar Store']
     };
@@ -624,6 +880,11 @@ async function getBotResponse(userText, messageHistory = []) {
     return {
       text: textOut,
       tankMixEmbed: mixResult,
+      thoughtProcess: generateThoughtProcess('tank_mix', {
+        chemicals: query,
+        isHazard: mixResult.status === 'INCOMPATIBLE_HAZARD',
+        hazardDesc: mixResult.danger
+      }),
       actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, can you confirm tank mix compatibility for: "${query}"?`)}`,
       suggestions: ['🧮 200L Tank Dosage Calc', '🗓️ SKUAST-K Spray Stages', '🍏 Apple Scab Treatment', '🌤️ Check Spray Weather']
     };
@@ -652,6 +913,11 @@ async function getBotResponse(userText, messageHistory = []) {
     return {
       text: `🗓️ **SKUAST-K Orchard Spray Advisory:**\n\n📌 **Stage:** **${stage.name}** (${stage.nameUrdu})\n📅 **Optimal Window:** ${stage.timing}\n🎯 **Target Pests:** ${stage.keyPests}\n\n🧪 **Recommended Formulation:**\n- **Chemical:** **${stage.recommendation}**\n- **Standard Dosage:** ${stage.dosage}\n\n💡 **Expert Chemist Note:**\n${stage.cautions}`,
       stageEmbed: stage,
+      thoughtProcess: generateThoughtProcess('stage', {
+        stageName: stage.name,
+        pests: stage.keyPests,
+        recommendation: stage.recommendation
+      }),
       actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, I need genuine products for ${stage.name} spray.`)}`,
       suggestions: ['🧮 Calculate 200L Tank Dosage', '⚠️ Check Tank Mix Compatibility', '🌤️ Check Srinagar Weather Window', '📦 View Product Stock']
     };
@@ -791,6 +1057,12 @@ async function getBotResponse(userText, messageHistory = []) {
     return {
       text: `🧮 **Precision Chemical Dosage Calculation:**\n\n- 🌳 **Orchard / Tank Scale:** **${scaleDescription}**\n- 💧 **Total Water Volume:** **${estWaterLitre} Litres** (${barrels200L} × 200L barrels)\n\n📦 **SKUAST-K Recommended Quantities:**\n${productLines}\n\n💰 **Estimated Store Total:** **~₹${totalEstimate.toLocaleString('en-IN')}** *(with guaranteed 20% discount on print MRP)*`,
       dosageEmbed,
+      thoughtProcess: generateThoughtProcess('dosage', {
+        scaleDescription,
+        waterLiters: estWaterLitre,
+        barrels: barrels200L,
+        totalEstimate
+      }),
       actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, please reserve spray products for ${scaleDescription} (${estWaterLitre}L water, Est: ₹${totalEstimate}).`)}`,
       suggestions: ['⚠️ Check Tank Mix Compatibility', '🛒 Open Cart', '🗓️ Spray Calendar Stages', '🌤️ Check Weather Window']
     };
@@ -805,6 +1077,7 @@ async function getBotResponse(userText, messageHistory = []) {
       return {
         text: item.response,
         imageEmbed: item.imageEmbed,
+        thoughtProcess: generateThoughtProcess('agronomy', { title: item.title }),
         actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, I need further guidance regarding: ${item.title}`)}`,
         suggestions: ['🧮 Calculate 200L Tank Dosage', '🗓️ SKUAST-K Spray Calendar', '⚠️ Check Tank Mix Safety', '📍 Srinagar Store Details']
       };
@@ -827,7 +1100,17 @@ async function getBotResponse(userText, messageHistory = []) {
     else if (/anantnag|islamabad/i.test(query)) districtKey = 'anantnag';
 
     const liveWeather = await fetchLiveWeatherData(districtKey);
-    return buildWeatherChatResponse(liveWeather);
+    const weatherResp = buildWeatherChatResponse(liveWeather);
+    return {
+      ...weatherResp,
+      thoughtProcess: generateThoughtProcess('weather', {
+        location: liveWeather.location,
+        temp: liveWeather.temp,
+        rain: liveWeather.rainProbability,
+        wind: liveWeather.wind,
+        sprayStatus: liveWeather.sprayStatus
+      })
+    };
   }
 
   // --------------------------------------------------------------------------
@@ -836,6 +1119,7 @@ async function getBotResponse(userText, messageHistory = []) {
   if (query.includes('location') || query.includes('address') || query.includes('shop') || query.includes('store') || query.includes('contact') || query.includes('phone') || query.includes('discount') || query.includes('rate') || query.includes('pata') || query.includes('kahan') || query.includes('dukaan')) {
     return {
       text: `📍 **M.A. Pesticides & Fertilizers — Srinagar Store Details:**\n\n- 🏢 **Address:** Near Exhibition Road, opp. High Court Complex, Hari Singh High Street, Srinagar — 190001\n- 📞 **Expert Chemist Helpline:** [+91 99065 41321](tel:+919906541321)\n- 🕒 **Store Timings:** Monday – Saturday: **9:00 AM – 7:00 PM**\n- 🔬 **In-Store Consultation:** Guided by **Sheikh Mohammad Ayoub** (M.Sc. Organic Chemistry, B.Ed. — University of Kashmir).\n- 🏷️ **Guaranteed Discount:** **20% flat discount on print MRP** across all Bayer, Syngenta, and IPL Biologicals lines.\n- 🌿 **Complimentary Service:** Free leaf and soil inspection for orchardists.`,
+      thoughtProcess: generateThoughtProcess('agronomy', { title: 'M.A. Pesticides Srinagar Store & Consultations' }),
       actionLink: `https://wa.me/919906541321?text=${encodeURIComponent('Hello Sheikh Mohammad Ayoub, I want to visit your Srinagar shop.')}`,
       suggestions: ['🍏 Apple Scab Treatment', '⚡ 200L Tank Dosage Calc', '🗓️ SKUAST Spray Stages', '👨‍💻 Website Developer']
     };
@@ -847,6 +1131,7 @@ async function getBotResponse(userText, messageHistory = []) {
   if (query.match(/^(hi|hello|hey|salam|assalamu|good morning|namaste|adaab)/i)) {
     return {
       text: `Assalamu Alaikum! 👋\n\nWelcome to the **M.A. Pesticides Consultation Desk**, guided by decades of organic chemistry expertise from **Sheikh Mohammad Ayoub**.\n\nHow can we help protect your harvest today?\n\n- 🏷️ **Product Pricing & Rates:** Ask "pricing of products" or "price of Luna" to see verified store rates with **20% flat discount on print MRP**\n- 🍏 **Crop Disease Doctor:** Diagnose Apple Scab, Red Mites, Mildew & Canker\n- 🧮 **Precision Dosage Calculator:** Tell me your tree count or tank size (e.g. \`50 trees\` or \`200L\`)\n- 🗓️ **SKUAST-K Spray Calendar:** Get stage-by-stage spray recommendations\n- ⚠️ **Tank Mixing Safety:** Check chemical compatibility & WALES mixing rules`,
+      thoughtProcess: generateThoughtProcess('agronomy', { title: 'Grower Onboarding & Expert Chemist Guidance' }),
       actionLink: "https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20have%20a%20question%20about%20my%20crops.",
       suggestions: ['🏷️ Pricing of Products', '🍏 Apple Scab Treatment', '🧮 200L Tank Dosage Calc', '🗓️ Pink Bud Stage Spray']
     };
@@ -882,6 +1167,13 @@ async function getBotResponse(userText, messageHistory = []) {
     return {
       text: `🔬 **Crop Disease Advisory: ${bestDisease.name}**\n*${bestDisease.nameUrdu || ''}* (${bestDisease.crop})\n\n- 🚨 **Severity:** **${bestDisease.severity} Risk**\n- 🩺 **Symptoms:** ${bestDisease.symptoms}\n- 💊 **Recommended Cure:** **${bestDisease.cure}**\n- ⚡ **Dosage Rate:** ${bestDisease.dosage}\n- 💰 **Prescription Pricing:** ${priceNote}\n\n💡 **Application Tip:** Spray early morning (7–10 AM) or late afternoon (4–7 PM) when relative humidity ensures uniform droplet coverage on foliage.`,
       diseaseEmbed: bestDisease,
+      thoughtProcess: generateThoughtProcess('disease', {
+        diseaseName: bestDisease.name,
+        crop: bestDisease.crop,
+        severity: bestDisease.severity,
+        cure: bestDisease.cure,
+        dosage: bestDisease.dosage
+      }),
       actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, I need treatment for ${bestDisease.name} in my orchard.`)}`,
       suggestions: ['🧮 Calculate Tank Dosage for this Cure', '🏷️ Price of ' + (matchedProd?.name || 'Cure'), '⚠️ Check Tank Mix Compatibility', '🌤️ Srinagar Spray Window']
     };
@@ -911,6 +1203,11 @@ async function getBotResponse(userText, messageHistory = []) {
     return {
       text: `🌿 **${bestProd.name}** (${bestProd.type})\n\n- 🧪 **Active Formulation:** ${bestProd.composition || 'Authorized Formulation'}\n- 🎯 **Target Uses:** ${bestProd.uses}\n- 💧 **Recommended Dosage:** **${bestProd.dosage}**\n- ✨ **Benefits:** ${bestProd.benefits}\n\n💰 **Guaranteed Store Pricing (Flat 20% OFF):**\n- 🏷️ **Print MRP:** ~~₹${mrp.toLocaleString('en-IN')}~~\n- 💚 **MA Pesticides Store Price:** **₹${discounted.toLocaleString('en-IN')}**\n- 💵 **Your Direct Savings:** **₹${savings.toLocaleString('en-IN')} (20% Below Print MRP)**\n\n📍 100% factory-sealed original batch in stock at Hari Singh High Street, Srinagar.`,
       productEmbed: bestProd,
+      thoughtProcess: generateThoughtProcess('product', {
+        productName: bestProd.name,
+        type: bestProd.type,
+        composition: bestProd.composition
+      }),
       actionLink: `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, I want to purchase genuine ${bestProd.name} with 20% discount (Store Price: ₹${discounted}).`)}`,
       suggestions: ['🧮 Calculate 200L Barrel Dosage', '🛒 Add to Cart', '⚠️ Check Tank Mix Compatibility', '🗓️ Spray Calendar Stage']
     };
@@ -1449,16 +1746,30 @@ export default function AdvisorChatbot() {
     {
       sender: 'bot',
       text: "Assalamu Alaikum! 👋 Welcome to **M.A. Pesticides & Fertilizers**.\n\nI am your digital consultation desk, drawing on decades of organic chemistry and field agronomy from **Sheikh Mohammad Ayoub** (M.Sc. Organic Chemistry, B.Ed. — University of Kashmir).\n\nHow can we help protect your orchard today?\n- 🌤️ **Live Weather Window:** Srinagar orchard temperature, rain risk & spray safety\n- 🍏 **Crop Disease Diagnosis:** Identify Apple Scab, Red Mites, Mildew, and Canker\n- 🧮 **Spray Dilution:** Compute exact formulation grams for 200L barrels or orchard acreage\n- 🗓️ **SKUAST-K Calendar:** Official stage-by-stage spray recommendations\n- 🛒 **Store Orders:** Inquire about genuine factory batches & 20% discount on print MRP",
+      thoughtProcess: [
+        { title: '1. Knowledge Base Initialization', detail: 'Loaded SKUAST-K Kashmir Spray Guidelines and verified pesticide formulation inventory.' },
+        { title: '2. Microclimate Telemetry Ready', detail: 'Linked multi-district Open-Meteo satellite feed for Srinagar, Shopian, Sopore, and Pulwama.' },
+        { title: '3. Clinical Consultation Ready', detail: 'Ready for disease diagnosis, precision tank dilution math, and tank mix safety verification.' }
+      ],
       suggestions: ['🌤️ What is the weather right now', '🍏 Apple Scab Treatment', '🧮 200L Tank Dosage Calc', '🗓️ Pink Bud Stage Spray']
     }
   ]);
   const [input, setInput] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
+  const [isThinking, setIsThinking] = useState(false);
+  const [thinkingStepIndex, setThinkingStepIndex] = useState(0);
+  const [expandedThoughts, setExpandedThoughts] = useState({ 0: false });
   const [isListening, setIsListening] = useState(false);
   const [speakingIdx, setSpeakingIdx] = useState(null);
   const [activeCategory, setActiveCategory] = useState('all');
   const [addedItemNotification, setAddedItemNotification] = useState(null);
   const [copiedPrescriptionId, setCopiedPrescriptionId] = useState(null);
+
+  const toggleThoughts = (msgIdx) => {
+    setExpandedThoughts(prev => ({
+      ...prev,
+      [msgIdx]: !prev[msgIdx]
+    }));
+  };
 
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
@@ -1472,7 +1783,7 @@ export default function AdvisorChatbot() {
     if (isOpen) {
       scrollToBottom();
     }
-  }, [messages, isOpen, isTyping]);
+  }, [messages, isOpen, isThinking, thinkingStepIndex]);
 
   // Global event listeners for mobile BottomNav and quick touch buttons
   useEffect(() => {
@@ -1686,46 +1997,76 @@ export default function AdvisorChatbot() {
     const userMsg = { sender: 'user', text: queryText };
     setMessages(prev => [...prev, userMsg]);
     if (!textToSend) setInput('');
-    setIsTyping(true);
+    setIsThinking(true);
+    setThinkingStepIndex(0);
+
+    const stepInterval = setInterval(() => {
+      setThinkingStepIndex(prev => (prev + 1) % 4);
+    }, 280);
 
     setTimeout(async () => {
-      // 1. Try autonomous website executive action
-      const commandResult = executeWebsiteCommand({
-        userText: queryText,
-        messageHistory: messages,
-        navigate,
-        cart,
-        themeContext,
-        closeChatOnMobile: () => {
-          if (typeof window !== 'undefined' && window.innerWidth <= 768) {
-            setTimeout(() => {
-              setIsOpen(false);
-            }, 1200);
+      clearInterval(stepInterval);
+      try {
+        // 1. Try autonomous website executive action
+        const commandResult = executeWebsiteCommand({
+          userText: queryText,
+          messageHistory: messages,
+          navigate,
+          cart,
+          themeContext,
+          closeChatOnMobile: () => {
+            if (typeof window !== 'undefined' && window.innerWidth <= 768) {
+              setTimeout(() => {
+                setIsOpen(false);
+              }, 1200);
+            }
           }
+        });
+
+        if (commandResult && commandResult.isCommand) {
+          const resp = {
+            ...commandResult.response,
+            thoughtProcess: commandResult.response.thoughtProcess || generateThoughtProcess('action', {
+              command: commandResult.response.actionExecuted || queryText
+            })
+          };
+          setMessages(prev => {
+            const nextIdx = prev.length;
+            setExpandedThoughts(curr => ({ ...curr, [nextIdx]: true }));
+            return [...prev, resp];
+          });
+          setIsThinking(false);
+          return;
         }
-      });
 
-      if (commandResult && commandResult.isCommand) {
-        setMessages(prev => [...prev, commandResult.response]);
-        setIsTyping(false);
-        return;
+        // 2. Synthesize domain response & inject contextual actions
+        const response = await getBotResponse(queryText, messages);
+        setMessages(prev => {
+          const nextIdx = prev.length;
+          setExpandedThoughts(curr => ({ ...curr, [nextIdx]: true }));
+          return [...prev, { sender: 'bot', ...response }];
+        });
+      } catch (err) {
+        console.error('Advisor deliberation error:', err);
+      } finally {
+        setIsThinking(false);
       }
-
-      // 2. Synthesize domain response & inject contextual actions
-      const response = await getBotResponse(queryText, messages);
-      setMessages(prev => [...prev, { sender: 'bot', ...response }]);
-      setIsTyping(false);
-    }, 180);
+    }, 1100);
   };
 
   // Reset chat
   const handleResetChat = () => {
     if (window.speechSynthesis) window.speechSynthesis.cancel();
     setSpeakingIdx(null);
+    setExpandedThoughts({ 0: false });
     setMessages([
       {
         sender: 'bot',
         text: "Assalamu Alaikum! Conversation reset.\n\nWelcome to the **M.A. Pesticides Consultation Desk**. How can we help your orchard today? You can ask about product prices (with 20% discount on print MRP), spray timing, tank dilutions, or disease control.",
+        thoughtProcess: [
+          { title: '1. Session Re-initialization', detail: 'Reset contextual dialogue memory and re-calibrated SKUAST-K agronomic database.' },
+          { title: '2. Ready for Next Inquiry', detail: 'Awaiting farmer questions on crop diseases, spray schedules, or store pricing.' }
+        ],
         suggestions: ['🍏 Apple Scab Treatment', '🧮 200L Tank Dosage Calc', '🗓️ Pink Bud Stage Spray', '🏷️ Products Price List']
       }
     ]);
@@ -2064,7 +2405,81 @@ export default function AdvisorChatbot() {
                 >
                   {/* Message Header with Text-to-Speech toggle */}
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
-                    <div style={{ whiteSpace: 'pre-line', flex: 1 }}>{formatBotText(msg.text)}</div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      {/* Expandable Chemist Clinical Thought Process */}
+                      {msg.sender === 'bot' && msg.thoughtProcess && msg.thoughtProcess.length > 0 && (
+                        <div style={{
+                          marginBottom: '10px',
+                          padding: '8px 12px',
+                          borderRadius: '10px',
+                          backgroundColor: 'rgba(28, 71, 42, 0.04)',
+                          border: '1px solid rgba(28, 71, 42, 0.12)'
+                        }}>
+                          <button
+                            type="button"
+                            onClick={() => toggleThoughts(idx)}
+                            style={{
+                              width: '100%',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              background: 'none',
+                              border: 'none',
+                              padding: 0,
+                              cursor: 'pointer',
+                              color: 'var(--color-pine-green, #1c472a)',
+                              fontSize: '11.5px',
+                              fontWeight: 700,
+                              letterSpacing: '0.2px'
+                            }}
+                          >
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                              <Brain size={13} style={{ color: 'var(--color-pine-green)' }} />
+                              <span>Chemist Reasoning ({msg.thoughtProcess.length} analytical steps)</span>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--color-slate-gray)', fontSize: '11px', fontWeight: 500 }}>
+                              <span>{expandedThoughts[idx] ? 'Hide' : 'View'}</span>
+                              {expandedThoughts[idx] ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+                            </div>
+                          </button>
+
+                          {expandedThoughts[idx] && (
+                            <div style={{
+                              marginTop: '8px',
+                              paddingTop: '8px',
+                              borderTop: '1px solid rgba(28, 71, 42, 0.1)',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              gap: '6px'
+                            }}>
+                              {msg.thoughtProcess.map((step, sIdx) => (
+                                <div key={sIdx} style={{
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                                  padding: '5px 8px',
+                                  borderRadius: '6px',
+                                  backgroundColor: 'rgba(255, 255, 255, 0.85)',
+                                  border: '1px solid rgba(28, 71, 42, 0.08)'
+                                }}>
+                                  <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--color-pine-green, #1c472a)' }}>
+                                    {step.title}
+                                  </span>
+                                  <span style={{ fontSize: '11px', color: '#4b5563', lineHeight: '1.4', marginTop: '1px' }}>
+                                    {step.detail}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {msg.sender === 'bot' ? (
+                        <StructuredBotMessage text={msg.text} />
+                      ) : (
+                        <div style={{ whiteSpace: 'pre-line' }}>{msg.text}</div>
+                      )}
+                    </div>
                     {msg.sender === 'bot' && (
                       <button
                         onClick={() => handleToggleSpeak(idx, msg.text)}
@@ -2676,20 +3091,64 @@ export default function AdvisorChatbot() {
               </div>
             ))}
 
-            {isTyping && (
+            {isThinking && (
               <div style={{
                 alignSelf: 'flex-start',
-                padding: '8px 14px',
-                borderRadius: '14px',
-                backgroundColor: 'rgba(23, 25, 28, 0.04)',
-                fontSize: '12px',
-                color: 'var(--color-slate-gray)',
+                maxWidth: '92%',
+                padding: '12px 14px',
+                borderRadius: '18px 18px 18px 4px',
+                backgroundColor: 'rgba(28, 71, 42, 0.04)',
+                border: '1px solid rgba(28, 71, 42, 0.15)',
                 display: 'flex',
-                alignItems: 'center',
-                gap: '6px'
+                flexDirection: 'column',
+                gap: '8px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.03)'
               }}>
-                <Sparkles size={13} style={{ animation: 'spin 2s linear infinite' }} />
-                <span>Advisor synthesizing chemistry & agronomy knowledge...</span>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <div style={{
+                      width: '22px',
+                      height: '22px',
+                      borderRadius: '50%',
+                      backgroundColor: 'rgba(28, 71, 42, 0.12)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'var(--color-pine-green)'
+                    }}>
+                      <Brain size={13} style={{ animation: 'pulse 1.4s ease-in-out infinite' }} />
+                    </div>
+                    <span style={{ fontSize: '11.5px', fontWeight: 700, color: 'var(--color-pine-green)', letterSpacing: '0.3px', textTransform: 'uppercase' }}>
+                      Chemist Reasoning &amp; Analysis
+                    </span>
+                  </div>
+                  <span style={{ fontSize: '10.5px', color: 'var(--color-slate-gray)', fontWeight: 600 }}>
+                    Step {thinkingStepIndex + 1} of 4
+                  </span>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12.5px', color: 'var(--color-ink-black)', paddingLeft: '2px' }}>
+                  <Sparkles size={13} style={{ color: '#d97706', flexShrink: 0, animation: 'spin 2s linear infinite' }} />
+                  <span style={{ fontStyle: 'italic', fontWeight: 500 }}>
+                    {[
+                      'Analyzing query context & orchard phenology...',
+                      'Cross-referencing SKUAST-K Spray Guidelines & chemistry database...',
+                      'Evaluating active formulations, dilution ratios & tank compatibility...',
+                      'Synthesizing clinical prescription & grower advisory...'
+                    ][thinkingStepIndex]}
+                  </span>
+                </div>
+
+                {/* Animated progress bar */}
+                <div style={{ width: '100%', height: '3px', backgroundColor: 'rgba(28, 71, 42, 0.1)', borderRadius: '2px', overflow: 'hidden' }}>
+                  <div style={{
+                    height: '100%',
+                    width: `${((thinkingStepIndex + 1) / 4) * 100}%`,
+                    backgroundColor: 'var(--color-pine-green)',
+                    borderRadius: '2px',
+                    transition: 'width 0.28s ease'
+                  }} />
+                </div>
               </div>
             )}
             <div ref={messagesEndRef} />
