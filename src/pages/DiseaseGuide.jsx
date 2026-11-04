@@ -116,9 +116,9 @@ export default function DiseaseGuide() {
           </button>
         </div>
 
-        {/* AI Composer Input Bar Search */}
+        {/* Clinical Pathology Search Bar */}
         <div style={{ maxWidth: '640px', margin: '0 auto 32px' }}>
-          <div className="ai-composer-input">
+          <div className="advisory-composer-input">
             <Search size={18} color="var(--color-smoke-gray)" />
             <input
               type="text"

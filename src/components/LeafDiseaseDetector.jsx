@@ -1264,7 +1264,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
         </div>
       </div>
 
-      {/* Interactive AI Scanner Algorithmic Flowchart */}
+      {/* Pathological Decision Matrix & Algorithmic Flowchart */}
       {showFlowchart && (
         <div style={{
           backgroundColor: '#ffffff',
@@ -2029,7 +2029,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
           </div>
         </div>
 
-        {/* Right Column: AI Diagnostic Visual Assessment Card */}
+        {/* Right Column: Clinical Foliar Pathology & Lesion Assessment Card */}
         <div style={{
           backgroundColor: '#ffffff',
           borderRadius: '14px',
@@ -2171,7 +2171,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
               </div>
             )}
 
-            {/* View Mode Switcher (Original / AI Heatmap / Split) */}
+            {/* View Mode Switcher (Standard Leaf / Lesion Symptom Map) */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--color-ink-black)' }}>

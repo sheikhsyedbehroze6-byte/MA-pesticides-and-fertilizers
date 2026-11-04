@@ -91,9 +91,9 @@ export default function Search() {
           </p>
         </div>
 
-        {/* AI Composer Input Bar */}
+        {/* Advisory Search Input Bar */}
         <div style={{ maxWidth: '640px', margin: '0 auto 24px' }}>
-          <div className="ai-composer-input">
+          <div className="advisory-composer-input">
             <SearchIcon size={18} color="var(--color-smoke-gray)" />
             <input
               type="text"

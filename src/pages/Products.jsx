@@ -70,9 +70,9 @@ export default function Products() {
           </p>
         </div>
 
-        {/* AI Composer Input Bar Search */}
+        {/* Advisory Search Input Bar */}
         <div style={{ maxWidth: '640px', margin: '0 auto 36px' }}>
-          <div className="ai-composer-input">
+          <div className="advisory-composer-input">
             <Search size={18} strokeWidth={2.2} color="var(--color-pine-green)" style={{ flexShrink: 0 }} />
             <input
               type="text"

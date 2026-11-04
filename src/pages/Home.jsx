@@ -344,7 +344,7 @@ export default function Home() {
                   e.preventDefault();
                   window.dispatchEvent(new CustomEvent('open-advisor-chat', { detail: heroSearch }));
                 }}
-                className="ai-composer-input"
+                className="advisory-composer-input"
               >
                 <input
                   type="text"
@@ -353,7 +353,7 @@ export default function Home() {
                   onChange={(e) => setHeroSearch(e.target.value)}
                   style={{ fontSize: '14.5px' }}
                 />
-                <button type="submit" className="ai-composer-send-btn" aria-label="Ask Chemist Desk">
+                <button type="submit" className="advisory-composer-send-btn" aria-label="Ask Chemist Desk">
                   <ArrowRight size={16} />
                 </button>
               </form>

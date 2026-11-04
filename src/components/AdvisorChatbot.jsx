@@ -1745,11 +1745,11 @@ export default function AdvisorChatbot() {
   const [messages, setMessages] = useState([
     {
       sender: 'bot',
-      text: "Assalamu Alaikum! 👋 Welcome to **M.A. Pesticides & Fertilizers**.\n\nI am your digital consultation desk, drawing on decades of organic chemistry and field agronomy from **Sheikh Mohammad Ayoub** (M.Sc. Organic Chemistry, B.Ed. — University of Kashmir).\n\nHow can we help protect your orchard today?\n- 🌤️ **Live Weather Window:** Srinagar orchard temperature, rain risk & spray safety\n- 🍏 **Crop Disease Diagnosis:** Identify Apple Scab, Red Mites, Mildew, and Canker\n- 🧮 **Spray Dilution:** Compute exact formulation grams for 200L barrels or orchard acreage\n- 🗓️ **SKUAST-K Calendar:** Official stage-by-stage spray recommendations\n- 🛒 **Store Orders:** Inquire about genuine factory batches & 20% discount on print MRP",
+      text: "Assalamu Alaikum! 👋 Welcome to **M.A. Pesticides & Fertilizers Consultation Desk**.\n\nBacked directly by **Sheikh Mohammad Ayoub** (M.Sc. Organic Chemistry, B.Ed. — University of Kashmir) and our shop on Hari Singh High Street & Tengpora Bypass, Srinagar. Every diagnosis and tank dosage here follows verified SKUAST-K guidelines and genuine factory formulation chemistry.\n\nHow can we assist your orchard today?\n- 🌤️ **Live Spray Window:** Real-time valley temperature, rain hazard & humidity telemetry\n- 🍏 **Pathological Diagnosis:** Clinical verification for Apple Scab, Alternaria, Red Mites & Canker\n- 🧮 **Precision Tank Dilution:** Exact milliliter/gram calculations for 200L barrels and motorized pumps\n- 🗓️ **SKUAST-K Spray Schedule:** Official stage-wise crop calendar from Dormant to Harvest\n- 👨‍🔬 **Direct Chemist Handoff:** Tap **WhatsApp Chemist** above anytime for a direct voice or photo consultation",
       thoughtProcess: [
-        { title: '1. Knowledge Base Initialization', detail: 'Loaded SKUAST-K Kashmir Spray Guidelines and verified pesticide formulation inventory.' },
-        { title: '2. Microclimate Telemetry Ready', detail: 'Linked multi-district Open-Meteo satellite feed for Srinagar, Shopian, Sopore, and Pulwama.' },
-        { title: '3. Clinical Consultation Ready', detail: 'Ready for disease diagnosis, precision tank dilution math, and tank mix safety verification.' }
+        { title: '1. Valley Agronomy Knowledge Base', detail: 'Loaded SKUAST-K Kashmir Spray Guidelines and genuine formulation chemistry inventory.' },
+        { title: '2. Microclimate Telemetry Synced', detail: 'Linked live Open-Meteo satellite feed for Srinagar, Shopian, Sopore, and Pulwama.' },
+        { title: '3. Clinical Orchard Advisory Ready', detail: 'Verified active ingredients, safety intervals, tank mix compatibility, and dilution math.' }
       ],
       suggestions: ['🌤️ What is the weather right now', '🍏 Apple Scab Treatment', '🧮 200L Tank Dosage Calc', '🗓️ Pink Bud Stage Spray']
     }
@@ -2299,6 +2299,31 @@ export default function AdvisorChatbot() {
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <a
+                  href="https://wa.me/919906541321?text=Assalamu%20Alaikum%20Sheikh%20Mohammad%20Ayoub%2C%20I%20am%20reaching%20out%20from%20the%20M.A.%20Pesticides%20consultation%20desk%20regarding%20my%20orchard."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Direct WhatsApp Consultation with Sheikh Mohammad Ayoub"
+                  aria-label="Direct WhatsApp consultation with Senior Chemist"
+                  style={{
+                    backgroundColor: '#25D366',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '20px',
+                    padding: '4px 10px',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    textDecoration: 'none',
+                    boxShadow: '0 2px 6px rgba(37, 211, 102, 0.28)',
+                    transition: 'transform 0.15s ease, opacity 0.15s ease'
+                  }}
+                >
+                  <MessageCircle size={13} />
+                  <span>WhatsApp Chemist</span>
+                </a>
                 <button
                   onClick={handleResetChat}
                   title="Restart Consultation"
@@ -3221,7 +3246,7 @@ export default function AdvisorChatbot() {
             backgroundColor: 'var(--surface-canvas, #ffffff)',
             borderTop: '1px solid rgba(23, 25, 28, 0.06)'
           }}>
-            <div className="ai-composer-input" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div className="advisory-composer-input" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <input
                 type="text"
                 placeholder="Ask ANY question about spray, dosage, pruning, or rot..."
@@ -3259,7 +3284,7 @@ export default function AdvisorChatbot() {
               <button
                 type="button"
                 onClick={() => handleSend()}
-                className="ai-composer-send-btn"
+                className="advisory-composer-send-btn"
                 aria-label="Send message"
                 style={{ flexShrink: 0 }}
               >

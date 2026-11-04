@@ -542,7 +542,8 @@ button, input, select, textarea {
   color: #1e40af;
 }
 
-/* AI Composer Input Bar */
+/* Advisory Composer Input Bar */
+.advisory-composer-input,
 .ai-composer-input {
   display: flex;
   align-items: center;
@@ -556,11 +557,13 @@ button, input, select, textarea {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+.advisory-composer-input:focus-within,
 .ai-composer-input:focus-within {
   border-color: var(--color-pine-green);
   box-shadow: 0 0 0 3px rgba(26, 67, 46, 0.12);
 }
 
+.advisory-composer-input input,
 .ai-composer-input input {
   flex: 1;
   border: none;
@@ -571,10 +574,12 @@ button, input, select, textarea {
   color: var(--color-ink-black);
 }
 
+.advisory-composer-input input::placeholder,
 .ai-composer-input input::placeholder {
   color: var(--color-smoke-gray);
 }
 
+.advisory-composer-send-btn,
 .ai-composer-send-btn {
   width: 38px;
   height: 38px;
@@ -590,6 +595,7 @@ button, input, select, textarea {
   transition: background-color 0.15s ease, transform 0.15s ease;
 }
 
+.advisory-composer-send-btn:hover,
 .ai-composer-send-btn:hover {
   background-color: var(--color-pine-green-hover);
   transform: scale(1.05);
@@ -2141,10 +2147,12 @@ button, input, select, textarea {
     font-size: 12.5px;
   }
 
+  .advisory-composer-input,
   .ai-composer-input {
     padding: 8px 12px;
   }
 
+  .advisory-composer-input input,
   .ai-composer-input input {
     font-size: 16px !important;
   }
