@@ -752,6 +752,8 @@ button, input, select, textarea {
   position: sticky;
   top: 0;
   z-index: 900;
+  transform: translateZ(0);
+  contain: layout style;
   background-color: rgba(252, 251, 249, 0.88);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
@@ -1803,6 +1805,8 @@ button, input, select, textarea {
     left: 0;
     right: 0;
     z-index: 9980;
+    transform: translateZ(0);
+    contain: layout style;
     background-color: rgba(252, 251, 249, 0.94);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -3034,6 +3038,31 @@ button, input, select, textarea {
     width: 52px;
     height: 52px;
   }
+}
+
+/* ==========================================================================
+   HIGH-PERFORMANCE HARDWARE ACCELERATION & ZERO-LAG ENGINE
+   ========================================================================== */
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+  text-rendering: optimizeLegibility;
+}
+
+/* Offload off-screen heavy cards for instantaneous first paint & silky 60-120fps scrolling */
+.card-neutral,
+.card-peach,
+.spray-stage-card {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 240px;
+}
+
+/* Promote floating action elements to dedicated GPU compositor layers */
+.floating-cart-wrapper,
+.back-to-top,
+.advisor-chatbot-fab {
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 /* ==========================================================================

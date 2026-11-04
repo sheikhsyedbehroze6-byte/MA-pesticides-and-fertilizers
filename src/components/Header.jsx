@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Moon, Sun, Menu, X, ArrowRight, MessageSquare, Sprout, Home, Package, Bug, Calendar, Video, Search, Phone, ChevronRight, Calculator, Smartphone, ShoppingBag } from 'lucide-react';
@@ -41,13 +41,18 @@ function Header() {
     if (isMobileMenuOpen) setIsMobileMenuOpen(false);
   }
 
-  // Smooth scroll shadow listener
+  // Smooth scroll shadow listener with zero-overhead state guard
+  const scrolledRef = useRef(false);
   useEffect(() => {
     let ticking = false;
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          setIsScrolled(window.scrollY > 15);
+          const isOver = window.scrollY > 15;
+          if (scrolledRef.current !== isOver) {
+            scrolledRef.current = isOver;
+            setIsScrolled(isOver);
+          }
           ticking = false;
         });
         ticking = true;

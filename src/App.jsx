@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from 'react';
+import { Suspense, useEffect, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import ScrollToTop from './components/ScrollToTop';
@@ -6,12 +6,9 @@ import ScrollProgressBar from './components/ScrollProgressBar';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
-import AdvisorChatbot from './components/AdvisorChatbot';
-import PWAInstallPrompt from './components/PWAInstallPrompt';
 import Home from './pages/Home';
 import { ThemeProvider } from './context/ThemeContext';
 import { CartProvider } from './context/CartContext';
-import SprayOrderDrawer from './components/SprayOrderDrawer';
 import FloatingCartButton from './components/FloatingCartButton';
 import BottomNav from './components/BottomNav';
 import './App.css';
@@ -29,6 +26,11 @@ import {
   NotFound,
   preloadAllRoutes
 } from './utils/routePreloader';
+
+// Idle/Lazy Loaded Non-Critical Overlays (drastically cuts main-thread JS execution lag)
+const AdvisorChatbot = lazy(() => import('./components/AdvisorChatbot'));
+const PWAInstallPrompt = lazy(() => import('./components/PWAInstallPrompt'));
+const SprayOrderDrawer = lazy(() => import('./components/SprayOrderDrawer'));
 
 // Smooth Route Loading Fallback
 function RouteFallback() {
@@ -100,14 +102,19 @@ function AnimatedRoutes() {
 
 function App() {
   useEffect(() => {
-    // Preload all dynamic routes during idle time after initial render
+    // Preload all dynamic routes and non-critical overlays during idle time after initial render
     let idleId;
+    const preloadOverlays = () => {
+      preloadAllRoutes();
+      import('./components/AdvisorChatbot');
+      import('./components/SprayOrderDrawer');
+      import('./components/PWAInstallPrompt');
+    };
+
     if ('requestIdleCallback' in window) {
-      idleId = window.requestIdleCallback(() => {
-        preloadAllRoutes();
-      }, { timeout: 1500 });
+      idleId = window.requestIdleCallback(preloadOverlays, { timeout: 1500 });
     } else {
-      const timer = setTimeout(preloadAllRoutes, 200);
+      const timer = setTimeout(preloadOverlays, 300);
       return () => clearTimeout(timer);
     }
     return () => {
@@ -136,14 +143,17 @@ function App() {
 
               <Footer />
 
-              {/* Interactive Agricultural Crop Advisor Chatbot */}
-              <AdvisorChatbot />
+              {/* Lazy Overlays wrapped in zero-overhead Suspense */}
+              <Suspense fallback={null}>
+                {/* Interactive Agricultural Crop Advisor Chatbot */}
+                <AdvisorChatbot />
 
-              {/* Installable PWA Mobile App Prompt Banner */}
-              <PWAInstallPrompt />
+                {/* Installable PWA Mobile App Prompt Banner */}
+                <PWAInstallPrompt />
 
-              {/* Spray Order WhatsApp Drawer & Cart */}
-              <SprayOrderDrawer />
+                {/* Spray Order WhatsApp Drawer & Cart */}
+                <SprayOrderDrawer />
+              </Suspense>
 
               {/* Floating Quick Order Cart Button */}
               <FloatingCartButton />

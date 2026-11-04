@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import AnimatedSection from '../components/AnimatedSection';
 import WeatherSprayAlert from '../components/WeatherSprayAlert';
 import Breadcrumb from '../components/Breadcrumb';
@@ -655,9 +655,20 @@ export default function SprayCalendar() {
 
   const cropData = SPRAY_SCHEDULES[selectedCrop];
 
-  const getProductDetails = (productName) => {
-    return products.find(p => p.name.toLowerCase().includes(productName.toLowerCase()) || productName.toLowerCase().includes(p.name.toLowerCase()));
-  };
+  const productLookup = useMemo(() => {
+    const map = new Map();
+    products.forEach(p => {
+      map.set(p.name.toLowerCase(), p);
+    });
+    return map;
+  }, []);
+
+  const getProductDetails = useCallback((productName) => {
+    if (!productName) return null;
+    const target = productName.toLowerCase();
+    if (productLookup.has(target)) return productLookup.get(target);
+    return products.find(p => p.name.toLowerCase().includes(target) || target.includes(p.name.toLowerCase()));
+  }, [productLookup]);
 
   const handleWhatsAppConsultation = (stage) => {
     const message = 

@@ -137,7 +137,7 @@ export default function Home() {
           '-=0.4'
         );
 
-      // ScrollTrigger Section Reveals
+      // ScrollTrigger Section Reveals with one-shot release (eliminates scroll observer overhead)
       gsap.utils.toArray('.gsap-scroll-section').forEach((sec) => {
         gsap.fromTo(sec.querySelectorAll('.gsap-scroll-item'),
           { opacity: 0, y: 36 },
@@ -150,7 +150,7 @@ export default function Home() {
             scrollTrigger: {
               trigger: sec,
               start: 'top 82%',
-              toggleActions: 'play none none none'
+              once: true
             }
           }
         );

@@ -1,8 +1,9 @@
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, lazy, Suspense } from 'react';
 import { Calculator, Droplets, TreeDeciduous, ShieldAlert, MessageCircle, Search, Filter, ShoppingBag, Check, Bug, X, ArrowDown, Copy, Printer } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { safeOpen } from '../utils/security';
-import LeafDiseaseDetector from './LeafDiseaseDetector';
+
+const LeafDiseaseDetector = lazy(() => import('./LeafDiseaseDetector'));
 
 const CALCULATOR_PRODUCTS = [
   // --- FUNGICIDES ---
@@ -296,12 +297,19 @@ export default function DosageCalculator() {
       </div>
 
       <div className="dosage-calc-body">
-        {/* Leaf Disease Detection Section */}
+        {/* Leaf Disease Detection Section (Lazy Loaded) */}
         {activeTab === 'detector' && (
-          <LeafDiseaseDetector 
-            onApplyDosage={handleApplyDiseaseCure}
-            selectedProductId={selectedProductId}
-          />
+          <Suspense fallback={
+            <div style={{ padding: '36px 20px', textAlign: 'center', color: 'var(--color-slate-gray)' }}>
+              <div style={{ width: '28px', height: '28px', border: '3px solid var(--border-color)', borderTopColor: 'var(--color-pine-green)', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 12px' }} />
+              <span style={{ fontSize: '13.5px', fontWeight: 550 }}>Initializing Kashmiri Orchard Pathology Scanner...</span>
+            </div>
+          }>
+            <LeafDiseaseDetector 
+              onApplyDosage={handleApplyDiseaseCure}
+              selectedProductId={selectedProductId}
+            />
+          </Suspense>
         )}
 
         {/* Informative helper banner in direct mode */}
