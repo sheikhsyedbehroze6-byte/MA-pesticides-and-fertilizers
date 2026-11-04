@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
-import { sanitizeInput } from '../utils/security';
+import { sanitizeInput, safeJsonParse } from '../utils/security';
 
 const CartContext = createContext(null);
 
@@ -56,7 +56,7 @@ export function CartProvider({ children }) {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (!saved) return [];
-      const parsed = JSON.parse(saved);
+      const parsed = safeJsonParse(saved, []);
       if (!Array.isArray(parsed)) return [];
       // Anti-tampering: Always recalculate genuine price and sanitize fields
       return parsed
@@ -92,7 +92,7 @@ export function CartProvider({ children }) {
     try {
       const saved = localStorage.getItem(FARMER_STORAGE_KEY);
       if (!saved) return defaultInfo;
-      const parsed = JSON.parse(saved);
+      const parsed = safeJsonParse(saved, defaultInfo);
       if (typeof parsed !== 'object' || parsed === null) return defaultInfo;
       return {
         name: sanitizeInput(parsed.name || '', 80),

@@ -10,7 +10,7 @@ import {
   CloudRain, Wind, Thermometer, Copy, Layers, Brain, ChevronDown, ChevronUp
 } from 'lucide-react';
 import { products, diseases } from '../data/agricultureData';
-import { safeOpen, sanitizeInput, checkRateLimit } from '../utils/security';
+import { safeOpen, sanitizeInput, checkRateLimit, sanitizeUrl } from '../utils/security';
 import { fetchLiveWeatherData, buildWeatherChatResponse } from '../utils/weatherService';
 import '../pages/urdu.css';
 
@@ -251,13 +251,15 @@ function formatInlineMarkdown(text) {
     // Link: [label](url)
     const linkMatch = part.match(/^\[(.*?)\]\((.*?)\)$/);
     if (linkMatch) {
-      const [, label, url] = linkMatch;
+      const [, label, rawUrl] = linkMatch;
+      const cleanUrl = sanitizeUrl(rawUrl, '#');
+      const isExternal = cleanUrl.startsWith('http');
       return (
         <a
           key={index}
-          href={url}
-          target={url.startsWith('http') ? '_blank' : '_self'}
-          rel={url.startsWith('http') ? 'noopener noreferrer' : undefined}
+          href={cleanUrl}
+          target={isExternal ? '_blank' : '_self'}
+          rel={isExternal ? 'noopener noreferrer' : undefined}
           style={{
             color: 'var(--color-pine-green, #1c472a)',
             fontWeight: 650,
@@ -3062,7 +3064,7 @@ export default function AdvisorChatbot() {
                   {msg.actionLink && (
                     <div style={{ marginTop: '10px', paddingTop: '8px', borderTop: '1px solid rgba(23, 25, 28, 0.06)' }}>
                       <a
-                        href={msg.actionLink}
+                        href={sanitizeUrl(msg.actionLink, '#')}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-link-arrow"

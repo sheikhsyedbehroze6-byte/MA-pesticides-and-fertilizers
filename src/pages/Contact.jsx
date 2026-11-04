@@ -2,14 +2,20 @@ import { useState } from 'react';
 import { MapPin, Phone, MessageCircle, ArrowRight, Clock, Navigation, ExternalLink, ShieldCheck, Car, FlaskConical } from 'lucide-react';
 import StoreMap from '../components/StoreMap';
 import Breadcrumb from '../components/Breadcrumb';
-import { safeOpen, sanitizeInput } from '../utils/security';
+import { safeOpen, sanitizeInput, checkRateLimit } from '../utils/security';
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', phone: '', crop: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!checkRateLimit('contact_form', 3, 10000)) {
+      setErrorMsg('Please wait a moment before sending another inquiry.');
+      return;
+    }
+    setErrorMsg('');
     const text = `*New Store Inquiry*\n*Name:* ${sanitizeInput(formData.name, 80)}\n*Phone:* ${sanitizeInput(formData.phone, 25)}\n*Crop:* ${sanitizeInput(formData.crop, 50)}\n*Message:* ${sanitizeInput(formData.message, 300)}`;
     safeOpen(`https://wa.me/919906541321?text=${encodeURIComponent(text)}`);
     setSubmitted(true);
@@ -198,6 +204,19 @@ export default function Contact() {
                     }}
                   />
                 </div>
+
+                {errorMsg && (
+                  <div style={{
+                    padding: '8px 12px',
+                    borderRadius: '8px',
+                    backgroundColor: '#fee2e2',
+                    color: '#991b1b',
+                    fontSize: '13px',
+                    fontWeight: 500
+                  }}>
+                    {errorMsg}
+                  </div>
+                )}
 
                 <button type="submit" className="pill-button-filled" style={{ marginTop: '8px' }}>
                   <span>Submit Inquiry to Chemist</span>

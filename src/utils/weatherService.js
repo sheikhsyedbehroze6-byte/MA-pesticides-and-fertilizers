@@ -4,6 +4,8 @@
  * rain-fastness drying windows, and SKUAST-K spray suitability advisories.
  */
 
+import { safeJsonParse } from './security';
+
 export const KASHMIR_DISTRICTS = {
   srinagar: {
     id: 'srinagar',
@@ -111,8 +113,8 @@ export async function fetchLiveWeatherData(districtKey = 'srinagar', forceRefres
     try {
       const cached = localStorage.getItem(cacheKey);
       if (cached) {
-        const parsed = JSON.parse(cached);
-        if (now - parsed.timestamp < CACHE_DURATION_MS) {
+        const parsed = safeJsonParse(cached);
+        if (parsed && now - parsed.timestamp < CACHE_DURATION_MS) {
           memoryCaches[district.id] = { data: parsed.data, time: parsed.timestamp };
           return parsed.data;
         }
