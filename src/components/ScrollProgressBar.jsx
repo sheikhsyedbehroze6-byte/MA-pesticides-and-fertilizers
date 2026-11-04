@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export default function ScrollProgressBar() {
   const barRef = useRef(null);
+  const location = useLocation();
 
   useEffect(() => {
     let ticking = false;
@@ -26,7 +28,7 @@ export default function ScrollProgressBar() {
     updateProgress();
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [location.pathname]);
 
   return <div ref={barRef} className="scroll-progress" style={{ width: '0%' }} />;
 }

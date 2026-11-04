@@ -1,5 +1,6 @@
 import { Suspense, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import ScrollToTop from './components/ScrollToTop';
 import ScrollProgressBar from './components/ScrollProgressBar';
 import Header from './components/Header';
@@ -62,6 +63,41 @@ function RouteFallback() {
   );
 }
 
+// Smooth Animated Route Transitions with Silk Ease
+function AnimatedRoutes() {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <motion.div
+        key={location.pathname}
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -6 }}
+        transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+        style={{ width: '100%' }}
+      >
+        <Suspense fallback={<RouteFallback />}>
+          <Routes location={location}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/disease-guide" element={<DiseaseGuide />} />
+            <Route path="/dosage-calculator" element={<DosageCalculatorPage />} />
+            <Route path="/calculator" element={<DosageCalculatorPage />} />
+            <Route path="/spray-calendar" element={<SprayCalendar />} />
+            <Route path="/videos" element={<VideoGallery />} />
+            <Route path="/video-gallery" element={<VideoGallery />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
 function App() {
   useEffect(() => {
     // Preload all dynamic routes during idle time after initial render
@@ -95,22 +131,7 @@ function App() {
               <Header />
 
               <main>
-                <Suspense fallback={<RouteFallback />}>
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/products" element={<Products />} />
-                    <Route path="/disease-guide" element={<DiseaseGuide />} />
-                    <Route path="/dosage-calculator" element={<DosageCalculatorPage />} />
-                    <Route path="/calculator" element={<DosageCalculatorPage />} />
-                    <Route path="/spray-calendar" element={<SprayCalendar />} />
-                    <Route path="/videos" element={<VideoGallery />} />
-                    <Route path="/video-gallery" element={<VideoGallery />} />
-                    <Route path="/search" element={<Search />} />
-                    <Route path="/contact" element={<Contact />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </Suspense>
+                <AnimatedRoutes />
               </main>
 
               <Footer />

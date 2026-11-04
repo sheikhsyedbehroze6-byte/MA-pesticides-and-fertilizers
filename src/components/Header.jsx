@@ -1,9 +1,21 @@
 import React, { useState, useEffect, memo } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Moon, Sun, Menu, X, ArrowRight, MessageSquare, Sprout, Home, Package, Bug, Calendar, Video, Search, Phone, ChevronRight, Calculator, Smartphone, ShoppingBag } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useCart } from '../context/CartContext';
 import { preloadRoute } from '../utils/routePreloader';
+
+const DESKTOP_NAV_LINKS = [
+  { to: '/', label: 'Home', exact: true },
+  { to: '/products', label: 'Products', Icon: Package },
+  { to: '/dosage-calculator', label: 'Dosage Calc', Icon: Calculator },
+  { to: '/spray-calendar', label: 'Calendar', Icon: Calendar },
+  { to: '/disease-guide', label: 'Disease Guide', Icon: Bug },
+  { to: '/search', label: 'Search', Icon: Search },
+  { to: '/about', label: 'About' },
+  { to: '/contact', label: 'Contact' },
+];
 
 const NAV_ITEMS = [
   { to: '/', label: 'Home', Icon: Home, section: 'Overview' },
@@ -22,11 +34,28 @@ function Header() {
   const { totalItems, openCart } = useCart();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [prevPathname, setPrevPathname] = useState(location.pathname);
   if (location.pathname !== prevPathname) {
     setPrevPathname(location.pathname);
     if (isMobileMenuOpen) setIsMobileMenuOpen(false);
   }
+
+  // Smooth scroll shadow listener
+  useEffect(() => {
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 15);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Lock background scrolling when mobile menu drawer is open
   useEffect(() => {
@@ -44,7 +73,7 @@ function Header() {
   }, [isMobileMenuOpen]);
 
   return (
-    <header className="steep-header">
+    <header className={`steep-header ${isScrolled ? 'is-scrolled' : ''}`}>
       <div className="page-container">
         <div className="header-inner">
           {/* Logo & Brand Affordance */}
@@ -58,85 +87,35 @@ function Header() {
             </div>
           </NavLink>
 
-          {/* Desktop Navigation Links */}
+          {/* Desktop Navigation Links with Smooth Sliding Indicator Pill */}
           <nav className="desktop-nav">
             <ul className="nav-links-list">
-              <li><NavLink to="/" className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}>Home</NavLink></li>
-              <li>
-                <NavLink
-                  to="/products"
-                  onMouseEnter={() => preloadRoute('/products')}
-                  onTouchStart={() => preloadRoute('/products')}
-                  className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
-                >
-                  <Package size={15} strokeWidth={2.2} />
-                  <span>Products</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/dosage-calculator"
-                  onMouseEnter={() => preloadRoute('/dosage-calculator')}
-                  onTouchStart={() => preloadRoute('/dosage-calculator')}
-                  className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
-                >
-                  <Calculator size={15} strokeWidth={2.2} />
-                  <span>Dosage Calc</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/spray-calendar"
-                  onMouseEnter={() => preloadRoute('/spray-calendar')}
-                  onTouchStart={() => preloadRoute('/spray-calendar')}
-                  className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
-                >
-                  <Calendar size={15} strokeWidth={2.2} />
-                  <span>Calendar</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/disease-guide"
-                  onMouseEnter={() => preloadRoute('/disease-guide')}
-                  onTouchStart={() => preloadRoute('/disease-guide')}
-                  className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
-                >
-                  <Bug size={15} strokeWidth={2.2} />
-                  <span>Disease Guide</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/search"
-                  onMouseEnter={() => preloadRoute('/search')}
-                  onTouchStart={() => preloadRoute('/search')}
-                  className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
-                >
-                  <Search size={15} strokeWidth={2.2} />
-                  <span>Search</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/about"
-                  onMouseEnter={() => preloadRoute('/about')}
-                  onTouchStart={() => preloadRoute('/about')}
-                  className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
-                >
-                  About
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/contact"
-                  onMouseEnter={() => preloadRoute('/contact')}
-                  onTouchStart={() => preloadRoute('/contact')}
-                  className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
-                >
-                  Contact
-                </NavLink>
-              </li>
+              {DESKTOP_NAV_LINKS.map(({ to, label, Icon, exact }) => (
+                <li key={to} style={{ position: 'relative' }}>
+                  <NavLink
+                    to={to}
+                    end={exact}
+                    onMouseEnter={() => preloadRoute(to)}
+                    onTouchStart={() => preloadRoute(to)}
+                    className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
+                    style={{ position: 'relative' }}
+                  >
+                    {({ isActive }) => (
+                      <>
+                        {isActive && (
+                          <motion.div
+                            layoutId="activeDesktopNavPill"
+                            className="nav-active-pill"
+                            transition={{ type: 'spring', stiffness: 420, damping: 32 }}
+                          />
+                        )}
+                        {Icon && <Icon size={15} strokeWidth={2.2} style={{ position: 'relative', zIndex: 1 }} />}
+                        <span style={{ position: 'relative', zIndex: 1 }}>{label}</span>
+                      </>
+                    )}
+                  </NavLink>
+                </li>
+              ))}
             </ul>
           </nav>
 
@@ -284,10 +263,20 @@ function Header() {
         </div>
       </div>
 
-      {/* Solid Opaque Mobile Menu Drawer */}
-      {isMobileMenuOpen && (
-        <div className="mobile-menu-drawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation Menu">
-          {/* Quick Drawer Header with Theme Switcher */}
+      {/* Solid Opaque Mobile Menu Drawer with Smooth Slide Transition */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            className="mobile-menu-drawer"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile Navigation Menu"
+            initial={{ opacity: 0, y: -14 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -14 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {/* Quick Drawer Header with Theme Switcher */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
@@ -421,9 +410,10 @@ function Header() {
               Near Exhibition Road, Hari Singh High Street, Srinagar
             </div>
           </div>
-        </div>
+        </motion.div>
       )}
-    </header>
+    </AnimatePresence>
+  </header>
   );
 }
 
