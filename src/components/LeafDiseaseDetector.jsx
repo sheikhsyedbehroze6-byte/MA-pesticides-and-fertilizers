@@ -2160,6 +2160,8 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
                       <img
                         src={item.image}
                         alt={`Sample ${idx + 1}`}
+                        loading="lazy"
+                        decoding="async"
                         style={{ width: '18px', height: '18px', borderRadius: '4px', objectFit: 'cover' }}
                       />
                       <span style={{ fontWeight: 600, color: 'var(--color-ink-black)' }}>
@@ -2205,6 +2207,8 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
                 <img
                   src={uploadedImage || selectedDisease?.image}
                   alt={selectedDisease?.name}
+                  loading="lazy"
+                  decoding="async"
                   style={{
                     width: '100%',
                     height: '100%',
@@ -2221,6 +2225,8 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
                   <img
                     src={heatmapOverlayUrl}
                     alt="Lesion Symptom Map"
+                    loading="lazy"
+                    decoding="async"
                     style={{
                       position: 'absolute',
                       inset: 0,

@@ -321,6 +321,8 @@ export default function DosageCalculator() {
               <img
                 src={detectedDiseaseInfo.image}
                 alt={detectedDiseaseInfo.name}
+                loading="lazy"
+                decoding="async"
                 style={{ width: '48px', height: '48px', borderRadius: '10px', objectFit: 'cover', border: '1.5px solid rgba(28, 71, 42, 0.2)' }}
                 onError={(e) => { e.currentTarget.style.display = 'none'; }}
               />

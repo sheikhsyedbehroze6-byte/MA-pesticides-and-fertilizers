@@ -61,10 +61,9 @@ export default defineConfig({
           },
           {
             urlPattern: /^https:\/\/api\.open-meteo\.com\/.*/i,
-            handler: 'NetworkFirst',
+            handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'open-meteo-weather-cache',
-              networkTimeoutSeconds: 3,
               expiration: {
                 maxEntries: 10,
                 maxAgeSeconds: 60 * 60 * 6 // 6 hours

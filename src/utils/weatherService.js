@@ -92,7 +92,8 @@ export function getWeatherCondition(code) {
   return WMO_WEATHER_CODES[code] || { text: 'Fair Weather', emoji: '🌤️' };
 }
 
-let memoryCaches = {};
+const memoryCaches = {};
+const inFlightRequests = new Map();
 
 /**
  * Fetches real-time weather from Open-Meteo for Kashmir Valley districts
@@ -108,15 +109,19 @@ export async function fetchLiveWeatherData(districtKey = 'srinagar', forceRefres
     return memoryCaches[district.id].data;
   }
 
-  // Check localStorage cache
+  // Check localStorage cache (fresh check)
+  let cachedFallback = memoryCaches[district.id]?.data || null;
   if (!forceRefresh && typeof window !== 'undefined') {
     try {
       const cached = localStorage.getItem(cacheKey);
       if (cached) {
         const parsed = safeJsonParse(cached);
-        if (parsed && now - parsed.timestamp < CACHE_DURATION_MS) {
-          memoryCaches[district.id] = { data: parsed.data, time: parsed.timestamp };
-          return parsed.data;
+        if (parsed?.data) {
+          cachedFallback = parsed.data;
+          if (now - parsed.timestamp < CACHE_DURATION_MS) {
+            memoryCaches[district.id] = { data: parsed.data, time: parsed.timestamp };
+            return parsed.data;
+          }
         }
       }
     } catch {
@@ -124,7 +129,23 @@ export async function fetchLiveWeatherData(districtKey = 'srinagar', forceRefres
     }
   }
 
-  const controller = new AbortController();
+  // Stale-While-Revalidate: Return stale cached data instantly while refreshing in background
+  if (cachedFallback && !forceRefresh) {
+    if (!inFlightRequests.has(district.id)) {
+      const bgPromise = fetchLiveWeatherData(districtKey, true)
+        .catch(() => null);
+      inFlightRequests.set(district.id, bgPromise);
+    }
+    return cachedFallback;
+  }
+
+  // Single-Flight Promise Coalescing: Deduplicate concurrent in-flight requests for the same district
+  if (inFlightRequests.has(district.id)) {
+    return inFlightRequests.get(district.id);
+  }
+
+  const fetchPromise = (async () => {
+    const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 4500);
 
   try {
@@ -237,8 +258,14 @@ export async function fetchLiveWeatherData(districtKey = 'srinagar', forceRefres
       lastUpdated: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
-    return fallbackData;
-  }
+      return fallbackData;
+    } finally {
+      inFlightRequests.delete(district.id);
+    }
+  })();
+
+  inFlightRequests.set(district.id, fetchPromise);
+  return fetchPromise;
 }
 
 /**
