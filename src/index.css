@@ -179,6 +179,48 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Valley Moss Selection Highlight */
+::selection {
+  background-color: rgba(26, 67, 46, 0.18);
+  color: var(--color-pine-green);
+}
+
+/* Eliminate 300ms Mobile Tap Delay */
+a, button, input, select, textarea, [role="button"] {
+  touch-action: manipulation;
+}
+
+/* Accessible High-Craft Focus Ring */
+:focus-visible {
+  outline: 2px solid var(--color-pine-green);
+  outline-offset: 3px;
+  border-radius: inherit;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Tactile Native Physics for Mobile & Desktop */
+button:active:not(:disabled),
+.pill-button-filled:active,
+.pill-button-ghost:active,
+.advisor-control-btn:active,
+.heatmap-toggle-btn:active,
+.bottom-nav-item:active,
+.floating-cart-btn:active {
+  transform: scale(0.97);
+  transition: transform 0.08s ease-out;
+}
+
+/* Prevent Scroll Chaining & Overscroll Jitter in Drawers & Modals */
+.advisor-chatbot-modal,
+.spray-order-drawer,
+.mobile-nav-drawer {
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
 html {
   scroll-behavior: smooth;
   font-family: var(--font-sohne);
@@ -1610,6 +1652,11 @@ button, input, select, textarea {
     flex-direction: column;
     gap: 12px;
     text-align: center;
+  }
+
+  /* Provide ample clearance above native bottom navigation dock */
+  .steep-footer {
+    padding-bottom: calc(96px + env(safe-area-inset-bottom, 16px)) !important;
   }
 }
 

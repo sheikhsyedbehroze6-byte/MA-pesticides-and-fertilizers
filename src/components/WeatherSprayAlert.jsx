@@ -150,29 +150,29 @@ function WeatherSprayAlert() {
       </div>
 
       {/* Metrics Row */}
-      <div className="weather-metrics-grid">
+      <div className="weather-metrics-grid" style={{ opacity: loading ? 0.72 : 1, transition: 'opacity 0.2s ease' }}>
         <div style={{ backgroundColor: 'var(--surface-card-mist)', padding: '12px 14px', borderRadius: 'var(--radius-smallcards)' }}>
           <span style={{ fontSize: '11.5px', color: 'var(--color-ash-gray)', display: 'block' }}>Temperature</span>
           <strong style={{ fontSize: '16px', fontFamily: 'var(--font-sohne)', fontWeight: 600, color: 'var(--color-ink-black)' }}>
-            {loading ? '...' : weather.temp}
+            {weather.temp}
           </strong>
         </div>
         <div style={{ backgroundColor: 'var(--surface-card-mist)', padding: '12px 14px', borderRadius: 'var(--radius-smallcards)' }}>
           <span style={{ fontSize: '11.5px', color: 'var(--color-ash-gray)', display: 'block' }}>Rain Risk</span>
           <strong style={{ fontSize: '16px', fontFamily: 'var(--font-sohne)', fontWeight: 600, color: weather.rainProbability > 30 ? '#dc2626' : 'var(--color-ink-black)' }}>
-            {loading ? '...' : `${weather.rainProbability}%`}
+            {weather.rainProbability}%
           </strong>
         </div>
         <div style={{ backgroundColor: 'var(--surface-card-mist)', padding: '12px 14px', borderRadius: 'var(--radius-smallcards)' }}>
           <span style={{ fontSize: '11.5px', color: 'var(--color-ash-gray)', display: 'block' }}>Wind Speed</span>
           <strong style={{ fontSize: '16px', fontFamily: 'var(--font-sohne)', fontWeight: 600, color: 'var(--color-ink-black)' }}>
-            {loading ? '...' : weather.wind}
+            {weather.wind}
           </strong>
         </div>
         <div style={{ backgroundColor: 'var(--surface-card-mist)', padding: '12px 14px', borderRadius: 'var(--radius-smallcards)' }}>
           <span style={{ fontSize: '11.5px', color: 'var(--color-ash-gray)', display: 'block' }}>Drying Window</span>
           <strong style={{ fontSize: '16px', fontFamily: 'var(--font-sohne)', fontWeight: 600, color: 'var(--color-pine-green)' }}>
-            {loading ? '...' : weather.dryWindow}
+            {weather.dryWindow}
           </strong>
         </div>
       </div>
