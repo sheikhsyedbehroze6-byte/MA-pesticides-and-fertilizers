@@ -251,9 +251,7 @@ export default function VideoGallery() {
           </p>
         </div>
 
-        {/* ========================================================================
-            FEATURED MASTERCLASS VIDEO CARD
-            ======================================================================== */}
+        {/* Featured Advisory Masterclass */}
         <div className="card-neutral" style={{ padding: 'clamp(20px, 3.5vw, 36px)', marginBottom: '56px' }}>
           <div style={{
             display: 'grid',
@@ -401,9 +399,7 @@ export default function VideoGallery() {
           </div>
         </div>
 
-        {/* ========================================================================
-            CATEGORY FILTER & SEARCH BAR WITH SEARCH BUTTON
-            ======================================================================== */}
+        {/* Category Filter & Search Bar */}
         <div style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -526,9 +522,7 @@ export default function VideoGallery() {
           </div>
         )}
 
-        {/* ========================================================================
-            ADVISORY VIDEOS GRID
-            ======================================================================== */}
+        {/* Advisory Video Catalog */}
         <div className="grid-3" style={{ marginBottom: '56px' }}>
           {filteredVideos.map((video, idx) => (
             <div key={idx} className="card-neutral" style={{ display: 'flex', flexDirection: 'column', padding: '16px' }}>
@@ -680,9 +674,7 @@ export default function VideoGallery() {
           ))}
         </div>
 
-        {/* ========================================================================
-            DIRECT CONSULTATION CALLOUT
-            ======================================================================== */}
+        {/* Direct WhatsApp Consultation */}
         <div className="card-peach" style={{ textAlign: 'center', padding: 'clamp(28px, 4vw, 48px)' }}>
           <span className="tag-label" style={{ color: 'var(--color-sienna-brown)', opacity: 0.8 }}>
             DIRECT CONSULTATION

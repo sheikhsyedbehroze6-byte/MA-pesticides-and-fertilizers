@@ -145,7 +145,7 @@ function App() {
 
               {/* Lazy Overlays wrapped in zero-overhead Suspense */}
               <Suspense fallback={null}>
-                {/* Interactive Agricultural Crop Advisor Chatbot */}
+                {/* Interactive Agricultural Crop Advisory Consultation Desk */}
                 <AdvisorChatbot />
 
                 {/* Installable PWA Mobile App Prompt Banner */}

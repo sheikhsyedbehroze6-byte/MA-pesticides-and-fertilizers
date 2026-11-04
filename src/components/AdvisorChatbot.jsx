@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCart, estimateProductPrice } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
 import {
-  Bot, X, Send, Sparkles, MessageCircle, ExternalLink, RefreshCw,
+  X, Send, Sparkles, MessageCircle, ExternalLink, RefreshCw,
   ArrowRight, Mic, MicOff, Volume2, VolumeX, ShieldAlert, Droplets,
   Calendar, Phone, MapPin, CheckCircle, Info, Beaker, Leaf, AlertTriangle,
   ShoppingCart, Plus, Check, Sun, Moon, Compass, Zap, Calculator, PhoneCall, Search,
@@ -14,9 +14,7 @@ import { safeOpen, sanitizeInput, checkRateLimit, sanitizeUrl } from '../utils/s
 import { fetchLiveWeatherData, buildWeatherChatResponse } from '../utils/weatherService';
 import '../pages/urdu.css';
 
-// ============================================================================
-// 1. SKUAST-K Stage Spray Knowledge Base (Kashmir Climate Specific)
-// ============================================================================
+// SKUAST-K Stage Spray Knowledge Base (Kashmir Climate Specific)
 const SKUAST_STAGES = [
   {
     id: 'dormant',
@@ -119,9 +117,7 @@ const SKUAST_STAGES = [
   }
 ];
 
-// ============================================================================
-// 2. Comprehensive Agronomy & Horticultural Knowledge Base
-// ============================================================================
+// Orchard Agronomy & Horticultural Knowledge Base
 const GENERAL_AGRONOMY_KB = [
   {
     keywords: ['saeb', 'saeb manz', 'scab lagyomut', 'kharash', 'chhaanik', 'kya karun', 'che chhaanik', 'saeb kharab'],
@@ -323,8 +319,8 @@ function formatInlineMarkdown(text) {
   });
 }
 
-// Structured Bot Message Content with crisp visual hierarchy & clear sections
-function StructuredBotMessage({ text }) {
+// Structured Advisor Consultation Content with clear agronomic sections
+function StructuredAdvisorMessage({ text }) {
   if (!text) return null;
 
   const lines = text.split('\n');
@@ -392,7 +388,7 @@ function StructuredBotMessage({ text }) {
           padding: '8px 12px',
           borderRadius: '8px',
           backgroundColor: trimmed.startsWith('🚨') ? 'rgba(239, 68, 68, 0.08)' : trimmed.startsWith('💡') ? 'rgba(245, 158, 11, 0.08)' : 'rgba(28, 71, 42, 0.06)',
-          borderLeft: `3px solid ${trimmed.startsWith('🚨') ? '#ef4444' : trimmed.startsWith('💡') ? '#f59e0b' : 'var(--color-pine-green, #1c472a)'}`,
+          border: `1px solid ${trimmed.startsWith('🚨') ? 'rgba(239, 68, 68, 0.25)' : trimmed.startsWith('💡') ? 'rgba(245, 158, 11, 0.25)' : 'rgba(28, 71, 42, 0.18)'}`,
           fontSize: '12.5px',
           lineHeight: '1.45'
         }}>
@@ -511,9 +507,7 @@ function generateThoughtProcess(intentType, details = {}) {
   }
 }
 
-// ============================================================================
-// 3. Dynamic Question-Answering Synthesizer (Answers EVERY Question)
-// ============================================================================
+// Dynamic Question-Answering Synthesizer for Kashmir Horticulture
 function generateUniversalAnswer(userText, query, _words) {
   // Extract topic themes
   const isFruitQuery = query.match(/(apple|saib|walnut|akhrot|cherry|almond|badam|peach|pear|plum|grape|saffron|rice|paddy|dhan|tomato|potato|vegetable)/i);
@@ -542,10 +536,8 @@ function generateUniversalAnswer(userText, query, _words) {
   };
 }
 
-// ============================================================================
-// 4. Master AI Decision & Advisory Engine
-// ============================================================================
-async function getBotResponse(userText, messageHistory = []) {
+// SKUAST-K Spray Recommendation & Agronomy Advisory Engine
+async function resolveAdvisoryQuery(userText, messageHistory = []) {
   const query = userText.toLowerCase().trim();
   const words = query
     .split(/[\s,?.!]+/)
@@ -1221,9 +1213,7 @@ async function getBotResponse(userText, messageHistory = []) {
   return generateUniversalAnswer(userText, query, words);
 }
 
-// ============================================================================
-// 4b. Autonomous Website Command & Execution Engine (Full Site Agency)
-// ============================================================================
+// Store Navigation & Formulation Lookup Router
 function findProductFromText(text, history = []) {
   if (!text) return null;
   const lower = text.toLowerCase();
@@ -1306,7 +1296,7 @@ function executeWebsiteCommand({
       return {
         isCommand: true,
         response: {
-          sender: 'bot',
+          sender: 'advisor',
           text: `🛒 **Added ${quantity > 1 ? `${quantity}× ` : ''}${targetProduct.name} to your Cart.**\n\n- 🧪 **Formulation:** ${targetProduct.composition || targetProduct.type}\n- 💧 **Recommended Dosage:** ${targetProduct.dosage}\n- 💰 **Est. Price:** ₹${(priceInfo.discounted * quantity).toLocaleString('en-IN')} (20% valley discount applied)\n- 📦 **Cart Status:** Total **${cart.totalItems + quantity} item(s)** in your cart.\n\nWould you like me to open your cart drawer, calculate your tank dosage, or add another product?`,
           productEmbed: targetProduct,
           actionButtons: [
@@ -1326,7 +1316,7 @@ function executeWebsiteCommand({
     return {
       isCommand: true,
       response: {
-        sender: 'bot',
+        sender: 'advisor',
         text: `🛒 **Cart drawer opened.**\n\nYou currently have **${cart.totalItems} item(s)** in your cart (Est. Value: ~₹${cart.subtotal.toLocaleString('en-IN')}).\n\nYou can review items, select orchard delivery or shop pickup at Tengpora Bypass Srinagar, and finalize your order.`,
         actionButtons: [
           { label: 'Browse Products', action: 'nav_products', icon: 'compass' },
@@ -1343,7 +1333,7 @@ function executeWebsiteCommand({
     return {
       isCommand: true,
       response: {
-        sender: 'bot',
+        sender: 'advisor',
         text: `🔒 **Cart drawer closed.** You can reopen it at any time by asking me or tapping the cart badge!`,
         suggestions: ['Open Cart Drawer', '🛍️ Browse Products', '🗓️ Spray Calendar']
       }
@@ -1356,7 +1346,7 @@ function executeWebsiteCommand({
     return {
       isCommand: true,
       response: {
-        sender: 'bot',
+        sender: 'advisor',
         text: `🗑️ **Your cart has been cleared.**\n\nYour basket is now empty and ready for fresh items.`,
         actionButtons: [
           { label: 'Browse Products', action: 'nav_products', icon: 'compass' },
@@ -1373,7 +1363,7 @@ function executeWebsiteCommand({
       return {
         isCommand: true,
         response: {
-          sender: 'bot',
+          sender: 'advisor',
           text: `🛒 **You have ${cart.totalItems} item(s) in your Cart:**\n\n${cart.cartItems.map((item, idx) => `${idx + 1}. **${item.name}** × ${item.quantity} — ₹${(item.price * item.quantity).toLocaleString('en-IN')}`).join('\n')}\n\n💰 **Subtotal:** ~₹${cart.subtotal.toLocaleString('en-IN')}\n🏷️ **Total Farmer Savings:** ₹${cart.savings.toLocaleString('en-IN')} (20% valley discount)`,
           actionButtons: [
             { label: 'Open Cart Drawer', action: 'open_cart', primary: true, icon: 'cart' },
@@ -1387,7 +1377,7 @@ function executeWebsiteCommand({
       return {
         isCommand: true,
         response: {
-          sender: 'bot',
+          sender: 'advisor',
           text: `🛒 **Your cart is currently empty.**\n\nTell me which chemical or stage you're preparing for (e.g., "Add Antracol to cart", "Pink Bud Stage"), and I will add the right genuine formulation for you!`,
           actionButtons: [
             { label: 'Browse Products', action: 'nav_products', primary: true, icon: 'compass' },
@@ -1405,7 +1395,7 @@ function executeWebsiteCommand({
     return {
       isCommand: true,
       response: {
-        sender: 'bot',
+        sender: 'advisor',
         text: `🛒 **Opening Cart Checkout...**\n\nYou have **${cart.totalItems} item(s)** in your cart (Est. Total: ~₹${cart.subtotal.toLocaleString('en-IN')}).\n\nYou can send your order directly to Sheikh Ayoub on WhatsApp or choose shop pickup at Tengpora Bypass Srinagar with 20% discount.`,
         actionButtons: [
           { label: 'Review Cart', action: 'open_cart', primary: true, icon: 'cart' },
@@ -1422,7 +1412,7 @@ function executeWebsiteCommand({
     return {
       isCommand: true,
       response: {
-        sender: 'bot',
+        sender: 'advisor',
         actionExecuted: 'Switched to Dark Theme',
         text: `🌙 **Activated Dark Theme!** The website is now optimized for low-glare viewing in orchards and late evenings.`,
         actionButtons: [
@@ -1439,7 +1429,7 @@ function executeWebsiteCommand({
     return {
       isCommand: true,
       response: {
-        sender: 'bot',
+        sender: 'advisor',
         actionExecuted: 'Switched to Light Theme',
         text: `☀️ **Activated Light Theme!** The website is now set to high-contrast crisp day mode.`,
         actionButtons: [
@@ -1457,7 +1447,7 @@ function executeWebsiteCommand({
     return {
       isCommand: true,
       response: {
-        sender: 'bot',
+        sender: 'advisor',
         actionExecuted: `Toggled Theme to ${newTheme}`,
         text: `🌓 **Theme toggled to ${newTheme} Mode!**`,
         suggestions: ['🌓 Toggle Theme Again', '🛍️ Go to Products', '🗓️ Spray Calendar']
@@ -1477,7 +1467,7 @@ function executeWebsiteCommand({
     return {
       isCommand: true,
       response: {
-        sender: 'bot',
+        sender: 'advisor',
         text: `🏠 **Shifted to the Homepage!**\n\nI have shifted your screen to the main Home Page. Explore authorized dealerships (Bayer, Syngenta, IPL Biologicals), SKUAST spray calendar stages, and orchard advisory tools.`,
         actionButtons: [
           { label: 'View Full Homepage', action: 'close_chat', primary: true, icon: 'compass' },
@@ -1500,7 +1490,7 @@ function executeWebsiteCommand({
     return {
       isCommand: true,
       response: {
-        sender: 'bot',
+        sender: 'advisor',
         text: `🛍️ **Shifted to the Products Catalog!**\n\nBrowse 100% genuine factory-sealed formulations from Bayer, Syngenta, and IPL Biologicals at 20% discount on print MRP.`,
         actionButtons: [
           { label: 'View Products Catalog', action: 'close_chat', primary: true, icon: 'compass' },
@@ -1523,7 +1513,7 @@ function executeWebsiteCommand({
     return {
       isCommand: true,
       response: {
-        sender: 'bot',
+        sender: 'advisor',
         text: `🗓️ **Shifted to the SKUAST-K Apple Spray Calendar!**\n\nFollow official stages from Dormant winter spray through Petal Fall and Pre-Harvest.`,
         actionButtons: [
           { label: 'View Spray Calendar', action: 'close_chat', primary: true, icon: 'compass' },
@@ -1546,7 +1536,7 @@ function executeWebsiteCommand({
     return {
       isCommand: true,
       response: {
-        sender: 'bot',
+        sender: 'advisor',
         text: `🍃 **Shifted to Leaf Disease Pathology & Tank Dosage Guide!**\n\nExamine foliar symptoms against SKUAST-K pathology keys and calculate precise chemical tank dilutions for your barrel.`,
         actionButtons: [
           { label: 'View Dosage Calculator', action: 'close_chat', primary: true, icon: 'compass' },
@@ -1569,7 +1559,7 @@ function executeWebsiteCommand({
     return {
       isCommand: true,
       response: {
-        sender: 'bot',
+        sender: 'advisor',
         text: `🔬 **Shifted to the Disease & Pest Identification Guide!**\n\nHigh-resolution symptom galleries and chemical cures for Apple Scab, Powdery Mildew, Mites, and Canker.`,
         actionButtons: [
           { label: 'View Disease Guide', action: 'close_chat', primary: true, icon: 'compass' },
@@ -1592,7 +1582,7 @@ function executeWebsiteCommand({
     return {
       isCommand: true,
       response: {
-        sender: 'bot',
+        sender: 'advisor',
         text: `🎥 **Shifted to the Farmer Video Gallery!**\n\nStep-by-step demonstrations on spray methods, WALES mixing order, and orchard management.`,
         actionButtons: [
           { label: 'View Video Gallery', action: 'close_chat', primary: true, icon: 'compass' },
@@ -1615,7 +1605,7 @@ function executeWebsiteCommand({
     return {
       isCommand: true,
       response: {
-        sender: 'bot',
+        sender: 'advisor',
         text: `📍 **Shifted to Store Contact & Location!**\n\nM.A. Pesticides & Fertilizers is located at Hari Singh High Street / Tengpora Bypass, Srinagar, Kashmir.\n\n- 📞 Phone: +91 9906541321\n- 👨‍🔬 Founder: Sheikh Mohammad Ayoub (M.Sc. Organic Chemistry)`,
         actionButtons: [
           { label: 'View Contact Page', action: 'close_chat', primary: true, icon: 'compass' },
@@ -1638,7 +1628,7 @@ function executeWebsiteCommand({
     return {
       isCommand: true,
       response: {
-        sender: 'bot',
+        sender: 'advisor',
         text: `📖 **Shifted to the About Us Page!**\n\nRead about Sheikh Mohammad Ayoub's 30+ year commitment to pesticide authenticity and Kashmir horticulture.`,
         actionButtons: [
           { label: 'View About Page', action: 'close_chat', primary: true, icon: 'compass' },
@@ -1658,7 +1648,7 @@ function executeWebsiteCommand({
       return {
         isCommand: true,
         response: {
-          sender: 'bot',
+          sender: 'advisor',
           actionExecuted: `Searched Website for "${term}"`,
           text: `🔍 **Searching the website for "${term}"...**\n\nI have routed you to live matching products, disease protocols, and calendar stages.`,
           actionButtons: [
@@ -1677,7 +1667,7 @@ function executeWebsiteCommand({
     return {
       isCommand: true,
       response: {
-        sender: 'bot',
+        sender: 'advisor',
         actionExecuted: 'Dialed Shop Phone (+91 9906541321)',
         text: `📞 **Initiating phone call to Sheikh Mohammad Ayoub (+91 9906541321)...**\n\nConnecting you directly to our Tengpora Bypass Srinagar shop counter for instant consultation!`,
         actionButtons: [
@@ -1694,7 +1684,7 @@ function executeWebsiteCommand({
     return {
       isCommand: true,
       response: {
-        sender: 'bot',
+        sender: 'advisor',
         actionExecuted: 'Opened Google Maps Directions',
         text: `🗺️ **Opened Google Maps Navigation to M.A. Pesticides Srinagar!**\n\nLocated centrally on Tengpora Bypass, Batamaloo, Srinagar, Kashmir.`,
         actionButtons: [
@@ -1711,7 +1701,7 @@ function executeWebsiteCommand({
     return {
       isCommand: true,
       response: {
-        sender: 'bot',
+        sender: 'advisor',
         actionExecuted: 'Scrolled to Top of Page',
         text: `⬆️ **Scrolled to the top of the page!**`,
         suggestions: ['🛍️ Products Page', '🗓️ Spray Calendar', '🧮 Dosage Calculator']
@@ -1724,7 +1714,7 @@ function executeWebsiteCommand({
     return {
       isCommand: true,
       response: {
-        sender: 'bot',
+        sender: 'advisor',
         actionExecuted: 'Scrolled to Bottom of Page',
         text: `⬇️ **Scrolled to the bottom of the page!**`,
         suggestions: ['⬆️ Scroll to Top', '🛍️ Products Page', '⚡ Open Cart Drawer']
@@ -1735,9 +1725,7 @@ function executeWebsiteCommand({
   return { isCommand: false };
 }
 
-// ============================================================================
-// 5. Main Component: AdvisorChatbot
-// ============================================================================
+// Chemist Advisory Consultation Desk Component
 export default function AdvisorChatbot() {
   const navigate = useNavigate();
   const cart = useCart();
@@ -1746,7 +1734,7 @@ export default function AdvisorChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
-      sender: 'bot',
+      sender: 'advisor',
       text: "Assalamu Alaikum! 👋 Welcome to **M.A. Pesticides & Fertilizers Consultation Desk**.\n\nBacked directly by **Sheikh Mohammad Ayoub** (M.Sc. Organic Chemistry, B.Ed. — University of Kashmir) and our shop on Hari Singh High Street & Tengpora Bypass, Srinagar. Every diagnosis and tank dosage here follows verified SKUAST-K guidelines and genuine factory formulation chemistry.\n\nHow can we assist your orchard today?\n- 🌤️ **Live Spray Window:** Real-time valley temperature, rain hazard & humidity telemetry\n- 🍏 **Pathological Diagnosis:** Clinical verification for Apple Scab, Alternaria, Red Mites & Canker\n- 🧮 **Precision Tank Dilution:** Exact milliliter/gram calculations for 200L barrels and motorized pumps\n- 🗓️ **SKUAST-K Spray Schedule:** Official stage-wise crop calendar from Dormant to Harvest\n- 👨‍🔬 **Direct Chemist Handoff:** Tap **WhatsApp Chemist** above anytime for a direct voice or photo consultation",
       thoughtProcess: [
         { title: '1. Valley Agronomy Knowledge Base', detail: 'Loaded SKUAST-K Kashmir Spray Guidelines and genuine formulation chemistry inventory.' },
@@ -1981,9 +1969,9 @@ export default function AdvisorChatbot() {
     const raw = (textToSend || input).trim();
     if (!raw) return;
 
-    if (!checkRateLimit('chatbot_query', 6, 3000)) {
+    if (!checkRateLimit('advisory_query', 6, 3000)) {
       setMessages(prev => [...prev, {
-        sender: 'bot',
+        sender: 'advisor',
         text: '⚠️ **System Protection:** Request rate limit reached. Please wait a brief moment.'
       }]);
       return;
@@ -2042,11 +2030,11 @@ export default function AdvisorChatbot() {
         }
 
         // 2. Synthesize domain response & inject contextual actions
-        const response = await getBotResponse(queryText, messages);
+        const response = await resolveAdvisoryQuery(queryText, messages);
         setMessages(prev => {
           const nextIdx = prev.length;
           setExpandedThoughts(curr => ({ ...curr, [nextIdx]: true }));
-          return [...prev, { sender: 'bot', ...response }];
+          return [...prev, { sender: 'advisor', ...response }];
         });
       } catch (err) {
         console.error('Advisor deliberation error:', err);
@@ -2063,7 +2051,7 @@ export default function AdvisorChatbot() {
     setExpandedThoughts({ 0: false });
     setMessages([
       {
-        sender: 'bot',
+        sender: 'advisor',
         text: "Assalamu Alaikum! Conversation reset.\n\nWelcome to the **M.A. Pesticides Consultation Desk**. How can we help your orchard today? You can ask about product prices (with 20% discount on print MRP), spray timing, tank dilutions, or disease control.",
         thoughtProcess: [
           { title: '1. Session Re-initialization', detail: 'Reset contextual dialogue memory and re-calibrated SKUAST-K agronomic database.' },
@@ -2194,7 +2182,7 @@ export default function AdvisorChatbot() {
         }} />
       </button>
 
-      {/* Floating AI Composer Modal / Native Mobile Bottom Sheet */}
+      {/* Chemist Advisory Consultation Modal / Native Mobile Bottom Sheet */}
       {isOpen && (
         <>
           <div
@@ -2426,7 +2414,7 @@ export default function AdvisorChatbot() {
                     borderRadius: msg.sender === 'user' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
                     fontSize: '14px',
                     lineHeight: '1.45',
-                    boxShadow: msg.sender === 'bot' ? '0 2px 10px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(23, 25, 28, 0.06)' : 'none',
+                    boxShadow: msg.sender === 'advisor' ? '0 2px 10px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(23, 25, 28, 0.06)' : 'none',
                     fontFamily: 'var(--font-sohne)'
                   }}
                 >
@@ -2434,7 +2422,7 @@ export default function AdvisorChatbot() {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       {/* Expandable Chemist Clinical Thought Process */}
-                      {msg.sender === 'bot' && msg.thoughtProcess && msg.thoughtProcess.length > 0 && (
+                      {msg.sender === 'advisor' && msg.thoughtProcess && msg.thoughtProcess.length > 0 && (
                         <div style={{
                           marginBottom: '10px',
                           padding: '8px 12px',
@@ -2501,13 +2489,13 @@ export default function AdvisorChatbot() {
                         </div>
                       )}
 
-                      {msg.sender === 'bot' ? (
-                        <StructuredBotMessage text={msg.text} />
+                      {msg.sender === 'advisor' ? (
+                        <StructuredAdvisorMessage text={msg.text} />
                       ) : (
                         <div style={{ whiteSpace: 'pre-line' }}>{msg.text}</div>
                       )}
                     </div>
-                    {msg.sender === 'bot' && (
+                    {msg.sender === 'advisor' && (
                       <button
                         onClick={() => handleToggleSpeak(idx, msg.text)}
                         title={speakingIdx === idx ? 'Stop voice readout' : 'Listen to voice advice'}
@@ -3166,14 +3154,17 @@ export default function AdvisorChatbot() {
                   </span>
                 </div>
 
-                {/* Animated progress bar */}
+                {/* Animated progress bar with GPU transform */}
                 <div style={{ width: '100%', height: '3px', backgroundColor: 'rgba(28, 71, 42, 0.1)', borderRadius: '2px', overflow: 'hidden' }}>
                   <div style={{
                     height: '100%',
-                    width: `${((thinkingStepIndex + 1) / 4) * 100}%`,
+                    width: '100%',
+                    transform: `scaleX(${Math.min(1, Math.max(0.05, (thinkingStepIndex + 1) / 4))})`,
+                    transformOrigin: '0 50%',
                     backgroundColor: 'var(--color-pine-green)',
                     borderRadius: '2px',
-                    transition: 'width 0.28s ease'
+                    transition: 'transform 0.28s cubic-bezier(0.16, 1, 0.3, 1)',
+                    willChange: 'transform'
                   }} />
                 </div>
               </div>

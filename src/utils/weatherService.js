@@ -269,7 +269,7 @@ export async function fetchLiveWeatherData(districtKey = 'srinagar', forceRefres
 }
 
 /**
- * Builds formatted text response for chatbot
+ * Formats live weather conditions and rain-fastness advisory for consultation desk
  */
 export function buildWeatherChatResponse(weather) {
   const statusEmoji = weather.sprayStatus === 'SAFE' ? '🟢' : weather.sprayStatus === 'CAUTION' ? '🟡' : '🔴';

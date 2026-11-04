@@ -162,9 +162,7 @@ export default function Home() {
 
   return (
     <div ref={mainRef} style={{ backgroundColor: 'var(--surface-canvas)' }}>
-      {/* ========================================================================
-          STEEP HERO SECTION — Editorial Collage with Interactive 3D Agronomy
-          ======================================================================== */}
+      {/* Hero Showcase with Seasonal Agronomy & SKUAST-K Stage Switcher */}
       <section className="section-padding home-hero-section" style={{ overflow: 'hidden' }}>
         <div className="page-container">
           <div style={{ textAlign: 'center', maxWidth: '1020px', margin: '0 auto 48px' }}>
@@ -518,9 +516,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ========================================================================
-          SECTION 1 — Alternating Section Fog (#fafafb) with 3 Neutral Cards
-          ======================================================================== */}
+      {/* Core Agronomy Principles */}
       <section className="section-padding section-fog-bg gsap-scroll-section">
         <div className="page-container">
           <div className="section-header gsap-scroll-item">
@@ -578,9 +574,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ========================================================================
-          SECTION 2 — Paper White Canvas with Bespoke Atelier Letterpress Certificate
-          ======================================================================== */}
+      {/* Founder Credentials & Chemical Authority */}
       <section className="section-padding section-paper-bg gsap-scroll-section">
         <div className="page-container">
           <div className="card-peach gsap-scroll-item" style={{ position: 'relative' }}>
@@ -644,9 +638,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ========================================================================
-          SECTION 3 — Section Fog (#fafafb) Live Weather & Diagnostic Grid
-          ======================================================================== */}
+      {/* Srinagar Valley Microclimate & Diagnostic Telemetry */}
       <section className="section-padding section-fog-bg gsap-scroll-section">
         <div className="page-container">
           <div className="section-header gsap-scroll-item">
@@ -745,9 +737,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ========================================================================
-          SECTION 4 — Paper White Canvas Catalog Preview & Direct Contact
-          ======================================================================== */}
+      {/* Featured Manufacturer Inventory */}
       <section className="section-padding section-paper-bg gsap-scroll-section">
         <div className="page-container">
           <div className="section-header centered gsap-scroll-item">
@@ -779,9 +769,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ========================================================================
-          SECTION 5 — Srinagar Store Consultation & Diagnosis Canvas
-          ======================================================================== */}
+      {/* Central Srinagar Store Location & Consultation */}
       <section className="section-padding section-fog-bg gsap-scroll-section" style={{ borderTop: '1px solid var(--border-color)' }}>
         <div className="page-container">
           <div className="section-header centered gsap-scroll-item">

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   STEEP DESIGN SYSTEM — Editorial Analytics & Crop Protection System
+   M.A. PESTICIDES & FERTILIZERS — Editorial Design Tokens & System
    ========================================================================== */
 
 :root {
@@ -585,8 +585,7 @@ button, input, select, textarea {
 }
 
 /* Advisory Composer Input Bar */
-.advisory-composer-input,
-.ai-composer-input {
+.advisory-composer-input {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -599,14 +598,12 @@ button, input, select, textarea {
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.advisory-composer-input:focus-within,
-.ai-composer-input:focus-within {
+.advisory-composer-input:focus-within {
   border-color: var(--color-pine-green);
   box-shadow: 0 0 0 3px rgba(26, 67, 46, 0.12);
 }
 
-.advisory-composer-input input,
-.ai-composer-input input {
+.advisory-composer-input input {
   flex: 1;
   border: none;
   background: transparent;
@@ -616,13 +613,11 @@ button, input, select, textarea {
   color: var(--color-ink-black);
 }
 
-.advisory-composer-input input::placeholder,
-.ai-composer-input input::placeholder {
+.advisory-composer-input input::placeholder {
   color: var(--color-smoke-gray);
 }
 
-.advisory-composer-send-btn,
-.ai-composer-send-btn {
+.advisory-composer-send-btn {
   width: 38px;
   height: 38px;
   border-radius: 50%;
@@ -637,8 +632,7 @@ button, input, select, textarea {
   transition: background-color 0.15s ease, transform 0.15s ease;
 }
 
-.advisory-composer-send-btn:hover,
-.ai-composer-send-btn:hover {
+.advisory-composer-send-btn:hover {
   background-color: var(--color-pine-green-hover);
   transform: scale(1.05);
 }
@@ -1211,7 +1205,7 @@ button, input, select, textarea {
 }
 
 /* ==========================================================================
-   FLOATING WHATSAPP & CHATBOT OVERLAYS
+   FLOATING WHATSAPP & CHEMIST ADVISORY OVERLAYS
    ========================================================================== */
 
 .whatsapp-float-widget {
@@ -1436,7 +1430,7 @@ button, input, select, textarea {
   color: var(--color-ash-gray);
 }
 
-/* Advisor Chatbot Floating Action Button */
+/* Chemist Advisory Floating Action Button */
 .advisor-chatbot-fab {
   position: fixed;
   bottom: 24px;
@@ -2056,7 +2050,7 @@ button, input, select, textarea {
   }
 }
 
-/* Native Mobile Bottom Sheet Experience for AI Chatbot */
+/* Mobile Bottom Sheet Modal for Chemist Advisory Desk */
 @media (max-width: 640px) {
   .advisor-backdrop-mobile {
     display: block;
@@ -2198,13 +2192,11 @@ button, input, select, textarea {
     font-size: 12.5px;
   }
 
-  .advisory-composer-input,
-  .ai-composer-input {
+  .advisory-composer-input {
     padding: 8px 12px;
   }
 
-  .advisory-composer-input input,
-  .ai-composer-input input {
+  .advisory-composer-input input {
     font-size: 16px !important;
   }
 }
@@ -2649,7 +2641,7 @@ button, input, select, textarea {
   color: #fbbf24;
 }
 
-/* AI Autonomous Site Controller Badges & Interactive Chips */
+/* Verified Advisory Action Badges & Interactive Chips */
 .advisor-action-badge {
   display: inline-flex;
   align-items: center;
@@ -2708,7 +2700,7 @@ button, input, select, textarea {
 }
 
 /* ==========================================================================
-   AI Leaf Disease Detection Scanner Styles
+   Leaf Pathology & Morphological Symptom Scanner
    ========================================================================== */
 @keyframes scanLaserSweep {
   0% {

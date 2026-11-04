@@ -227,9 +227,7 @@ export default function Contact() {
           </div>
         </div>
 
-        {/* ========================================================================
-            MAP & NAVIGATION SECTION (Square Map on Left, Landmarks on Right)
-            ======================================================================== */}
+        {/* Store Location Map & Transit Directions */}
         <div className="card-neutral" style={{ padding: 'clamp(20px, 4vw, 36px) clamp(16px, 3.5vw, 32px)' }}>
           <div style={{ marginBottom: '28px' }}>
             <span className="tag-label" style={{ margin: 0 }}>GEOGRAPHIC LOCATION & ACCESS</span>

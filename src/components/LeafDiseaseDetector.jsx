@@ -2082,10 +2082,13 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
                 overflow: 'hidden'
               }}>
                 <div style={{
-                  width: `${scanProgress}%`,
+                  width: '100%',
                   height: '100%',
+                  transform: `scaleX(${Math.min(1, Math.max(0, scanProgress / 100))})`,
+                  transformOrigin: '0 50%',
                   backgroundColor: 'var(--color-pine-green)',
-                  transition: 'width 0.25s ease'
+                  transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                  willChange: 'transform'
                 }} />
               </div>
               <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--color-pine-green)', marginTop: '6px' }}>
@@ -2294,7 +2297,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
               </div>
             </div>
 
-            {/* Neural CV Metrics Strip */}
+            {/* Pathological Diagnostic Metrics */}
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
