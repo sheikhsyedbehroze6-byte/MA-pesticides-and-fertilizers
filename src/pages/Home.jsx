@@ -54,9 +54,56 @@ const QUICK_DIAGNOSTICS = {
   ]
 };
 
+const getCurrentSeason = () => {
+  const m = new Date().getMonth(); // 0 = Jan, 1 = Feb, 2 = Mar...
+  if (m >= 2 && m <= 4) return 'spring'; // Mar, Apr, May
+  if (m >= 5 && m <= 7) return 'summer'; // Jun, Jul, Aug
+  return 'autumn_winter'; // Sep - Feb
+};
+
+const HERO_SEASONAL_SCHEDULES = {
+  spring: {
+    id: 'spring',
+    label: 'Spring Phenology',
+    period: 'Mar – May',
+    activeWindow: 'Green Tip & Delayed Dormancy',
+    badge: 'SKUAST-K Primary Scab Shield',
+    stages: [
+      { stage: 'Green Tip', formulation: 'Bayer Antracol (Propineb 70% WP)', dosage: '600g / 200L' },
+      { stage: 'Pink Bud', formulation: 'Syngenta Score (Difenoconazole)', dosage: '100ml / 200L' },
+      { stage: 'Petal Fall', formulation: 'Superstar Dodine 65% WP', dosage: '200g / 200L' }
+    ]
+  },
+  summer: {
+    id: 'summer',
+    label: 'Summer Cover',
+    period: 'Jun – Aug',
+    activeWindow: 'Fruit Growth & Walnut Stage',
+    badge: 'Secondary Scab & Mite Guard',
+    stages: [
+      { stage: 'Fruitlet Pea', formulation: 'Contaf (Hexaconazole) + Tingo', dosage: '100ml + 80ml / 200L' },
+      { stage: 'Walnut Size', formulation: 'Cabrio Top (Metiram + Pyraclostrobin)', dosage: '400g / 200L' },
+      { stage: 'Color Break', formulation: 'Propargite (Mitofix) + Life80', dosage: '300ml + 100ml / 200L' }
+    ]
+  },
+  autumn_winter: {
+    id: 'autumn_winter',
+    label: 'Autumn / Winter Wash',
+    period: 'Sep – Feb',
+    activeWindow: 'Post-Harvest & Dormant Bark',
+    badge: 'Overwinter Inoculum Eradication',
+    stages: [
+      { stage: 'Pre-Leaf Fall', formulation: 'Urea 5% Foliar Decomposing Wash', dosage: '10kg / 200L' },
+      { stage: 'Post-Harvest', formulation: 'Copper Oxychloride (Blitox 50 WP)', dosage: '600g / 200L' },
+      { stage: 'Dormant Bark', formulation: 'Horticultural Mineral Oil (HMO 3%)', dosage: '6L / 200L Barrel' }
+    ]
+  }
+};
+
 export default function Home() {
   const [activeCrop, setActiveCrop] = useState('apple');
   const [heroSearch, setHeroSearch] = useState('');
+  const [heroSeason, setHeroSeason] = useState(getCurrentSeason);
   const mainRef = useRef(null);
 
   useEffect(() => {
@@ -217,16 +264,55 @@ export default function Home() {
           <div className="hero-artifacts-grid hero-artifacts-row-1">
             {/* Artifact 1: SKUAST Spray Schedule Table Fragment */}
             <div className="floating-product-artifact hero-artifact-tilt-left gsap-hero-card">
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', gap: '12px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', gap: '8px', flexWrap: 'wrap' }}>
                 <div>
                   <span className="tag-label-green" style={{ margin: 0 }}>Active Spray Window</span>
-                  <h4 style={{ fontFamily: 'var(--font-sohne)', fontSize: '18px', fontWeight: 500, margin: 0 }}>
-                    Green Tip & Delayed Dormancy
+                  <h4 style={{ fontFamily: 'var(--font-sohne)', fontSize: '17px', fontWeight: 500, margin: '2px 0 0 0' }}>
+                    {HERO_SEASONAL_SCHEDULES[heroSeason].activeWindow}
                   </h4>
                 </div>
                 <span className="badge-green">
-                  SKUAST-K Compliant
+                  {HERO_SEASONAL_SCHEDULES[heroSeason].badge}
                 </span>
+              </div>
+
+              {/* Seasonal Selector Tabs */}
+              <div 
+                className="no-print" 
+                style={{ 
+                  display: 'flex', 
+                  gap: '6px', 
+                  marginBottom: '12px', 
+                  overflowX: 'auto', 
+                  paddingBottom: '2px', 
+                  scrollbarWidth: 'none' 
+                }}
+              >
+                {Object.values(HERO_SEASONAL_SCHEDULES).map((s) => {
+                  const isActive = heroSeason === s.id;
+                  return (
+                    <button
+                      key={s.id}
+                      type="button"
+                      onClick={() => setHeroSeason(s.id)}
+                      style={{
+                        padding: '4px 10px',
+                        borderRadius: '9999px',
+                        fontSize: '11.5px',
+                        fontWeight: isActive ? 600 : 500,
+                        border: '1px solid',
+                        borderColor: isActive ? 'var(--color-pine-green)' : 'rgba(23, 25, 28, 0.12)',
+                        backgroundColor: isActive ? 'var(--color-pine-green)' : 'rgba(255, 255, 255, 0.7)',
+                        color: isActive ? '#ffffff' : 'var(--color-ink-black)',
+                        cursor: 'pointer',
+                        whiteSpace: 'nowrap',
+                        transition: 'all 0.15s ease'
+                      }}
+                    >
+                      {s.label}
+                    </button>
+                  );
+                })}
               </div>
 
               {/* Table Fragment */}
@@ -240,23 +326,27 @@ export default function Home() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr style={{ borderBottom: '1px solid rgba(23, 25, 28, 0.04)' }}>
-                      <td style={{ fontWeight: 500, whiteSpace: 'nowrap' }}>Green Tip</td>
-                      <td>Bayer Antracol (Propineb 70% WP)</td>
-                      <td style={{ color: 'var(--color-pine-green)', fontWeight: 500, whiteSpace: 'nowrap' }}>600g / 200L</td>
-                    </tr>
-                    <tr style={{ borderBottom: '1px solid rgba(23, 25, 28, 0.04)' }}>
-                      <td style={{ fontWeight: 500, whiteSpace: 'nowrap' }}>Pink Bud</td>
-                      <td>Syngenta Score (Difenoconazole)</td>
-                      <td style={{ color: 'var(--color-pine-green)', fontWeight: 500, whiteSpace: 'nowrap' }}>100ml / 200L</td>
-                    </tr>
-                    <tr>
-                      <td style={{ fontWeight: 500, whiteSpace: 'nowrap' }}>Petal Fall</td>
-                      <td>Superstar Dodine 65% WP</td>
-                      <td style={{ color: 'var(--color-pine-green)', fontWeight: 500, whiteSpace: 'nowrap' }}>200g / 200L</td>
-                    </tr>
+                    {HERO_SEASONAL_SCHEDULES[heroSeason].stages.map((row, idx, arr) => (
+                      <tr 
+                        key={row.stage} 
+                        style={{ borderBottom: idx < arr.length - 1 ? '1px solid rgba(23, 25, 28, 0.04)' : 'none' }}
+                      >
+                        <td style={{ fontWeight: 500, whiteSpace: 'nowrap' }}>{row.stage}</td>
+                        <td>{row.formulation}</td>
+                        <td style={{ color: 'var(--color-pine-green)', fontWeight: 500, whiteSpace: 'nowrap' }}>{row.dosage}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
+              </div>
+
+              <div style={{ marginTop: '10px', textAlign: 'right' }}>
+                <Link 
+                  to="/calendar" 
+                  style={{ fontSize: '11.5px', color: 'var(--color-pine-green)', fontWeight: 600, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '3px' }}
+                >
+                  Full 12-Month Schedule <ArrowRight size={12} />
+                </Link>
               </div>
             </div>
 

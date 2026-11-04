@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef } from 'react';
-import { Calculator, Droplets, TreeDeciduous, ShieldAlert, MessageCircle, Search, Filter, ShoppingBag, Check, Bug, X, ArrowDown, Copy } from 'lucide-react';
+import { Calculator, Droplets, TreeDeciduous, ShieldAlert, MessageCircle, Search, Filter, ShoppingBag, Check, Bug, X, ArrowDown, Copy, Printer } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { safeOpen } from '../utils/security';
 import LeafDiseaseDetector from './LeafDiseaseDetector';
@@ -175,6 +175,37 @@ export default function DosageCalculator() {
 
   return (
     <div className="dosage-calculator-card">
+      {/* Official Printable Prescription Slip Header (Revealed exclusively during window.print()) */}
+      <div className="print-prescription-header">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '2px solid #1a432e', paddingBottom: '12px', marginBottom: '14px' }}>
+          <div>
+            <h2 style={{ margin: 0, fontSize: '20px', fontWeight: 700, color: '#1a432e', fontFamily: 'serif' }}>
+              M.A. PESTICIDES &amp; FERTILIZERS SRINAGAR
+            </h2>
+            <div style={{ fontSize: '11px', color: '#4b5563', marginTop: '2px' }}>
+              Government Approved Agro-Chemical Distributorship • Hari Singh High Street, Srinagar, J&amp;K
+            </div>
+            <div style={{ fontSize: '11px', color: '#111827', fontWeight: 600, marginTop: '2px' }}>
+              Chief Technical Advisors: Sheikh Mohammad Ayoub (M.Sc. Chemistry) &amp; Sheikh Behroze Ayub
+            </div>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <span style={{ display: 'inline-block', backgroundColor: '#1a432e', color: '#ffffff', fontSize: '10px', fontWeight: 700, padding: '3px 8px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              Official Orchard Prescription
+            </span>
+            <div style={{ fontSize: '11px', color: '#4b5563', marginTop: '4px' }}>
+              Date: {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+            </div>
+          </div>
+        </div>
+
+        {detectedDiseaseInfo && (
+          <div style={{ padding: '8px 12px', backgroundColor: '#f0fdf4', border: '1px solid #86efac', borderRadius: '6px', marginBottom: '12px', fontSize: '12px' }}>
+            <strong>Pathology Diagnosis:</strong> {detectedDiseaseInfo.name} ({detectedDiseaseInfo.nameUrdu}) {detectedDiseaseInfo.pathogen ? `— ${detectedDiseaseInfo.pathogen}` : ''}
+          </div>
+        )}
+      </div>
+
       <div className="dosage-calc-header">
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
           <div className="dosage-calc-icon">
@@ -584,6 +615,30 @@ export default function DosageCalculator() {
             >
               {copiedRecipe ? <Check size={15} /> : <Copy size={15} />}
               <span>{copiedRecipe ? 'Recipe Copied!' : 'Copy Recipe'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => window.print()}
+              className="no-print"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '10px 16px',
+                borderRadius: '8px',
+                border: '1px solid rgba(28, 71, 42, 0.25)',
+                backgroundColor: 'transparent',
+                color: 'var(--color-pine-green)',
+                fontSize: '13.5px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.18s ease'
+              }}
+              title="Print or Save PDF Prescription Slip for orchard spray labor"
+            >
+              <Printer size={15} />
+              <span>Print / Save PDF Slip</span>
             </button>
           </div>
         </div>

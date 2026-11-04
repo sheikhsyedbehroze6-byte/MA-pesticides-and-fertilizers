@@ -3036,5 +3036,69 @@ button, input, select, textarea {
   }
 }
 
+/* ==========================================================================
+   PRINT ENGINE (Orchard Spray Prescriptions & SKUAST Cheat-Sheets)
+   ========================================================================== */
+.print-prescription-header {
+  display: none;
+}
+
+@media print {
+  /* Hide all non-printable chrome */
+  .no-print,
+  .steep-header,
+  .steep-footer,
+  .bottom-nav,
+  .advisor-chatbot-fab,
+  .advisor-chatbot-modal,
+  .advisor-backdrop-mobile,
+  .floating-cart-wrapper,
+  .back-to-top,
+  .scroll-progress-bar,
+  .network-status-banner,
+  #pwa-install-banner,
+  .mobile-drawer-backdrop,
+  .mobile-nav-drawer,
+  .quick-nav-pill-group {
+    display: none !important;
+  }
+
+  /* Reset document for clean paper output */
+  html, body {
+    background: #ffffff !important;
+    color: #111827 !important;
+    font-size: 11pt !important;
+    line-height: 1.4 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 8mm 12mm !important;
+    box-shadow: none !important;
+  }
+
+  /* Reveal formal prescription header during print */
+  .print-prescription-header {
+    display: block !important;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #1a432e;
+  }
+
+  /* Avoid awkward page breaks in the middle of prescription cards */
+  .card-neutral,
+  .floating-product-artifact,
+  .dosage-result-box,
+  .table-fragment {
+    box-shadow: none !important;
+    border: 1px solid #d1d5db !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  a[href]::after {
+    content: "" !important;
+  }
+}
+
+
 
 
