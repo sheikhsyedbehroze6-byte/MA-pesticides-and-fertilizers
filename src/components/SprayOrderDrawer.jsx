@@ -15,7 +15,8 @@ import {
   Check, 
   ArrowRight,
   ExternalLink,
-  Info
+  Info,
+  Printer
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import './SprayOrderDrawer.css';
@@ -76,6 +77,115 @@ export default function SprayOrderDrawer() {
       >
         {/* Mobile Pull Handle Indicator */}
         <div className="spray-drawer-pull-bar" />
+
+        {/* Official Printable Proforma Estimate Slip (Revealed only during window.print()) */}
+        <div className="print-proforma-slip">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '2px solid #1a432e', paddingBottom: '14px', marginBottom: '16px' }}>
+            <div>
+              <h2 style={{ margin: 0, fontSize: '22px', fontWeight: 700, color: '#1a432e', fontFamily: 'serif', letterSpacing: '0.5px' }}>
+                M.A. PESTICIDES &amp; FERTILIZERS SRINAGAR
+              </h2>
+              <div style={{ fontSize: '11px', color: '#4b5563', marginTop: '3px' }}>
+                Authorized Agricultural Dealership • Bayer | Syngenta | IPL Biologicals
+              </div>
+              <div style={{ fontSize: '11px', color: '#4b5563' }}>
+                Hari Singh High Street &amp; Tengpora Bypass, Srinagar, Kashmir &bull; Ph: +91 99065 41321
+              </div>
+              <div style={{ fontSize: '11.5px', color: '#111827', fontWeight: 600, marginTop: '4px' }}>
+                Chief Technical Advisors: Sheikh Mohammad Ayoub (M.Sc. Organic Chemistry) &amp; Sheikh Behroze Ayub
+              </div>
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <span style={{ display: 'inline-block', backgroundColor: '#1a432e', color: '#ffffff', fontSize: '10.5px', fontWeight: 700, padding: '4px 10px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
+                Orchard Spray Order Estimate
+              </span>
+              <div style={{ fontSize: '11px', color: '#4b5563', marginTop: '6px' }}>
+                Date: {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+              </div>
+              <div style={{ fontSize: '11px', color: '#4b5563' }}>
+                Estimate ID: MAP-EST-{new Date().getFullYear()}-{totalItems}
+              </div>
+            </div>
+          </div>
+
+          {/* Farmer & Orchard Details */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', backgroundColor: '#f9fafb', padding: '10px 14px', borderRadius: '8px', border: '1px solid #e5e7eb', marginBottom: '16px', fontSize: '12px' }}>
+            <div>
+              <strong>Grower Name:</strong> {farmerInfo.name || 'Valued Kashmir Orchardist'}<br />
+              <strong>District / Zone:</strong> {farmerInfo.district || 'Srinagar / Central Valley'}
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <strong>Fulfilment:</strong> {farmerInfo.deliveryMode === 'delivery' ? 'Express Orchard Delivery' : 'Direct Shop Pickup'}<br />
+              <strong>Total Formulations:</strong> {totalItems} items
+            </div>
+          </div>
+
+          {/* Itemized Table */}
+          <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '16px', fontSize: '12px' }}>
+            <thead>
+              <tr style={{ backgroundColor: '#1a432e', color: '#ffffff', textAlign: 'left' }}>
+                <th style={{ padding: '8px 10px' }}>S.No</th>
+                <th style={{ padding: '8px 10px' }}>Formulation / Active Chemistry</th>
+                <th style={{ padding: '8px 10px', textAlign: 'center' }}>Qty</th>
+                <th style={{ padding: '8px 10px', textAlign: 'right' }}>Print MRP</th>
+                <th style={{ padding: '8px 10px', textAlign: 'right' }}>Farmer Privilege (-20%)</th>
+                <th style={{ padding: '8px 10px', textAlign: 'right' }}>Line Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cartItems.map((item, idx) => {
+                const itemMrp = item.product.mrp || 850;
+                const discounted = Math.round(itemMrp * 0.8);
+                const lineTotal = discounted * item.quantity;
+                return (
+                  <tr key={item.id} style={{ borderBottom: '1px solid #e5e7eb' }}>
+                    <td style={{ padding: '8px 10px' }}>{idx + 1}</td>
+                    <td style={{ padding: '8px 10px' }}>
+                      <strong>{item.product.name}</strong>
+                      {item.product.composition && <span style={{ display: 'block', fontSize: '10.5px', color: '#6b7280' }}>{item.product.composition}</span>}
+                    </td>
+                    <td style={{ padding: '8px 10px', textAlign: 'center' }}>{item.quantity}</td>
+                    <td style={{ padding: '8px 10px', textAlign: 'right', textDecoration: 'line-through', color: '#9ca3af' }}>₹{itemMrp}</td>
+                    <td style={{ padding: '8px 10px', textAlign: 'right', fontWeight: 600, color: '#1a432e' }}>₹{discounted}</td>
+                    <td style={{ padding: '8px 10px', textAlign: 'right', fontWeight: 700 }}>₹{lineTotal.toLocaleString('en-IN')}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+
+          {/* Pricing Summary */}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '24px' }}>
+            <div style={{ width: '280px', fontSize: '12.5px', lineHeight: '1.6' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#4b5563' }}>
+                <span>Print MRP Total:</span>
+                <span style={{ textDecoration: 'line-through' }}>₹{mrpTotal.toLocaleString('en-IN')}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#047857', fontWeight: 600 }}>
+                <span>Store Privilege Discount (20%):</span>
+                <span>-₹{savings.toLocaleString('en-IN')}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '2px solid #1a432e', paddingTop: '6px', marginTop: '6px', fontSize: '15px', fontWeight: 700, color: '#1a432e' }}>
+                <span>Estimated Counter Total:</span>
+                <span>₹{subtotal.toLocaleString('en-IN')}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Footer Guarantee & Signatures */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', borderTop: '1px dashed #9ca3af', paddingTop: '16px', fontSize: '11px', color: '#4b5563' }}>
+            <div>
+              <strong>Authenticity Guarantee:</strong> 100% Factory Sealed Batches.<br />
+              All rates include exclusive 20% farmer privilege at M.A. Pesticides Srinagar.
+            </div>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ height: '32px' }} />
+              <div style={{ borderTop: '1px solid #111827', width: '160px', paddingTop: '4px', fontWeight: 600, color: '#111827' }}>
+                Authorized Chemist Stamp
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* Drawer Header */}
         <div className="spray-drawer-header">
@@ -338,15 +448,25 @@ export default function SprayOrderDrawer() {
               <button 
                 type="button" 
                 onClick={handleCopyMessage}
-                className="spray-sub-action-btn"
+                className="spray-sub-action-btn no-print"
               >
                 {copied ? <Check size={14} color="#16a34a" /> : <Info size={14} />}
                 <span>{copied ? 'Order Text Copied!' : 'Copy Order Text'}</span>
               </button>
 
+              <button
+                type="button"
+                onClick={() => window.print()}
+                className="spray-sub-action-btn no-print"
+                title="Print or Save PDF Official Store Estimate Slip"
+              >
+                <Printer size={14} />
+                <span>Print / PDF Slip</span>
+              </button>
+
               <a 
                 href="tel:+919906541321" 
-                className="spray-sub-action-btn"
+                className="spray-sub-action-btn no-print"
               >
                 <Phone size={14} />
                 <span>Call Chemist (9906541321)</span>

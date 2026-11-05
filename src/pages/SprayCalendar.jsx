@@ -3,7 +3,7 @@ import AnimatedSection from '../components/AnimatedSection';
 import WeatherSprayAlert from '../components/WeatherSprayAlert';
 import Breadcrumb from '../components/Breadcrumb';
 import { products } from '../data/agricultureData';
-import { safeOpen } from '../utils/security';
+import { safeOpen, safeJsonParse } from '../utils/security';
 import {
   Calendar,
   MessageCircle,
@@ -15,7 +15,9 @@ import {
   Snowflake,
   Sprout,
   Sun,
-  Leaf
+  Leaf,
+  CheckCircle2,
+  X
 } from 'lucide-react';
 import './urdu.css';
 
@@ -653,6 +655,38 @@ export default function SprayCalendar() {
   const [langMode, setLangMode] = useState('both'); // 'both', 'en', 'ur'
   const [activeStageId, setActiveStageId] = useState(SPRAY_SCHEDULES.apple.stages[0].id);
 
+  // Offline Orchard Field Diary state (persists across visits)
+  const [sprayDiary, setSprayDiary] = useState(() => {
+    if (typeof window === 'undefined') return {};
+    return safeJsonParse(localStorage.getItem('ma_orchard_spray_diary'), {});
+  });
+
+  const logSprayDate = (stageId) => {
+    const todayStr = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    setSprayDiary(prev => {
+      const next = { ...prev, [stageId]: { date: todayStr, timestamp: Date.now() } };
+      try {
+        localStorage.setItem('ma_orchard_spray_diary', JSON.stringify(next));
+      } catch {
+        // Ignore quota
+      }
+      return next;
+    });
+  };
+
+  const removeDiaryEntry = (stageId) => {
+    setSprayDiary(prev => {
+      const next = { ...prev };
+      delete next[stageId];
+      try {
+        localStorage.setItem('ma_orchard_spray_diary', JSON.stringify(next));
+      } catch {
+        // Ignore
+      }
+      return next;
+    });
+  };
+
   const cropData = SPRAY_SCHEDULES[selectedCrop];
 
   const productLookup = useMemo(() => {
@@ -824,6 +858,11 @@ export default function SprayCalendar() {
                       Stage {idx + 1} &bull; {stage.timing}
                     </span>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      {sprayDiary[stage.id] && (
+                        <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#047857', backgroundColor: 'rgba(16, 185, 129, 0.15)', padding: '1px 6px', borderRadius: '10px' }}>
+                          ✓ Sprayed {sprayDiary[stage.id].date}
+                        </span>
+                      )}
                       <SeasonBadge season={stage.season} />
                       {isActive && <ChevronRight size={16} color="var(--color-sienna-brown)" />}
                     </div>
@@ -880,6 +919,72 @@ export default function SprayCalendar() {
                         <span className="urdu-text" style={{ fontSize: '0.85rem', color: 'var(--color-slate-gray)' }}>
                           — {stage.timingUrdu}
                         </span>
+                      )}
+                    </div>
+
+                    {/* Orchard Field Diary Tracker for this stage */}
+                    <div style={{ marginTop: '0.85rem' }} className="no-print">
+                      {sprayDiary[stage.id] ? (
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          backgroundColor: 'rgba(16, 185, 129, 0.08)',
+                          border: '1px solid rgba(16, 185, 129, 0.25)',
+                          borderRadius: '8px',
+                          padding: '8px 12px',
+                          gap: '8px',
+                          flexWrap: 'wrap'
+                        }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <CheckCircle2 size={16} color="#047857" style={{ flexShrink: 0 }} />
+                            <div>
+                              <span style={{ fontSize: '12.5px', fontWeight: 600, color: '#047857' }}>
+                                Applied in Orchard on {sprayDiary[stage.id].date}
+                              </span>
+                              <span style={{ display: 'block', fontSize: '11px', color: '#4b5563' }}>
+                                Logged in your offline orchard diary • Next application due in ~12–15 days
+                              </span>
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => removeDiaryEntry(stage.id)}
+                            style={{
+                              background: 'transparent',
+                              border: 'none',
+                              color: 'var(--color-slate-gray)',
+                              cursor: 'pointer',
+                              fontSize: '11.5px',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '3px'
+                            }}
+                            title="Remove log entry"
+                          >
+                            <X size={13} />
+                            <span>Clear</span>
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => logSprayDate(stage.id)}
+                          className="pill-button-ghost pill-button-sm"
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '6px',
+                            fontSize: '12px',
+                            borderColor: 'var(--color-pine-green)',
+                            color: 'var(--color-pine-green)',
+                            fontWeight: 600
+                          }}
+                          title="Record that you have completed this spray stage in your orchard"
+                        >
+                          <CheckCircle2 size={14} />
+                          <span>Mark Stage as Sprayed Today</span>
+                        </button>
                       )}
                     </div>
                   </div>

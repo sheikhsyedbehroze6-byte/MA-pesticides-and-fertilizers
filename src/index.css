@@ -3060,7 +3060,8 @@ html {
 /* ==========================================================================
    PRINT ENGINE (Orchard Spray Prescriptions & SKUAST Cheat-Sheets)
    ========================================================================== */
-.print-prescription-header {
+.print-prescription-header,
+.print-proforma-slip {
   display: none;
 }
 
@@ -3084,6 +3085,34 @@ html {
     display: none !important;
   }
 
+  /* Seamless order drawer printing: hide interactive drawer chrome, reveal invoice slip */
+  .spray-order-backdrop {
+    position: static !important;
+    background: transparent !important;
+    display: block !important;
+    padding: 0 !important;
+  }
+
+  .spray-order-drawer {
+    position: static !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+  }
+
+  .spray-drawer-header,
+  .spray-cart-items-container,
+  .spray-farmer-info-card,
+  .spray-footer-summary-box,
+  .spray-whatsapp-submit-btn,
+  .spray-footer-sub-actions,
+  .spray-drawer-pull-bar {
+    display: none !important;
+  }
+
   /* Reset document for clean paper output */
   html, body {
     background: #ffffff !important;
@@ -3096,12 +3125,18 @@ html {
     box-shadow: none !important;
   }
 
-  /* Reveal formal prescription header during print */
+  /* Reveal formal prescription header & estimate slip during print */
   .print-prescription-header {
     display: block !important;
     margin-bottom: 16px;
     padding-bottom: 12px;
     border-bottom: 2px solid #1a432e;
+  }
+
+  .print-proforma-slip {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   /* Avoid awkward page breaks in the middle of prescription cards */
