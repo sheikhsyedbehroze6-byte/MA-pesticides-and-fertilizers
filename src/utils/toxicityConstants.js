@@ -66,3 +66,4 @@ export function getProductToxicity(product) {
   // Default for agricultural fungicides (Propineb, Dodine, Hexaconazole, etc.)
   return CIBRC_TOXICITY_CLASSES.BLUE;
 }
+

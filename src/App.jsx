@@ -25,6 +25,7 @@ import {
   Contact,
   Search,
   PrivacyPolicy,
+  PoisonControl,
   NotFound,
   preloadAllRoutes
 } from './utils/routePreloader';
@@ -99,6 +100,9 @@ function AnimatedRoutes() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/poison-control" element={<PoisonControl />} />
+            <Route path="/safety" element={<PoisonControl />} />
+            <Route path="/emergency" element={<PoisonControl />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

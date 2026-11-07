@@ -43,12 +43,14 @@ function Footer() {
               <li><Link to="/contact" onMouseEnter={() => preloadRoute('/contact')} onTouchStart={() => preloadRoute('/contact')}>Visit Store</Link></li>
               <li><Link to="/privacy" onMouseEnter={() => preloadRoute('/privacy')} onTouchStart={() => preloadRoute('/privacy')}>Privacy Policy &amp; Data Rights</Link></li>
               <li>
-                <button 
-                  onClick={() => window.dispatchEvent(new Event('open-agri-safety'))} 
-                  style={{ background: 'none', border: 'none', color: '#dc2626', font: 'inherit', cursor: 'pointer', padding: 0, fontWeight: 600 }}
+                <Link 
+                  to="/poison-control" 
+                  onMouseEnter={() => preloadRoute('/poison-control')} 
+                  onTouchStart={() => preloadRoute('/poison-control')}
+                  style={{ color: '#dc2626', fontWeight: 650 }}
                 >
-                  ⚠️ Emergency Poison Helpline (24/7)
-                </button>
+                  🚨 Poison Control &amp; Antidote Guide
+                </Link>
               </li>
               <li><a href="/download.html" target="_blank" rel="noopener noreferrer">Technical Architecture</a></li>
               <li><button onClick={() => window.dispatchEvent(new Event('trigger-pwa-install'))} style={{ background: 'none', border: 'none', color: 'var(--color-pine-green)', font: 'inherit', cursor: 'pointer', padding: 0, fontWeight: 500 }}>Install Mobile App</button></li>
@@ -185,12 +187,12 @@ function Footer() {
               Privacy Policy
             </Link>
             {' '}&bull;{' '}
-            <button
-              onClick={() => window.dispatchEvent(new Event('open-agri-safety'))}
-              style={{ background: 'none', border: 'none', color: '#dc2626', font: 'inherit', cursor: 'pointer', padding: 0, textDecoration: 'underline', textUnderlineOffset: '3px', fontWeight: 600 }}
+            <Link
+              to="/poison-control"
+              style={{ color: '#dc2626', textDecoration: 'underline', textUnderlineOffset: '3px', fontWeight: 650 }}
             >
-              Poison Antidote Helpline
-            </button>
+              Poison Control &amp; Antidotes
+            </Link>
           </span>
           <span>100% Genuine Guarantee &bull; Kashmir Orchard Analytics</span>
         </div>

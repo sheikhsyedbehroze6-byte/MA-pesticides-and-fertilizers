@@ -33,6 +33,7 @@ export const DosageCalculatorPage = lazyWithPreload(() => import('../pages/Dosag
 export const Contact = lazyWithPreload(() => import('../pages/Contact'));
 export const Search = lazyWithPreload(() => import('../pages/Search'));
 export const PrivacyPolicy = lazyWithPreload(() => import('../pages/PrivacyPolicy'));
+export const PoisonControl = lazyWithPreload(() => import('../pages/PoisonControl'));
 export const NotFound = lazyWithPreload(() => import('../pages/NotFound'));
 
 // Mapping of route paths to route component objects
@@ -49,6 +50,9 @@ const routeMap = {
   '/contact': Contact,
   '/privacy': PrivacyPolicy,
   '/privacy-policy': PrivacyPolicy,
+  '/poison-control': PoisonControl,
+  '/safety': PoisonControl,
+  '/emergency': PoisonControl,
 };
 
 /**

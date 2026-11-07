@@ -299,9 +299,16 @@ export default function AgriSafetyModal({ isOpen: controlledIsOpen, onClose: con
 
           {/* Footer Close */}
           <div className="sticky bottom-0 bg-slate-900/95 backdrop-blur-md px-6 py-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-            <span>Insecticides Act, 1968 & CIBRC Compliance</span>
+            <a
+              href="/poison-control"
+              onClick={handleClose}
+              className="text-amber-400 hover:text-amber-300 font-semibold inline-flex items-center gap-1.5 transition-colors"
+            >
+              <span>Open Dedicated Poison Page</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
             <button
-              onClick={onClose}
+              onClick={handleClose}
               className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-medium transition-colors"
             >
               Understood
