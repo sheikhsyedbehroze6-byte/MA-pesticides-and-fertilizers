@@ -13,14 +13,12 @@ import {
   CheckCircle2, 
   XCircle, 
   Printer, 
-  Share2, 
   FileText, 
   ChevronRight, 
-  Info,
   MapPin,
   ExternalLink,
-  HelpCircle,
-  Sparkles
+  Copy,
+  Check
 } from 'lucide-react';
 import Breadcrumb from '../components/Breadcrumb';
 import { trackEvent } from '../utils/analytics';
@@ -33,95 +31,95 @@ const KASHMIR_EMERGENCY_HOSPITALS = [
     hospital: 'SMHS Hospital (Govt Medical College)',
     location: 'Karan Nagar, Srinagar',
     phone: '+91 194 2504114',
-    altPhone: '108',
-    specialty: 'Apex Toxicology ICU, Ventilator & Antidote Reserves'
+    alt: '108',
+    details: 'Primary toxicology ICU, ventilator support, and full antidote bank (Atropine & 2-PAM).'
   },
   {
     district: 'Srinagar (Super Specialty)',
     hospital: 'SKIMS Soura',
     location: 'Soura, Srinagar',
     phone: '+91 194 2401013',
-    altPhone: '+91 194 2403470',
-    specialty: 'Advanced Poison Management & Poison Ingestion ICU'
+    alt: '+91 194 2403470',
+    details: 'Specialized poison management unit with pediatric and adult intensive care.'
   },
   {
     district: 'Shopian (Apple Belt)',
     hospital: 'District Hospital Shopian',
-    location: 'Shopian Main Town',
+    location: 'Main Town, Shopian',
     phone: '+91 1933 260232',
-    altPhone: '108',
-    specialty: 'Orchard Chemical Casualty & Emergency Stabilization'
+    alt: '108',
+    details: 'On-field chemical casualty stabilization, oxygen support, and immediate gastric lavage.'
   },
   {
     district: 'Baramulla',
     hospital: 'GMC Associated Hospital Baramulla',
     location: 'Kanthbagh, Baramulla',
     phone: '+91 1952 234234',
-    altPhone: '108',
-    specialty: 'North Kashmir Trauma & Chemical Emergency Unit'
+    alt: '108',
+    details: 'North Kashmir regional trauma and chemical emergency response centre.'
   },
   {
-    district: 'Sopore (Fruit Mandi Belt)',
+    district: 'Sopore',
     hospital: 'Sub-District Hospital Sopore',
-    location: 'Sopore Town',
+    location: 'Chotipora, Sopore',
     phone: '+91 1954 222345',
-    altPhone: '108',
-    specialty: 'Immediate Gastric Lavage & First-Response Center'
+    alt: '108',
+    details: 'Fast-track emergency lavage and first-response antidote administration.'
   },
   {
     district: 'Pulwama',
     hospital: 'District Hospital Pulwama',
     location: 'Pulwama Central',
     phone: '+91 1933 241245',
-    altPhone: '108',
-    specialty: 'South Kashmir Toxicology & Ambulance Base'
+    alt: '108',
+    details: 'South Kashmir emergency wing equipped for organophosphate stabilization.'
   },
   {
     district: 'Anantnag',
     hospital: 'GMC Associated Hospital Anantnag',
     location: 'Janglat Mandi, Anantnag',
     phone: '+91 1932 222123',
-    altPhone: '108',
-    specialty: 'Tertiary Care & Organophosphate Treatment Unit'
+    alt: '108',
+    details: 'Comprehensive emergency medicine department and toxicological care.'
   },
   {
     district: 'Budgam',
     hospital: 'District Hospital Budgam',
-    location: 'Budgam Central',
+    location: 'Budgam Town',
     phone: '+91 1951 255222',
-    altPhone: '108',
-    specialty: 'Emergency First Response & Rapid Transfer'
+    alt: '108',
+    details: 'First-response medical stabilization and ambulance link to Srinagar apex centres.'
   }
 ];
 
 const ANTIDOTE_REFERENCE = [
   {
-    group: 'Organophosphates (OPs) & Carbamates',
-    examples: 'Chlorpyrifos (Cyclone 505), Malathion, Monocrotophos, Dimethoate',
-    symptoms: 'Pinpoint pupils (miosis), excessive sweating, salivation, wheezing, nausea, muscle twitches (fasciculations).',
-    primaryAntidote: 'Atropine Sulphate (IV) titrated to dry bronchosecretions + Pralidoxime (2-PAM / PAM chloride).',
-    criticalDoNot: 'NEVER give morphine, theophylline, or aminophylline. NEVER induce vomiting if petroleum solvent present.'
+    group: 'Organophosphates & Carbamates',
+    examples: 'Chlorpyrifos (Cyclone 505), Malathion, Monocrotophos',
+    symptoms: 'Pinpoint pupils (miosis), profuse sweating, salivation, wheezing, slow heartbeat, and muscle twitches.',
+    treatment: 'Atropine Sulphate (IV) titrated to dry bronchosecretions, accompanied by Pralidoxime (2-PAM / PAM chloride).',
+    warning: 'Do not administer morphine, aminophylline, or theophylline. Never induce vomiting if mixed with petroleum solvents.'
   },
   {
     group: 'Synthetic Pyrethroids',
     examples: 'Cypermethrin, Lambda-Cyhalothrin (Alika), Deltamethrin',
-    symptoms: 'Facial numbness, burning sensation (paresthesia), skin erythema, eye irritation, involuntary twitching.',
-    primaryAntidote: 'Symptomatic therapy. Topical Vitamin E acetate cream alleviates skin paresthesia. Anticonvulsants if seizure occurs.',
-    criticalDoNot: 'Do not use oil-based ointments or alcohol wipes which enhance dermal absorption.'
+    symptoms: 'Facial tingling and burning sensation (paresthesia), skin irritation, eye tearing, sneezing, and tremors.',
+    treatment: 'Topical Vitamin E acetate cream directly on skin relieves burning. Symptomatic support and cool water compresses.',
+    warning: 'Avoid oil-based ointments or alcohol rubs, which significantly increase skin absorption.'
   },
   {
     group: 'Dithiocarbamate Fungicides',
     examples: 'Propineb (Antracol, Filpostar), Mancozeb, Zineb',
-    symptoms: 'Upper respiratory irritation, skin dermatitis, mild nausea, eye tearing.',
-    primaryAntidote: 'Supportive care, copious eye and skin washing. Gastric lavage if ingested in massive volumes.',
-    criticalDoNot: 'Strictly avoid all alcohol consumption for 48 hours post-exposure (causes violent disulfiram/antabuse reaction).'
+    symptoms: 'Throat and chest irritation, skin rashes, mild nausea, and eye discomfort.',
+    treatment: 'Copious washing of exposed skin and eyes. Gastric lavage only if ingested in large quantities under medical care.',
+    warning: 'Patients must strictly avoid alcohol for 48 hours post-exposure (triggers violent disulfiram/antabuse reactions).'
   },
   {
-    group: 'Dodine & Sterol Inhibitors',
+    group: 'Dodine & Systemic Triazoles',
     examples: 'Superstar Dodine 65% WP, Tebuconazole (Luna)',
-    symptoms: 'Corneal burning, mucosal irritation, epigastric discomfort.',
-    primaryAntidote: 'Demulcents, fluid maintenance, prompt ocular irrigation for at least 20 minutes.',
-    criticalDoNot: 'Do not neutralize with acid or alkali chemicals; use neutral sterile water or saline only.'
+    symptoms: 'Corneal burning, mucosal discomfort, nausea, or abdominal cramping.',
+    treatment: 'Symptomatic fluid maintenance, demulcents, and gentle continuous eye irrigation with sterile saline.',
+    warning: 'Do not attempt chemical neutralization with weak acids or bases; use clean, neutral water only.'
   }
 ];
 
@@ -143,450 +141,442 @@ export default function PoisonControl() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 pt-28 pb-20 selection:bg-red-500 selection:text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb Navigation */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-6 text-sm text-slate-400">
-          <div className="flex items-center space-x-2">
-            <span>Home</span>
-            <ChevronRight className="w-4 h-4 text-slate-600" />
-            <span className="text-red-400 font-medium">Poison Control & Emergency Safety</span>
-          </div>
-          <div className="flex items-center space-x-3">
-            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-red-500/10 text-red-400 border border-red-500/30 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-              24/7 Helpline Active
+    <div style={{ backgroundColor: 'var(--surface-canvas)', minHeight: '100vh' }} className="section-padding">
+      <div className="page-container">
+        <Breadcrumb />
+
+        {/* Page Header */}
+        <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 48px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '999px', backgroundColor: 'rgba(220, 38, 38, 0.08)', border: '1px solid rgba(220, 38, 38, 0.25)', marginBottom: '16px' }}>
+            <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#dc2626', display: 'inline-block' }} />
+            <span style={{ fontSize: '11.5px', fontWeight: 650, color: '#dc2626', letterSpacing: '0.4px', textTransform: 'uppercase' }}>
+              24/7 Kashmir Medical &amp; Antidote Protocol
             </span>
+          </div>
+
+          <h1 className="text-heading-lg" style={{ marginBottom: '16px', color: 'var(--color-ink-black)' }}>
+            Poison control &amp; chemical safety guide.
+          </h1>
+          <p className="text-body-lg" style={{ color: 'var(--color-slate-gray)' }}>
+            Immediate first-aid instructions, Kashmir hospital casualty numbers, and doctor-verified antidote protocols under the Insecticides Act, 1968.
+          </p>
+        </div>
+
+        {/* Emergency Call Action Card */}
+        <div 
+          style={{ 
+            backgroundColor: '#fffcfb',
+            border: '1.5px solid rgba(220, 38, 38, 0.28)',
+            borderRadius: 'var(--radius-cards)',
+            padding: '32px 28px',
+            boxShadow: '0 8px 30px rgba(220, 38, 38, 0.06)',
+            marginBottom: '48px'
+          }}
+        >
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '16px', marginBottom: '24px' }}>
+            <div>
+              <span className="tag-label" style={{ color: '#dc2626', margin: 0 }}>CRITICAL EMERGENCY HELPLINES</span>
+              <h2 style={{ fontFamily: 'var(--font-signifier)', fontSize: '26px', fontWeight: 400, color: 'var(--color-ink-black)', marginTop: '4px' }}>
+                Need immediate medical help?
+              </h2>
+            </div>
             <button
               onClick={() => window.print()}
-              className="flex items-center space-x-1.5 px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 border border-slate-700 transition-colors"
+              className="pill-button-ghost pill-button-sm"
+              style={{ gap: '6px' }}
             >
-              <Printer className="w-3.5 h-3.5" />
-              <span>Print Orchard Sheet</span>
+              <Printer size={14} />
+              <span>Print Orchard Safety Card</span>
             </button>
           </div>
-        </div>
 
-        {/* Hero Emergency Banner */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-red-950/70 via-slate-900 to-amber-950/30 p-8 sm:p-12 border border-red-600/50 shadow-2xl mb-12">
-          <div className="absolute top-0 right-0 -mr-16 -mt-16 w-80 h-80 rounded-full bg-red-600/10 blur-3xl pointer-events-none" />
-          
-          <div className="relative z-10 max-w-4xl">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-red-900/60 text-red-300 border border-red-700/60 text-xs font-semibold uppercase tracking-wider mb-4">
-              <ShieldAlert className="w-4 h-4 text-red-400" />
-              <span>Kashmir Agronomic Toxicology Protocol & CIBRC Safety</span>
-            </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
+            <a
+              href="tel:1800116117"
+              onClick={() => trackEvent('call_national_poison_hero')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '16px 20px',
+                borderRadius: '14px',
+                backgroundColor: 'rgba(220, 38, 38, 0.05)',
+                border: '1px solid rgba(220, 38, 38, 0.2)',
+                textDecoration: 'none',
+                color: 'inherit',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              <div>
+                <span style={{ fontSize: '12px', color: 'var(--color-slate-gray)', display: 'block' }}>National Poison Centre (AIIMS)</span>
+                <strong style={{ fontSize: '20px', fontWeight: 700, color: '#dc2626', display: 'block', marginTop: '2px' }}>1800-116-117</strong>
+                <span style={{ fontSize: '11px', color: '#15803d', fontWeight: 550 }}>Toll-Free &bull; 24 Hours</span>
+              </div>
+              <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(220, 38, 38, 0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#dc2626', flexShrink: 0 }}>
+                <PhoneCall size={18} />
+              </div>
+            </a>
 
-            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-4">
-              Poison Control & Emergency Antidote Guide
-            </h1>
-            
-            <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-8">
-              Immediate life-saving clinical first-aid, hospital dispatch directories for all Kashmir districts,
-              and statutory antidote matrices under the <strong className="text-red-400">Insecticides Act, 1968</strong>.
-              Always keep this page saved offline on your phone during orchard spray operations.
-            </p>
+            <a
+              href="tel:+911942504114"
+              onClick={() => trackEvent('call_smhs_hero')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '16px 20px',
+                borderRadius: '14px',
+                backgroundColor: 'var(--surface-elevated-white)',
+                border: '1px solid var(--border-color)',
+                textDecoration: 'none',
+                color: 'inherit',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              <div>
+                <span style={{ fontSize: '12px', color: 'var(--color-slate-gray)', display: 'block' }}>SMHS Hospital Srinagar</span>
+                <strong style={{ fontSize: '18px', fontWeight: 650, color: 'var(--color-ink-black)', display: 'block', marginTop: '2px' }}>+91 194 2504114</strong>
+                <span style={{ fontSize: '11px', color: 'var(--color-slate-gray)' }}>Casualty &amp; Toxicology ICU</span>
+              </div>
+              <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'var(--surface-card-mist)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-pine-green)', flexShrink: 0 }}>
+                <Building2 size={18} />
+              </div>
+            </a>
 
-            {/* Quick Dial Emergency Ribbon */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <a
-                href="tel:1800116117"
-                onClick={() => trackEvent('call_national_poison_hero')}
-                className="p-4 rounded-2xl bg-red-900/40 hover:bg-red-900/60 border border-red-500/60 transition-all flex items-center justify-between group shadow-lg shadow-red-950/50"
-              >
-                <div>
-                  <span className="text-xs text-red-300 block">National Poison Hotline (AIIMS)</span>
-                  <span className="text-xl sm:text-2xl font-black text-white block mt-0.5">1800-116-117</span>
-                  <span className="text-[11px] text-emerald-400 font-medium">Toll-Free 24x7 India</span>
-                </div>
-                <div className="w-10 h-10 rounded-xl bg-red-500/20 text-red-300 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <PhoneCall className="w-5 h-5" />
-                </div>
-              </a>
-
-              <a
-                href="tel:+911942504114"
-                onClick={() => trackEvent('call_smhs_hero')}
-                className="p-4 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 hover:border-amber-500/60 transition-all flex items-center justify-between group shadow-lg"
-              >
-                <div>
-                  <span className="text-xs text-slate-400 block">SMHS Hospital Srinagar</span>
-                  <span className="text-lg sm:text-xl font-bold text-amber-300 block mt-0.5">+91 194 2504114</span>
-                  <span className="text-[11px] text-slate-400 font-medium">Toxicology & Casualty ICU</span>
-                </div>
-                <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Building2 className="w-5 h-5" />
-                </div>
-              </a>
-
-              <a
-                href="tel:108"
-                onClick={() => trackEvent('call_ambulance_hero')}
-                className="p-4 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 hover:border-emerald-500/60 transition-all flex items-center justify-between group shadow-lg"
-              >
-                <div>
-                  <span className="text-xs text-slate-400 block">J&K Emergency Ambulance</span>
-                  <span className="text-xl sm:text-2xl font-black text-emerald-300 block mt-0.5">108 / 102</span>
-                  <span className="text-[11px] text-slate-400 font-medium">Rapid Valley Transport</span>
-                </div>
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <HeartPulse className="w-5 h-5" />
-                </div>
-              </a>
-            </div>
+            <a
+              href="tel:108"
+              onClick={() => trackEvent('call_ambulance_hero')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '16px 20px',
+                borderRadius: '14px',
+                backgroundColor: 'rgba(26, 67, 46, 0.05)',
+                border: '1px solid rgba(26, 67, 46, 0.2)',
+                textDecoration: 'none',
+                color: 'inherit',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              <div>
+                <span style={{ fontSize: '12px', color: 'var(--color-slate-gray)', display: 'block' }}>J&amp;K Emergency Ambulance</span>
+                <strong style={{ fontSize: '20px', fontWeight: 700, color: 'var(--color-pine-green)', display: 'block', marginTop: '2px' }}>108 / 102</strong>
+                <span style={{ fontSize: '11px', color: 'var(--color-slate-gray)' }}>Valley-Wide Rapid Dispatch</span>
+              </div>
+              <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(26, 67, 46, 0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-pine-green)', flexShrink: 0 }}>
+                <HeartPulse size={18} />
+              </div>
+            </a>
           </div>
         </div>
 
-        {/* Section Navigation Tabs */}
-        <div className="flex overflow-x-auto scrollbar-none border-b border-slate-800 mb-8 space-x-2">
+        {/* Tab Selection */}
+        <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '12px', marginBottom: '32px', scrollbarWidth: 'none' }}>
           {[
-            { id: 'firstaid', label: '1. Golden 5-Minute First Aid' },
-            { id: 'antidotes', label: '2. Clinical Antidote Matrix' },
-            { id: 'hospitals', label: '3. Kashmir District Hospitals' },
-            { id: 'toxicity', label: '4. CIBRC Toxicity Diamonds' },
-            { id: 'urdu', label: '5. اردو ہنگامی رہنمائی (Urdu Guide)' },
-            { id: 'prevention', label: '6. Safe Spraying Checklist' }
+            { id: 'firstaid', label: 'First-Aid Field Response' },
+            { id: 'antidotes', label: 'Doctor Antidote Matrix' },
+            { id: 'hospitals', label: 'District Hospital Directory' },
+            { id: 'toxicity', label: 'Toxicity Warning Diamonds' },
+            { id: 'urdu', label: 'اردو ہنگامی ہدایات' },
+            { id: 'prevention', label: 'Pre-Spray PPE Rules' }
           ].map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`py-3 px-5 text-sm font-semibold rounded-t-xl transition-all whitespace-nowrap flex-shrink-0 ${
-                activeTab === tab.id
-                  ? 'bg-slate-800 text-red-400 border-t-2 border-red-500 border-x border-slate-700/60'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/40'
-              }`}
+              className={activeTab === tab.id ? 'pill-button-filled pill-button-sm' : 'pill-button-ghost pill-button-sm'}
+              style={{ whiteSpace: 'nowrap', flexShrink: 0 }}
             >
-              {tab.label}
+              <span>{tab.label}</span>
             </button>
           ))}
         </div>
 
-        {/* TAB 1: THE FIRST 5-MINUTES PROTOCOL */}
+        {/* TAB: FIRST AID */}
         {activeTab === 'firstaid' && (
-          <div className="space-y-6">
-            <div className="bg-slate-800/60 rounded-3xl p-6 sm:p-8 border border-slate-700/80 space-y-6">
-              <div className="flex items-center space-x-3 text-red-400">
-                <Clock className="w-6 h-6" />
-                <h2 className="text-xl sm:text-2xl font-bold text-white">The Golden 5-Minute Field Response</h2>
-              </div>
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                Chemical poisoning severity is decided in the first few minutes after exposure. Do not delay action to search for medicines.
-                Execute the appropriate protocol immediately before transporting the victim:
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+            <div className="card-neutral">
+              <span className="tag-label" style={{ color: 'var(--color-pine-green)' }}>SKIN CONTACT</span>
+              <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '22px', fontWeight: 400, marginBottom: '12px' }}>
+                Chemical on Skin or Clothes
+              </h3>
+              <p style={{ fontSize: '14.5px', color: 'var(--color-slate-gray)', lineHeight: 1.55, marginBottom: '16px' }}>
+                Immediately remove spray-soaked clothes, overalls, and shoes. Drench the skin under gentle running water with plain bath soap for at least 15 minutes.
               </p>
+              <div style={{ backgroundColor: 'var(--surface-card-mist)', padding: '12px 14px', borderRadius: '10px', fontSize: '13px', color: 'var(--color-ink-black)', lineHeight: 1.45 }}>
+                <strong>Important:</strong> Do not scrub roughly with coarse brushes, as skin abrasions allow pesticides to absorb directly into bloodstream.
+              </div>
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Protocol 1: Dermal */}
-                <div className="bg-slate-900/90 rounded-2xl p-6 border border-slate-700/70 space-y-3">
-                  <div className="flex items-center space-x-3 text-blue-400">
-                    <Droplets className="w-5 h-5" />
-                    <h3 className="font-bold text-white text-base">Skin Contamination / Spillage</h3>
-                  </div>
-                  <ul className="space-y-2 text-xs sm:text-sm text-slate-300">
-                    <li className="flex items-start space-x-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0" />
-                      <span><strong>Immediately strip clothes:</strong> Remove soaked shirts, overalls, rubber boots, and gloves immediately.</span>
-                    </li>
-                    <li className="flex items-start space-x-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0" />
-                      <span><strong>15-Minute Rinse:</strong> Drench body with clean water from orchard hoses or buckets using mild bath soap.</span>
-                    </li>
-                    <li className="flex items-start space-x-2">
-                      <XCircle className="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" />
-                      <span><strong>Never scrub abrasively:</strong> Vigorous scrubbing causes skin micro-abrasions, accelerating dermal insecticide uptake.</span>
-                    </li>
-                  </ul>
-                </div>
+            <div className="card-neutral">
+              <span className="tag-label" style={{ color: 'var(--color-sienna-brown)' }}>EYE SPLASH</span>
+              <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '22px', fontWeight: 400, marginBottom: '12px' }}>
+                Accidental Eye Contamination
+              </h3>
+              <p style={{ fontSize: '14.5px', color: 'var(--color-slate-gray)', lineHeight: 1.55, marginBottom: '16px' }}>
+                Gently hold both eyelids wide open and rinse continuously with clean drinking water for 15 to 20 minutes from the inner corner outward.
+              </p>
+              <div style={{ backgroundColor: 'var(--surface-card-mist)', padding: '12px 14px', borderRadius: '10px', fontSize: '13px', color: 'var(--color-ink-black)', lineHeight: 1.45 }}>
+                <strong>Important:</strong> Never put antibiotic or steroid eye drops, oils, or home concoctions into the eye without an eye specialist.
+              </div>
+            </div>
 
-                {/* Protocol 2: Eye Splash */}
-                <div className="bg-slate-900/90 rounded-2xl p-6 border border-slate-700/70 space-y-3">
-                  <div className="flex items-center space-x-3 text-amber-400">
-                    <Eye className="w-5 h-5" />
-                    <h3 className="font-bold text-white text-base">Eye Splash (Ocular Infiltration)</h3>
-                  </div>
-                  <ul className="space-y-2 text-xs sm:text-sm text-slate-300">
-                    <li className="flex items-start space-x-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0" />
-                      <span><strong>Hold Eyelids Open:</strong> Gently retract upper and lower eyelids and flush continuously with a gentle stream of drinking water for 15-20 minutes.</span>
-                    </li>
-                    <li className="flex items-start space-x-2">
-                      <XCircle className="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" />
-                      <span><strong>Do NOT use chemical eye drops:</strong> Avoid steroid, antibiotic, or home-remedy drops without ophthalmologist orders.</span>
-                    </li>
-                  </ul>
-                </div>
+            <div className="card-neutral">
+              <span className="tag-label" style={{ color: 'var(--color-pine-green)' }}>SPRAY INHALATION</span>
+              <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '22px', fontWeight: 400, marginBottom: '12px' }}>
+                Inhaling Spray Mist or Fumes
+              </h3>
+              <p style={{ fontSize: '14.5px', color: 'var(--color-slate-gray)', lineHeight: 1.55, marginBottom: '16px' }}>
+                Carry or walk the worker immediately out of the orchard block into open, clean air. Unbutton tight collars, belts, and sleeves.
+              </p>
+              <div style={{ backgroundColor: 'var(--surface-card-mist)', padding: '12px 14px', borderRadius: '10px', fontSize: '13px', color: 'var(--color-ink-black)', lineHeight: 1.45 }}>
+                <strong>Important:</strong> Keep the person sitting upright, calm, and warm. If breathing is labored, arrange oxygen immediately.
+              </div>
+            </div>
 
-                {/* Protocol 3: Inhalation */}
-                <div className="bg-slate-900/90 rounded-2xl p-6 border border-slate-700/70 space-y-3">
-                  <div className="flex items-center space-x-3 text-emerald-400">
-                    <Wind className="w-5 h-5" />
-                    <h3 className="font-bold text-white text-base">Inhalation of Spray Fog or Vapors</h3>
-                  </div>
-                  <ul className="space-y-2 text-xs sm:text-sm text-slate-300">
-                    <li className="flex items-start space-x-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0" />
-                      <span><strong>Move Upwind:</strong> Immediately carry or walk victim out of the sprayed orchard blocks into open, fresh air.</span>
-                    </li>
-                    <li className="flex items-start space-x-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0" />
-                      <span><strong>Loosen Tight Garments:</strong> Unbutton collar, waist belts, and chest straps. Keep victim quiet, resting, and warm.</span>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Protocol 4: Ingestion */}
-                <div className="bg-slate-900/90 rounded-2xl p-6 border border-red-500/50 space-y-3">
-                  <div className="flex items-center space-x-3 text-red-400">
-                    <AlertTriangle className="w-5 h-5" />
-                    <h3 className="font-bold text-white text-base">Accidental Swallowing / Ingestion</h3>
-                  </div>
-                  <ul className="space-y-2 text-xs sm:text-sm text-slate-300">
-                    <li className="flex items-start space-x-2">
-                      <XCircle className="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" />
-                      <span><strong>DO NOT INDUCE VOMITING</strong> if the substance is an EC (Emulsifiable Concentrate) or corrosive. Petroleum aspiration into the lungs causes chemical pneumonia.</span>
-                    </li>
-                    <li className="flex items-start space-x-2">
-                      <XCircle className="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" />
-                      <span><strong>Never give milk or fatty foods:</strong> Fats dramatically accelerate intestinal absorption of lipophilic insecticides.</span>
-                    </li>
-                    <li className="flex items-start space-x-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0" />
-                      <span><strong>Bring the Bottle Label:</strong> Always take the exact chemical container to the emergency physician so the precise antidote can be injected.</span>
-                    </li>
-                  </ul>
-                </div>
+            <div className="card-neutral" style={{ borderLeft: '3px solid #dc2626' }}>
+              <span className="tag-label" style={{ color: '#dc2626' }}>SWALLOWING / INGESTION</span>
+              <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '22px', fontWeight: 400, marginBottom: '12px', color: '#dc2626' }}>
+                Accidental Ingestion
+              </h3>
+              <p style={{ fontSize: '14.5px', color: 'var(--color-slate-gray)', lineHeight: 1.55, marginBottom: '16px' }}>
+                <strong>DO NOT induce vomiting</strong> if the product is an Emulsifiable Concentrate (EC) containing petroleum solvents. Chemical aspiration into the lungs causes severe pneumonitis.
+              </p>
+              <div style={{ backgroundColor: 'rgba(220, 38, 38, 0.06)', padding: '12px 14px', borderRadius: '10px', fontSize: '13px', color: '#dc2626', lineHeight: 1.45 }}>
+                <strong>Critical:</strong> Never give milk, butter, or raw eggs. Transport patient to hospital immediately along with the exact container label.
               </div>
             </div>
           </div>
         )}
 
-        {/* TAB 2: ANTIDOTE REFERENCE */}
+        {/* TAB: ANTIDOTE REFERENCE */}
         {activeTab === 'antidotes' && (
-          <div className="space-y-6">
-            <div className="bg-slate-800/60 rounded-3xl p-6 sm:p-8 border border-slate-700/80 space-y-4">
-              <div className="flex items-center space-x-3 text-red-400">
-                <FileText className="w-6 h-6" />
-                <h2 className="text-xl sm:text-2xl font-bold text-white">Clinical Antidote & Chemical Classes</h2>
-              </div>
-              <p className="text-slate-300 text-sm leading-relaxed">
-                Medical information intended for attending emergency physicians, medical officers, and first responders treating orchard chemical poisoning:
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div className="card-neutral" style={{ backgroundColor: '#fffcf9' }}>
+              <span className="tag-label">CLINICAL GUIDE FOR ATTENDING DOCTORS</span>
+              <p style={{ fontSize: '14px', color: 'var(--color-slate-gray)', marginTop: '4px' }}>
+                This chemical taxonomy helps casualty medical officers identify appropriate pharmacological antagonists for commonly stocked orchard agrochemicals.
               </p>
-
-              <div className="space-y-4 pt-2">
-                {ANTIDOTE_REFERENCE.map((item, idx) => (
-                  <div key={idx} className="bg-slate-900/80 rounded-2xl p-5 border border-slate-700/70 space-y-3">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-800 pb-2">
-                      <h3 className="font-bold text-white text-base">{item.group}</h3>
-                      <span className="text-xs text-amber-300 font-mono">e.g. {item.examples}</span>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
-                      <div>
-                        <strong className="text-slate-400 block text-xs uppercase tracking-wider mb-1">Hallmark Signs:</strong>
-                        <p className="text-slate-300">{item.symptoms}</p>
-                      </div>
-                      <div>
-                        <strong className="text-emerald-400 block text-xs uppercase tracking-wider mb-1">Target Antidote / Treatment:</strong>
-                        <p className="text-emerald-300 font-medium">{item.primaryAntidote}</p>
-                      </div>
-                      <div>
-                        <strong className="text-red-400 block text-xs uppercase tracking-wider mb-1">Strict Contraindication:</strong>
-                        <p className="text-red-300">{item.criticalDoNot}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
+
+            {ANTIDOTE_REFERENCE.map((item, idx) => (
+              <div key={idx} className="card-neutral">
+                <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '8px', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px', marginBottom: '16px' }}>
+                  <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '22px', fontWeight: 400, color: 'var(--color-ink-black)' }}>
+                    {item.group}
+                  </h3>
+                  <span style={{ fontSize: '12.5px', color: 'var(--color-slate-gray)', fontStyle: 'italic' }}>
+                    Common valley products: {item.examples}
+                  </span>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px', fontSize: '14px' }}>
+                  <div>
+                    <strong style={{ display: 'block', fontSize: '12px', textTransform: 'uppercase', color: 'var(--color-slate-gray)', letterSpacing: '0.5px', marginBottom: '4px' }}>
+                      Diagnostic Symptoms
+                    </strong>
+                    <p style={{ color: 'var(--color-ink-black)', lineHeight: 1.5 }}>{item.symptoms}</p>
+                  </div>
+
+                  <div>
+                    <strong style={{ display: 'block', fontSize: '12px', textTransform: 'uppercase', color: 'var(--color-pine-green)', letterSpacing: '0.5px', marginBottom: '4px' }}>
+                      Primary Antidote / Action
+                    </strong>
+                    <p style={{ color: 'var(--color-ink-black)', lineHeight: 1.5 }}>{item.treatment}</p>
+                  </div>
+
+                  <div>
+                    <strong style={{ display: 'block', fontSize: '12px', textTransform: 'uppercase', color: '#dc2626', letterSpacing: '0.5px', marginBottom: '4px' }}>
+                      Contraindication
+                    </strong>
+                    <p style={{ color: '#991b1b', lineHeight: 1.5 }}>{item.warning}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         )}
 
-        {/* TAB 3: KASHMIR DISTRICT DIRECTORY */}
+        {/* TAB: HOSPITALS */}
         {activeTab === 'hospitals' && (
-          <div className="space-y-6">
-            <div className="bg-slate-800/60 rounded-3xl p-6 sm:p-8 border border-slate-700/80 space-y-4">
-              <div className="flex items-center space-x-3 text-red-400">
-                <Building2 className="w-6 h-6" />
-                <h2 className="text-xl sm:text-2xl font-bold text-white">Kashmir District Hospital Emergency Directory</h2>
-              </div>
-              <p className="text-slate-300 text-sm leading-relaxed">
-                Direct contacts for government hospitals equipped with emergency casualty departments, intensive care, and antidote reserves:
-              </p>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                {KASHMIR_EMERGENCY_HOSPITALS.map((h, i) => (
-                  <div key={i} className="bg-slate-900/80 rounded-2xl p-5 border border-slate-700/70 flex flex-col justify-between">
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs font-semibold uppercase tracking-wider text-red-400">{h.district}</span>
-                        <span className="text-[11px] text-slate-400 font-mono">Dial 108 for Ambulance</span>
-                      </div>
-                      <h3 className="font-bold text-white text-base mb-1">{h.hospital}</h3>
-                      <p className="text-xs text-slate-400 flex items-center gap-1.5 mb-3">
-                        <MapPin className="w-3.5 h-3.5 text-slate-500" />
-                        <span>{h.location}</span>
-                      </p>
-                      <p className="text-xs text-slate-300 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800 mb-4">
-                        <strong>Facility:</strong> {h.specialty}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-2 pt-2 border-t border-slate-800">
-                      <a
-                        href={`tel:${h.phone.replace(/\s+/g, '')}`}
-                        onClick={() => trackEvent('call_hospital_directory', { hospital: h.hospital })}
-                        className="flex-1 inline-flex items-center justify-center space-x-2 py-2 px-3 rounded-xl bg-red-600 hover:bg-red-500 text-white font-semibold text-xs transition-colors"
-                      >
-                        <PhoneCall className="w-3.5 h-3.5" />
-                        <span>Call {h.phone}</span>
-                      </a>
-                      <button
-                        onClick={() => handleCopy(h.phone, h.hospital)}
-                        className="py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition-colors"
-                      >
-                        {copiedHospital === h.hospital ? 'Copied' : 'Copy'}
-                      </button>
-                    </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+            {KASHMIR_EMERGENCY_HOSPITALS.map((h, i) => (
+              <div key={i} className="card-neutral" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                    <span className="tag-label" style={{ margin: 0, color: 'var(--color-sienna-brown)' }}>{h.district}</span>
+                    <span style={{ fontSize: '11px', color: 'var(--color-slate-gray)' }}>Dial 108 for Ambulance</span>
                   </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
+                  <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '20px', fontWeight: 400, color: 'var(--color-ink-black)', marginBottom: '4px' }}>
+                    {h.hospital}
+                  </h3>
+                  <p style={{ fontSize: '13px', color: 'var(--color-slate-gray)', display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '12px' }}>
+                    <MapPin size={13} color="var(--color-slate-gray)" />
+                    <span>{h.location}</span>
+                  </p>
+                  <p style={{ fontSize: '13.5px', color: 'var(--color-ink-black)', backgroundColor: 'var(--surface-card-mist)', padding: '10px 12px', borderRadius: '10px', lineHeight: 1.45, marginBottom: '20px' }}>
+                    {h.details}
+                  </p>
+                </div>
 
-        {/* TAB 4: CIBRC TOXICITY DIAMONDS */}
-        {activeTab === 'toxicity' && (
-          <div className="space-y-6">
-            <div className="bg-slate-800/60 rounded-3xl p-6 sm:p-8 border border-slate-700/80 space-y-4">
-              <div className="flex items-center space-x-3 text-red-400">
-                <AlertTriangle className="w-6 h-6" />
-                <h2 className="text-xl sm:text-2xl font-bold text-white">Statutory CIBRC Toxicity Diamonds</h2>
-              </div>
-              <p className="text-slate-300 text-sm leading-relaxed">
-                By statutory order of the Central Insecticides Board &amp; Registration Committee (CIBRC), all agricultural chemicals in India must display a color diamond indicating mammalian toxicity:
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                {Object.entries(CIBRC_TOXICITY_CLASSES).map(([key, cls]) => (
-                  <div
-                    key={key}
-                    className="p-5 rounded-2xl border flex items-start space-x-4"
-                    style={{ backgroundColor: 'rgba(15, 23, 42, 0.85)', borderColor: cls.color }}
+                <div style={{ display: 'flex', gap: '8px', borderTop: '1px solid var(--border-color)', paddingTop: '16px' }}>
+                  <a
+                    href={`tel:${h.phone.replace(/\s+/g, '')}`}
+                    onClick={() => trackEvent('call_hospital_directory', { hospital: h.hospital })}
+                    className="pill-button-filled pill-button-sm"
+                    style={{ flex: 1, justifyContent: 'center' }}
                   >
-                    <div
-                      className="w-8 h-8 rotate-45 flex-shrink-0 mt-1"
-                      style={{ backgroundColor: cls.color, boxShadow: `0 0 16px ${cls.color}66` }}
-                    />
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <strong className="text-base font-bold text-white">{cls.label}</strong>
-                        <span className="text-xs font-mono" style={{ color: cls.color }}>LD50: {cls.oralLd50}</span>
-                      </div>
-                      <p className="text-xs text-slate-300 mt-2 leading-relaxed">{cls.description}</p>
-                      <span className="text-xs text-slate-400 font-serif block mt-2 text-right" dir="rtl">{cls.urdu}</span>
+                    <PhoneCall size={13} />
+                    <span>Call {h.phone}</span>
+                  </a>
+                  <button
+                    onClick={() => handleCopy(h.phone, h.hospital)}
+                    className="pill-button-ghost pill-button-sm"
+                    title="Copy phone number"
+                  >
+                    {copiedHospital === h.hospital ? <Check size={14} color="#15803d" /> : <Copy size={14} />}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* TAB: CIBRC TOXICITY DIAMONDS */}
+        {activeTab === 'toxicity' && (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+            {Object.entries(CIBRC_TOXICITY_CLASSES).map(([key, cls]) => (
+              <div 
+                key={key} 
+                className="card-neutral" 
+                style={{ 
+                  borderTop: `4px solid ${cls.color}`,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ width: '12px', height: '12px', transform: 'rotate(45deg)', backgroundColor: cls.color, display: 'inline-block' }} />
+                      <strong style={{ fontSize: '16px', color: 'var(--color-ink-black)' }}>{cls.label}</strong>
                     </div>
+                    <span style={{ fontSize: '11px', fontWeight: 650, color: cls.color }}>LD50: {cls.oralLd50}</span>
                   </div>
-                ))}
+                  <p style={{ fontSize: '14px', color: 'var(--color-slate-gray)', lineHeight: 1.5, marginBottom: '12px' }}>
+                    {cls.description}
+                  </p>
+                </div>
+                <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '10px', textAlign: 'right' }} dir="rtl">
+                  <span className="urdu-text" style={{ fontSize: '13.5px', color: 'var(--color-sienna-brown)' }}>{cls.urdu}</span>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         )}
 
-        {/* TAB 5: URDU BILINGUAL GUIDE */}
+        {/* TAB: URDU */}
         {activeTab === 'urdu' && (
-          <div className="space-y-6">
-            <div className="bg-slate-800/60 rounded-3xl p-6 sm:p-8 border border-slate-700/80 space-y-6 text-right" dir="rtl">
-              <div className="flex items-center justify-end space-x-3 space-x-reverse text-amber-400">
-                <ShieldAlert className="w-6 h-6" />
-                <h2 className="text-2xl font-bold text-white font-serif" style={{ fontFamily: 'var(--font-urdu, serif)' }}>
-                  باغبانوں اور سپرے مزدوروں کے لیے ہنگامی ہدایات برائے زہر خوانی
-                </h2>
+          <div className="card-neutral" style={{ padding: '36px 30px', textAlign: 'right' }} dir="rtl">
+            <span className="tag-label" style={{ color: 'var(--color-sienna-brown)' }}>ہنگامی طبی ہدایات</span>
+            <h2 className="urdu-text" style={{ fontSize: '28px', color: 'var(--color-sienna-brown)', marginBottom: '24px' }}>
+              باغبانوں اور سپرے مزدوروں کے لیے ہنگامی ہدایات برائے زہر خوانی
+            </h2>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', lineHeight: '2' }}>
+              <div style={{ backgroundColor: 'var(--surface-card-mist)', padding: '18px 20px', borderRadius: '14px', border: '1px solid var(--border-color)' }}>
+                <h3 className="urdu-text" style={{ fontSize: '20px', color: '#991b1b', marginBottom: '6px' }}>۱۔ فوری ہنگامی رابطہ نمبرات:</h3>
+                <p className="urdu-text" style={{ fontSize: '16px', color: 'var(--color-ink-black)' }}>
+                  <strong>قومی پوائزن کنٹرول سینٹر (ایمس نئی دہلی):</strong> 1800-116-117 (مفت چوبیس گھنٹے)<br />
+                  <strong>ایس ایم ایچ ایس ہسپتال سرینگر (ایمرجنسی):</strong> 0194-2504114<br />
+                  <strong>ایمبولینس ہیلپ لائن:</strong> 108 یا 102
+                </p>
               </div>
 
-              <div className="space-y-4 font-serif text-slate-200 leading-loose" style={{ fontFamily: 'var(--font-urdu, serif)' }}>
-                <div className="bg-slate-900/90 p-5 rounded-2xl border border-red-500/40">
-                  <h3 className="text-lg font-bold text-red-400 mb-2">۱۔ فوری ہنگامی فون نمبرز:</h3>
-                  <p className="text-sm">
-                    <strong>قومی پوائزن کنٹرول سینٹر (ایمس):</strong> 1800-116-117 (مفت چوبیس گھنٹے)<br />
-                    <strong>ایس ایم ایچ ایس ہسپتال سرینگر (ایمرجنسی):</strong> 0194-2504114<br />
-                    <strong>ایمبولینس ہیلپ لائن:</strong> 108 یا 102
-                  </p>
-                </div>
+              <div style={{ backgroundColor: 'var(--surface-card-mist)', padding: '18px 20px', borderRadius: '14px', border: '1px solid var(--border-color)' }}>
+                <h3 className="urdu-text" style={{ fontSize: '20px', color: 'var(--color-pine-green)', marginBottom: '6px' }}>۲۔ جلد یا کپڑوں پر دوا گرنے کی صورت میں:</h3>
+                <p className="urdu-text" style={{ fontSize: '16px', color: 'var(--color-ink-black)' }}>
+                  فوراً تمام بھیگے ہوئے کپڑے اتار دیں۔ متاثرہ حصے کو کم از کم ۱۵ منٹ تک صاف پانی اور صابن سے دھوئیں، لیکن جلد کو رگڑنے سے گریز کریں تاکہ زہر جلد کے اندر نہ جائے۔
+                </p>
+              </div>
 
-                <div className="bg-slate-900/90 p-5 rounded-2xl border border-slate-700/70">
-                  <h3 className="text-lg font-bold text-amber-300 mb-2">۲۔ جلد یا کپڑوں پر دوا گرنے کی صورت میں:</h3>
-                  <p className="text-sm text-slate-300">
-                    فوراً تمام آلودہ کپڑے اتار دیں۔ متاثرہ جسم کو کم از کم ۱۵ منٹ تک صاف پانی اور صابن سے دھوئیں، لیکن جلد کو رگڑنے سے گریز کریں۔
-                  </p>
-                </div>
+              <div style={{ backgroundColor: 'var(--surface-card-mist)', padding: '18px 20px', borderRadius: '14px', border: '1px solid var(--border-color)' }}>
+                <h3 className="urdu-text" style={{ fontSize: '20px', color: 'var(--color-sienna-brown)', marginBottom: '6px' }}>۳۔ آنکھوں میں دوا پڑنے کی صورت میں:</h3>
+                <p className="urdu-text" style={{ fontSize: '16px', color: 'var(--color-ink-black)' }}>
+                  پلکیں کھلی رکھ کر صاف پینے کے پانی سے ۱۵ سے ۲۰ منٹ تک ہلکے بہاؤ سے دھوئیں۔ بغیر ڈاکٹر کے مشورے کے آنکھوں میں کوئی بھی ڈراپ نہ ڈالیں۔
+                </p>
+              </div>
 
-                <div className="bg-slate-900/90 p-5 rounded-2xl border border-slate-700/70">
-                  <h3 className="text-lg font-bold text-blue-300 mb-2">۳۔ آنکھوں میں دوا پڑنے کی صورت میں:</h3>
-                  <p className="text-sm text-slate-300">
-                    پلکیں کھلی رکھ کر صاف ٹھنڈے پانی کے ہلکے بہاؤ سے ۱۵ سے ۲۰ منٹ تک آنکھیں دھوئیں۔ کسی بھی قسم کی مرہم یا آنکھوں کا ڈراپ ڈاکٹر کے مشورے کے بغیر نہ ڈالیں۔
-                  </p>
-                </div>
-
-                <div className="bg-slate-900/90 p-5 rounded-2xl border border-red-600/40">
-                  <h3 className="text-lg font-bold text-red-300 mb-2">۴۔ غلطی سے دوا پی لینے کی صورت میں (انتہائی اہم):</h3>
-                  <p className="text-sm text-slate-300">
-                    <strong>مریض کو الٹی (قے) کروانے کی ہرگز کوشش نہ کریں</strong>، کیونکہ تیل یا پٹرولیم والی کیڑے مار ادویات پھیپھڑوں میں داخل ہو کر جان لیوا ثابت ہو سکتی ہیں۔ <strong>دوا کا اصل ڈبہ یا لیبل فوراً ساتھ لے کر مریض کو ہسپتال منتقل کریں۔</strong>
-                  </p>
-                </div>
+              <div style={{ backgroundColor: '#fff5f5', padding: '18px 20px', borderRadius: '14px', border: '1px solid rgba(220, 38, 38, 0.3)' }}>
+                <h3 className="urdu-text" style={{ fontSize: '20px', color: '#dc2626', marginBottom: '6px' }}>۴۔ دوا پی لینے کی صورت میں (انتہائی اہم احتیاط):</h3>
+                <p className="urdu-text" style={{ fontSize: '16px', color: '#991b1b' }}>
+                  <strong>مریض کو الٹی (قے) کروانے کی ہرگز کوشش نہ کریں۔</strong> تیل یا پٹرولیم والی کیڑے مار دوائیں پھیپھڑوں میں داخل ہو کر جان لیوا ثابت ہو سکتی ہیں۔ دوا کا اصل ڈبہ یا بوتل ساتھ لے کر فوراً قریبی ہسپتال پہنچیں۔
+                </p>
               </div>
             </div>
           </div>
         )}
 
-        {/* TAB 6: PREVENTION & PRE-SPRAY CHECKLIST */}
+        {/* TAB: PREVENTION */}
         {activeTab === 'prevention' && (
-          <div className="space-y-6">
-            <div className="bg-slate-800/60 rounded-3xl p-6 sm:p-8 border border-slate-700/80 space-y-4">
-              <div className="flex items-center space-x-3 text-emerald-400">
-                <CheckCircle2 className="w-6 h-6" />
-                <h2 className="text-xl sm:text-2xl font-bold text-white">Safe Spraying &amp; Orchard Worker PPE Checklist</h2>
-              </div>
-              <p className="text-slate-300 text-sm leading-relaxed">
-                98% of pesticide casualties in Kashmir orchards are completely preventable through disciplined safety hygiene:
-              </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+            <div className="card-neutral">
+              <span className="tag-label" style={{ color: 'var(--color-pine-green)' }}>PROTECTIVE GEAR</span>
+              <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '22px', fontWeight: 400, marginBottom: '12px' }}>
+                Mandatory Worker PPE
+              </h3>
+              <ul style={{ fontSize: '14.5px', color: 'var(--color-slate-gray)', lineHeight: 1.6, paddingLeft: '18px' }}>
+                <li>Nitrile or neoprene rubber gloves (cloth gloves soak chemicals).</li>
+                <li>Certified organic vapor respirator or N95 mask while mixing powders.</li>
+                <li>Wide splash goggles with indirect side ventilation.</li>
+                <li>Rubber gumboots and full-sleeve protective overalls.</li>
+              </ul>
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 text-xs sm:text-sm">
-                <div className="bg-slate-900/80 p-5 rounded-2xl border border-slate-700/70 space-y-2">
-                  <h3 className="font-bold text-white text-sm text-emerald-400">Mandatory Personal Protective Equipment (PPE)</h3>
-                  <ul className="space-y-2 text-slate-300">
-                    <li>&bull; Chemical-resistant Nitrile or Neoprene gloves (never cloth or leather).</li>
-                    <li>&bull; Certified N95 or activated charcoal organic vapor respirator mask.</li>
-                    <li>&bull; Polycarbonate splash goggles with indirect ventilation.</li>
-                    <li>&bull; Waterproof rubber gumboots and full-length protective spray suit.</li>
-                  </ul>
-                </div>
-
-                <div className="bg-slate-900/80 p-5 rounded-2xl border border-slate-700/70 space-y-2">
-                  <h3 className="font-bold text-white text-sm text-amber-400">Orchard Environmental Disciplines</h3>
-                  <ul className="space-y-2 text-slate-300">
-                    <li>&bull; <strong>Bee Protection:</strong> Never spray insecticides during 100% apple bloom when honeybees forage.</li>
-                    <li>&bull; <strong>Wind Direction:</strong> Always spray with the wind at your back, never into the wind drift.</li>
-                    <li>&bull; <strong>Empty Containers:</strong> Triple-rinse empty bottles into the tank, puncture the base, and never reuse for domestic water.</li>
-                    <li>&bull; <strong>Re-Entry Interval (REI):</strong> Wait at least 24 to 48 hours before letting workers or children back into freshly sprayed blocks.</li>
-                  </ul>
-                </div>
-              </div>
+            <div className="card-neutral">
+              <span className="tag-label" style={{ color: 'var(--color-sienna-brown)' }}>ORCHARD DISCIPLINE</span>
+              <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '22px', fontWeight: 400, marginBottom: '12px' }}>
+                Spray Timing &amp; Pollinators
+              </h3>
+              <ul style={{ fontSize: '14.5px', color: 'var(--color-slate-gray)', lineHeight: 1.6, paddingLeft: '18px' }}>
+                <li><strong>Honeybee Safety:</strong> Never spray toxic insecticides during full apple blossom.</li>
+                <li><strong>Wind Rules:</strong> Never spray against wind drift; maintain safe buffer from streams.</li>
+                <li><strong>No Food/Smoking:</strong> Do not smoke, eat, or touch face during spray mixing.</li>
+                <li><strong>Empty Bottles:</strong> Puncture and bury empty containers; never reuse for water.</li>
+              </ul>
             </div>
           </div>
         )}
 
-        {/* Bottom Banner */}
-        <div className="mt-12 p-6 rounded-2xl bg-slate-800/90 border border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        {/* Footer Chemist Consultation Bar */}
+        <div 
+          className="card-peach"
+          style={{ 
+            marginTop: '48px',
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '16px'
+          }}
+        >
           <div>
-            <h3 className="text-white font-bold text-base">Need Formulation Advice from Our Chemist?</h3>
-            <p className="text-xs text-slate-400">
-              M.A. Pesticides &amp; Fertilizers — Hari Singh High Street, Srinagar. Founder: Sheikh Mohammad Ayoub (M.Sc. Chemistry).
+            <span className="tag-label" style={{ color: 'var(--color-sienna-brown)', opacity: 0.8 }}>SRINAGAR STORE CONSULTATION</span>
+            <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '24px', fontWeight: 400, color: 'var(--color-sienna-brown)', marginTop: '4px' }}>
+              Have questions about spray safety or active ingredients?
+            </h3>
+            <p style={{ fontSize: '14.5px', color: 'var(--color-sienna-brown)', opacity: 0.9, marginTop: '4px' }}>
+              Visit our store at Hari Singh High Street, Srinagar or call Sheikh Mohammad Ayoub (M.Sc. Organic Chemistry).
             </p>
           </div>
           <a
             href="tel:+919906541321"
-            className="inline-flex items-center justify-center space-x-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors shadow-lg"
+            className="pill-button-filled pill-button-sm"
+            style={{ color: '#ffffff' }}
           >
-            <PhoneCall className="w-4 h-4" />
-            <span>Call Chemist: +91 99065 41321</span>
+            <PhoneCall size={14} color="#ffffff" />
+            <span style={{ color: '#ffffff' }}>Call Chemist: +91 99065 41321</span>
           </a>
         </div>
       </div>
