@@ -9,11 +9,47 @@
  */
 
 const STORAGE_KEY = 'ma_analytics_events_v1';
+const CONSENT_KEY = 'ma_analytics_consent';
 const MAX_STORED_EVENTS = 50;
+
+/**
+ * Get whether user has granted analytics consent
+ * Defaults to true unless explicit opt-out or DNT is active
+ */
+export function getStoredConsent() {
+  if (typeof window === 'undefined') return false;
+  try {
+    const val = localStorage.getItem(CONSENT_KEY);
+    if (val === 'false') return false;
+    if (val === 'true') return true;
+  } catch {
+    // Ignore
+  }
+  return !isDoNotTrackEnabled();
+}
+
+/**
+ * Persist user analytics consent choice
+ * @param {boolean} allowed 
+ */
+export function setStoredConsent(allowed) {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(CONSENT_KEY, allowed ? 'true' : 'false');
+  } catch {
+    // Ignore
+  }
+}
 
 // Respect user privacy & Do Not Track settings
 function isDoNotTrackEnabled() {
   if (typeof window === 'undefined' || typeof navigator === 'undefined') return false;
+  try {
+    const stored = localStorage.getItem(CONSENT_KEY);
+    if (stored === 'false') return true;
+  } catch {
+    // Ignore
+  }
   return (
     navigator.doNotTrack === '1' ||
     window.doNotTrack === '1' ||
