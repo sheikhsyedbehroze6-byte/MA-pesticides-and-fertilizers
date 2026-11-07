@@ -16,9 +16,7 @@ import {
   FileText
 } from 'lucide-react';
 import { trackEvent } from '../utils/analytics';
-import { CIBRC_TOXICITY_CLASSES, getProductToxicity } from '../utils/toxicityConstants';
-
-export { CIBRC_TOXICITY_CLASSES, getProductToxicity };
+import { CIBRC_TOXICITY_CLASSES } from '../utils/toxicityConstants';
 
 export default function AgriSafetyModal({ isOpen: controlledIsOpen, onClose: controlledOnClose }) {
   const [internalIsOpen, setInternalIsOpen] = useState(false);
