@@ -2,6 +2,7 @@ import { useState, memo } from 'react';
 import { ShieldCheck, Droplets, MessageCircle, Calculator, X, ArrowRight, ShoppingBag, Check } from 'lucide-react';
 import { useCart, estimateProductPrice } from '../context/CartContext';
 import { safeOpen } from '../utils/security';
+import { getProductToxicity } from '../utils/toxicityConstants';
 import '../pages/urdu.css';
 
 const TYPE_URDU_MAP = {
@@ -48,6 +49,7 @@ function ProductCard({ product, langMode = 'both' }) {
   const typeUrdu = TYPE_URDU_MAP[product.type] || 'زرعی دوا';
   const parsedDosage = parseDosage(product.dosage);
   const { mrp, discounted } = estimateProductPrice(product);
+  const toxicity = getProductToxicity(product);
 
   const handleEnquiry = (calcMessage = '') => {
     const baseMessage =
@@ -65,10 +67,35 @@ function ProductCard({ product, langMode = 'both' }) {
 
   return (
     <div className="card-neutral" style={{ display: 'flex', flexDirection: 'column', height: '100%', position: 'relative' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-        <span className="tag-label-green" style={{ margin: 0 }}>
-          {langMode === 'ur' && typeUrdu ? typeUrdu : (langMode === 'both' && typeUrdu ? `${product.type} (${typeUrdu.split(' ')[0]})` : product.type)}
-        </span>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', flexWrap: 'wrap', gap: '6px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <span className="tag-label-green" style={{ margin: 0 }}>
+            {langMode === 'ur' && typeUrdu ? typeUrdu : (langMode === 'both' && typeUrdu ? `${product.type} (${typeUrdu.split(' ')[0]})` : product.type)}
+          </span>
+          {toxicity && (
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event('open-agri-safety'))}
+              title={`CIBRC Classification: ${toxicity.label} — Click for First-Aid Antidote`}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
+                padding: '2px 7px',
+                borderRadius: '999px',
+                backgroundColor: toxicity.bg,
+                border: `1px solid ${toxicity.border}`,
+                fontSize: '10.5px',
+                fontWeight: 650,
+                color: toxicity.color,
+                cursor: 'pointer'
+              }}
+            >
+              <span style={{ width: '6px', height: '6px', transform: 'rotate(45deg)', backgroundColor: toxicity.color, display: 'inline-block' }} />
+              <span>{toxicity.label.split(' ')[0]}</span>
+            </button>
+          )}
+        </div>
         <span className="badge-green">
           20% BELOW MRP
         </span>

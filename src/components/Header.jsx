@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Moon, Sun, Menu, X, ArrowRight, MessageSquare, Sprout, Home, Package, Bug, Calendar, Video, Search, Phone, ChevronRight, Calculator, Smartphone, ShoppingBag } from 'lucide-react';
+import { Moon, Sun, Menu, X, ArrowRight, MessageSquare, Sprout, Home, Package, Bug, Calendar, Video, Search, Phone, ChevronRight, Calculator, Smartphone, ShoppingBag, ShieldAlert } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useCart } from '../context/CartContext';
 import { preloadRoute } from '../utils/routePreloader';
@@ -126,6 +126,23 @@ function Header() {
 
           {/* actions */}
           <div className="header-actions">
+            <button
+              onClick={() => window.dispatchEvent(new Event('open-agri-safety'))}
+              className="pill-button-ghost pill-button-sm desktop-nav"
+              style={{
+                gap: '5px',
+                color: '#dc2626',
+                borderColor: 'rgba(220, 38, 38, 0.35)',
+                backgroundColor: 'rgba(220, 38, 38, 0.06)',
+                padding: '6px 12px'
+              }}
+              title="Emergency Poison Control & Chemical Safety (24/7)"
+              aria-label="Open emergency chemical poison helpline"
+            >
+              <ShieldAlert size={14} color="#dc2626" />
+              <span>Poison Help</span>
+            </button>
+
             <button
               onClick={toggleTheme}
               title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
@@ -318,6 +335,35 @@ function Header() {
 
           <nav>
             <ul className="mobile-nav-list">
+              <li key="emergency-poison-help" style={{ marginBottom: '8px' }}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    window.dispatchEvent(new Event('open-agri-safety'));
+                  }}
+                  className="mobile-nav-link"
+                  style={{
+                    width: '100%',
+                    border: '1px solid rgba(220, 38, 38, 0.3)',
+                    background: 'rgba(220, 38, 38, 0.08)',
+                    color: '#dc2626',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    padding: '10px 14px'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <ShieldAlert size={18} color="#dc2626" />
+                    <div>
+                      <span style={{ fontWeight: 700, display: 'block', fontSize: '13.5px' }}>Emergency Poison Help</span>
+                      <span style={{ fontSize: '11px', color: 'var(--color-slate-gray)' }}>24/7 SMHS Srinagar &amp; AIIMS Helpline</span>
+                    </div>
+                  </div>
+                </button>
+              </li>
+
               <li key="spray-order-cart">
                 <button
                   type="button"

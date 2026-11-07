@@ -32,6 +32,7 @@ import {
 const AdvisorChatbot = lazy(() => import('./components/AdvisorChatbot'));
 const PWAInstallPrompt = lazy(() => import('./components/PWAInstallPrompt'));
 const SprayOrderDrawer = lazy(() => import('./components/SprayOrderDrawer'));
+const AgriSafetyModal = lazy(() => import('./components/AgriSafetyModal'));
 
 function RouteFallback() {
   return (
@@ -153,6 +154,7 @@ function App() {
                 <AdvisorChatbot />
                 <PWAInstallPrompt />
                 <SprayOrderDrawer />
+                <AgriSafetyModal />
               </Suspense>
 
               <FloatingCartButton />
