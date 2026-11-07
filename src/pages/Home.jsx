@@ -108,7 +108,7 @@ export default function Home() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // 1. Hero Entrance Sequence
+      // hero entrance
       const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
       heroTl
@@ -137,7 +137,7 @@ export default function Home() {
           '-=0.4'
         );
 
-      // ScrollTrigger Section Reveals with one-shot release (eliminates scroll observer overhead)
+      // scroll reveals
       gsap.utils.toArray('.gsap-scroll-section').forEach((sec) => {
         gsap.fromTo(sec.querySelectorAll('.gsap-scroll-item'),
           { opacity: 0, y: 36 },
@@ -162,11 +162,9 @@ export default function Home() {
 
   return (
     <div ref={mainRef} style={{ backgroundColor: 'var(--surface-canvas)' }}>
-      {/* Hero Showcase with Seasonal Agronomy & SKUAST-K Stage Switcher */}
       <section className="section-padding home-hero-section" style={{ overflow: 'hidden' }}>
         <div className="page-container">
           <div style={{ textAlign: 'center', maxWidth: '1020px', margin: '0 auto 48px' }}>
-            {/* Tag / Category Label */}
             <div className="gsap-hero-tag" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '9999px', backgroundColor: 'var(--color-sage-tint)', border: '1px solid rgba(26, 67, 46, 0.18)', marginBottom: '20px' }}>
               <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: 'var(--color-pine-green)' }}></span>
               <span style={{ fontFamily: 'var(--font-sohne)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.8px', textTransform: 'uppercase', color: 'var(--color-pine-green)' }}>
@@ -174,17 +172,14 @@ export default function Home() {
               </span>
             </div>
 
-            {/* Signature Serif Display Headline */}
             <h1 className="text-display gsap-hero-title" style={{ marginBottom: '24px', color: 'var(--color-ink-black)', fontSize: 'clamp(28px, 5.5vw, 76px)', lineHeight: 1.22 }}>
               Scientific crop protection <span className="editorial-italic" style={{ marginRight: '0.18em' }}>tailored for Kashmir</span> orchards.
             </h1>
 
-            {/* Subhead in Söhne */}
             <p className="text-body-lg gsap-hero-sub" style={{ color: 'var(--color-slate-gray)', marginBottom: '32px', maxWidth: '680px', margin: '0 auto 32px' }}>
               Genuine Bayer, Syngenta, and IPL formulations paired with official SKUAST-K stage schedules — designed specifically for Kashmir fruit growers.
             </p>
 
-            {/* Paired Pill Buttons */}
             <div className="hero-actions gsap-hero-actions">
               <Link
                 to="/spray-calendar"
@@ -206,7 +201,6 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Quick Navigation Hub — 1-Tap Access to Every Major Feature */}
             <div className="gsap-hero-actions home-quick-hub-grid">
               {[
                 { to: '/products', label: 'Products', desc: '60+ Formulations', Icon: Package, color: '#0284c7' },
@@ -258,9 +252,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Product Artifact Collage (4 UI Artifacts overlapping the layout) */}
           <div className="hero-artifacts-grid hero-artifacts-row-1">
-            {/* Artifact 1: SKUAST Spray Schedule Table Fragment */}
             <div className="floating-product-artifact hero-artifact-tilt-left gsap-hero-card">
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', gap: '8px', flexWrap: 'wrap' }}>
                 <div>
@@ -274,7 +266,6 @@ export default function Home() {
                 </span>
               </div>
 
-              {/* Seasonal Selector Tabs */}
               <div 
                 className="no-print" 
                 style={{ 
@@ -313,7 +304,6 @@ export default function Home() {
                 })}
               </div>
 
-              {/* Table Fragment */}
               <div className="table-responsive-wrapper">
                 <table className="table-fragment">
                   <thead>
@@ -340,7 +330,7 @@ export default function Home() {
 
               <div style={{ marginTop: '10px', textAlign: 'right' }}>
                 <Link 
-                  to="/calendar" 
+                  to="/spray-calendar" 
                   style={{ fontSize: '11.5px', color: 'var(--color-pine-green)', fontWeight: 600, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '3px' }}
                 >
                   Full 12-Month Schedule <ArrowRight size={12} />
@@ -348,7 +338,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Artifact 2: Valley Weather & Spray Fastness Window */}
             <div className="floating-product-artifact hero-artifact-tilt-right gsap-hero-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
@@ -369,7 +358,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Minimalist seasonal curve */}
               <div style={{ height: '70px', marginTop: '14px', position: 'relative' }}>
                 <svg viewBox="0 0 300 70" fill="none" style={{ width: '100%', height: '100%' }}>
                   <path
@@ -387,9 +375,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Secondary Artifact Row (Consultation Desk & Pathology Card) */}
           <div className="hero-artifacts-grid hero-artifacts-row-2">
-            {/* Artifact 3: Disease Clinical Management Card */}
             <div className="floating-product-artifact gsap-hero-card">
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
                 <div style={{
@@ -424,7 +410,6 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Artifact 4: Chemist Advisory Search Bar */}
             <div className="floating-product-artifact gsap-hero-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <span className="tag-label" style={{ marginBottom: '8px' }}>Agronomist Advisory Desk</span>
               <form
@@ -448,7 +433,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Authorized Dealerships & Guarantee Bar */}
           <div className="gsap-hero-card" style={{
             marginTop: '48px',
             padding: '18px 24px',
@@ -516,7 +500,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Core Agronomy Principles */}
       <section className="section-padding section-fog-bg gsap-scroll-section">
         <div className="page-container">
           <div className="section-header gsap-scroll-item">
@@ -526,7 +509,6 @@ export default function Home() {
           </div>
 
           <div className="grid-3">
-            {/* Card 1 */}
             <div className="card-neutral gsap-scroll-item">
               <span className="tag-label">AUTHENTICITY</span>
               <h3 className="text-heading-sm" style={{ marginBottom: '12px' }}>
@@ -541,7 +523,6 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* Card 2 */}
             <div className="card-neutral gsap-scroll-item">
               <span className="tag-label">AGRONOMY</span>
               <h3 className="text-heading-sm" style={{ marginBottom: '12px' }}>
@@ -556,7 +537,6 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* Card 3 */}
             <div className="card-neutral gsap-scroll-item">
               <span className="tag-label">CHEMISTRY</span>
               <h3 className="text-heading-sm" style={{ marginBottom: '12px' }}>
@@ -574,7 +554,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Founder Credentials & Chemical Authority */}
       <section className="section-padding section-paper-bg gsap-scroll-section">
         <div className="page-container">
           <div className="card-peach gsap-scroll-item" style={{ position: 'relative' }}>
@@ -588,7 +567,6 @@ export default function Home() {
                 </h3>
               </div>
 
-              {/* Monogram Seal */}
               <div style={{
                 width: '56px',
                 height: '56px',
@@ -638,7 +616,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Srinagar Valley Microclimate & Diagnostic Telemetry */}
       <section className="section-padding section-fog-bg gsap-scroll-section">
         <div className="page-container">
           <div className="section-header gsap-scroll-item">
@@ -651,7 +628,6 @@ export default function Home() {
             <WeatherSprayAlert />
           </div>
 
-          {/* Crop Selector Tabs & Options */}
           <div className="gsap-scroll-item" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', marginBottom: '24px', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
               {['apple', 'pear', 'walnut'].map(crop => (
@@ -694,7 +670,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Diagnostic Neutral Cards Grid */}
           <div className="grid-3">
             {QUICK_DIAGNOSTICS[activeCrop]?.map((item, idx) => (
               <div key={idx} className="card-neutral gsap-scroll-item">
@@ -737,7 +712,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Manufacturer Inventory */}
       <section className="section-padding section-paper-bg gsap-scroll-section">
         <div className="page-container">
           <div className="section-header centered gsap-scroll-item">
@@ -746,7 +720,6 @@ export default function Home() {
             <p>All products available at 20% below print MRP with authentic batch guarantees.</p>
           </div>
 
-          {/* Catalog Grid previewing top products */}
           <div className="grid-3" style={{ marginBottom: '48px' }}>
             {products.slice(0, 3).map(product => (
               <div key={product.id} className="gsap-scroll-item">
@@ -769,7 +742,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Central Srinagar Store Location & Consultation */}
       <section className="section-padding section-fog-bg gsap-scroll-section" style={{ borderTop: '1px solid var(--border-color)' }}>
         <div className="page-container">
           <div className="section-header centered gsap-scroll-item">
@@ -779,7 +751,6 @@ export default function Home() {
           </div>
 
           <div className="grid-2" style={{ gap: '24px' }}>
-            {/* Store Location & Timings Card */}
             <div className="card-neutral gsap-scroll-item" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', flexWrap: 'wrap', gap: '8px' }}>
@@ -834,7 +805,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Free Leaf & Soil Diagnosis Feature Card */}
             <div className="card-peach gsap-scroll-item" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
                 <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 10px', borderRadius: '9999px', backgroundColor: 'rgba(93, 42, 26, 0.08)', marginBottom: '12px' }}>

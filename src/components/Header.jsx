@@ -41,7 +41,7 @@ function Header() {
     if (isMobileMenuOpen) setIsMobileMenuOpen(false);
   }
 
-  // Smooth scroll shadow listener with zero-overhead state guard
+  // close mobile menu on route change
   const scrolledRef = useRef(false);
   useEffect(() => {
     let ticking = false;
@@ -62,7 +62,7 @@ function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Lock background scrolling when mobile menu drawer is open
+  // lock scroll when mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -81,7 +81,7 @@ function Header() {
     <header className={`steep-header ${isScrolled ? 'is-scrolled' : ''}`}>
       <div className="page-container">
         <div className="header-inner">
-          {/* Logo & Brand Affordance */}
+          {/* brand */}
           <NavLink to="/" className="brand-logo" onClick={() => setIsMobileMenuOpen(false)}>
             <div className="brand-logo-icon">
               <Sprout size={20} color="var(--color-pine-green)" strokeWidth={2.2} />
@@ -92,7 +92,7 @@ function Header() {
             </div>
           </NavLink>
 
-          {/* Desktop Navigation Links with Smooth Sliding Indicator Pill */}
+          {/* desktop nav */}
           <nav className="desktop-nav">
             <ul className="nav-links-list">
               {DESKTOP_NAV_LINKS.map(({ to, label, Icon, exact }) => (
@@ -124,7 +124,7 @@ function Header() {
             </ul>
           </nav>
 
-          {/* Header Action Buttons (Theme Toggle & Hamburger) */}
+          {/* actions */}
           <div className="header-actions">
             <button
               onClick={toggleTheme}
@@ -180,7 +180,7 @@ function Header() {
               <ArrowRight size={14} />
             </a>
 
-            {/* Mobile Quick Spray Cart Button */}
+            {/* mobile cart */}
             <button
               onClick={openCart}
               className="mobile-header-cart-btn"
@@ -224,7 +224,7 @@ function Header() {
               )}
             </button>
 
-            {/* Mobile Quick Search Button */}
+            {/* mobile search */}
             <NavLink
               to="/search"
               onMouseEnter={() => preloadRoute('/search')}
@@ -246,8 +246,8 @@ function Header() {
               <Search size={18} />
             </NavLink>
 
-            {/* Mobile 1-Tap Quick Dial to Chemist */}
-            <a
+            {/* quick call */}
+            <aa
               href="tel:+919906541321"
               className="mobile-header-call-btn"
               title="Call Senior Chemist Sheikh Mohammad Ayoub"
@@ -256,7 +256,7 @@ function Header() {
               <Phone size={16} />
             </a>
 
-            {/* Mobile Hamburger Toggle */}
+            {/* hamburger */}
             <button
               className={`mobile-toggle-btn ${isMobileMenuOpen ? 'is-active' : ''}`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -268,7 +268,7 @@ function Header() {
         </div>
       </div>
 
-      {/* Solid Opaque Mobile Menu Drawer with Smooth Slide Transition */}
+      {/* mobile drawer */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -281,7 +281,7 @@ function Header() {
             exit={{ opacity: 0, y: -14 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* Quick Drawer Header with Theme Switcher */}
+          {/* drawer header */}
           <div style={{
             display: 'flex',
             alignItems: 'center',

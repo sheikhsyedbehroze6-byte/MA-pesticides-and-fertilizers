@@ -1,10 +1,11 @@
 import React from 'react';
-import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
+import { AlertTriangle, RefreshCw, Home, ChevronDown, Copy, Check } from 'lucide-react';
+import { trackError } from '../utils/analytics';
 
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false, error: null };
+    this.state = { hasError: false, error: null, showDetails: false, copied: false };
   }
 
   static getDerivedStateFromError(error) {
@@ -13,6 +14,7 @@ export default class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     console.error('ErrorBoundary captured exception:', error, errorInfo);
+    trackError(error, { componentStack: errorInfo?.componentStack, fatal: true });
 
     // Auto-heal chunk loading failure on deployment / spotty connection
     const isChunkError =
@@ -29,7 +31,7 @@ export default class ErrorBoundary extends React.Component {
 
   handleReset = () => {
     sessionStorage.removeItem('app_chunk_retry');
-    this.setState({ hasError: false, error: null });
+    this.setState({ hasError: false, error: null, showDetails: false });
     window.location.href = '/';
   };
 
@@ -38,8 +40,29 @@ export default class ErrorBoundary extends React.Component {
     window.location.reload();
   };
 
+  handleCopyError = () => {
+    if (!this.state.error) return;
+    const text = `${this.state.error.name}: ${this.state.error.message}\n${this.state.error.stack || ''}`;
+    navigator.clipboard?.writeText(text).then(() => {
+      this.setState({ copied: true });
+      setTimeout(() => this.setState({ copied: false }), 2000);
+    });
+  };
+
   render() {
     if (this.state.hasError) {
+      if (typeof this.props.fallback === 'function') {
+        return this.props.fallback({
+          error: this.state.error,
+          resetError: this.handleReset,
+          reload: this.handleReload
+        });
+      }
+
+      if (this.props.fallback) {
+        return this.props.fallback;
+      }
+
       return (
         <div
           style={{
@@ -53,7 +76,7 @@ export default class ErrorBoundary extends React.Component {
         >
           <div
             style={{
-              maxWidth: '520px',
+              maxWidth: '540px',
               width: '100%',
               backgroundColor: 'var(--surface-elevated, #ffffff)',
               borderRadius: '16px',
@@ -81,13 +104,13 @@ export default class ErrorBoundary extends React.Component {
 
             <h2
               style={{
-                fontSize: '1.4rem',
+                fontSize: '1.35rem',
                 fontWeight: 700,
                 color: 'var(--text-primary, #17191c)',
                 marginBottom: '10px'
               }}
             >
-              Interrupted Connection
+              Temporary Application Issue
             </h2>
 
             <p
@@ -95,11 +118,11 @@ export default class ErrorBoundary extends React.Component {
                 fontSize: '0.92rem',
                 color: 'var(--text-muted, #5e6670)',
                 lineHeight: 1.6,
-                marginBottom: '26px'
+                marginBottom: '24px'
               }}
             >
-              The agricultural platform encountered a temporary network or rendering delay.
-              Your local cart items and spray records are safely preserved in storage.
+              The application encountered an unexpected issue while rendering this section.
+              Your local cart and saved dosage calculations remain intact.
             </p>
 
             <div
@@ -107,7 +130,8 @@ export default class ErrorBoundary extends React.Component {
                 display: 'flex',
                 gap: '12px',
                 justifyContent: 'center',
-                flexWrap: 'wrap'
+                flexWrap: 'wrap',
+                marginBottom: '20px'
               }}
             >
               <button
@@ -120,7 +144,7 @@ export default class ErrorBoundary extends React.Component {
                   color: '#ffffff',
                   border: 'none',
                   borderRadius: '10px',
-                  padding: '12px 20px',
+                  padding: '11px 20px',
                   fontSize: '0.9rem',
                   fontWeight: 600,
                   cursor: 'pointer'
@@ -140,7 +164,7 @@ export default class ErrorBoundary extends React.Component {
                   color: 'var(--text-primary, #17191c)',
                   border: '1px solid var(--border-color, rgba(23, 25, 28, 0.2))',
                   borderRadius: '10px',
-                  padding: '12px 20px',
+                  padding: '11px 20px',
                   fontSize: '0.9rem',
                   fontWeight: 600,
                   cursor: 'pointer'
@@ -149,6 +173,57 @@ export default class ErrorBoundary extends React.Component {
                 <Home size={16} />
                 Return to Home
               </button>
+            </div>
+
+            {/* Technical details toggle for debugging */}
+            <div style={{ marginTop: '16px', textAlign: 'left', borderTop: '1px solid var(--border-color, rgba(23, 25, 28, 0.08))', paddingTop: '14px' }}>
+              <button
+                type="button"
+                onClick={() => this.setState({ showDetails: !this.state.showDetails })}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--text-muted, #5e6670)',
+                  fontSize: '0.78rem',
+                  fontWeight: 500,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  cursor: 'pointer',
+                  padding: 0
+                }}
+              >
+                <span>{this.state.showDetails ? 'Hide error details' : 'Show error details'}</span>
+                <ChevronDown size={14} style={{ transform: this.state.showDetails ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
+              </button>
+
+              {this.state.showDetails && this.state.error && (
+                <div style={{ marginTop: '10px', padding: '12px', backgroundColor: 'rgba(23, 25, 28, 0.04)', borderRadius: '8px', fontSize: '0.75rem', fontFamily: 'monospace', color: '#dc2626', wordBreak: 'break-word', position: 'relative' }}>
+                  <button
+                    type="button"
+                    onClick={this.handleCopyError}
+                    style={{
+                      position: 'absolute',
+                      top: '8px',
+                      right: '8px',
+                      background: '#ffffff',
+                      border: '1px solid rgba(23, 25, 28, 0.15)',
+                      borderRadius: '4px',
+                      padding: '3px 8px',
+                      fontSize: '0.7rem',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      color: 'var(--text-primary, #17191c)'
+                    }}
+                  >
+                    {this.state.copied ? <Check size={11} color="#16a34a" /> : <Copy size={11} />}
+                    <span>{this.state.copied ? 'Copied' : 'Copy'}</span>
+                  </button>
+                  <div><strong>{this.state.error.name}:</strong> {this.state.error.message}</div>
+                </div>
+              )}
             </div>
           </div>
         </div>

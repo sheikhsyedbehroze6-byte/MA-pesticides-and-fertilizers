@@ -10,7 +10,7 @@ function Footer() {
     <footer className="steep-footer">
       <div className="page-container">
         <div className="footer-top">
-          {/* Brand Column */}
+          {/* brand */}
           <div className="footer-brand">
             <h3>MA Pesticides</h3>
             <p style={{ marginBottom: '24px' }}>
@@ -28,7 +28,7 @@ function Footer() {
             </a>
           </div>
 
-          {/* Column 1: Navigation */}
+          {/* nav */}
           <div className="footer-col">
             <h4>Explore</h4>
             <ul>
@@ -46,7 +46,7 @@ function Footer() {
             </ul>
           </div>
 
-          {/* Column 2: Protection Categories */}
+          {/* product lines */}
           <div className="footer-col">
             <h4>Authorized Lines</h4>
             <ul>
@@ -59,7 +59,7 @@ function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Store & Location */}
+          {/* store */}
           <div className="footer-col">
             <h4>Srinagar Store</h4>
             <ul style={{ gap: '16px' }}>
@@ -79,7 +79,7 @@ function Footer() {
           </div>
         </div>
 
-        {/* Developer Logo Seal */}
+        {/* dev credit seal */}
         <div style={{
           margin: '24px 0 16px',
           display: 'flex',
@@ -103,7 +103,7 @@ function Footer() {
               transition: 'all 0.25s ease'
             }}
           >
-            {/* Circular Gold SB Logo Mark */}
+            {/* logo mark */}
             <div style={{
               width: '38px',
               height: '38px',
@@ -131,7 +131,7 @@ function Footer() {
               />
             </div>
 
-            {/* Logo Typography */}
+            {/* logo text */}
             <div style={{ textAlign: 'left', lineHeight: '1.25' }}>
               <span style={{
                 display: 'block',
@@ -168,7 +168,7 @@ function Footer() {
           </a>
         </div>
 
-        {/* Footer Bottom Line */}
+        
         <div className="footer-bottom">
           <span>© {year} MA Pesticides & Fertilizers, Srinagar. All rights reserved.</span>
           <span>100% Genuine Guarantee &bull; Kashmir Orchard Analytics</span>

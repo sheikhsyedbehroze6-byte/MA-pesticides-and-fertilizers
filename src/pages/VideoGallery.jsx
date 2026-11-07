@@ -240,7 +240,6 @@ export default function VideoGallery() {
       <div className="page-container">
         <Breadcrumb />
 
-        {/* Page Header */}
         <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 48px' }}>
           <span className="tag-label">KASHMIR AGRONOMY & FIELD DEMONSTRATIONS</span>
           <h1 className="text-heading-lg" style={{ marginBottom: '16px' }}>
@@ -251,7 +250,6 @@ export default function VideoGallery() {
           </p>
         </div>
 
-        {/* Featured Advisory Masterclass */}
         <div className="card-neutral" style={{ padding: 'clamp(20px, 3.5vw, 36px)', marginBottom: '56px' }}>
           <div style={{
             display: 'grid',
@@ -259,7 +257,6 @@ export default function VideoGallery() {
             gap: 'clamp(20px, 3vw, 32px)',
             alignItems: 'center'
           }}>
-            {/* Left: HD Video Feature Launcher Card */}
             <a
               href={FEATURED_VIDEO.url}
               target="_blank"
@@ -325,7 +322,6 @@ export default function VideoGallery() {
                   </span>
                 </div>
 
-                {/* Center Play Button */}
                 <div style={{ alignSelf: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <div style={{
                     width: '68px',
@@ -349,7 +345,6 @@ export default function VideoGallery() {
               </div>
             </a>
 
-            {/* Right: Key Details & Key Learning Points */}
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
                 <span className="tag-label-green" style={{ margin: 0 }}>OFFICIAL MASTERCLASS</span>
@@ -364,7 +359,6 @@ export default function VideoGallery() {
                 {FEATURED_VIDEO.description}
               </p>
 
-              {/* Key Takeaway Bullets */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px' }}>
                 {FEATURED_VIDEO.keyPoints.map((point, i) => (
                   <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
@@ -374,7 +368,6 @@ export default function VideoGallery() {
                 ))}
               </div>
 
-              {/* Action Buttons */}
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                 <a
                   href={FEATURED_VIDEO.url}
@@ -399,7 +392,6 @@ export default function VideoGallery() {
           </div>
         </div>
 
-        {/* Category Filter & Search Bar */}
         <div style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -408,7 +400,6 @@ export default function VideoGallery() {
           gap: '16px',
           marginBottom: '32px'
         }}>
-          {/* Category Filter Pills */}
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
             {CATEGORIES.map(cat => (
               <button
@@ -421,7 +412,6 @@ export default function VideoGallery() {
             ))}
           </div>
 
-          {/* Search Form with Dedicated Search Button */}
           <form
             onSubmit={(e) => e.preventDefault()}
             style={{
@@ -491,7 +481,6 @@ export default function VideoGallery() {
           </form>
         </div>
 
-        {/* Results Feedback & Active Search Notification */}
         {searchQuery && (
           <div style={{
             display: 'flex',
@@ -522,11 +511,9 @@ export default function VideoGallery() {
           </div>
         )}
 
-        {/* Advisory Video Catalog */}
         <div className="grid-3" style={{ marginBottom: '56px' }}>
           {filteredVideos.map((video, idx) => (
             <div key={idx} className="card-neutral" style={{ display: 'flex', flexDirection: 'column', padding: '16px' }}>
-              {/* Thumbnail Launcher */}
               <a
                 href={video.url}
                 target="_blank"
@@ -590,7 +577,6 @@ export default function VideoGallery() {
                 </div>
               </a>
 
-              {/* Category Tag */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                 <span className="tag-label" style={{ margin: 0 }}>{video.tag}</span>
                 <span style={{ fontSize: '12px', color: 'var(--color-pine-green)', fontWeight: 500 }}>
@@ -598,7 +584,6 @@ export default function VideoGallery() {
                 </span>
               </div>
 
-              {/* Title & Description */}
               <h3 style={{
                 fontFamily: 'var(--font-sohne)',
                 fontSize: '17px',
@@ -614,7 +599,6 @@ export default function VideoGallery() {
                 {video.description}
               </p>
 
-              {/* Keyword Pills for Quick Discovery */}
               {video.keywords && video.keywords.length > 0 && (
                 <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap', marginBottom: '14px' }}>
                   {video.keywords.slice(0, 3).map((kw, i) => (
@@ -641,7 +625,6 @@ export default function VideoGallery() {
                 </div>
               )}
 
-              {/* Card Footer Link */}
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -674,7 +657,6 @@ export default function VideoGallery() {
           ))}
         </div>
 
-        {/* Direct WhatsApp Consultation */}
         <div className="card-peach" style={{ textAlign: 'center', padding: 'clamp(28px, 4vw, 48px)' }}>
           <span className="tag-label" style={{ color: 'var(--color-sienna-brown)', opacity: 0.8 }}>
             DIRECT CONSULTATION

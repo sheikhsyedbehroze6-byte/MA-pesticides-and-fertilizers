@@ -2,6 +2,7 @@ import { useState, useMemo, useRef, lazy, Suspense } from 'react';
 import { Calculator, Droplets, TreeDeciduous, ShieldAlert, MessageCircle, Search, Filter, ShoppingBag, Check, Bug, X, ArrowDown, Copy, Printer } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { safeOpen } from '../utils/security';
+import { trackEvent } from '../utils/analytics';
 
 const LeafDiseaseDetector = lazy(() => import('./LeafDiseaseDetector'));
 
@@ -144,6 +145,8 @@ export default function DosageCalculator() {
   const [copiedRecipe, setCopiedRecipe] = useState(false);
 
   const handleCopyRecipe = () => {
+    trackEvent('copy_dosage_recipe', { product: product.name, qty: chemicalInKgOrL });
+
     const text = `🌿 SKUAST-K Spray Dilution Recipe (MA Pesticides Srinagar)\n` +
       (detectedDiseaseInfo ? `• Disease: ${detectedDiseaseInfo.name} (${detectedDiseaseInfo.nameUrdu})\n` : '') +
       `• Chemical: ${product.name}\n` +
@@ -161,6 +164,12 @@ export default function DosageCalculator() {
   };
 
   const handleWhatsAppShare = () => {
+    trackEvent('share_dosage_whatsapp', {
+      product: product.name,
+      water_liters: totalWaterLiters,
+      chemical_qty: chemicalInKgOrL
+    });
+
     const text = `*Orchard Spray Dosage Calculation*\n\n` +
       (detectedDiseaseInfo ? `*Diagnosed Disease:* ${detectedDiseaseInfo.name} (${detectedDiseaseInfo.nameUrdu})\n` : '') +
       `*Product:* ${product.name}\n` +
@@ -176,7 +185,6 @@ export default function DosageCalculator() {
 
   return (
     <div className="dosage-calculator-card">
-      {/* Official Printable Prescription Slip Header (Revealed exclusively during window.print()) */}
       <div className="print-prescription-header">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '2px solid #1a432e', paddingBottom: '12px', marginBottom: '14px' }}>
           <div>
@@ -223,7 +231,6 @@ export default function DosageCalculator() {
         </div>
       </div>
 
-      {/* Mode Switcher Tabs */}
       <div style={{
         display: 'flex',
         borderBottom: '1px solid rgba(23, 25, 28, 0.08)',
@@ -297,7 +304,6 @@ export default function DosageCalculator() {
       </div>
 
       <div className="dosage-calc-body">
-        {/* Leaf Disease Detection Section (Lazy Loaded) */}
         {activeTab === 'detector' && (
           <Suspense fallback={
             <div style={{ padding: '36px 20px', textAlign: 'center', color: 'var(--color-slate-gray)' }}>
@@ -312,7 +318,6 @@ export default function DosageCalculator() {
           </Suspense>
         )}
 
-        {/* Informative helper banner in direct mode */}
         {activeTab === 'direct' && !detectedDiseaseInfo && (
           <div style={{
             padding: '12px 16px',
@@ -342,7 +347,6 @@ export default function DosageCalculator() {
           </div>
         )}
 
-        {/* Prescribed Disease Banner */}
         {detectedDiseaseInfo && (
           <div style={{
             padding: '16px 20px',
@@ -412,7 +416,6 @@ export default function DosageCalculator() {
           </div>
         )}
 
-        {/* Step 1: Filter & Product Selection */}
         <div ref={calcSectionRef} className="dosage-calc-field">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
             <label style={{ margin: 0, color: 'var(--color-ink-black)', fontWeight: 600 }}>Select Chemical / Product ({filteredProducts.length} items):</label>
@@ -421,7 +424,6 @@ export default function DosageCalculator() {
             </div>
           </div>
 
-          {/* Search bar */}
           <div style={{ position: 'relative', marginBottom: '0.6rem' }}>
             <Search size={18} strokeWidth={2.2} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-pine-green)' }} />
             <input
@@ -434,7 +436,6 @@ export default function DosageCalculator() {
             />
           </div>
 
-          {/* Category Filter Pills (Horizontal Swiper on Mobile) */}
           <div className="mobile-horizontal-pills-container">
             <div className="mobile-horizontal-pills" style={{ marginBottom: '0.75rem', padding: '2px 0 6px' }}>
               {CATEGORIES.map(cat => (
@@ -451,7 +452,6 @@ export default function DosageCalculator() {
             </div>
           </div>
 
-          {/* Chemical Products in Pill-Shaped Boxes */}
           <div className="chemical-pills-scrollbox">
             {filteredProducts.length > 0 ? (
               filteredProducts.map(p => (
@@ -472,7 +472,6 @@ export default function DosageCalculator() {
           </div>
         </div>
 
-        {/* Step 2: Calculation Mode Toggle */}
         <div className="dosage-calc-mode-toggle">
           <button 
             className={`dosage-mode-btn ${calcMode === 'tank' ? 'active' : ''}`}
@@ -488,7 +487,6 @@ export default function DosageCalculator() {
           </button>
         </div>
 
-        {/* Inputs based on mode */}
         {calcMode === 'tank' ? (
           <div className="dosage-calc-field">
             <label>Spray Tank / Barrel Capacity (Liters):</label>
@@ -544,7 +542,6 @@ export default function DosageCalculator() {
           </div>
         )}
 
-        {/* Results Box */}
         <div className="dosage-result-box">
           <div className="dosage-result-row">
             <span className="result-label">Selected Chemical / Category:</span>
@@ -651,7 +648,6 @@ export default function DosageCalculator() {
           </div>
         </div>
 
-        {/* Safety Note */}
         <div className="dosage-safety-note">
           <ShieldAlert size={16} color="#d97706" style={{ flexShrink: 0, marginTop: '2px' }} />
           <span>

@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import { sanitizeInput, safeJsonParse } from '../utils/security';
+import { trackEvent } from '../utils/analytics';
 
 const CartContext = createContext(null);
 
@@ -178,6 +179,13 @@ export function CartProvider({ children }) {
     setLastAddedItem(product.name);
     setTimeout(() => setLastAddedItem(null), 3000);
 
+    trackEvent('add_to_cart', {
+      item_id: product.id,
+      item_name: product.name,
+      price: discounted,
+      quantity
+    });
+
     if (options.openDrawer) {
       setIsCartOpen(true);
     }
@@ -274,6 +282,10 @@ export function CartProvider({ children }) {
   };
 
   const getWhatsAppUrl = () => {
+    trackEvent('checkout_whatsapp', {
+      total_items: totalItems,
+      subtotal
+    });
     const msg = generateWhatsAppMessage();
     return `https://wa.me/919906541321?text=${encodeURIComponent(msg)}`;
   };

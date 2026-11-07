@@ -7,7 +7,7 @@ export default function About() {
       <div className="page-container">
         <Breadcrumb />
 
-        {/* Header */}
+        {/* header */}
         <div style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 64px' }}>
           <span className="tag-label">Established in Srinagar, Kashmir</span>
           <h1 className="text-heading-lg" style={{ marginBottom: '16px' }}>
@@ -18,7 +18,7 @@ export default function About() {
           </p>
         </div>
 
-        {/* Founder Editorial Accent Peach Card */}
+        {/* founder card */}
         <div className="card-peach" style={{ marginBottom: '64px' }}>
           <span className="tag-label" style={{ color: 'var(--color-sienna-brown)', opacity: 0.8 }}>FOUNDER & MANAGING DIRECTOR</span>
           <h2 style={{ fontFamily: 'var(--font-signifier)', fontSize: '36px', fontWeight: 400, marginBottom: '12px', color: 'var(--color-sienna-brown)' }}>
@@ -44,7 +44,7 @@ export default function About() {
           </a>
         </div>
 
-        {/* 3 Pillars Neutral Cards */}
+        {/* pillars */}
         <div className="grid-3">
           <div className="card-neutral">
             <span className="tag-label">MISSION</span>
@@ -77,7 +77,7 @@ export default function About() {
           </div>
         </div>
 
-        {/* Digital Platform & Engineering Logo Card */}
+        {/* dev card */}
         <div style={{
           marginTop: '56px',
           padding: '32px 24px',
@@ -90,7 +90,6 @@ export default function About() {
           alignItems: 'center',
           textAlign: 'center'
         }}>
-          {/* Official Creator Logo Mark */}
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',

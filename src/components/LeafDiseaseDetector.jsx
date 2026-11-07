@@ -1,5 +1,6 @@
 import { useState, useRef, useId, useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { trackEvent } from '../utils/analytics';
 import {
   Camera, Upload, Sparkles, CheckCircle2, AlertTriangle, ShieldCheck,
   RefreshCw, ArrowRight, Zap, Info, Bug, Search, Eye, Volume2, VolumeX,
@@ -1058,6 +1059,10 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
   // Apply to Dosage Calculator
   const handleApplyToCalculator = () => {
     if (onApplyDosage && selectedDisease) {
+      trackEvent('apply_disease_cure', {
+        disease: selectedDisease.name,
+        product_id: selectedDisease.recommendedProductId
+      });
       onApplyDosage(selectedDisease.recommendedProductId, selectedDisease);
       setAppliedNotification(true);
       playSoundEffect('chime');
@@ -1067,6 +1072,10 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
 
   // WhatsApp chemist consult link
   const handleWhatsAppConsult = () => {
+    trackEvent('consult_disease_whatsapp', {
+      disease: selectedDisease?.name,
+      confidence: diagnosticReport?.confidence
+    });
     const text = `*Orchard Foliar Pathology Diagnosis Request*\n\n` +
       `*Diagnosed Condition:* ${selectedDisease.name} (${selectedDisease.nameUrdu})\n` +
       `*Scientific Pathogen:* ${selectedDisease.pathogen}\n` +

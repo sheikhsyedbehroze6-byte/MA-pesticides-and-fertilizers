@@ -37,7 +37,7 @@ function NetworkStatusBanner() {
   if (!isOffline && !showRestored) return null;
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       <motion.aside
         aria-live="polite"
         role="status"

@@ -14,6 +14,7 @@ import BottomNav from './components/BottomNav';
 import './App.css';
 import ErrorBoundary from './components/ErrorBoundary';
 import NetworkStatusBanner from './components/NetworkStatusBanner';
+import { trackPageView } from './utils/analytics';
 import {
   About,
   Products,
@@ -27,12 +28,10 @@ import {
   preloadAllRoutes
 } from './utils/routePreloader';
 
-// Idle/Lazy Loaded Non-Critical Overlays (drastically cuts main-thread JS execution lag)
 const AdvisorChatbot = lazy(() => import('./components/AdvisorChatbot'));
 const PWAInstallPrompt = lazy(() => import('./components/PWAInstallPrompt'));
 const SprayOrderDrawer = lazy(() => import('./components/SprayOrderDrawer'));
 
-// Smooth Route Loading Fallback
 function RouteFallback() {
   return (
     <div style={{
@@ -65,9 +64,12 @@ function RouteFallback() {
   );
 }
 
-// Smooth Animated Route Transitions with Silk Ease
 function AnimatedRoutes() {
   const location = useLocation();
+
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location.pathname, location.search]);
 
   return (
     <AnimatePresence mode="wait" initial={false}>
@@ -88,6 +90,7 @@ function AnimatedRoutes() {
             <Route path="/dosage-calculator" element={<DosageCalculatorPage />} />
             <Route path="/calculator" element={<DosageCalculatorPage />} />
             <Route path="/spray-calendar" element={<SprayCalendar />} />
+            <Route path="/calendar" element={<SprayCalendar />} />
             <Route path="/videos" element={<VideoGallery />} />
             <Route path="/video-gallery" element={<VideoGallery />} />
             <Route path="/search" element={<Search />} />
@@ -102,7 +105,6 @@ function AnimatedRoutes() {
 
 function App() {
   useEffect(() => {
-    // Preload all dynamic routes and non-critical overlays during idle time after initial render
     let idleId;
     const preloadOverlays = () => {
       preloadAllRoutes();
@@ -143,22 +145,14 @@ function App() {
 
               <Footer />
 
-              {/* Lazy Overlays wrapped in zero-overhead Suspense */}
+              {/* lazy overlays */}
               <Suspense fallback={null}>
-                {/* Interactive Agricultural Crop Advisory Consultation Desk */}
                 <AdvisorChatbot />
-
-                {/* Installable PWA Mobile App Prompt Banner */}
                 <PWAInstallPrompt />
-
-                {/* Spray Order WhatsApp Drawer & Cart */}
                 <SprayOrderDrawer />
               </Suspense>
 
-              {/* Floating Quick Order Cart Button */}
               <FloatingCartButton />
-
-              {/* Native Mobile Bottom Navigation Dock */}
               <BottomNav />
             </div>
           </Router>

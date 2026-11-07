@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Smartphone, Download, X, Check, ShieldCheck, Share, Sparkles } from 'lucide-react';
+import { trackEvent } from '../utils/analytics';
 
 export default function PWAInstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -45,10 +46,13 @@ export default function PWAInstallPrompt() {
   }, [isInstalled]);
 
   const handleInstallClick = async () => {
+    trackEvent('pwa_install_click');
     if (deferredPrompt) {
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
+      trackEvent('pwa_install_outcome', { outcome });
       if (outcome === 'accepted') {
+        trackEvent('pwa_installed');
         setShowPrompt(false);
         setIsInstalled(true);
       }
@@ -61,6 +65,7 @@ export default function PWAInstallPrompt() {
   };
 
   const handleDismiss = () => {
+    trackEvent('pwa_prompt_dismissed');
     setShowPrompt(false);
     localStorage.setItem('pwa_prompt_dismissed', Date.now().toString());
   };
