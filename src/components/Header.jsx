@@ -247,7 +247,7 @@ function Header() {
             </NavLink>
 
             {/* quick call */}
-            <aa
+            <a
               href="tel:+919906541321"
               className="mobile-header-call-btn"
               title="Call Senior Chemist Sheikh Mohammad Ayoub"
