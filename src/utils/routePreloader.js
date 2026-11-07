@@ -32,6 +32,7 @@ export const VideoGallery = lazyWithPreload(() => import('../pages/VideoGallery'
 export const DosageCalculatorPage = lazyWithPreload(() => import('../pages/DosageCalculatorPage'));
 export const Contact = lazyWithPreload(() => import('../pages/Contact'));
 export const Search = lazyWithPreload(() => import('../pages/Search'));
+export const PrivacyPolicy = lazyWithPreload(() => import('../pages/PrivacyPolicy'));
 export const NotFound = lazyWithPreload(() => import('../pages/NotFound'));
 
 // Mapping of route paths to route component objects
@@ -46,6 +47,8 @@ const routeMap = {
   '/video-gallery': VideoGallery,
   '/search': Search,
   '/contact': Contact,
+  '/privacy': PrivacyPolicy,
+  '/privacy-policy': PrivacyPolicy,
 };
 
 /**

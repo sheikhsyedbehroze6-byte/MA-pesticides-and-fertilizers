@@ -41,7 +41,8 @@ function Footer() {
               <li><Link to="/search" onMouseEnter={() => preloadRoute('/search')} onTouchStart={() => preloadRoute('/search')}>Search Inventory</Link></li>
               <li><Link to="/about" onMouseEnter={() => preloadRoute('/about')} onTouchStart={() => preloadRoute('/about')}>About MA Pesticides</Link></li>
               <li><Link to="/contact" onMouseEnter={() => preloadRoute('/contact')} onTouchStart={() => preloadRoute('/contact')}>Visit Store</Link></li>
-              <li><a href="/download.html" target="_blank" rel="noopener noreferrer">IEEE Architecture Dossier</a></li>
+              <li><Link to="/privacy" onMouseEnter={() => preloadRoute('/privacy')} onTouchStart={() => preloadRoute('/privacy')}>Privacy Policy &amp; Data Rights</Link></li>
+              <li><a href="/download.html" target="_blank" rel="noopener noreferrer">Technical Architecture</a></li>
               <li><button onClick={() => window.dispatchEvent(new Event('trigger-pwa-install'))} style={{ background: 'none', border: 'none', color: 'var(--color-pine-green)', font: 'inherit', cursor: 'pointer', padding: 0, fontWeight: 500 }}>Install Mobile App</button></li>
             </ul>
           </div>
@@ -170,7 +171,12 @@ function Footer() {
 
         
         <div className="footer-bottom">
-          <span>© {year} MA Pesticides & Fertilizers, Srinagar. All rights reserved.</span>
+          <span>
+            © {year} MA Pesticides &amp; Fertilizers, Srinagar. All rights reserved. &bull;{' '}
+            <Link to="/privacy" style={{ color: 'inherit', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+              Privacy Policy
+            </Link>
+          </span>
           <span>100% Genuine Guarantee &bull; Kashmir Orchard Analytics</span>
         </div>
       </div>

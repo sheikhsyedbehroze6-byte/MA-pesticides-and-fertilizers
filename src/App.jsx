@@ -24,6 +24,7 @@ import {
   DosageCalculatorPage,
   Contact,
   Search,
+  PrivacyPolicy,
   NotFound,
   preloadAllRoutes
 } from './utils/routePreloader';
@@ -95,6 +96,8 @@ function AnimatedRoutes() {
             <Route path="/video-gallery" element={<VideoGallery />} />
             <Route path="/search" element={<Search />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
