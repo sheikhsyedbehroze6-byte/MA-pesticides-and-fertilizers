@@ -77,93 +77,55 @@ export default function About() {
           </div>
         </div>
 
-        {/* dev card */}
-        <div className="card-neutral" style={{
-          marginTop: '56px',
-          padding: '36px 28px',
-          borderRadius: '20px',
-          border: '1px solid rgba(26, 67, 46, 0.16)',
+        {/* Family Enterprise & Digital Advisory Note */}
+        <div style={{
+          marginTop: '64px',
+          padding: '28px 32px',
+          borderRadius: '16px',
+          border: '1px solid rgba(26, 67, 46, 0.14)',
+          backgroundColor: '#ffffff',
           display: 'flex',
-          flexDirection: 'column',
           alignItems: 'center',
-          textAlign: 'center',
-          backgroundColor: '#ffffff'
+          justifyContent: 'space-between',
+          gap: '24px',
+          flexWrap: 'wrap'
         }}>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '12px 24px',
-            borderRadius: '16px',
-            backgroundColor: 'var(--surface-canvas, #fcfbf9)',
-            border: '1px solid rgba(26, 67, 46, 0.12)',
-            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.04)',
-            marginBottom: '20px'
-          }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flex: '1 1 360px' }}>
             <img
               src="/sb-logo.webp"
-              alt="Designed & Developed by Sheikh Behroze Ayub"
+              alt="Sheikh Behroze Ayub"
               loading="lazy"
               decoding="async"
               style={{
-                height: '64px',
+                height: '52px',
                 width: 'auto',
-                objectFit: 'contain'
+                objectFit: 'contain',
+                borderRadius: '8px',
+                padding: '4px',
+                backgroundColor: 'var(--surface-canvas, #fcfbf9)',
+                border: '1px solid rgba(26, 67, 46, 0.1)'
               }}
             />
+            <div>
+              <div style={{ fontFamily: 'var(--font-signifier)', fontSize: '18px', fontWeight: 600, color: 'var(--color-ink-black)' }}>
+                Digital Advisory &amp; Calculation Engine
+              </div>
+              <p style={{ fontSize: '13.5px', color: 'var(--color-slate-gray)', margin: '4px 0 0', lineHeight: 1.5 }}>
+                Engineered by <strong>Sheikh Behroze Ayub (B.Tech CSE)</strong> for our family firm <strong>M/S Sheikh Mohammad Ayoub &amp; Sons</strong>, translating SKUAST-K university stage schedules and precision barrel chemistry into direct tools for Kashmir fruit growers.
+              </p>
+            </div>
           </div>
 
-          <span className="tag-label" style={{ marginBottom: '8px' }}>ENGINEERING &amp; DIGITAL PLATFORM</span>
-          <h3 style={{
-            fontFamily: 'var(--font-signifier)',
-            fontSize: '26px',
-            fontWeight: 400,
-            color: 'var(--color-ink-black)',
-            marginBottom: '10px'
-          }}>
-            Developed by Sheikh Behroze Ayub
-          </h3>
-
-          <p style={{
-            fontFamily: 'var(--font-sohne)',
-            fontSize: '15px',
-            color: 'var(--color-slate-gray)',
-            maxWidth: '680px',
-            lineHeight: 1.6,
-            marginBottom: '14px'
-          }}>
-            Designed and engineered by <strong style={{ color: 'var(--color-pine-green)', fontWeight: 600 }}>Sheikh Behroze Ayub (B.Tech Computer Science &amp; Engineering)</strong> for our family firm <strong>M/S Sheikh Mohammad Ayoub &amp; Sons</strong>. Built to provide Kashmir fruit growers with accessible SKUAST-K stage schedules, scientific dilution mathematics, and verified CIBRC pesticide authenticity.
-          </p>
-
-          <span style={{
-            fontSize: '12.5px',
-            color: 'var(--color-sienna-brown)',
-            letterSpacing: '0.3px',
-            fontWeight: 500,
-            display: 'block',
-            marginBottom: '20px'
-          }}>
-            Hari Singh High Street &bull; Srinagar, Kashmir
-          </span>
-
-          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
             <a
               href="https://wa.me/919906541321?text=Hello%20Sheikh%20Behroze%20Ayub%2C%20I%20have%20an%20inquiry%20regarding%20the%20MA%20Pesticides%20platform..."
               target="_blank"
               rel="noopener noreferrer"
-              className="pill-button-filled pill-button-sm"
-            >
-              <span>Contact Developer Desk</span>
-              <ArrowUpRight size={14} />
-            </a>
-            <a
-              href="/download.html"
-              target="_blank"
-              rel="noopener noreferrer"
               className="pill-button-ghost pill-button-sm"
+              style={{ fontSize: '12.5px' }}
             >
-              <span>Technical Platform Overview</span>
-              <ArrowUpRight size={14} />
+              <span>Consult Engineering Desk</span>
+              <ArrowUpRight size={13} />
             </a>
           </div>
         </div>

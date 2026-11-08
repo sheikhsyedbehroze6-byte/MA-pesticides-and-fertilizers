@@ -4,9 +4,9 @@ import { useCart, estimateProductPrice } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
 import {
   X, Send, Sparkles, MessageCircle, ExternalLink, RefreshCw,
-  ArrowRight, Mic, MicOff, Volume2, VolumeX, ShieldAlert, Droplets,
+  ArrowRight, Mic, MicOff, ShieldAlert, Droplets,
   Calendar, Phone, MapPin, CheckCircle, Info, Beaker, Leaf, AlertTriangle,
-  ShoppingCart, Plus, Check, Sun, Moon, Compass, Zap, Calculator, PhoneCall, Search,
+  ShoppingCart, Plus, Check, Compass, Zap, Calculator, PhoneCall, Search,
   CloudRain, Wind, Thermometer, Copy, Layers, ChevronDown, ChevronUp
 } from 'lucide-react';
 import { products, diseases } from '../data/agricultureData';
@@ -429,18 +429,6 @@ function StructuredAdvisorMessage({ text }) {
   return <div style={{ display: 'flex', flexDirection: 'column' }}>{elements}</div>;
 }
 
-// Strip markdown for TTS voice
-function cleanTextForSpeech(text) {
-  if (!text) return '';
-  return text
-    .replace(/\*\*/g, '')
-    .replace(/~~.*?~~/g, '')
-    .replace(/`.*?`/g, (m) => m.slice(1, -1))
-    .replace(/\p{Extended_Pictographic}/gu, '')
-    .replace(/\[(.*?)\]\(.*?\)/g, '$1')
-    .replace(/^[-•*]\s+/gm, '')
-    .trim();
-}
 
 // Generator: Step-by-step reasoning thought process for each intent
 function generateThoughtProcess(intentType, details = {}) {
@@ -1742,7 +1730,6 @@ export default function AdvisorChatbot() {
   const [input, setInput] = useState('');
   const [isThinking, setIsThinking] = useState(false);
   const [isListening, setIsListening] = useState(false);
-  const [speakingIdx, setSpeakingIdx] = useState(null);
   const [activeCategory, setActiveCategory] = useState('all');
   const [addedItemNotification, setAddedItemNotification] = useState(null);
   const [copiedPrescriptionId, setCopiedPrescriptionId] = useState(null);
@@ -1783,40 +1770,14 @@ export default function AdvisorChatbot() {
     };
   }, []);
 
-  // Clean up speech on unmount
+  // Clean up speech recognition on unmount
   useEffect(() => {
     return () => {
-      if (window.speechSynthesis) {
-        window.speechSynthesis.cancel();
-      }
       if (recognitionRef.current) {
         try { recognitionRef.current.abort(); } catch { /* ignore */ }
       }
     };
   }, []);
-
-  // Text-to-Speech handler
-  const handleToggleSpeak = (idx, text) => {
-    if (!window.speechSynthesis) return;
-
-    if (speakingIdx === idx) {
-      window.speechSynthesis.cancel();
-      setSpeakingIdx(null);
-      return;
-    }
-
-    window.speechSynthesis.cancel();
-    const cleanText = cleanTextForSpeech(text);
-    const utterance = new SpeechSynthesisUtterance(cleanText);
-    utterance.rate = 0.95;
-    utterance.pitch = 1.0;
-
-    utterance.onend = () => setSpeakingIdx(null);
-    utterance.onerror = () => setSpeakingIdx(null);
-
-    setSpeakingIdx(idx);
-    window.speechSynthesis.speak(utterance);
-  };
 
   // Speech-to-Text (Voice Recognition) handler
   const handleToggleListen = () => {
@@ -2038,20 +1999,6 @@ export default function AdvisorChatbot() {
         { label: '🌿 Bio-Stimulant Prices', query: 'what is the price of bio stimulants' }
       ];
     }
-    if (activeCategory === 'actions') {
-      return [
-        { label: '🛒 Open Cart Drawer', query: 'open my cart' },
-        { label: '🛍️ Go to Products', query: 'take me to products' },
-        { label: '🧮 Dosage Calculator', query: 'open dosage calculator' },
-        { label: '🗓️ Spray Calendar', query: 'open spray calendar' },
-        { label: '🔬 Disease Guide', query: 'open disease guide' },
-        { label: '🌙 Dark Mode', query: 'turn on dark mode' },
-        { label: '☀️ Light Mode', query: 'turn on light mode' },
-        { label: '📞 Call Store Now', query: 'call shop' },
-        { label: '🗺️ Google Maps Directions', query: 'open map directions' },
-        { label: '🗑️ Clear My Cart', query: 'clear my cart' }
-      ];
-    }
     if (activeCategory === 'weather') {
       return [
         { label: '🌤️ Weather Right Now', query: 'what is the weather right now' },
@@ -2102,16 +2049,15 @@ export default function AdvisorChatbot() {
       ];
     }
     return [
-      { label: '🏷️ Pricing of Products (20% OFF)', query: 'what is the pricing of products' },
-      { label: '🌤️ Weather Right Now', query: 'what is the weather right now' },
-      { label: '🛒 Open My Cart', query: 'open my cart' },
-      { label: '🍏 Apple Scab Cure', query: 'Apple Scab spray' },
-      { label: '⚡ 200L Tank Dosage Calc', query: '200 litre tank dosage' },
-      { label: '🛍️ Go to Products', query: 'take me to products' },
-      { label: '🌙 Turn on Dark Mode', query: 'turn on dark mode' },
-      { label: '✂️ How to Prune Trees', query: 'how to prune apple trees?' },
-      { label: '📍 Shop Location & Address', query: 'shop location address' },
-      { label: '👨‍💻 Website Developer', query: 'who developed this website' }
+      { label: '🍏 Apple Scab Primary Cure', query: 'Apple Scab spray' },
+      { label: '🛢️ 200L Barrel Dilution Calc', query: '200 litre tank dosage' },
+      { label: '🏷️ Products Pricing (20% OFF)', query: 'what is the pricing of products' },
+      { label: '🌤️ Today\'s Spray Weather Window', query: 'what is the weather right now' },
+      { label: '🗓️ Pink Bud Stage Spray', query: 'pink bud stage spray' },
+      { label: '⚠️ Dodine + Mineral Oil Rule', query: 'Can I mix Dodine with oil?' },
+      { label: '🕷️ Red Mite Summer Control', query: 'Spider Mites cure' },
+      { label: '✂️ How to Prune Apple Trees', query: 'how to prune apple trees?' },
+      { label: '📍 Hari Singh High St. Store', query: 'shop location address' }
     ];
   }, [activeCategory]);
 
@@ -2323,14 +2269,13 @@ export default function AdvisorChatbot() {
               scrollbarWidth: 'none'
             }}>
               {[
-                { id: 'all', label: '✨ All' },
+                { id: 'all', label: 'All Topics' },
                 { id: 'pricing', label: '🏷️ Pricing' },
-                { id: 'weather', label: '🌤️ Weather' },
-                { id: 'actions', label: '⚡ Actions' },
-                { id: 'dosage', label: '🧮 Dosage' },
+                { id: 'dosage', label: '🧮 Dilution' },
                 { id: 'stages', label: '🗓️ Stages' },
                 { id: 'mixing', label: '⚠️ Tank Mix' },
-                { id: 'diseases', label: '🔬 Diseases' },
+                { id: 'diseases', label: '🔬 Scab & Pests' },
+                { id: 'weather', label: '🌤️ Spray Weather' },
                 { id: 'nutrition', label: '🌾 Nutrition' }
               ].map(tab => (
                 <button
@@ -2379,31 +2324,11 @@ export default function AdvisorChatbot() {
                     fontFamily: 'var(--font-sohne)'
                   }}
                 >
-                  {/* Message Header with Text-to-Speech toggle */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      {msg.sender === 'advisor' ? (
-                        <StructuredAdvisorMessage text={msg.text} />
-                      ) : (
-                        <div style={{ whiteSpace: 'pre-line' }}>{msg.text}</div>
-                      )}
-                    </div>
-                    {msg.sender === 'advisor' && (
-                      <button
-                        onClick={() => handleToggleSpeak(idx, msg.text)}
-                        title={speakingIdx === idx ? 'Stop voice readout' : 'Listen to voice advice'}
-                        aria-label="Read advice aloud"
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          cursor: 'pointer',
-                          padding: '2px',
-                          color: speakingIdx === idx ? 'var(--color-pine-green)' : 'var(--color-ash-gray)',
-                          flexShrink: 0
-                        }}
-                      >
-                        {speakingIdx === idx ? <VolumeX size={15} /> : <Volume2 size={15} />}
-                      </button>
+                  <div style={{ minWidth: 0 }}>
+                    {msg.sender === 'advisor' ? (
+                      <StructuredAdvisorMessage text={msg.text} />
+                    ) : (
+                      <div style={{ whiteSpace: 'pre-line' }}>{msg.text}</div>
                     )}
                   </div>
 
