@@ -483,14 +483,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
   const isCurrentProductSelected = selectedProductId === selectedDisease?.recommendedProductId;
 
   return (
-    <div style={{
-      backgroundColor: '#ffffff',
-      border: '1px solid rgba(23, 25, 28, 0.08)',
-      borderRadius: '16px',
-      padding: '24px',
-      marginBottom: '28px',
-      boxShadow: '0 2px 12px rgba(0, 0, 0, 0.03)'
-    }}>
+    <div className="leaf-detector-card">
       {/* Header */}
       <div style={{
         display: 'flex',
@@ -557,11 +550,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
       </div>
 
       {/* Main Grid: Left = Input / Disease Picker, Right = Diagnosis & Prescription */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-        gap: '24px'
-      }}>
+      <div className="leaf-detector-columns">
         
         {/* Left Column: Photo Capture & Symptom Picker */}
         <div>
@@ -813,16 +802,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
         </div>
 
         {/* Right Column: Diagnosis & Prescribed Treatment */}
-        <div style={{
-          backgroundColor: 'var(--surface-canvas, #fcfbf9)',
-          borderRadius: '12px',
-          border: '1px solid rgba(23, 25, 28, 0.08)',
-          padding: '20px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          position: 'relative'
-        }}>
+        <div className="leaf-diagnosis-panel">
           {isScanning && (
             <div style={{
               position: 'absolute',

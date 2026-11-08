@@ -2075,19 +2075,23 @@ export default function AdvisorChatbot() {
           fontWeight: 500,
           display: 'flex',
           alignItems: 'center',
+          justifyContent: 'center',
           gap: '8px'
         }}
       >
-        <MessageCircle size={17} style={{ color: '#ffffff' }} />
+        <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <MessageCircle size={19} style={{ color: '#ffffff' }} />
+          <span style={{
+            position: 'absolute',
+            top: '-2px',
+            right: '-2px',
+            width: '7px',
+            height: '7px',
+            borderRadius: '50%',
+            backgroundColor: '#34d399'
+          }} />
+        </div>
         <span className="advisor-fab-label-desktop">Chemist Advisory Desk</span>
-        <span className="advisor-fab-label-mobile">AI Chemist</span>
-        <span style={{
-          display: 'inline-block',
-          width: '7px',
-          height: '7px',
-          borderRadius: '50%',
-          backgroundColor: '#34d399'
-        }} />
       </button>
 
       {/* Chemist Advisory Consultation Modal / Native Mobile Bottom Sheet */}

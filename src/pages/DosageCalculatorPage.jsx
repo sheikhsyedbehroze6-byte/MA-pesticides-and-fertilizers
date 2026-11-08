@@ -10,7 +10,7 @@ export default function DosageCalculatorPage() {
   }, []);
 
   return (
-    <div style={{ backgroundColor: 'var(--surface-canvas)', minHeight: '100vh' }} className="section-padding">
+    <div style={{ backgroundColor: 'var(--surface-canvas)', minHeight: '100vh', paddingBottom: '96px' }} className="section-padding">
       <div className="page-container">
         {/* Header with Editorial Context */}
         <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 36px' }}>

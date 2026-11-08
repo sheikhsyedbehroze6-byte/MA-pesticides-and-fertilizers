@@ -427,12 +427,7 @@ export default function DosageCalculator() {
           </div>
 
           {/* Clean Dropdown & Search */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-            gap: '10px',
-            marginBottom: '10px'
-          }}>
+          <div className="dosage-formulation-grid">
             {/* Categorized Formulation Dropdown */}
             <div style={{ position: 'relative' }}>
               <select
