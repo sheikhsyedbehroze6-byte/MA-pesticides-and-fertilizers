@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   AlertTriangle, 
@@ -23,13 +23,13 @@ export default function AgriSafetyModal({ isOpen: controlledIsOpen, onClose: con
   const isControlled = typeof controlledIsOpen === 'boolean';
   const isOpen = isControlled ? controlledIsOpen : internalIsOpen;
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     if (isControlled && controlledOnClose) {
       controlledOnClose();
     } else {
       setInternalIsOpen(false);
     }
-  };
+  }, [isControlled, controlledOnClose]);
 
   useEffect(() => {
     const handleTrigger = () => setInternalIsOpen(true);
@@ -52,7 +52,7 @@ export default function AgriSafetyModal({ isOpen: controlledIsOpen, onClose: con
       window.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = '';
     };
-  }, [isOpen]);
+  }, [isOpen, handleClose]);
 
   if (!isOpen) return null;
 

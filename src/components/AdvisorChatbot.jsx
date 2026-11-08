@@ -1926,9 +1926,8 @@ export default function AdvisorChatbot() {
 
     const queryText = sanitizeInput(raw, 400);
 
-    if (window.speechSynthesis) {
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
       window.speechSynthesis.cancel();
-      setSpeakingIdx(null);
     }
 
     const userMsg = { sender: 'user', text: queryText };
@@ -1973,8 +1972,9 @@ export default function AdvisorChatbot() {
 
   // Reset chat
   const handleResetChat = () => {
-    if (window.speechSynthesis) window.speechSynthesis.cancel();
-    setSpeakingIdx(null);
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
     setMessages([
       {
         sender: 'advisor',

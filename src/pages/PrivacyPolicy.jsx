@@ -46,39 +46,46 @@ const FAQ_ITEMS = [
   }
 ];
 
+function getClientState() {
+  if (typeof window === 'undefined') {
+    return {
+      cartItemsCount: 0,
+      wishlistCount: 0,
+      hasCustomDosages: false,
+      analyticsConsent: true
+    };
+  }
+  try {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    const savedDosages = JSON.parse(localStorage.getItem('ma_saved_recipes') || '[]');
+    const consent = getStoredConsent();
+    return {
+      cartItemsCount: cart.length,
+      wishlistCount: wishlist.length,
+      hasCustomDosages: savedDosages.length > 0,
+      analyticsConsent: consent
+    };
+  } catch (err) {
+    console.warn('Unable to inspect client state:', err);
+    return {
+      cartItemsCount: 0,
+      wishlistCount: 0,
+      hasCustomDosages: false,
+      analyticsConsent: true
+    };
+  }
+}
+
 export default function PrivacyPolicy() {
-  const [deviceData, setDeviceData] = useState({
-    cartItemsCount: 0,
-    wishlistCount: 0,
-    hasCustomDosages: false,
-    analyticsConsent: true
-  });
+  const [deviceData, setDeviceData] = useState(getClientState);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [toastMsg, setToastMsg] = useState(null);
   const [expandedFaq, setExpandedFaq] = useState(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    inspectClientState();
   }, []);
-
-  const inspectClientState = () => {
-    try {
-      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-      const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-      const savedDosages = JSON.parse(localStorage.getItem('ma_saved_recipes') || '[]');
-      const consent = getStoredConsent();
-
-      setDeviceData({
-        cartItemsCount: cart.length,
-        wishlistCount: wishlist.length,
-        hasCustomDosages: savedDosages.length > 0,
-        analyticsConsent: consent
-      });
-    } catch (err) {
-      console.warn('Unable to inspect client state:', err);
-    }
-  };
 
   const handleToggleAnalytics = () => {
     const next = !deviceData.analyticsConsent;
@@ -127,7 +134,7 @@ export default function PrivacyPolicy() {
       });
     }
     setShowClearConfirm(false);
-    inspectClientState();
+    setDeviceData(getClientState());
     showToast('All local cart records and saved formulas have been cleared.');
   };
 
