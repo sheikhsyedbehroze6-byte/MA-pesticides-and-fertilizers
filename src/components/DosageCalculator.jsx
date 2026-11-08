@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, lazy, Suspense } from 'react';
-import { Calculator, Droplets, TreeDeciduous, ShieldAlert, MessageCircle, Search, Filter, ShoppingBag, Check, Bug, X, ArrowDown, Copy, Printer } from 'lucide-react';
+import { Calculator, Droplets, TreeDeciduous, ShieldAlert, MessageCircle, Search, ShoppingBag, Check, Bug, X, Copy, Printer, ChevronDown } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { safeOpen } from '../utils/security';
 import { trackEvent } from '../utils/analytics';
@@ -69,22 +69,20 @@ const CALCULATOR_PRODUCTS = [
   { id: 'chaubatia', name: 'Chaubatia Tree Paste (Copper Wound Dressing)', category: 'Bio-Pesticide & Wound Care', type: 'Wound Paste', ratePerLitre: 5.0, unit: 'g' }
 ];
 
-const CATEGORIES = [
-  'All',
-  'Fungicide',
-  'Insecticide & Miticide',
-  'Dormant Oil',
-  'Bactericide & Antibiotic',
-  'Nutrition & PGRs',
-  'Herbicide',
-  'Bio-Pesticide & Wound Care'
+const POPULAR_CHEMICALS = [
+  { id: 'antracol', name: 'Antracol 70% WP' },
+  { id: 'dodine', name: 'Superstar Dodine 65%' },
+  { id: 'luna', name: 'Luna Experience' },
+  { id: 'difenoconazole', name: 'Score (Difenoconazole)' },
+  { id: 'mitofix', name: 'Mitofix (Acaricide)' },
+  { id: 'hmo', name: 'HMO Dormant Oil' },
+  { id: 'ipl_5g', name: 'IPL 5G Neo+' }
 ];
 
 export default function DosageCalculator() {
   const { addToCart } = useCart();
   const [addedToCart, setAddedToCart] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState('antracol');
-  const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
   const [calcMode, setCalcMode] = useState('tank'); // 'tank' or 'land'
   const [tankLiters, setTankLiters] = useState(200); // Default to standard 200L barrel
@@ -95,16 +93,21 @@ export default function DosageCalculator() {
 
   const calcSectionRef = useRef(null);
 
-  // Filter products based on category & search term
-  const filteredProducts = useMemo(() => {
-    return CALCULATOR_PRODUCTS.filter(p => {
-      const matchCat = selectedCategory === 'All' || p.category === selectedCategory;
+  // Group products by category, filtering by search term
+  const categorizedProducts = useMemo(() => {
+    const groups = {};
+    CALCULATOR_PRODUCTS.forEach(p => {
       const matchSearch = searchTerm.trim() === '' || 
         p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-        p.type.toLowerCase().includes(searchTerm.toLowerCase());
-      return matchCat && matchSearch;
+        p.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        p.category.toLowerCase().includes(searchTerm.toLowerCase());
+      if (!matchSearch) return;
+
+      if (!groups[p.category]) groups[p.category] = [];
+      groups[p.category].push(p);
     });
-  }, [selectedCategory, searchTerm]);
+    return groups;
+  }, [searchTerm]);
 
   const product = CALCULATOR_PRODUCTS.find(p => p.id === selectedProductId) || CALCULATOR_PRODUCTS[0];
 
@@ -112,10 +115,7 @@ export default function DosageCalculator() {
   const handleApplyDiseaseCure = (productId, disease) => {
     setSelectedProductId(productId);
     setDetectedDiseaseInfo(disease);
-    const foundProduct = CALCULATOR_PRODUCTS.find(p => p.id === productId);
-    if (foundProduct) {
-      setSelectedCategory(foundProduct.category);
-    }
+    setSearchTerm('');
     if (!tankLiters || tankLiters === 0) {
       setTankLiters(200);
     }
@@ -416,59 +416,156 @@ export default function DosageCalculator() {
           </div>
         )}
 
-        <div ref={calcSectionRef} className="dosage-calc-field">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-            <label style={{ margin: 0, color: 'var(--color-ink-black)', fontWeight: 600 }}>Select Chemical / Product ({filteredProducts.length} items):</label>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.82rem', color: 'var(--color-pine-green)', fontWeight: 550 }}>
-              <Filter size={15} strokeWidth={2.2} /> Filter & Search
+        <div ref={calcSectionRef} className="dosage-calc-field" style={{ marginBottom: '1.25rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
+            <label style={{ margin: 0, color: 'var(--color-ink-black)', fontWeight: 600, fontSize: '14px' }}>
+              Select Chemical Formulation:
+            </label>
+            <span style={{ fontSize: '12px', color: 'var(--color-slate-gray)' }}>
+              47 SKUAST-K Standard Formulations
+            </span>
+          </div>
+
+          {/* Clean Dropdown & Search */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            gap: '10px',
+            marginBottom: '10px'
+          }}>
+            {/* Categorized Formulation Dropdown */}
+            <div style={{ position: 'relative' }}>
+              <select
+                id="chemical-formulation-select"
+                aria-label="Select Chemical Formulation"
+                value={selectedProductId}
+                onChange={(e) => setSelectedProductId(e.target.value)}
+                style={{
+                  width: '100%',
+                  height: '46px',
+                  padding: '0 36px 0 14px',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(23, 25, 28, 0.16)',
+                  backgroundColor: '#ffffff',
+                  color: 'var(--color-ink-black)',
+                  fontSize: '13.5px',
+                  fontWeight: 500,
+                  outline: 'none',
+                  cursor: 'pointer',
+                  appearance: 'none',
+                  WebkitAppearance: 'none'
+                }}
+              >
+                {Object.keys(categorizedProducts).length > 0 ? (
+                  Object.entries(categorizedProducts).map(([cat, prods]) => (
+                    <optgroup key={cat} label={`── ${cat} (${prods.length}) ──`}>
+                      {prods.map(p => (
+                        <option key={p.id} value={p.id}>
+                          {p.name} ({p.ratePerLitre} {p.unit}/L)
+                        </option>
+                      ))}
+                    </optgroup>
+                  ))
+                ) : (
+                  <option value="" disabled>No chemical matches your search</option>
+                )}
+              </select>
+              <ChevronDown size={16} style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--color-slate-gray)' }} />
+            </div>
+
+            {/* Quick Filter Search */}
+            <div style={{ position: 'relative' }}>
+              <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-slate-gray)', pointerEvents: 'none' }} />
+              <input
+                type="text"
+                placeholder="Filter by chemical or ingredient..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                style={{
+                  width: '100%',
+                  height: '46px',
+                  padding: '0 12px 0 36px',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(23, 25, 28, 0.16)',
+                  backgroundColor: '#ffffff',
+                  color: 'var(--color-ink-black)',
+                  fontSize: '13px',
+                  outline: 'none'
+                }}
+              />
             </div>
           </div>
 
-          <div style={{ position: 'relative', marginBottom: '0.6rem' }}>
-            <Search size={18} strokeWidth={2.2} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-pine-green)' }} />
-            <input
-              type="text"
-              placeholder="Quick search chemical name, brand, or active ingredient..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="dosage-calc-input"
-              style={{ paddingLeft: '38px', fontSize: '0.9rem' }}
-            />
-          </div>
-
-          <div className="mobile-horizontal-pills-container">
-            <div className="mobile-horizontal-pills" style={{ marginBottom: '0.75rem', padding: '2px 0 6px' }}>
-              {CATEGORIES.map(cat => (
-                <button
-                  key={cat}
-                  type="button"
-                  className={`preset-btn ${selectedCategory === cat ? 'active' : ''}`}
-                  style={{ fontSize: '0.8rem', padding: '0.35rem 0.85rem', borderRadius: '15px', whiteSpace: 'nowrap', flexShrink: 0 }}
-                  onClick={() => setSelectedCategory(cat)}
-                >
-                  {cat}
-                </button>
-              ))}
+          {/* Common Sprays Quick-Picks */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '12px' }}>
+            <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--color-slate-gray)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              Common:
+            </span>
+            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+              {POPULAR_CHEMICALS.map(item => {
+                const isSelected = selectedProductId === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => {
+                      setSelectedProductId(item.id);
+                      setSearchTerm('');
+                    }}
+                    style={{
+                      border: isSelected ? '1.5px solid var(--color-pine-green)' : '1px solid rgba(23, 25, 28, 0.12)',
+                      backgroundColor: isSelected ? 'rgba(26, 67, 46, 0.08)' : '#ffffff',
+                      color: isSelected ? 'var(--color-pine-green)' : 'var(--color-ink-black)',
+                      fontSize: '12px',
+                      fontWeight: isSelected ? 600 : 500,
+                      padding: '4px 10px',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    {item.name}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          <div className="chemical-pills-scrollbox">
-            {filteredProducts.length > 0 ? (
-              filteredProducts.map(p => (
-                <button
-                  key={p.id}
-                  type="button"
-                  onClick={() => setSelectedProductId(p.id)}
-                  className={`chemical-pill-button ${selectedProductId === p.id ? 'active' : ''}`}
-                >
-                  <span>{p.name}</span>
-                </button>
-              ))
-            ) : (
-              <div style={{ color: 'var(--color-slate-gray)', fontSize: '13px', padding: '12px' }}>
-                No chemical matches your search filter
+          {/* Selected Chemical Summary Card */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '12px 16px',
+            borderRadius: '10px',
+            backgroundColor: 'var(--surface-canvas, #fcfbf9)',
+            border: '1px solid rgba(23, 25, 28, 0.08)',
+            flexWrap: 'wrap',
+            gap: '8px'
+          }}>
+            <div>
+              <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.04em', fontWeight: 600, color: 'var(--color-slate-gray)' }}>
+                Active Formulation
               </div>
-            )}
+              <div style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--color-ink-black)' }}>
+                {product.name}
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{
+                fontSize: '11.5px',
+                fontWeight: 600,
+                color: 'var(--color-pine-green)',
+                backgroundColor: 'rgba(26, 67, 46, 0.08)',
+                padding: '3px 8px',
+                borderRadius: '6px'
+              }}>
+                {product.category}
+              </span>
+              <span style={{ fontSize: '13.5px', fontWeight: 600, color: 'var(--color-ink-black)' }}>
+                {product.ratePerLitre} {product.unit} / Litre
+              </span>
+            </div>
           </div>
         </div>
 
