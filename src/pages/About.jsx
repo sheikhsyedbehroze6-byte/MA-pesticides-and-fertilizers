@@ -78,27 +78,26 @@ export default function About() {
         </div>
 
         {/* dev card */}
-        <div style={{
+        <div className="card-neutral" style={{
           marginTop: '56px',
-          padding: '32px 24px',
+          padding: '36px 28px',
           borderRadius: '20px',
-          backgroundColor: '#0a0c0f',
-          border: '1px solid rgba(212, 175, 55, 0.28)',
-          boxShadow: '0 16px 40px rgba(0, 0, 0, 0.3)',
+          border: '1px solid rgba(26, 67, 46, 0.16)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          textAlign: 'center'
+          textAlign: 'center',
+          backgroundColor: '#ffffff'
         }}>
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '10px 22px',
+            padding: '12px 24px',
             borderRadius: '16px',
-            backgroundColor: '#000000',
-            border: '1px solid rgba(212, 175, 55, 0.35)',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)',
+            backgroundColor: 'var(--surface-canvas, #fcfbf9)',
+            border: '1px solid rgba(26, 67, 46, 0.12)',
+            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.04)',
             marginBottom: '20px'
           }}>
             <img
@@ -107,55 +106,63 @@ export default function About() {
               loading="lazy"
               decoding="async"
               style={{
-                height: '72px',
+                height: '64px',
                 width: 'auto',
                 objectFit: 'contain'
               }}
             />
           </div>
 
+          <span className="tag-label" style={{ marginBottom: '8px' }}>ENGINEERING &amp; DIGITAL PLATFORM</span>
+          <h3 style={{
+            fontFamily: 'var(--font-signifier)',
+            fontSize: '26px',
+            fontWeight: 400,
+            color: 'var(--color-ink-black)',
+            marginBottom: '10px'
+          }}>
+            Developed by Sheikh Behroze Ayub
+          </h3>
+
           <p style={{
             fontFamily: 'var(--font-sohne)',
             fontSize: '15px',
-            color: 'rgba(255, 255, 255, 0.8)',
+            color: 'var(--color-slate-gray)',
             maxWidth: '680px',
             lineHeight: 1.6,
-            marginBottom: '12px'
+            marginBottom: '14px'
           }}>
-            Designed and engineered by <strong style={{ color: '#d4af37', fontWeight: 600 }}>Sheikh Behroze Ayub (B.Tech CSE)</strong>. Empowering Kashmir’s fruit growers through digital leaf pathology diagnosis, precision tank dosage calculators, and official SKUAST-K spray synchronization.
+            Designed and engineered by <strong style={{ color: 'var(--color-pine-green)', fontWeight: 600 }}>Sheikh Behroze Ayub (B.Tech Computer Science &amp; Engineering)</strong> for our family firm <strong>M/S Sheikh Mohammad Ayoub &amp; Sons</strong>. Built to provide Kashmir fruit growers with accessible SKUAST-K stage schedules, scientific dilution mathematics, and verified CIBRC pesticide authenticity.
           </p>
 
           <span style={{
             fontSize: '12.5px',
-            color: 'rgba(255, 255, 255, 0.5)',
-            letterSpacing: '0.4px',
+            color: 'var(--color-sienna-brown)',
+            letterSpacing: '0.3px',
+            fontWeight: 500,
             display: 'block',
-            marginBottom: '16px'
+            marginBottom: '20px'
           }}>
-            Full-Stack Agritech Architecture &bull; Srinagar, Kashmir
+            Hari Singh High Street &bull; Srinagar, Kashmir
           </span>
 
           <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
             <a
+              href="https://wa.me/919906541321?text=Hello%20Sheikh%20Behroze%20Ayub%2C%20I%20have%20an%20inquiry%20regarding%20the%20MA%20Pesticides%20platform..."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pill-button-filled pill-button-sm"
+            >
+              <span>Contact Developer Desk</span>
+              <ArrowUpRight size={14} />
+            </a>
+            <a
               href="/download.html"
               target="_blank"
               rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '8px 18px',
-                borderRadius: '9999px',
-                backgroundColor: 'rgba(212, 175, 55, 0.15)',
-                border: '1px solid rgba(212, 175, 55, 0.4)',
-                color: '#d4af37',
-                fontSize: '13px',
-                fontWeight: 600,
-                textDecoration: 'none',
-                transition: 'all 0.2s ease'
-              }}
+              className="pill-button-ghost pill-button-sm"
             >
-              <span>Download IEEE Architecture PDF</span>
+              <span>Technical Platform Overview</span>
               <ArrowUpRight size={14} />
             </a>
           </div>

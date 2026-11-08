@@ -7,7 +7,7 @@ import {
   ArrowRight, Mic, MicOff, Volume2, VolumeX, ShieldAlert, Droplets,
   Calendar, Phone, MapPin, CheckCircle, Info, Beaker, Leaf, AlertTriangle,
   ShoppingCart, Plus, Check, Sun, Moon, Compass, Zap, Calculator, PhoneCall, Search,
-  CloudRain, Wind, Thermometer, Copy, Layers, Brain, ChevronDown, ChevronUp
+  CloudRain, Wind, Thermometer, Copy, Layers, ChevronDown, ChevronUp
 } from 'lucide-react';
 import { products, diseases } from '../data/agricultureData';
 import { safeOpen, sanitizeInput, checkRateLimit, sanitizeUrl } from '../utils/security';
@@ -1736,30 +1736,16 @@ export default function AdvisorChatbot() {
     {
       sender: 'advisor',
       text: "Assalamu Alaikum! 👋 Welcome to **M.A. Pesticides & Fertilizers Consultation Desk**.\n\nBacked directly by **Sheikh Mohammad Ayoub** (M.Sc. Organic Chemistry, B.Ed. — University of Kashmir) and our shop on Hari Singh High Street & Tengpora Bypass, Srinagar. Every diagnosis and tank dosage here follows verified SKUAST-K guidelines and genuine factory formulation chemistry.\n\nHow can we assist your orchard today?\n- 🌤️ **Live Spray Window:** Real-time valley temperature, rain hazard & humidity telemetry\n- 🍏 **Pathological Diagnosis:** Clinical verification for Apple Scab, Alternaria, Red Mites & Canker\n- 🧮 **Precision Tank Dilution:** Exact milliliter/gram calculations for 200L barrels and motorized pumps\n- 🗓️ **SKUAST-K Spray Schedule:** Official stage-wise crop calendar from Dormant to Harvest\n- 👨‍🔬 **Direct Chemist Handoff:** Tap **WhatsApp Chemist** above anytime for a direct voice or photo consultation",
-      thoughtProcess: [
-        { title: '1. Valley Agronomy Knowledge Base', detail: 'Loaded SKUAST-K Kashmir Spray Guidelines and genuine formulation chemistry inventory.' },
-        { title: '2. Microclimate Telemetry Synced', detail: 'Linked live Open-Meteo satellite feed for Srinagar, Shopian, Sopore, and Pulwama.' },
-        { title: '3. Clinical Orchard Advisory Ready', detail: 'Verified active ingredients, safety intervals, tank mix compatibility, and dilution math.' }
-      ],
       suggestions: ['🌤️ What is the weather right now', '🍏 Apple Scab Treatment', '🧮 200L Tank Dosage Calc', '🗓️ Pink Bud Stage Spray']
     }
   ]);
   const [input, setInput] = useState('');
   const [isThinking, setIsThinking] = useState(false);
-  const [thinkingStepIndex, setThinkingStepIndex] = useState(0);
-  const [expandedThoughts, setExpandedThoughts] = useState({ 0: false });
   const [isListening, setIsListening] = useState(false);
   const [speakingIdx, setSpeakingIdx] = useState(null);
   const [activeCategory, setActiveCategory] = useState('all');
   const [addedItemNotification, setAddedItemNotification] = useState(null);
   const [copiedPrescriptionId, setCopiedPrescriptionId] = useState(null);
-
-  const toggleThoughts = (msgIdx) => {
-    setExpandedThoughts(prev => ({
-      ...prev,
-      [msgIdx]: !prev[msgIdx]
-    }));
-  };
 
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
@@ -1773,7 +1759,7 @@ export default function AdvisorChatbot() {
     if (isOpen) {
       scrollToBottom();
     }
-  }, [messages, isOpen, isThinking, thinkingStepIndex]);
+  }, [messages, isOpen, isThinking]);
 
   // Global event listeners for mobile BottomNav and quick touch buttons
   useEffect(() => {
@@ -1988,16 +1974,10 @@ export default function AdvisorChatbot() {
     setMessages(prev => [...prev, userMsg]);
     if (!textToSend) setInput('');
     setIsThinking(true);
-    setThinkingStepIndex(0);
-
-    const stepInterval = setInterval(() => {
-      setThinkingStepIndex(prev => (prev + 1) % 4);
-    }, 280);
 
     setTimeout(async () => {
-      clearInterval(stepInterval);
       try {
-        // 1. Try autonomous website executive action
+        // 1. Try website interactive action
         const commandResult = executeWebsiteCommand({
           userText: queryText,
           messageHistory: messages,
@@ -2014,49 +1994,30 @@ export default function AdvisorChatbot() {
         });
 
         if (commandResult && commandResult.isCommand) {
-          const resp = {
-            ...commandResult.response,
-            thoughtProcess: commandResult.response.thoughtProcess || generateThoughtProcess('action', {
-              command: commandResult.response.actionExecuted || queryText
-            })
-          };
-          setMessages(prev => {
-            const nextIdx = prev.length;
-            setExpandedThoughts(curr => ({ ...curr, [nextIdx]: true }));
-            return [...prev, resp];
-          });
+          setMessages(prev => [...prev, commandResult.response]);
           setIsThinking(false);
           return;
         }
 
         // 2. Synthesize domain response & inject contextual actions
         const response = await resolveAdvisoryQuery(queryText, messages);
-        setMessages(prev => {
-          const nextIdx = prev.length;
-          setExpandedThoughts(curr => ({ ...curr, [nextIdx]: true }));
-          return [...prev, { sender: 'advisor', ...response }];
-        });
+        setMessages(prev => [...prev, { sender: 'advisor', ...response }]);
       } catch (err) {
-        console.error('Advisor deliberation error:', err);
+        console.error('Advisor error:', err);
       } finally {
         setIsThinking(false);
       }
-    }, 1100);
+    }, 380);
   };
 
   // Reset chat
   const handleResetChat = () => {
     if (window.speechSynthesis) window.speechSynthesis.cancel();
     setSpeakingIdx(null);
-    setExpandedThoughts({ 0: false });
     setMessages([
       {
         sender: 'advisor',
         text: "Assalamu Alaikum! Conversation reset.\n\nWelcome to the **M.A. Pesticides Consultation Desk**. How can we help your orchard today? You can ask about product prices (with 20% discount on print MRP), spray timing, tank dilutions, or disease control.",
-        thoughtProcess: [
-          { title: '1. Session Re-initialization', detail: 'Reset contextual dialogue memory and re-calibrated SKUAST-K agronomic database.' },
-          { title: '2. Ready for Next Inquiry', detail: 'Awaiting farmer questions on crop diseases, spray schedules, or store pricing.' }
-        ],
         suggestions: ['🍏 Apple Scab Treatment', '🧮 200L Tank Dosage Calc', '🗓️ Pink Bud Stage Spray', '🏷️ Products Price List']
       }
     ]);
@@ -2421,74 +2382,6 @@ export default function AdvisorChatbot() {
                   {/* Message Header with Text-to-Speech toggle */}
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      {/* Expandable Chemist Clinical Thought Process */}
-                      {msg.sender === 'advisor' && msg.thoughtProcess && msg.thoughtProcess.length > 0 && (
-                        <div style={{
-                          marginBottom: '10px',
-                          padding: '8px 12px',
-                          borderRadius: '10px',
-                          backgroundColor: 'rgba(28, 71, 42, 0.04)',
-                          border: '1px solid rgba(28, 71, 42, 0.12)'
-                        }}>
-                          <button
-                            type="button"
-                            onClick={() => toggleThoughts(idx)}
-                            style={{
-                              width: '100%',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'space-between',
-                              background: 'none',
-                              border: 'none',
-                              padding: 0,
-                              cursor: 'pointer',
-                              color: 'var(--color-pine-green, #1c472a)',
-                              fontSize: '11.5px',
-                              fontWeight: 700,
-                              letterSpacing: '0.2px'
-                            }}
-                          >
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                              <Brain size={13} style={{ color: 'var(--color-pine-green)' }} />
-                              <span>Chemist Reasoning ({msg.thoughtProcess.length} analytical steps)</span>
-                            </div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--color-slate-gray)', fontSize: '11px', fontWeight: 500 }}>
-                              <span>{expandedThoughts[idx] ? 'Hide' : 'View'}</span>
-                              {expandedThoughts[idx] ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
-                            </div>
-                          </button>
-
-                          {expandedThoughts[idx] && (
-                            <div style={{
-                              marginTop: '8px',
-                              paddingTop: '8px',
-                              borderTop: '1px solid rgba(28, 71, 42, 0.1)',
-                              display: 'flex',
-                              flexDirection: 'column',
-                              gap: '6px'
-                            }}>
-                              {msg.thoughtProcess.map((step, sIdx) => (
-                                <div key={sIdx} style={{
-                                  display: 'flex',
-                                  flexDirection: 'column',
-                                  padding: '5px 8px',
-                                  borderRadius: '6px',
-                                  backgroundColor: 'rgba(255, 255, 255, 0.85)',
-                                  border: '1px solid rgba(28, 71, 42, 0.08)'
-                                }}>
-                                  <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--color-pine-green, #1c472a)' }}>
-                                    {step.title}
-                                  </span>
-                                  <span style={{ fontSize: '11px', color: '#4b5563', lineHeight: '1.4', marginTop: '1px' }}>
-                                    {step.detail}
-                                  </span>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      )}
-
                       {msg.sender === 'advisor' ? (
                         <StructuredAdvisorMessage text={msg.text} />
                       ) : (
@@ -3109,64 +3002,19 @@ export default function AdvisorChatbot() {
             {isThinking && (
               <div style={{
                 alignSelf: 'flex-start',
-                maxWidth: '92%',
-                padding: '12px 14px',
-                borderRadius: '18px 18px 18px 4px',
-                backgroundColor: 'rgba(28, 71, 42, 0.04)',
-                border: '1px solid rgba(28, 71, 42, 0.15)',
-                display: 'flex',
-                flexDirection: 'column',
+                padding: '8px 14px',
+                borderRadius: '14px 14px 14px 4px',
+                backgroundColor: 'var(--surface-section-fog, #f8fafc)',
+                border: '1px solid rgba(23, 25, 28, 0.08)',
+                display: 'inline-flex',
+                alignItems: 'center',
                 gap: '8px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.03)'
+                fontSize: '12.5px',
+                color: 'var(--color-slate-gray)',
+                animation: 'fadeInModal 0.2s ease-out'
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <div style={{
-                      width: '22px',
-                      height: '22px',
-                      borderRadius: '50%',
-                      backgroundColor: 'rgba(28, 71, 42, 0.12)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'var(--color-pine-green)'
-                    }}>
-                      <Brain size={13} style={{ animation: 'pulse 1.4s ease-in-out infinite' }} />
-                    </div>
-                    <span style={{ fontSize: '11.5px', fontWeight: 700, color: 'var(--color-pine-green)', letterSpacing: '0.3px', textTransform: 'uppercase' }}>
-                      Chemist Reasoning &amp; Analysis
-                    </span>
-                  </div>
-                  <span style={{ fontSize: '10.5px', color: 'var(--color-slate-gray)', fontWeight: 600 }}>
-                    Step {thinkingStepIndex + 1} of 4
-                  </span>
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12.5px', color: 'var(--color-ink-black)', paddingLeft: '2px' }}>
-                  <Sparkles size={13} style={{ color: '#d97706', flexShrink: 0, animation: 'spin 2s linear infinite' }} />
-                  <span style={{ fontStyle: 'italic', fontWeight: 500 }}>
-                    {[
-                      'Analyzing query context & orchard phenology...',
-                      'Cross-referencing SKUAST-K Spray Guidelines & chemistry database...',
-                      'Evaluating active formulations, dilution ratios & tank compatibility...',
-                      'Synthesizing clinical prescription & grower advisory...'
-                    ][thinkingStepIndex]}
-                  </span>
-                </div>
-
-                {/* Animated progress bar with GPU transform */}
-                <div style={{ width: '100%', height: '3px', backgroundColor: 'rgba(28, 71, 42, 0.1)', borderRadius: '2px', overflow: 'hidden' }}>
-                  <div style={{
-                    height: '100%',
-                    width: '100%',
-                    transform: `scaleX(${Math.min(1, Math.max(0.05, (thinkingStepIndex + 1) / 4))})`,
-                    transformOrigin: '0 50%',
-                    backgroundColor: 'var(--color-pine-green)',
-                    borderRadius: '2px',
-                    transition: 'transform 0.28s cubic-bezier(0.16, 1, 0.3, 1)',
-                    willChange: 'transform'
-                  }} />
-                </div>
+                <span style={{ fontStyle: 'italic' }}>Reviewing spray recommendations...</span>
+                <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--color-pine-green)', opacity: 0.7 }} />
               </div>
             )}
             <div ref={messagesEndRef} />

@@ -1299,7 +1299,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
                 <Activity size={16} />
               </div>
               <h5 style={{ margin: 0, fontSize: '15px', fontWeight: 700, color: 'var(--color-ink-black)', fontFamily: 'var(--font-sohne)' }}>
-                Diagnostic Pathology Workflow (5-Step Computer Vision Pipeline)
+                Field Pathology Protocol (SKUAST-K Diagnostic Standards)
               </h5>
             </div>
 
@@ -1452,7 +1452,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
                 <g>
                   <rect x="20" y="180" width="700" height="88" rx="6" fill="#ffffff" stroke="#143820" strokeWidth="1.4" />
                   <rect x="20" y="180" width="700" height="18" rx="6" fill="url(#uiHdrGrad)" />
-                  <text x="370" y="192" fill="#ffffff" fontFamily="sans-serif" fontSize="8" fontWeight="700" textAnchor="middle" letterSpacing="0.5">LEVEL 3: MULTI-SPECTRAL FOLIAR COLOR-SPACE SEGMENTATION</text>
+                  <text x="370" y="192" fill="#ffffff" fontFamily="sans-serif" fontSize="8" fontWeight="700" textAnchor="middle" letterSpacing="0.5">STAGE 3: FOLIAR SYMPTOM AND TISSUE DISCOLORATION REVIEW</text>
 
                   <rect x="30" y="202" width="215" height="30" rx="4" fill="#ecfdf5" stroke="#a7f3d0" strokeWidth="1" />
                   <text x="38" y="214" fill="#065f46" fontFamily="sans-serif" fontSize="7.5" fontWeight="700">🟢 Healthy Chlorophyll Green</text>
@@ -1487,11 +1487,11 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
                 <g>
                   <rect x="20" y="289" width="700" height="114" rx="6" fill="#ffffff" stroke="#143820" strokeWidth="1.4" />
                   <rect x="20" y="289" width="700" height="18" rx="6" fill="url(#uiHdrGrad)" />
-                  <text x="370" y="301" fill="#ffffff" fontFamily="sans-serif" fontSize="8" fontWeight="700" textAnchor="middle" letterSpacing="0.5">LEVEL 4: SKUAST-K PATHOLOGICAL CLASSIFIER &amp; CONFIDENCE ENGINE</text>
+                  <text x="370" y="301" fill="#ffffff" fontFamily="sans-serif" fontSize="8" fontWeight="700" textAnchor="middle" letterSpacing="0.5">STAGE 4: SKUAST-K PATHOLOGY VERIFICATION &amp; ADVISORY MATCH</text>
 
                   <polygon points="370,314 435,347 370,380 305,347" fill="#fef3c7" stroke="#d97706" strokeWidth="1.6" />
                   <text x="370" y="342" fill="#92400e" fontFamily="sans-serif" fontSize="7.5" fontWeight="700" textAnchor="middle">Pathology Match</text>
-                  <text x="370" y="353" fill="#92400e" fontFamily="monospace" fontSize="7" fontWeight="700" textAnchor="middle">Score ≥ 90%?</text>
+                  <text x="370" y="353" fill="#92400e" fontFamily="monospace" fontSize="7" fontWeight="700" textAnchor="middle">Symptoms Match?</text>
 
                   <line x1="305" y1="347" x2="252" y2="347" stroke="#d97706" strokeWidth="2" markerEnd="url(#uiBranchArrow)" />
                   <rect x="264" y="337" width="30" height="11" rx="2" fill="#fef3c7" />
@@ -1500,7 +1500,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
                   <rect x="30" y="318" width="218" height="66" rx="5" fill="#fee2e2" stroke="#dc2626" strokeWidth="1.2" />
                   <text x="38" y="332" fill="#991b1b" fontFamily="sans-serif" fontSize="8" fontWeight="800">ACTIVE FOLIAR PATHOGEN IDENTIFIED</text>
                   <text x="38" y="344" fill="#7f1d1d" fontFamily="sans-serif" fontSize="7">• Scab (Venturia) / Powdery Mildew / Red Mite</text>
-                  <text x="38" y="355" fill="#7f1d1d" fontFamily="sans-serif" fontSize="7">• Confidence: 90% – 99.4% • Severity: High/Critical</text>
+                  <text x="38" y="355" fill="#7f1d1d" fontFamily="sans-serif" fontSize="7">• Characteristic Symptoms Verified • Severity: High/Critical</text>
                   <text x="38" y="366" fill="#b91c1c" fontFamily="sans-serif" fontSize="6.8" fontWeight="600">• SKUAST-K Curative Protocol Triggered</text>
 
                   <line x1="435" y1="347" x2="488" y2="347" stroke="#059669" strokeWidth="2" markerEnd="url(#uiFlowArrow)" />
@@ -1522,7 +1522,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
                 <g>
                   <rect x="20" y="426" width="340" height="160" rx="6" fill="#ffffff" stroke="#143820" strokeWidth="1.4" />
                   <rect x="20" y="426" width="340" height="18" rx="6" fill="url(#uiHdrGrad)" />
-                  <text x="190" y="438" fill="#ffffff" fontFamily="sans-serif" fontSize="7.5" fontWeight="700" textAnchor="middle">LEVEL 5A: DUAL-LAYER LESION HEATMAP ENGINE</text>
+                  <text x="190" y="438" fill="#ffffff" fontFamily="sans-serif" fontSize="7.5" fontWeight="700" textAnchor="middle">STAGE 5: FOLIAR LESION MAP &amp; CANOPY TISSUE INSPECTION</text>
 
                   <rect x="28" y="449" width="324" height="24" rx="4" fill="#f8fafc" stroke="#e2e8f0" strokeWidth="0.8" />
                   <text x="35" y="460" fill="#143820" fontFamily="sans-serif" fontSize="7.2" fontWeight="700">Dynamic Alpha-Blending Canvas Overlay (0.45 Alpha)</text>
@@ -2257,14 +2257,15 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
                   bottom: '-8px',
                   right: '-6px',
                   fontSize: '10px',
-                  fontWeight: 700,
+                  fontWeight: 600,
                   color: '#ffffff',
-                  backgroundColor: '#047857',
+                  backgroundColor: 'var(--color-pine-green, #1a432e)',
                   padding: '2px 8px',
                   borderRadius: '9999px',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.2)'
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.18)',
+                  letterSpacing: '0.2px'
                 }}>
-                  {diagnosticReport.confidence}% Match
+                  {diagnosticReport.confidence >= 94 ? 'Characteristic Match' : 'Symptom Match'}
                 </span>
               </div>
 
@@ -2338,7 +2339,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
                   Differential Diagnosis
                 </div>
                 <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--color-slate-gray)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={diagnosticReport.secondaryDiagnosis}>
-                  {diagnosticReport.secondaryDiagnosis} ({diagnosticReport.secondaryConfidence}%)
+                  {diagnosticReport.secondaryDiagnosis}
                 </div>
               </div>
             </div>
