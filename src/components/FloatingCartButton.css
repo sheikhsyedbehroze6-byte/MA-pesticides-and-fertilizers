@@ -125,8 +125,8 @@
 /* On mobile screens */
 @media (max-width: 768px) {
   .floating-cart-wrapper {
-    bottom: 24px;
-    right: 16px;
+    bottom: calc(126px + env(safe-area-inset-bottom, 12px));
+    right: 14px;
   }
 
   .floating-cart-btn {

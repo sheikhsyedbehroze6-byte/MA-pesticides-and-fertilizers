@@ -2079,7 +2079,8 @@ export default function AdvisorChatbot() {
         }}
       >
         <MessageCircle size={17} style={{ color: '#ffffff' }} />
-        <span>Chemist Advisory Desk</span>
+        <span className="advisor-fab-label-desktop">Chemist Advisory Desk</span>
+        <span className="advisor-fab-label-mobile">AI Chemist</span>
         <span style={{
           display: 'inline-block',
           width: '7px',

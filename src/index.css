@@ -1448,6 +1448,14 @@ button, input, select, textarea {
   border-radius: 9999px;
 }
 
+.advisor-fab-label-mobile {
+  display: none;
+}
+
+.advisor-fab-label-desktop {
+  display: inline;
+}
+
 /* ==========================================================================
    RESPONSIVE LAYOUT & MEDIA QUERIES
    ========================================================================== */
@@ -1923,14 +1931,30 @@ button, input, select, textarea {
     white-space: nowrap;
   }
 
-  /* Hide floating advisor button on mobile since it is integrated into the bottom dock */
+  /* Keep AI chatbot floating on mobile, comfortably above bottom nav */
   .advisor-chatbot-fab {
-    display: none !important;
+    display: inline-flex !important;
+    bottom: calc(72px + env(safe-area-inset-bottom, 12px)) !important;
+    right: 14px !important;
+    height: 44px !important;
+    padding: 0 15px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22) !important;
+    z-index: 9990 !important;
   }
 
-  /* Place floating cart comfortably above the bottom navigation dock */
+  .advisor-fab-label-desktop {
+    display: none;
+  }
+
+  .advisor-fab-label-mobile {
+    display: inline;
+  }
+
+  /* Place floating cart comfortably above the floating AI chatbot */
   .floating-cart-wrapper {
-    bottom: calc(68px + env(safe-area-inset-bottom, 12px)) !important;
+    bottom: calc(126px + env(safe-area-inset-bottom, 12px)) !important;
     right: 14px !important;
   }
 }
