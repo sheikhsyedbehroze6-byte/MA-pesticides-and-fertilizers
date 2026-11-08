@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Bug, ArrowLeft, ShieldCheck, Droplets, Sparkles } from 'lucide-react';
+import { Bug, ShieldCheck } from 'lucide-react';
 import DosageCalculator from '../components/DosageCalculator';
-import Breadcrumb from '../components/Breadcrumb';
 
 export default function DosageCalculatorPage() {
   useEffect(() => {
@@ -13,8 +12,6 @@ export default function DosageCalculatorPage() {
   return (
     <div style={{ backgroundColor: 'var(--surface-canvas)', minHeight: '100vh' }} className="section-padding">
       <div className="page-container">
-        <Breadcrumb />
-
         {/* Header with Editorial Context */}
         <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 36px' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
