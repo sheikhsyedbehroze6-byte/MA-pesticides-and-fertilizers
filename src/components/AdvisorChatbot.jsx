@@ -2196,31 +2196,6 @@ export default function AdvisorChatbot() {
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <a
-                  href="https://wa.me/919906541321?text=Assalamu%20Alaikum%20Sheikh%20Mohammad%20Ayoub%2C%20I%20am%20reaching%20out%20from%20the%20M.A.%20Pesticides%20consultation%20desk%20regarding%20my%20orchard."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title="Direct WhatsApp Consultation with Sheikh Mohammad Ayoub"
-                  aria-label="Direct WhatsApp consultation with Senior Chemist"
-                  style={{
-                    backgroundColor: '#25D366',
-                    color: '#ffffff',
-                    border: 'none',
-                    borderRadius: '20px',
-                    padding: '4px 10px',
-                    fontSize: '11px',
-                    fontWeight: 600,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                    textDecoration: 'none',
-                    boxShadow: '0 2px 6px rgba(37, 211, 102, 0.28)',
-                    transition: 'transform 0.15s ease, opacity 0.15s ease'
-                  }}
-                >
-                  <MessageCircle size={13} />
-                  <span>WhatsApp Chemist</span>
-                </a>
                 <button
                   onClick={handleResetChat}
                   title="Restart Consultation"
