@@ -25,8 +25,10 @@ import {
   HelpCircle,
   Server,
   UserCheck,
-  Layers,
-  Sparkles
+  List,
+  PhoneCall,
+  ExternalLink,
+  ShieldAlert
 } from 'lucide-react';
 import Breadcrumb from '../components/Breadcrumb';
 import { getStoredConsent, setStoredConsent, trackEvent } from '../utils/analytics';
@@ -55,7 +57,22 @@ const FAQ_ITEMS = [
   }
 ];
 
+const TOC_SECTIONS = [
+  { id: 'scope', label: '1. Statutory Scope & Entity' },
+  { id: 'rights', label: '2. DPDP Act Farmer Rights' },
+  { id: 'matrix', label: '3. Data Processing Register' },
+  { id: 'camera', label: '4. Leaf Scanner & Edge AI' },
+  { id: 'subprocessors', label: '5. Sub-Processors & Cloud' },
+  { id: 'retention', label: '6. Data Retention Schedule' },
+  { id: 'security', label: '7. Security & Encryption' },
+  { id: 'minors', label: '8. Protection of Minors' },
+  { id: 'urdu', label: '9. اردو کسان پرائیویسی چارٹر' },
+  { id: 'faq', label: '10. Frequently Asked Questions' },
+  { id: 'grievance', label: '11. Grievance Redressal Cell' }
+];
+
 export default function PrivacyPolicy() {
+  const [activeSection, setActiveSection] = useState('scope');
   const [deviceData, setDeviceData] = useState({
     cartItemsCount: 0,
     wishlistCount: 0,
@@ -73,6 +90,20 @@ export default function PrivacyPolicy() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     inspectClientState();
+
+    const handleScroll = () => {
+      const scrollPos = window.scrollY + 220;
+      for (let i = TOC_SECTIONS.length - 1; i >= 0; i--) {
+        const el = document.getElementById(TOC_SECTIONS[i].id);
+        if (el && el.offsetTop <= scrollPos) {
+          setActiveSection(TOC_SECTIONS[i].id);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const inspectClientState = async () => {
@@ -121,13 +152,13 @@ export default function PrivacyPolicy() {
     const next = !deviceData.analyticsConsent;
     setStoredConsent(next);
     setDeviceData(prev => ({ ...prev, analyticsConsent: next }));
-    showToast(next ? 'Anonymous analytics telemetry enabled.' : 'Analytics telemetry disabled. No events will be transmitted.');
+    showToast(next ? 'Anonymous analytics enabled.' : 'Analytics telemetry disabled. No events will be transmitted.');
   };
 
   const handleExportMyData = () => {
     const exportBundle = {
       exportTimestamp: new Date().toISOString(),
-      platform: 'M.A. Pesticides & Fertilizers Web PWA',
+      platform: 'M.A. Pesticides & Fertilizers PWA',
       jurisdiction: 'Digital Personal Data Protection Act, 2023 (Republic of India)',
       dataFiduciary: 'M.A. Pesticides & Fertilizers, Hari Singh High Street & Tengpora Bypass, Srinagar, Kashmir',
       onDeviceRecords: {}
@@ -146,7 +177,7 @@ export default function PrivacyPolicy() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `MA_Pesticides_Farmer_Data_${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `MA_Pesticides_Data_${new Date().toISOString().slice(0, 10)}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -178,8 +209,73 @@ export default function PrivacyPolicy() {
     setExpandedFaq(expandedFaq === index ? null : index);
   };
 
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <div style={{ backgroundColor: 'var(--surface-canvas)', minHeight: '100vh' }} className="section-padding">
+      <style>{`
+        .privacy-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 36px;
+          align-items: start;
+        }
+        @media (min-width: 992px) {
+          .privacy-grid {
+            grid-template-columns: minmax(0, 1fr) 360px;
+            gap: 44px;
+          }
+        }
+        .sticky-sidebar {
+          position: static;
+        }
+        @media (min-width: 992px) {
+          .sticky-sidebar {
+            position: sticky;
+            top: 88px;
+            max-height: calc(100vh - 108px);
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0,0,0,0.15) transparent;
+            padding-bottom: 24px;
+          }
+        }
+        .toc-link {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 8px 12px;
+          border-radius: 8px;
+          font-size: 13px;
+          color: var(--color-slate-gray);
+          text-decoration: none;
+          transition: all 0.15s ease;
+          border-left: 2px solid transparent;
+          background: none;
+          border-top: none;
+          border-right: none;
+          border-bottom: none;
+          width: 100%;
+          text-align: left;
+          cursor: pointer;
+        }
+        .toc-link:hover {
+          color: var(--color-ink-black);
+          background-color: var(--surface-card-mist);
+        }
+        .toc-link.active {
+          color: var(--color-pine-green);
+          font-weight: 600;
+          background-color: rgba(26, 67, 46, 0.08);
+          border-left-color: var(--color-pine-green);
+        }
+      `}</style>
+
       {/* Toast Notification */}
       <AnimatePresence>
         {toastMsg && (
@@ -232,15 +328,15 @@ export default function PrivacyPolicy() {
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '16px', marginTop: '20px', fontSize: '13px', color: 'var(--color-ash-gray)' }}>
             <span>Statutory Fiduciary: M.A. Pesticides &amp; Fertilizers</span>
             <span>&bull;</span>
-            <span>Effective: November 2026</span>
+            <span>Updated: November 2026</span>
             <span>&bull;</span>
-            <span>Jurisdiction: Srinagar, J&amp;K</span>
+            <span>Jurisdiction: Srinagar, Kashmir</span>
             <span>&bull;</span>
             <button
               onClick={() => window.print()}
               style={{ background: 'none', border: 'none', color: 'var(--color-pine-green)', cursor: 'pointer', padding: 0, textDecoration: 'underline', fontWeight: 550 }}
             >
-              Print Policy Document
+              Print Policy
             </button>
           </div>
         </div>
@@ -278,12 +374,12 @@ export default function PrivacyPolicy() {
           </div>
         </div>
 
-        {/* Two-Column Body Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px', alignItems: 'start' }}>
+        {/* Responsive Grid with Sticky Sidebar */}
+        <div className="privacy-grid">
           {/* Main Content Column */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
             {/* Section 1: Legal Entity & Scope */}
-            <div className="card-neutral">
+            <div id="scope" className="card-neutral">
               <span className="tag-label" style={{ color: 'var(--color-pine-green)' }}>1. STATUTORY ENTITY &amp; SCOPE</span>
               <h2 style={{ fontFamily: 'var(--font-signifier)', fontSize: '26px', fontWeight: 400, marginBottom: '14px' }}>
                 Data Fiduciary &amp; Commercial Scope
@@ -302,7 +398,7 @@ export default function PrivacyPolicy() {
             </div>
 
             {/* Section 2: DPDP Act 2023 Statutory Rights */}
-            <div className="card-neutral">
+            <div id="rights" className="card-neutral">
               <span className="tag-label" style={{ color: 'var(--color-sienna-brown)' }}>2. CHAPTER III RIGHTS</span>
               <h2 style={{ fontFamily: 'var(--font-signifier)', fontSize: '26px', fontWeight: 400, marginBottom: '14px' }}>
                 Your Rights under the DPDP Act, 2023
@@ -351,7 +447,7 @@ export default function PrivacyPolicy() {
             </div>
 
             {/* Section 3: Data Processing Matrix */}
-            <div className="card-neutral">
+            <div id="matrix" className="card-neutral">
               <span className="tag-label" style={{ color: 'var(--color-pine-green)' }}>3. DATA PROCESSING REGISTER</span>
               <h2 style={{ fontFamily: 'var(--font-signifier)', fontSize: '26px', fontWeight: 400, marginBottom: '14px' }}>
                 Complete Data Processing Matrix
@@ -406,9 +502,25 @@ export default function PrivacyPolicy() {
               </div>
             </div>
 
-            {/* Section 4: Sub-Processors & Essential Services */}
-            <div className="card-neutral">
-              <span className="tag-label" style={{ color: 'var(--color-sienna-brown)' }}>4. SUB-PROCESSORS &amp; INFRASTRUCTURE</span>
+            {/* Section 4: Edge AI Architecture & Photographic Data */}
+            <div id="camera" className="card-neutral">
+              <span className="tag-label" style={{ color: 'var(--color-pine-green)' }}>4. LEAF SCANNER PRIVACY</span>
+              <h2 style={{ fontFamily: 'var(--font-signifier)', fontSize: '26px', fontWeight: 400, marginBottom: '14px' }}>
+                On-Device AI Diagnosis &amp; Camera Security
+              </h2>
+              <p style={{ fontSize: '14.5px', color: 'var(--color-slate-gray)', lineHeight: 1.6, marginBottom: '16px' }}>
+                Our AI Leaf Disease Diagnostic Scanner is engineered with privacy-by-design principles:
+              </p>
+              <ul style={{ fontSize: '14px', color: 'var(--color-slate-gray)', lineHeight: 1.6, paddingLeft: '20px', margin: 0 }}>
+                <li><strong>Processed locally:</strong> Scans run inside your device's browser memory via WebAssembly/WebGL.</li>
+                <li><strong>Zero cloud harvesting:</strong> Your orchard photographs are never uploaded to foreign cloud servers or used for unauthorized AI model training.</li>
+                <li><strong>Direct farmer control:</strong> Images are only transmitted if you deliberately choose to click "Consult Specialist on WhatsApp".</li>
+              </ul>
+            </div>
+
+            {/* Section 5: Sub-Processors & Infrastructure */}
+            <div id="subprocessors" className="card-neutral">
+              <span className="tag-label" style={{ color: 'var(--color-sienna-brown)' }}>5. SUB-PROCESSORS &amp; INFRASTRUCTURE</span>
               <h2 style={{ fontFamily: 'var(--font-signifier)', fontSize: '26px', fontWeight: 400, marginBottom: '14px' }}>
                 Sub-Processors &amp; Third-Party Services
               </h2>
@@ -451,9 +563,9 @@ export default function PrivacyPolicy() {
               </div>
             </div>
 
-            {/* Section 5: Data Retention & Deletion Schedule */}
-            <div className="card-neutral">
-              <span className="tag-label" style={{ color: 'var(--color-pine-green)' }}>5. RETENTION &amp; DELETION</span>
+            {/* Section 6: Data Retention Schedule */}
+            <div id="retention" className="card-neutral">
+              <span className="tag-label" style={{ color: 'var(--color-pine-green)' }}>6. RETENTION &amp; DELETION</span>
               <h2 style={{ fontFamily: 'var(--font-signifier)', fontSize: '26px', fontWeight: 400, marginBottom: '14px' }}>
                 Data Retention Schedule
               </h2>
@@ -484,9 +596,9 @@ export default function PrivacyPolicy() {
               </div>
             </div>
 
-            {/* Section 6: Security & Cryptographic Controls */}
-            <div className="card-neutral">
-              <span className="tag-label" style={{ color: 'var(--color-sienna-brown)' }}>6. SECURITY CONTROLS</span>
+            {/* Section 7: Security & Encryption */}
+            <div id="security" className="card-neutral">
+              <span className="tag-label" style={{ color: 'var(--color-sienna-brown)' }}>7. SECURITY CONTROLS</span>
               <h2 style={{ fontFamily: 'var(--font-signifier)', fontSize: '26px', fontWeight: 400, marginBottom: '14px' }}>
                 Information Security &amp; Encryption Safeguards
               </h2>
@@ -500,9 +612,9 @@ export default function PrivacyPolicy() {
               </ul>
             </div>
 
-            {/* Section 7: Protection of Minors & Apprentices */}
-            <div className="card-neutral">
-              <span className="tag-label" style={{ color: 'var(--color-pine-green)' }}>7. PROTECTION OF MINORS</span>
+            {/* Section 8: Protection of Minors */}
+            <div id="minors" className="card-neutral">
+              <span className="tag-label" style={{ color: 'var(--color-pine-green)' }}>8. PROTECTION OF MINORS</span>
               <h2 style={{ fontFamily: 'var(--font-signifier)', fontSize: '26px', fontWeight: 400, marginBottom: '14px' }}>
                 Protection of Children &amp; Agricultural Apprentices
               </h2>
@@ -511,8 +623,8 @@ export default function PrivacyPolicy() {
               </p>
             </div>
 
-            {/* Section 8: Urdu Bilingual Farmer Summary */}
-            <div className="card-neutral" style={{ padding: '32px 28px', textAlign: 'right' }} dir="rtl">
+            {/* Section 9: Urdu Bilingual Farmer Summary */}
+            <div id="urdu" className="card-neutral" style={{ padding: '32px 28px', textAlign: 'right' }} dir="rtl">
               <span className="tag-label" style={{ color: 'var(--color-sienna-brown)' }}>پرائیویسی اور کسانوں کے حقوق کی ضمانت</span>
               <h2 className="urdu-text" style={{ fontSize: '26px', color: 'var(--color-sienna-brown)', marginBottom: '16px' }}>
                 باغبانوں کے ذاتی اور زرعی ڈیٹا کی مکمل حفاظت
@@ -522,9 +634,9 @@ export default function PrivacyPolicy() {
               </p>
             </div>
 
-            {/* Section 9: FAQ Accordion */}
-            <div className="card-neutral">
-              <span className="tag-label" style={{ color: 'var(--color-pine-green)' }}>8. FREQUENTLY ASKED QUESTIONS</span>
+            {/* Section 10: FAQ Accordion */}
+            <div id="faq" className="card-neutral">
+              <span className="tag-label" style={{ color: 'var(--color-pine-green)' }}>10. FREQUENTLY ASKED QUESTIONS</span>
               <h2 style={{ fontFamily: 'var(--font-signifier)', fontSize: '26px', fontWeight: 400, marginBottom: '16px' }}>
                 Common Questions on Farmer Privacy
               </h2>
@@ -591,9 +703,9 @@ export default function PrivacyPolicy() {
               </div>
             </div>
 
-            {/* Section 10: Grievance Officer */}
-            <div className="card-neutral" style={{ borderLeft: '3px solid var(--color-pine-green)' }}>
-              <span className="tag-label" style={{ color: 'var(--color-pine-green)' }}>9. STATUTORY GRIEVANCE CELL</span>
+            {/* Section 11: Grievance Officer */}
+            <div id="grievance" className="card-neutral" style={{ borderLeft: '3px solid var(--color-pine-green)' }}>
+              <span className="tag-label" style={{ color: 'var(--color-pine-green)' }}>11. STATUTORY GRIEVANCE CELL</span>
               <h2 style={{ fontFamily: 'var(--font-signifier)', fontSize: '26px', fontWeight: 400, marginBottom: '12px' }}>
                 Designated Grievance Redressal Officer
               </h2>
@@ -636,116 +748,147 @@ export default function PrivacyPolicy() {
             </div>
           </div>
 
-          {/* Right Column: Live Privacy Console & Badges */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          {/* Right Column: Sticky Sidebar with TOC & Console */}
+          <aside className="sticky-sidebar" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            {/* Table of Contents Card */}
+            <div className="card-neutral" style={{ padding: '20px 18px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                <List size={16} color="var(--color-pine-green)" />
+                <span className="tag-label" style={{ margin: 0, color: 'var(--color-pine-green)' }}>TABLE OF CONTENTS</span>
+              </div>
+
+              <nav style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                {TOC_SECTIONS.map(item => (
+                  <button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className={`toc-link ${activeSection === item.id ? 'active' : ''}`}
+                  >
+                    <span>{item.label}</span>
+                    <ChevronRight size={13} style={{ opacity: activeSection === item.id ? 1 : 0.4 }} />
+                  </button>
+                ))}
+              </nav>
+            </div>
+
+            {/* Live Privacy Console */}
             <div 
               className="card-peach"
-              style={{ padding: '28px 24px' }}
+              style={{ padding: '24px 20px' }}
             >
               <span className="tag-label" style={{ color: 'var(--color-sienna-brown)', opacity: 0.85 }}>ON-DEVICE PRIVACY CONSOLE</span>
-              <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '22px', fontWeight: 400, color: 'var(--color-sienna-brown)', marginTop: '4px', marginBottom: '8px' }}>
+              <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '20px', fontWeight: 400, color: 'var(--color-sienna-brown)', marginTop: '4px', marginBottom: '8px' }}>
                 Your local browser storage
               </h3>
-              <p style={{ fontSize: '13.5px', color: 'var(--color-sienna-brown)', opacity: 0.9, lineHeight: 1.5, marginBottom: '20px' }}>
+              <p style={{ fontSize: '13px', color: 'var(--color-sienna-brown)', opacity: 0.9, lineHeight: 1.5, marginBottom: '18px' }}>
                 You have immediate control over all records stored in this browser session.
               </p>
 
               {/* Status metrics */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '20px' }}>
-                <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.7)', padding: '12px', borderRadius: '10px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '18px' }}>
+                <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.7)', padding: '10px', borderRadius: '10px' }}>
                   <span style={{ fontSize: '11px', color: 'var(--color-slate-gray)', display: 'block' }}>Cart Items</span>
-                  <strong style={{ fontSize: '18px', color: 'var(--color-ink-black)' }}>{deviceData.cartItemsCount}</strong>
+                  <strong style={{ fontSize: '17px', color: 'var(--color-ink-black)' }}>{deviceData.cartItemsCount}</strong>
                 </div>
 
-                <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.7)', padding: '12px', borderRadius: '10px' }}>
+                <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.7)', padding: '10px', borderRadius: '10px' }}>
                   <span style={{ fontSize: '11px', color: 'var(--color-slate-gray)', display: 'block' }}>Saved Recipes</span>
-                  <strong style={{ fontSize: '18px', color: 'var(--color-ink-black)' }}>{deviceData.hasCustomDosages ? 'Saved' : 'None'}</strong>
+                  <strong style={{ fontSize: '17px', color: 'var(--color-ink-black)' }}>{deviceData.hasCustomDosages ? 'Saved' : 'None'}</strong>
                 </div>
 
-                <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.7)', padding: '12px', borderRadius: '10px' }}>
+                <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.7)', padding: '10px', borderRadius: '10px' }}>
                   <span style={{ fontSize: '11px', color: 'var(--color-slate-gray)', display: 'block' }}>Storage Space</span>
-                  <strong style={{ fontSize: '18px', color: 'var(--color-ink-black)' }}>~{deviceData.storageUsageKb} KB</strong>
+                  <strong style={{ fontSize: '17px', color: 'var(--color-ink-black)' }}>~{deviceData.storageUsageKb} KB</strong>
                 </div>
 
-                <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.7)', padding: '12px', borderRadius: '10px' }}>
+                <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.7)', padding: '10px', borderRadius: '10px' }}>
                   <span style={{ fontSize: '11px', color: 'var(--color-slate-gray)', display: 'block' }}>Telemetry</span>
-                  <strong style={{ fontSize: '14px', color: deviceData.analyticsConsent ? '#15803d' : '#991b1b' }}>
+                  <strong style={{ fontSize: '13.5px', color: deviceData.analyticsConsent ? '#15803d' : '#991b1b' }}>
                     {deviceData.analyticsConsent ? 'Enabled' : 'Disabled'}
                   </strong>
                 </div>
               </div>
 
               {/* Toggle switch */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px', backgroundColor: 'rgba(255, 255, 255, 0.6)', borderRadius: '12px', marginBottom: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', backgroundColor: 'rgba(255, 255, 255, 0.6)', borderRadius: '10px', marginBottom: '16px' }}>
                 <div>
-                  <strong style={{ fontSize: '13.5px', color: 'var(--color-ink-black)', display: 'block' }}>Anonymous Telemetry</strong>
-                  <span style={{ fontSize: '11.5px', color: 'var(--color-slate-gray)' }}>Respects Do-Not-Track headers</span>
+                  <strong style={{ fontSize: '13px', color: 'var(--color-ink-black)', display: 'block' }}>Anonymous Telemetry</strong>
+                  <span style={{ fontSize: '11px', color: 'var(--color-slate-gray)' }}>Respects Do-Not-Track</span>
                 </div>
                 <button
                   type="button"
                   onClick={handleToggleAnalytics}
                   className="pill-button-ghost pill-button-sm"
-                  style={{ fontSize: '12px', padding: '4px 10px' }}
+                  style={{ fontSize: '11.5px', padding: '3px 8px' }}
                 >
                   {deviceData.analyticsConsent ? 'Turn Off' : 'Turn On'}
                 </button>
               </div>
 
               {/* Action Buttons */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <button
                   onClick={handleExportMyData}
                   className="pill-button-filled pill-button-sm"
-                  style={{ width: '100%', justifyContent: 'center', gap: '8px', color: '#ffffff' }}
+                  style={{ width: '100%', justifyContent: 'center', gap: '6px', color: '#ffffff' }}
                 >
-                  <Download size={14} color="#ffffff" />
+                  <Download size={13} color="#ffffff" />
                   <span style={{ color: '#ffffff' }}>Download Stored Data (JSON)</span>
                 </button>
 
                 <button
                   onClick={() => setShowClearConfirm(true)}
                   className="pill-button-ghost pill-button-sm"
-                  style={{ width: '100%', justifyContent: 'center', gap: '8px', color: '#991b1b', borderColor: 'rgba(153, 27, 27, 0.3)' }}
+                  style={{ width: '100%', justifyContent: 'center', gap: '6px', color: '#991b1b', borderColor: 'rgba(153, 27, 27, 0.3)' }}
                 >
-                  <Trash2 size={14} />
+                  <Trash2 size={13} />
                   <span>Clear All Local Storage</span>
                 </button>
               </div>
             </div>
 
-            {/* Legal Entity Card */}
-            <div className="card-neutral">
-              <span className="tag-label">REGISTERED ENTITY</span>
-              <h4 style={{ fontFamily: 'var(--font-signifier)', fontSize: '18px', fontWeight: 400, marginBottom: '8px' }}>
-                M.A. Pesticides &amp; Fertilizers
+            {/* Direct Grievance Card */}
+            <div className="card-neutral" style={{ padding: '20px 18px' }}>
+              <span className="tag-label" style={{ color: 'var(--color-pine-green)' }}>GRIEVANCE REDRESSAL</span>
+              <h4 style={{ fontFamily: 'var(--font-signifier)', fontSize: '18px', fontWeight: 400, marginTop: '4px', marginBottom: '6px' }}>
+                Need Help with Personal Data?
               </h4>
-              <p style={{ fontSize: '13px', color: 'var(--color-slate-gray)', lineHeight: 1.5, marginBottom: '12px' }}>
-                Sole proprietorship licensed under the Jammu &amp; Kashmir Agriculture Production &amp; Farmers Welfare Department.
+              <p style={{ fontSize: '12.5px', color: 'var(--color-slate-gray)', lineHeight: 1.5, marginBottom: '14px' }}>
+                Contact our compliance officer directly for swift assistance or correction requests.
               </p>
-              <p style={{ fontSize: '12.5px', color: 'var(--color-ash-gray)' }}>
-                Governed by the High Court of Jammu &amp; Kashmir and Ladakh at Srinagar.
-              </p>
-            </div>
-
-            {/* Quick Links Card */}
-            <div className="card-neutral">
-              <span className="tag-label">RELATED DIRECTIVES</span>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '8px', fontSize: '13.5px' }}>
-                <a href="/poison-control" style={{ color: 'var(--color-pine-green)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <ChevronRight size={14} />
-                  <span>Poison Control &amp; Emergency Antidote Guide</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '13px' }}>
+                <a href="mailto:sheikh.syedbehroze6@gmail.com" style={{ color: 'var(--color-pine-green)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Mail size={13} />
+                  <span>sheikh.syedbehroze6@gmail.com</span>
                 </a>
-                <a href="/dosage-calculator" style={{ color: 'var(--color-pine-green)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <ChevronRight size={14} />
-                  <span>Spray Dosage &amp; Barrel Calculator</span>
-                </a>
-                <a href="/spray-calendar" style={{ color: 'var(--color-pine-green)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <ChevronRight size={14} />
-                  <span>SKUAST Kashmir Seasonal Spray Calendar</span>
+                <a href="tel:+917006830722" style={{ color: 'var(--color-ink-black)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Phone size={13} />
+                  <span>+91 70068 30722</span>
                 </a>
               </div>
             </div>
-          </div>
+
+            {/* Emergency & Safety Link Card */}
+            <div className="card-neutral" style={{ padding: '20px 18px', borderLeft: '3px solid #dc2626' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
+                <ShieldAlert size={15} color="#dc2626" />
+                <span className="tag-label" style={{ margin: 0, color: '#dc2626' }}>SAFETY &amp; FIRST AID</span>
+              </div>
+              <h4 style={{ fontFamily: 'var(--font-signifier)', fontSize: '17px', fontWeight: 400, marginBottom: '6px' }}>
+                Poison Control &amp; Antidotes
+              </h4>
+              <p style={{ fontSize: '12.5px', color: 'var(--color-slate-gray)', lineHeight: 1.45, marginBottom: '12px' }}>
+                24/7 National Poison Centre &amp; SMHS Hospital Srinagar directory for pesticide accidents.
+              </p>
+              <a 
+                href="/poison-control" 
+                style={{ color: '#dc2626', fontSize: '13px', fontWeight: 600, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+              >
+                <span>Open Poison Safety Guide</span>
+                <ChevronRight size={13} />
+              </a>
+            </div>
+          </aside>
         </div>
       </div>
 
