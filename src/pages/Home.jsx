@@ -4,6 +4,7 @@ import { ArrowRight, Calculator, ShieldCheck, MapPin, Phone, MessageCircle, Cloc
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import WeatherSprayAlert from '../components/WeatherSprayAlert';
+import ErrorBoundary from '../components/ErrorBoundary';
 import ProductCard from '../components/ProductCard';
 import { products } from '../data/agricultureData';
 import { preloadRoute } from '../utils/routePreloader';
@@ -625,7 +626,9 @@ export default function Home() {
           </div>
 
           <div className="gsap-scroll-item" style={{ marginBottom: '40px' }}>
-            <WeatherSprayAlert />
+            <ErrorBoundary fallback={null}>
+              <WeatherSprayAlert />
+            </ErrorBoundary>
           </div>
 
           <div className="gsap-scroll-item" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', marginBottom: '24px', flexWrap: 'wrap' }}>

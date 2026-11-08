@@ -59,8 +59,41 @@ export default class ErrorBoundary extends React.Component {
         });
       }
 
-      if (this.props.fallback) {
+      if (this.props.fallback !== undefined) {
         return this.props.fallback;
+      }
+
+      if (this.props.isolated) {
+        return (
+          <div style={{
+            padding: '28px 24px',
+            margin: '20px auto',
+            maxWidth: '560px',
+            borderRadius: '14px',
+            backgroundColor: '#ffffff',
+            border: '1px solid var(--border-color, rgba(23, 25, 28, 0.1))',
+            textAlign: 'center',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.04)'
+          }}>
+            <p style={{ color: 'var(--color-slate-gray, #555e68)', fontSize: '14px', margin: '0 0 16px', lineHeight: 1.5 }}>
+              This section encountered a temporary issue. Your cart and saved spray recipes remain safe.
+            </p>
+            <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+              <button
+                onClick={this.handleReload}
+                className="pill-button-filled pill-button-sm"
+              >
+                <span>Reload Section</span>
+              </button>
+              <button
+                onClick={this.handleReset}
+                className="pill-button-ghost pill-button-sm"
+              >
+                <span>Return to Home</span>
+              </button>
+            </div>
+          </div>
+        );
       }
 
       return (

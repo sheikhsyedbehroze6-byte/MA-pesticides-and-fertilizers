@@ -148,17 +148,27 @@ function App() {
               <Header />
 
               <main>
-                <AnimatedRoutes />
+                <ErrorBoundary isolated>
+                  <AnimatedRoutes />
+                </ErrorBoundary>
               </main>
 
               <Footer />
 
-              {/* lazy overlays */}
+              {/* Isolated lazy overlays: an error in any overlay never crashes the core site */}
               <Suspense fallback={null}>
-                <AdvisorChatbot />
-                <PWAInstallPrompt />
-                <SprayOrderDrawer />
-                <AgriSafetyModal />
+                <ErrorBoundary fallback={null}>
+                  <AdvisorChatbot />
+                </ErrorBoundary>
+                <ErrorBoundary fallback={null}>
+                  <PWAInstallPrompt />
+                </ErrorBoundary>
+                <ErrorBoundary fallback={null}>
+                  <SprayOrderDrawer />
+                </ErrorBoundary>
+                <ErrorBoundary fallback={null}>
+                  <AgriSafetyModal />
+                </ErrorBoundary>
               </Suspense>
 
               <FloatingCartButton />

@@ -189,3 +189,41 @@ export function checkRateLimit(actionKey, maxHits = 5, windowMs = 3000) {
   hitStore.set(actionKey, validHits);
   return true;
 }
+
+// 6. SAFE FAULT-TOLERANT LOCALSTORAGE (Handles Private Browsing & QuotaExceeded errors)
+export function safeStorageGet(key, fallback = null) {
+  if (typeof window === 'undefined') return fallback;
+  try {
+    const val = localStorage.getItem(key);
+    return val !== null ? val : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+export function safeStorageSet(key, value) {
+  if (typeof window === 'undefined') return false;
+  try {
+    localStorage.setItem(key, typeof value === 'string' ? value : JSON.stringify(value));
+    return true;
+  } catch (err) {
+    try {
+      // If quota exceeded, flush transient analytics events and retry once
+      localStorage.removeItem('ma_analytics_events_v1');
+      localStorage.setItem(key, typeof value === 'string' ? value : JSON.stringify(value));
+      return true;
+    } catch {
+      console.warn('[Storage Notice] LocalStorage unavailable or quota exceeded:', err);
+      return false;
+    }
+  }
+}
+
+export function safeStorageRemove(key) {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.removeItem(key);
+  } catch {
+    // Ignore
+  }
+}
