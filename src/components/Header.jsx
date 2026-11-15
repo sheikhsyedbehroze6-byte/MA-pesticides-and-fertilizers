@@ -83,8 +83,19 @@ function Header() {
         <div className="header-inner">
           {/* brand */}
           <NavLink to="/" className="brand-logo" onClick={() => setIsMobileMenuOpen(false)}>
-            <div className="brand-logo-icon">
-              <Sprout size={20} color="var(--color-pine-green)" strokeWidth={2.2} />
+            <div className="brand-logo-icon" style={{ padding: 0, overflow: 'hidden' }}>
+              <img
+                src="/favicon.svg"
+                alt="MA Pesticides"
+                width="36"
+                height="36"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  display: 'block'
+                }}
+              />
             </div>
             <div className="brand-logo-text">
               <span className="brand-title">MA Pesticides</span>
