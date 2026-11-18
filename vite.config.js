@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'favicon.ico', 'favicon-48x48.png', 'apple-touch-icon.png', 'robots.txt', 'sitemap.xml'],
+      includeAssets: ['favicon.svg', 'favicon.ico', 'favicon-48x48.png', 'favicon-96x96.png', 'favicon-192x192.png', 'apple-touch-icon.png', 'robots.txt', 'sitemap.xml'],
       manifest: {
         name: 'MA Pesticides & Fertilizers',
         short_name: 'MA Pesticides',

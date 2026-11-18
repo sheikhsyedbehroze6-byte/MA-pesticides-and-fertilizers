@@ -7,15 +7,6 @@
   ],
   "headers": [
     {
-      "source": "/(sitemap\\.xml|robots\\.txt|favicon.*|apple-touch-icon.*|android-chrome.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
-    },
-    {
       "source": "/assets/(.*)",
       "headers": [
         {
@@ -30,6 +21,15 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=2592000, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/(sitemap\\.xml|robots\\.txt|favicon.*|apple-touch-icon.*|android-chrome.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
         }
       ]
     },
