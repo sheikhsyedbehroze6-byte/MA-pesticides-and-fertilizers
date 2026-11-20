@@ -8,11 +8,11 @@ import { preloadRoute } from '../utils/routePreloader';
 
 const DESKTOP_NAV_LINKS = [
   { to: '/', label: 'Home', exact: true },
-  { to: '/products', label: 'Products', Icon: Package },
-  { to: '/dosage-calculator', label: 'Dosage Calc', Icon: Calculator },
-  { to: '/spray-calendar', label: 'Calendar', Icon: Calendar },
-  { to: '/disease-guide', label: 'Disease Guide', Icon: Bug },
-  { to: '/search', label: 'Search', Icon: Search },
+  { to: '/products', label: 'Products' },
+  { to: '/dosage-calculator', label: 'Dosage Calc' },
+  { to: '/spray-calendar', label: 'Calendar' },
+  { to: '/disease-guide', label: 'Disease Guide' },
+  { to: '/search', label: 'Search' },
   { to: '/about', label: 'About' },
   { to: '/contact', label: 'Contact' },
 ];
@@ -83,19 +83,8 @@ function Header() {
         <div className="header-inner">
           {/* brand */}
           <NavLink to="/" className="brand-logo" onClick={() => setIsMobileMenuOpen(false)}>
-            <div className="brand-logo-icon" style={{ padding: 0, overflow: 'hidden' }}>
-              <img
-                src="/favicon.svg"
-                alt="MA Pesticides"
-                width="36"
-                height="36"
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  display: 'block'
-                }}
-              />
+            <div className="brand-logo-icon">
+              <Sprout size={20} color="var(--color-pine-green)" strokeWidth={2.2} />
             </div>
             <div className="brand-logo-text">
               <span className="brand-title">MA Pesticides</span>
@@ -106,7 +95,7 @@ function Header() {
           {/* desktop nav */}
           <nav className="desktop-nav">
             <ul className="nav-links-list">
-              {DESKTOP_NAV_LINKS.map(({ to, label, Icon, exact }) => (
+              {DESKTOP_NAV_LINKS.map(({ to, label, exact }) => (
                 <li key={to} style={{ position: 'relative' }}>
                   <NavLink
                     to={to}
@@ -125,7 +114,6 @@ function Header() {
                             transition={{ type: 'spring', stiffness: 420, damping: 32 }}
                           />
                         )}
-                        {Icon && <Icon size={15} strokeWidth={2.2} style={{ position: 'relative', zIndex: 1 }} />}
                         <span style={{ position: 'relative', zIndex: 1 }}>{label}</span>
                       </>
                     )}
@@ -165,7 +153,7 @@ function Header() {
 
             <button
               onClick={() => window.dispatchEvent(new Event('trigger-pwa-install'))}
-              className="pill-button-ghost pill-button-sm desktop-nav"
+              className="pill-button-ghost pill-button-sm desktop-nav header-desktop-xl-only"
               style={{ gap: '5px', color: 'var(--color-pine-green)', borderColor: 'rgba(28,71,42,0.25)', padding: '6px 12px' }}
               title="Install app on mobile or desktop"
             >
@@ -201,7 +189,7 @@ function Header() {
               href="https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20need%20expert%20crop%20advice..."
               target="_blank"
               rel="noopener noreferrer"
-              className="pill-button-filled pill-button-sm desktop-nav"
+              className="pill-button-filled pill-button-sm desktop-nav header-desktop-xl-only"
               style={{ gap: '5px', padding: '6px 14px' }}
             >
               <span>WhatsApp</span>
