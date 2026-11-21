@@ -42,15 +42,15 @@ export default function StoreMap() {
       });
       mapInstanceRef.current = map;
 
-      // Tile Layer: High-performance CartoDB tiles (clean, reliable CDN, supports dark mode & no OSM access block)
+      // Tile Layer: Esri ArcGIS World Street Map (Light) & Dark Gray Canvas (Dark)
+      // 100% free, zero API key required, reliable global CDN with zero watermark
       const tileUrl = theme === 'dark'
-        ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-        : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+        ? 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}'
+        : 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}';
 
       L.tileLayer(tileUrl, {
-        subdomains: 'abcd',
-        maxZoom: 20,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>'
+        maxZoom: 19,
+        attribution: 'Tiles &copy; <a href="https://www.esri.com/" target="_blank" rel="noopener">Esri</a> &mdash; Esri, DeLorme, NAVTEQ, USGS'
       }).addTo(map);
 
       // Custom Editorial Pin matching MA Pesticides brand
