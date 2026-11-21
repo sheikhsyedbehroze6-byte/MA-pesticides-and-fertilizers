@@ -82,15 +82,24 @@ export default function PWAInstallPrompt() {
         zIndex: 9995,
         width: 'calc(100% - 48px)',
         maxWidth: '460px',
-        backgroundColor: 'var(--surface-paper)',
+        backgroundColor: '#ffffff',
         borderRadius: '16px',
-        boxShadow: '0 16px 40px rgba(23, 25, 28, 0.2), 0 4px 12px rgba(23, 25, 28, 0.1)',
+        boxShadow: '0 20px 48px rgba(0, 0, 0, 0.28), 0 4px 14px rgba(0, 0, 0, 0.15)',
         border: '1.5px solid var(--color-pine-green)',
         padding: '18px 20px',
         animation: 'pwaSlideUp 0.4s ease-out'
       }}
     >
       <style>{`
+        .pwa-install-banner {
+          background-color: #ffffff !important;
+          opacity: 1 !important;
+        }
+        [data-theme="dark"] .pwa-install-banner {
+          background-color: #171b24 !important;
+          border-color: rgba(52, 211, 153, 0.4) !important;
+          box-shadow: 0 20px 48px rgba(0, 0, 0, 0.65), 0 4px 14px rgba(0, 0, 0, 0.4) !important;
+        }
         @keyframes pwaSlideUp {
           from { opacity: 0; transform: translateY(24px); }
           to { opacity: 1; transform: translateY(0); }
