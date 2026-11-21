@@ -1287,12 +1287,9 @@ button, input, select, textarea {
   margin-top: 24px;
 }
 
-.hero-artifact-tilt-left {
-  transform: rotate(-0.5deg);
-}
-
+.hero-artifact-tilt-left,
 .hero-artifact-tilt-right {
-  transform: rotate(0.8deg);
+  transform: none;
 }
 
 .hero-actions {

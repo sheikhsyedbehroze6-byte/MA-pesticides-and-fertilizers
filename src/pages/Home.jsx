@@ -254,7 +254,7 @@ export default function Home() {
           </div>
 
           <div className="hero-artifacts-grid hero-artifacts-row-1">
-            <div className="floating-product-artifact hero-artifact-tilt-left gsap-hero-card">
+            <div className="floating-product-artifact gsap-hero-card">
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', gap: '8px', flexWrap: 'wrap' }}>
                 <div>
                   <span className="tag-label-green" style={{ margin: 0 }}>Active Spray Window</span>
@@ -339,7 +339,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="floating-product-artifact hero-artifact-tilt-right gsap-hero-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div className="floating-product-artifact gsap-hero-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
                   <span className="tag-label" style={{ margin: 0 }}>Valley Spray Fastness Window</span>
