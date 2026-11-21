@@ -9,10 +9,9 @@ import { preloadRoute } from '../utils/routePreloader';
 const DESKTOP_NAV_LINKS = [
   { to: '/', label: 'Home', exact: true },
   { to: '/products', label: 'Products' },
-  { to: '/dosage-calculator', label: 'Dosage Calc' },
+  { to: '/dosage-calculator', label: 'Dosage' },
   { to: '/spray-calendar', label: 'Calendar' },
-  { to: '/disease-guide', label: 'Disease Guide' },
-  { to: '/search', label: 'Search' },
+  { to: '/disease-guide', label: 'Diseases' },
   { to: '/about', label: 'About' },
   { to: '/contact', label: 'Contact' },
 ];
@@ -125,32 +124,41 @@ function Header() {
 
           {/* actions */}
           <div className="header-actions">
+            {/* Clinical Poison Control & Safety Badge */}
             <button
               onClick={() => window.dispatchEvent(new Event('open-agri-safety'))}
-              className="pill-button-ghost pill-button-sm desktop-nav"
-              style={{
-                gap: '5px',
-                color: '#dc2626',
-                borderColor: 'rgba(220, 38, 38, 0.35)',
-                backgroundColor: 'rgba(220, 38, 38, 0.06)',
-                padding: '6px 12px'
-              }}
+              className="header-safety-badge desktop-nav"
               title="Emergency Poison Control & Chemical Safety (24/7)"
               aria-label="Open emergency chemical poison helpline"
             >
-              <ShieldAlert size={14} color="#dc2626" />
+              <span className="header-safety-pulse" />
+              <ShieldAlert size={14} />
               <span>Poison Help</span>
             </button>
 
+            {/* Desktop Search Icon Button */}
+            <NavLink
+              to="/search"
+              onMouseEnter={() => preloadRoute('/search')}
+              onTouchStart={() => preloadRoute('/search')}
+              className="header-icon-action desktop-nav"
+              title="Search products, active ingredients & diseases"
+              aria-label="Search Catalog"
+            >
+              <Search size={16} />
+            </NavLink>
+
+            {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
               title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
               aria-label="Toggle theme"
-              className="theme-toggle-btn"
+              className="theme-toggle-btn desktop-nav"
             >
-              {theme === 'light' ? <Moon size={17} /> : <Sun size={17} />}
+              {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
             </button>
 
+            {/* Install PWA Button (Desktop XL only) */}
             <button
               onClick={() => window.dispatchEvent(new Event('trigger-pwa-install'))}
               className="pill-button-ghost pill-button-sm desktop-nav header-desktop-xl-only"
@@ -161,30 +169,24 @@ function Header() {
               <span>Install</span>
             </button>
 
+            {/* Cart Button */}
             <button
               onClick={openCart}
               className="pill-button-ghost pill-button-sm desktop-nav"
-              style={{ position: 'relative', gap: '5px', color: 'var(--color-pine-green)', padding: '6px 12px' }}
+              style={{ position: 'relative', gap: '6px', color: 'var(--color-pine-green)', padding: '6px 13px', fontWeight: 550 }}
               title="View Spray Order Cart"
               aria-label={`View spray order cart with ${totalItems} items`}
             >
               <ShoppingBag size={14} />
               <span>Cart</span>
               {totalItems > 0 && (
-                <span style={{
-                  backgroundColor: '#22c55e',
-                  color: '#052e16',
-                  fontSize: '11px',
-                  fontWeight: '800',
-                  borderRadius: '999px',
-                  padding: '1px 6px',
-                  marginLeft: '2px'
-                }}>
+                <span className="header-cart-badge">
                   {totalItems}
                 </span>
               )}
             </button>
 
+            {/* WhatsApp Quick Consultation (Desktop XL only) */}
             <a
               href="https://wa.me/919906541321?text=Hello%20MA%20Pesticides%2C%20I%20need%20expert%20crop%20advice..."
               target="_blank"
@@ -196,89 +198,40 @@ function Header() {
               <ArrowRight size={14} />
             </a>
 
-            {/* mobile cart */}
+            {/* Mobile Search Button */}
+            <NavLink
+              to="/search"
+              onMouseEnter={() => preloadRoute('/search')}
+              onTouchStart={() => preloadRoute('/search')}
+              className="mobile-header-icon-btn mobile-header-search-btn"
+              title="Search Formulations"
+              aria-label="Search Formulations"
+            >
+              <Search size={18} />
+            </NavLink>
+
+            {/* Mobile Cart Button */}
             <button
               onClick={openCart}
-              className="mobile-header-cart-btn"
+              className="mobile-header-icon-btn mobile-header-cart-btn"
               title="View Spray Order Cart"
               aria-label="Open Spray Order Cart"
-              style={{
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '38px',
-                height: '38px',
-                borderRadius: '50%',
-                backgroundColor: totalItems > 0 ? 'rgba(28, 71, 42, 0.12)' : 'transparent',
-                color: 'var(--color-pine-green)',
-                border: 'none',
-                cursor: 'pointer'
-              }}
             >
               <ShoppingBag size={18} />
               {totalItems > 0 && (
-                <span style={{
-                  position: 'absolute',
-                  top: '-2px',
-                  right: '-2px',
-                  backgroundColor: '#22c55e',
-                  color: '#052e16',
-                  fontSize: '10px',
-                  fontWeight: '800',
-                  minWidth: '16px',
-                  height: '16px',
-                  borderRadius: '999px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: '0 3px',
-                  border: '2px solid var(--surface-elevated-white)'
-                }}>
+                <span className="mobile-cart-badge">
                   {totalItems}
                 </span>
               )}
             </button>
 
-            {/* mobile search */}
-            <NavLink
-              to="/search"
-              onMouseEnter={() => preloadRoute('/search')}
-              onTouchStart={() => preloadRoute('/search')}
-              className="mobile-header-search-btn"
-              title="Search Formulations"
-              aria-label="Search Formulations"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '36px',
-                height: '36px',
-                borderRadius: '50%',
-                color: 'var(--color-ink-black)',
-                textDecoration: 'none'
-              }}
-            >
-              <Search size={18} />
-            </NavLink>
-
-            {/* quick call */}
-            <a
-              href="tel:+919906541321"
-              className="mobile-header-call-btn"
-              title="Call Senior Chemist Sheikh Mohammad Ayoub"
-              aria-label="Call Store Chemist"
-            >
-              <Phone size={16} />
-            </a>
-
-            {/* hamburger */}
+            {/* Mobile Hamburger Menu Toggle */}
             <button
               className={`mobile-toggle-btn ${isMobileMenuOpen ? 'is-active' : ''}`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
             >
-              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              {isMobileMenuOpen ? <X size={19} /> : <Menu size={19} />}
             </button>
           </div>
         </div>

@@ -883,7 +883,7 @@ button, input, select, textarea {
 .nav-links-list {
   display: flex;
   align-items: center;
-  gap: clamp(8px, 1.2vw, 18px);
+  gap: clamp(10px, 1.4vw, 22px);
   list-style: none;
   flex-wrap: nowrap;
 }
@@ -900,7 +900,7 @@ button, input, select, textarea {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
+  padding: 7px 13px;
   border-radius: 9999px;
   text-decoration: none;
   position: relative;
@@ -944,35 +944,124 @@ button, input, select, textarea {
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
-.mobile-header-cart-btn,
-.mobile-header-call-btn {
-  display: none !important;
+/* Clinical Poison Control & Safety Badge */
+.header-safety-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: rgba(220, 38, 38, 0.06);
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  color: #b91c1c;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  font-family: var(--font-sohne);
+  font-size: 12.5px;
+  font-weight: 550;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
-.theme-toggle-btn,
-.mobile-toggle-btn {
+.header-safety-badge:hover {
+  background-color: rgba(220, 38, 38, 0.12);
+  border-color: rgba(220, 38, 38, 0.35);
+  color: #991b1b;
+}
+
+[data-theme="dark"] .header-safety-badge {
+  background-color: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.25);
+  color: #f87171;
+}
+
+[data-theme="dark"] .header-safety-badge:hover {
+  background-color: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.header-safety-pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #ef4444;
+  flex-shrink: 0;
+  animation: safetyPulse 2s infinite ease-in-out;
+}
+
+@keyframes safetyPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.85); }
+}
+
+/* Circular Desktop Header Icon Action Buttons (Search & Theme) */
+.header-icon-action,
+.theme-toggle-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 40px;
-  border-radius: 9999px;
-  background-color: var(--surface-card-mist);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   color: var(--color-ink-black);
-  border: 1px solid rgba(23, 25, 28, 0.1);
+  background-color: var(--surface-card-mist);
+  border: 1px solid rgba(23, 25, 28, 0.08);
+  text-decoration: none;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+  transition: all 0.18s ease;
   flex-shrink: 0;
 }
 
-.theme-toggle-btn:hover,
-.mobile-toggle-btn:hover {
-  background-color: var(--surface-accent-blush);
-  color: var(--color-sienna-brown);
-  border-color: rgba(93, 42, 26, 0.2);
+.header-icon-action:hover,
+.theme-toggle-btn:hover {
+  background-color: var(--color-sage-tint);
+  border-color: rgba(28, 71, 42, 0.2);
+  color: var(--color-pine-green);
+}
+
+[data-theme="dark"] .header-icon-action,
+[data-theme="dark"] .theme-toggle-btn {
+  background-color: var(--surface-elevated-white);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--color-ink-black);
+}
+
+[data-theme="dark"] .header-icon-action:hover,
+[data-theme="dark"] .theme-toggle-btn:hover {
+  background-color: rgba(52, 211, 153, 0.15);
+  border-color: rgba(52, 211, 153, 0.3);
+  color: #34d399;
+}
+
+.header-cart-badge {
+  background-color: #22c55e;
+  color: #052e16;
+  font-size: 10.5px;
+  font-weight: 800;
+  border-radius: 999px;
+  padding: 1px 6px;
+  margin-left: 2px;
+}
+
+/* Mobile Header Action Buttons */
+.mobile-header-icon-btn,
+.mobile-toggle-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--surface-card-mist);
+  color: var(--color-ink-black);
+  border: 1px solid rgba(23, 25, 28, 0.08);
+  cursor: pointer;
+  transition: background-color 0.18s ease, border-color 0.18s ease;
+  flex-shrink: 0;
+  text-decoration: none;
+  position: relative;
 }
 
 .mobile-toggle-btn.is-active {
@@ -981,10 +1070,10 @@ button, input, select, textarea {
   border-color: var(--color-pine-green);
 }
 
-[data-theme="dark"] .theme-toggle-btn,
+[data-theme="dark"] .mobile-header-icon-btn,
 [data-theme="dark"] .mobile-toggle-btn {
   background-color: var(--surface-elevated-white);
-  border-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.1);
   color: var(--color-ink-black);
 }
 
@@ -994,8 +1083,22 @@ button, input, select, textarea {
   border-color: #059669;
 }
 
-.mobile-toggle-btn {
-  display: none;
+.mobile-cart-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background-color: #22c55e;
+  color: #052e16;
+  font-size: 9.5px;
+  font-weight: 800;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  border: 2px solid var(--surface-elevated-white);
 }
 
 /* Breadcrumb Navigation */
@@ -1494,10 +1597,10 @@ button, input, select, textarea {
 /* Compact desktop nav on standard laptops & tablets (993px to 1240px) */
 @media (min-width: 993px) and (max-width: 1240px) {
   .nav-links-list {
-    gap: 2px !important;
+    gap: clamp(4px, 0.8vw, 10px) !important;
   }
   .nav-link-item {
-    padding: 5px 8px !important;
+    padding: 6px 10px !important;
     font-size: 13.5px !important;
   }
   .header-actions {
@@ -1522,8 +1625,8 @@ button, input, select, textarea {
     display: inline-flex !important;
   }
 
-  .mobile-header-cart-btn,
-  .mobile-header-call-btn {
+  .mobile-header-icon-btn,
+  .mobile-header-cart-btn {
     display: inline-flex !important;
   }
 }
