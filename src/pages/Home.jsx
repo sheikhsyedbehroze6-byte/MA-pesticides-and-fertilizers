@@ -216,36 +216,15 @@ export default function Home() {
                   to={to}
                   onMouseEnter={() => preloadRoute(to)}
                   onTouchStart={() => preloadRoute(to)}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    padding: '14px 12px',
-                    borderRadius: 'var(--radius-smallcards)',
-                    backgroundColor: 'var(--surface-elevated-white)',
-                    border: '1px solid rgba(23, 25, 28, 0.04)',
-                    boxShadow: 'var(--shadow-subtle)',
-                    textDecoration: 'none',
-                    transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
-                  }}
                   className="quick-nav-pill"
                 >
-                  <div style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '8px',
-                    backgroundColor: 'var(--color-sage-tint)',
-                    color: 'var(--color-pine-green)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '8px'
-                  }}>
-                    <Icon size={17} strokeWidth={2.2} />
+                  <div className="quick-nav-pill-icon">
+                    <Icon size={18} strokeWidth={2.2} />
                   </div>
-                  <span style={{ fontSize: '13.5px', fontWeight: 600, color: 'var(--color-ink-black)', lineHeight: 1.25, marginBottom: '2px' }}>
+                  <span className="quick-nav-pill-title">
                     {label}
                   </span>
-                  <span style={{ fontSize: '11px', color: 'var(--color-slate-gray)', lineHeight: 1.25 }}>
+                  <span className="quick-nav-pill-desc">
                     {desc}
                   </span>
                 </Link>
