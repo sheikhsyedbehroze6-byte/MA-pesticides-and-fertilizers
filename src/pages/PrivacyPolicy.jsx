@@ -30,7 +30,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Are my apple leaf photos sent to a foreign server or stored online?',
-    a: 'No. When you use our Leaf Disease Diagnostic tool, the image is evaluated entirely inside your mobile or computer browser memory using WebAssembly. The photo never uploads to any cloud database and disappears the moment you close the scanner.'
+    a: 'No. When you use our Leaf Disease Diagnostic tool, the image is evaluated entirely inside your mobile or computer browser memory using client-side algorithms. The photo never uploads to any cloud database and disappears the moment you close the diagnostic guide.'
   },
   {
     q: 'What happens when I click "Order via WhatsApp"?',
