@@ -36,7 +36,9 @@ export default function StoreMap() {
       // Initialize Leaflet map
       const map = L.map(mapContainerRef.current, {
         center: [STORE_LAT, STORE_LNG],
-        zoom: 16,
+        zoom: 15,
+        minZoom: 12,
+        maxZoom: 18,
         zoomControl: true,
         scrollWheelZoom: false
       });
@@ -44,12 +46,15 @@ export default function StoreMap() {
 
       // Tile Layer: Esri ArcGIS World Street Map (Light) & Dark Gray Canvas (Dark)
       // 100% free, zero API key required, reliable global CDN with zero watermark
+      // maxNativeZoom: 16 ensures Leaflet never requests missing zoom 17+ tiles from Esri
       const tileUrl = theme === 'dark'
         ? 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}'
         : 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}';
 
       L.tileLayer(tileUrl, {
-        maxZoom: 19,
+        minZoom: 12,
+        maxNativeZoom: 16,
+        maxZoom: 18,
         attribution: 'Tiles &copy; <a href="https://www.esri.com/" target="_blank" rel="noopener">Esri</a> &mdash; Esri, DeLorme, NAVTEQ, USGS'
       }).addTo(map);
 

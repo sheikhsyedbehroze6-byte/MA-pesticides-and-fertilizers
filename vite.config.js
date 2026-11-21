@@ -112,7 +112,7 @@ export default defineConfig({
             urlPattern: /^https:\/\/server\.arcgisonline\.com\/ArcGIS\/rest\/services\/.*/i,
             handler: 'CacheFirst',
             options: {
-              cacheName: 'esri-map-tiles',
+              cacheName: 'esri-map-tiles-v2',
               expiration: {
                 maxEntries: 160,
                 maxAgeSeconds: 60 * 60 * 24 * 60 // 60 days
