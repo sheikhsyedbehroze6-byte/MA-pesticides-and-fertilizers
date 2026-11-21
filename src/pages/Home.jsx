@@ -166,7 +166,7 @@ export default function Home() {
       <section className="section-padding home-hero-section" style={{ overflow: 'hidden' }}>
         <div className="page-container">
           <div style={{ textAlign: 'center', maxWidth: '1020px', margin: '0 auto 48px' }}>
-            <div className="gsap-hero-tag" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '9999px', backgroundColor: 'var(--color-sage-tint)', border: '1px solid rgba(26, 67, 46, 0.18)', marginBottom: '20px' }}>
+            <div className="gsap-hero-tag" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '9999px', backgroundColor: 'var(--color-sage-tint)', border: '1px solid rgba(26, 67, 46, 0.1)', marginBottom: '20px' }}>
               <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: 'var(--color-pine-green)' }}></span>
               <span style={{ fontFamily: 'var(--font-sohne)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.8px', textTransform: 'uppercase', color: 'var(--color-pine-green)' }}>
                 Kashmir Crop Protection &bull; Official Dealerships
@@ -204,13 +204,13 @@ export default function Home() {
 
             <div className="gsap-hero-actions home-quick-hub-grid">
               {[
-                { to: '/products', label: 'Products', desc: '60+ Formulations', Icon: Package, color: '#0284c7' },
-                { to: '/spray-calendar', label: 'Spray Calendar', desc: 'SKUAST Timing', Icon: Calendar, color: '#16a34a' },
-                { to: '/dosage-calculator', label: 'Dosage Calc', desc: 'Tank Dilution', Icon: Calculator, color: '#d97706' },
-                { to: '/disease-guide', label: 'Disease Guide', desc: 'Scab & Mite Cures', Icon: Bug, color: '#dc2626' },
-                { to: '/search', label: 'Quick Search', desc: 'Find Any Product', Icon: Search, color: '#9333ea' },
-                { to: '/contact', label: 'Store & Visit', desc: 'Srinagar Location', Icon: MapPin, color: '#5d2a1a' }
-              ].map(({ to, label, desc, Icon, color }) => (
+                { to: '/products', label: 'Products', desc: '60+ Formulations', Icon: Package },
+                { to: '/spray-calendar', label: 'Spray Calendar', desc: 'SKUAST Timing', Icon: Calendar },
+                { to: '/dosage-calculator', label: 'Dosage Calc', desc: 'Tank Dilution', Icon: Calculator },
+                { to: '/disease-guide', label: 'Disease Guide', desc: 'Scab & Mite Cures', Icon: Bug },
+                { to: '/search', label: 'Quick Search', desc: 'Find Any Product', Icon: Search },
+                { to: '/contact', label: 'Store & Visit', desc: 'Srinagar Location', Icon: MapPin }
+              ].map(({ to, label, desc, Icon }) => (
                 <Link
                   key={to}
                   to={to}
@@ -222,7 +222,7 @@ export default function Home() {
                     padding: '14px 12px',
                     borderRadius: 'var(--radius-smallcards)',
                     backgroundColor: 'var(--surface-elevated-white)',
-                    border: '1px solid var(--border-color)',
+                    border: '1px solid rgba(23, 25, 28, 0.04)',
                     boxShadow: 'var(--shadow-subtle)',
                     textDecoration: 'none',
                     transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)'
@@ -233,8 +233,8 @@ export default function Home() {
                     width: '32px',
                     height: '32px',
                     borderRadius: '8px',
-                    backgroundColor: `${color}18`,
-                    color: color,
+                    backgroundColor: 'var(--color-sage-tint)',
+                    color: 'var(--color-pine-green)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -255,16 +255,11 @@ export default function Home() {
 
           <div className="hero-artifacts-grid hero-artifacts-row-1">
             <div className="floating-product-artifact gsap-hero-card">
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', gap: '8px', flexWrap: 'wrap' }}>
-                <div>
-                  <span className="tag-label-green" style={{ margin: 0 }}>Active Spray Window</span>
-                  <h4 style={{ fontFamily: 'var(--font-sohne)', fontSize: '17px', fontWeight: 500, margin: '2px 0 0 0' }}>
-                    {HERO_SEASONAL_SCHEDULES[heroSeason].activeWindow}
-                  </h4>
-                </div>
-                <span className="badge-green">
-                  {HERO_SEASONAL_SCHEDULES[heroSeason].badge}
-                </span>
+              <div style={{ marginBottom: '14px' }}>
+                <span className="tag-label-green" style={{ margin: 0, fontSize: '11px', letterSpacing: '0.8px' }}>Active Spray Window</span>
+                <h4 style={{ fontFamily: 'var(--font-sohne)', fontSize: '18px', fontWeight: 600, margin: '4px 0 0 0', color: 'var(--color-ink-black)' }}>
+                  {HERO_SEASONAL_SCHEDULES[heroSeason].activeWindow}
+                </h4>
               </div>
 
               <div 
@@ -341,18 +336,8 @@ export default function Home() {
 
             <div className="floating-product-artifact gsap-hero-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-                  <span className="tag-label" style={{ margin: 0 }}>Valley Spray Fastness Window</span>
-                  <span style={{
-                    fontSize: '11px',
-                    fontWeight: 600,
-                    padding: '2px 8px',
-                    borderRadius: '9999px',
-                    backgroundColor: 'rgba(28, 71, 42, 0.08)',
-                    color: 'var(--color-pine-green)'
-                  }}>
-                    Srinagar &amp; North Kashmir
-                  </span>
+                <div style={{ marginBottom: '14px' }}>
+                  <span className="tag-label" style={{ margin: 0, fontSize: '11px', letterSpacing: '0.8px' }}>Valley Spray Fastness Window</span>
                 </div>
                 <div style={{ fontFamily: 'var(--font-sohne)', fontSize: '24px', fontWeight: 500, color: 'var(--color-ink-black)' }}>
                   48–72h <span style={{ fontSize: '13.5px', color: 'var(--color-slate-gray)', fontWeight: 400 }}>Rain-fast drying requirement</span>
