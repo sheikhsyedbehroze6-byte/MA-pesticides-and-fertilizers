@@ -1,40 +1,20 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Moon, Sun, Menu, X, ArrowRight, MessageSquare, Sprout, Home, Package, Bug, Calendar, Video, Search, Phone, ChevronRight, ChevronDown, Calculator, Smartphone, ShoppingBag, ShieldAlert } from 'lucide-react';
+import { Moon, Sun, Menu, X, ArrowRight, MessageSquare, Sprout, Home, Package, Bug, Calendar, Video, Search, Phone, ChevronRight, Calculator, Smartphone, ShoppingBag, ShieldAlert } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useCart } from '../context/CartContext';
 import { preloadRoute } from '../utils/routePreloader';
 
-const AGRONOMY_TOOLS = [
-  {
-    to: '/spray-calendar',
-    label: 'Spray Calendar',
-    desc: 'SKUAST-K stage-wise spray schedule for apple & valley crops',
-    Icon: Calendar,
-    tag: 'Official'
-  },
-  {
-    to: '/dosage-calculator',
-    label: 'Dosage & Tank Calculator',
-    desc: 'Accurate dilution per tree, kanal, and 100L/200L spray tanks',
-    Icon: Calculator,
-    tag: 'Calculator'
-  },
-  {
-    to: '/disease-guide',
-    label: 'Crop Disease Guide',
-    desc: 'Visual identification & chemical remedies for apple scab & blight',
-    Icon: Bug,
-    tag: 'Diagnosis'
-  },
-  {
-    to: '/videos',
-    label: 'Video Advisory Guides',
-    desc: 'Field demonstrations & expert advice from Senior Chemist',
-    Icon: Video,
-    tag: 'Field Guide'
-  },
+const DESKTOP_NAV_LINKS = [
+  { to: '/', label: 'Home', exact: true },
+  { to: '/products', label: 'Products' },
+  { to: '/dosage-calculator', label: 'Dosage Calc' },
+  { to: '/spray-calendar', label: 'Calendar' },
+  { to: '/disease-guide', label: 'Disease Guide' },
+  { to: '/search', label: 'Search' },
+  { to: '/about', label: 'About' },
+  { to: '/contact', label: 'Contact' },
 ];
 
 const NAV_ITEMS = [
@@ -55,63 +35,11 @@ function Header() {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownTimeoutRef = useRef(null);
-  const dropdownContainerRef = useRef(null);
-
-  const isAgronomyActive = AGRONOMY_TOOLS.some(tool => location.pathname === tool.to);
-
   const [prevPathname, setPrevPathname] = useState(location.pathname);
   if (location.pathname !== prevPathname) {
     setPrevPathname(location.pathname);
     if (isMobileMenuOpen) setIsMobileMenuOpen(false);
-    if (isDropdownOpen) setIsDropdownOpen(false);
   }
-
-  const handleDropdownEnter = () => {
-    if (dropdownTimeoutRef.current) {
-      clearTimeout(dropdownTimeoutRef.current);
-      dropdownTimeoutRef.current = null;
-    }
-    setIsDropdownOpen(true);
-  };
-
-  const handleDropdownLeave = () => {
-    dropdownTimeoutRef.current = setTimeout(() => {
-      setIsDropdownOpen(false);
-    }, 180);
-  };
-
-  // Close dropdown on click outside
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (dropdownContainerRef.current && !dropdownContainerRef.current.contains(e.target)) {
-        setIsDropdownOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  // Close dropdown on Escape key
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && isDropdownOpen) {
-        setIsDropdownOpen(false);
-      }
-    };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isDropdownOpen]);
-
-  // Clean timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (dropdownTimeoutRef.current) {
-        clearTimeout(dropdownTimeoutRef.current);
-      }
-    };
-  }, []);
 
   // close mobile menu on route change
   const scrolledRef = useRef(false);
@@ -165,222 +93,33 @@ function Header() {
           </NavLink>
 
           {/* desktop nav */}
-          <nav className="desktop-nav" aria-label="Main Navigation">
+          <nav className="desktop-nav">
             <ul className="nav-links-list">
-              {/* Home */}
-              <li style={{ position: 'relative' }}>
-                <NavLink
-                  to="/"
-                  end
-                  onMouseEnter={() => preloadRoute('/')}
-                  onTouchStart={() => preloadRoute('/')}
-                  className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
-                >
-                  {({ isActive }) => (
-                    <>
-                      {isActive && (
-                        <motion.div
-                          layoutId="activeDesktopNavPill"
-                          className="nav-active-pill"
-                          transition={{ type: 'spring', stiffness: 420, damping: 32 }}
-                        />
-                      )}
-                      <span style={{ position: 'relative', zIndex: 1 }}>Home</span>
-                    </>
-                  )}
-                </NavLink>
-              </li>
-
-              {/* Products */}
-              <li style={{ position: 'relative' }}>
-                <NavLink
-                  to="/products"
-                  onMouseEnter={() => preloadRoute('/products')}
-                  onTouchStart={() => preloadRoute('/products')}
-                  className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
-                >
-                  {({ isActive }) => (
-                    <>
-                      {isActive && (
-                        <motion.div
-                          layoutId="activeDesktopNavPill"
-                          className="nav-active-pill"
-                          transition={{ type: 'spring', stiffness: 420, damping: 32 }}
-                        />
-                      )}
-                      <span style={{ position: 'relative', zIndex: 1 }}>Products</span>
-                    </>
-                  )}
-                </NavLink>
-              </li>
-
-              {/* Agronomy Tools Dropdown */}
-              <li
-                ref={dropdownContainerRef}
-                className="nav-dropdown-container"
-                onMouseEnter={handleDropdownEnter}
-                onMouseLeave={handleDropdownLeave}
-              >
-                <button
-                  type="button"
-                  className={`nav-link-item nav-dropdown-trigger ${isAgronomyActive ? 'active' : ''} ${isDropdownOpen ? 'is-open' : ''}`}
-                  onClick={() => setIsDropdownOpen(prev => !prev)}
-                  aria-expanded={isDropdownOpen}
-                  aria-haspopup="true"
-                  aria-controls="agronomy-dropdown-menu"
-                  id="agronomy-dropdown-button"
-                >
-                  {isAgronomyActive && (
-                    <motion.div
-                      layoutId="activeDesktopNavPill"
-                      className="nav-active-pill"
-                      transition={{ type: 'spring', stiffness: 420, damping: 32 }}
-                    />
-                  )}
-                  <span style={{ position: 'relative', zIndex: 1, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                    <span>Agronomy Tools</span>
-                    <ChevronDown
-                      size={14}
-                      className={`nav-dropdown-chevron ${isDropdownOpen ? 'is-rotated' : ''}`}
-                    />
-                  </span>
-                </button>
-
-                <AnimatePresence>
-                  {isDropdownOpen && (
-                    <motion.div
-                      id="agronomy-dropdown-menu"
-                      role="menu"
-                      aria-labelledby="agronomy-dropdown-button"
-                      className="nav-dropdown-flyout"
-                      initial={{ opacity: 0, y: 8, scale: 0.98 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 6, scale: 0.98 }}
-                      transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                      <div className="nav-dropdown-header">
-                        <span className="nav-dropdown-heading">Orchard &amp; Field Decision Tools</span>
-                        <span className="nav-dropdown-subheading">SKUAST-K verified agronomy</span>
-                      </div>
-
-                      <div className="nav-dropdown-items-grid">
-                        {AGRONOMY_TOOLS.map(({ to, label, desc, Icon, tag }) => {
-                          const isCurrent = location.pathname === to;
-                          return (
-                            <NavLink
-                              key={to}
-                              to={to}
-                              role="menuitem"
-                              onMouseEnter={() => preloadRoute(to)}
-                              onTouchStart={() => preloadRoute(to)}
-                              onClick={() => setIsDropdownOpen(false)}
-                              className={`nav-dropdown-item ${isCurrent ? 'is-current' : ''}`}
-                            >
-                              <div className="nav-dropdown-icon-box">
-                                <Icon size={18} strokeWidth={2.2} />
-                              </div>
-                              <div className="nav-dropdown-text-col">
-                                <div className="nav-dropdown-item-top">
-                                  <span className="nav-dropdown-item-label">{label}</span>
-                                  {tag && <span className="nav-dropdown-tag">{tag}</span>}
-                                </div>
-                                <span className="nav-dropdown-item-desc">{desc}</span>
-                              </div>
-                              <ChevronRight size={14} className="nav-dropdown-arrow" />
-                            </NavLink>
-                          );
-                        })}
-                      </div>
-
-                      <div className="nav-dropdown-footer">
-                        <span className="nav-dropdown-footer-text">
-                          Need chemical formulations?
-                        </span>
-                        <NavLink
-                          to="/products"
-                          onClick={() => setIsDropdownOpen(false)}
-                          className="nav-dropdown-footer-link"
-                        >
-                          <span>Explore Products</span>
-                          <ArrowRight size={12} />
-                        </NavLink>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </li>
-
-              {/* Search */}
-              <li style={{ position: 'relative' }}>
-                <NavLink
-                  to="/search"
-                  onMouseEnter={() => preloadRoute('/search')}
-                  onTouchStart={() => preloadRoute('/search')}
-                  className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
-                >
-                  {({ isActive }) => (
-                    <>
-                      {isActive && (
-                        <motion.div
-                          layoutId="activeDesktopNavPill"
-                          className="nav-active-pill"
-                          transition={{ type: 'spring', stiffness: 420, damping: 32 }}
-                        />
-                      )}
-                      <span style={{ position: 'relative', zIndex: 1, display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
-                        <Search size={14} opacity={0.75} />
-                        <span>Search</span>
-                      </span>
-                    </>
-                  )}
-                </NavLink>
-              </li>
-
-              {/* About */}
-              <li style={{ position: 'relative' }}>
-                <NavLink
-                  to="/about"
-                  onMouseEnter={() => preloadRoute('/about')}
-                  onTouchStart={() => preloadRoute('/about')}
-                  className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
-                >
-                  {({ isActive }) => (
-                    <>
-                      {isActive && (
-                        <motion.div
-                          layoutId="activeDesktopNavPill"
-                          className="nav-active-pill"
-                          transition={{ type: 'spring', stiffness: 420, damping: 32 }}
-                        />
-                      )}
-                      <span style={{ position: 'relative', zIndex: 1 }}>About</span>
-                    </>
-                  )}
-                </NavLink>
-              </li>
-
-              {/* Contact */}
-              <li style={{ position: 'relative' }}>
-                <NavLink
-                  to="/contact"
-                  onMouseEnter={() => preloadRoute('/contact')}
-                  onTouchStart={() => preloadRoute('/contact')}
-                  className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
-                >
-                  {({ isActive }) => (
-                    <>
-                      {isActive && (
-                        <motion.div
-                          layoutId="activeDesktopNavPill"
-                          className="nav-active-pill"
-                          transition={{ type: 'spring', stiffness: 420, damping: 32 }}
-                        />
-                      )}
-                      <span style={{ position: 'relative', zIndex: 1 }}>Contact</span>
-                    </>
-                  )}
-                </NavLink>
-              </li>
+              {DESKTOP_NAV_LINKS.map(({ to, label, exact }) => (
+                <li key={to} style={{ position: 'relative' }}>
+                  <NavLink
+                    to={to}
+                    end={exact}
+                    onMouseEnter={() => preloadRoute(to)}
+                    onTouchStart={() => preloadRoute(to)}
+                    className={({ isActive }) => `nav-link-item ${isActive ? 'active' : ''}`}
+                    style={{ position: 'relative' }}
+                  >
+                    {({ isActive }) => (
+                      <>
+                        {isActive && (
+                          <motion.div
+                            layoutId="activeDesktopNavPill"
+                            className="nav-active-pill"
+                            transition={{ type: 'spring', stiffness: 420, damping: 32 }}
+                          />
+                        )}
+                        <span style={{ position: 'relative', zIndex: 1 }}>{label}</span>
+                      </>
+                    )}
+                  </NavLink>
+                </li>
+              ))}
             </ul>
           </nav>
 
