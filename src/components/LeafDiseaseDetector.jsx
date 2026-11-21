@@ -505,7 +505,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
               color: 'var(--color-ink-black)',
               letterSpacing: '-0.01em'
             }}>
-              Leaf Disease Scanner &amp; Prescription
+              Clinical Crop Disease Diagnostic Guide
             </h3>
             <span style={{
               fontSize: '11px',

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Play, ExternalLink, MessageCircle, ArrowRight, Video, Sparkles, Clock, CheckCircle2, Search, Filter, X } from 'lucide-react';
+import { Play, ExternalLink, MessageCircle, ArrowRight, Video, Clock, CheckCircle2, Search, Filter, X } from 'lucide-react';
 import Breadcrumb from '../components/Breadcrumb';
 
 const FEATURED_VIDEO = {

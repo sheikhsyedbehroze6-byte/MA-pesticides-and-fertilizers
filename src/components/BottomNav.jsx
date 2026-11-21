@@ -11,7 +11,7 @@ const BOTTOM_TABS = [
 ];
 
 export default function BottomNav() {
-  const handleOpenAiChat = (e) => {
+  const handleOpenAdvisory = (e) => {
     e.preventDefault();
     window.dispatchEvent(new CustomEvent('toggle-advisor-chat'));
   };
@@ -58,7 +58,7 @@ export default function BottomNav() {
         <li className="bottom-nav-item">
           <button
             type="button"
-            onClick={handleOpenAiChat}
+            onClick={handleOpenAdvisory}
             className="bottom-nav-link"
             aria-label="Open Orchard Chemist Advisory Desk"
           >

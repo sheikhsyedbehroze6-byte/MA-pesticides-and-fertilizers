@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Smartphone, Download, X, Check, ShieldCheck, Share, Sparkles } from 'lucide-react';
+import { Smartphone, Download, X, Check, ShieldCheck, Share } from 'lucide-react';
 import { trackEvent } from '../utils/analytics';
 
 export default function PWAInstallPrompt() {

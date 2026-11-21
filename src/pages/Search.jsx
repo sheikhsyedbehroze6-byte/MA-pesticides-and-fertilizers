@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect, useRef, useDeferredValue } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { diseases, products } from '../data/agricultureData';
-import { Search as SearchIcon, X, ArrowUpRight, History, Trash2, Clock, Sparkles } from 'lucide-react';
+import { Search as SearchIcon, X, ArrowUpRight, History, Trash2, Clock, BookOpen } from 'lucide-react';
 import Breadcrumb from '../components/Breadcrumb';
 import WeatherSprayAlert from '../components/WeatherSprayAlert';
 import { safeJsonParse } from '../utils/security';
@@ -299,7 +299,7 @@ export default function Search() {
             {/* Curated Kashmir Agronomy Topics */}
             <div className="card-neutral" style={{ padding: '28px 24px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-                <Sparkles size={16} color="var(--color-pine-green)" />
+                <BookOpen size={16} color="var(--color-pine-green)" />
                 <h3 style={{ margin: 0, fontFamily: 'var(--font-signifier)', fontSize: '20px', fontWeight: 400 }}>
                   Curated Kashmir Agronomy Topics
                 </h3>

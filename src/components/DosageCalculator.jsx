@@ -261,11 +261,11 @@ export default function DosageCalculator() {
           }}
         >
           <Bug size={16} color="var(--color-pine-green)" />
-          <span>Leaf Disease Scanner &amp; Prescription</span>
+          <span>Clinical Disease Diagnostic Guide</span>
           <span style={{
             fontSize: '10px',
             fontWeight: 700,
-            backgroundColor: '#10b981',
+            backgroundColor: 'var(--color-pine-green)',
             color: '#ffffff',
             padding: '1px 7px',
             borderRadius: '9999px',
@@ -274,7 +274,7 @@ export default function DosageCalculator() {
             alignItems: 'center',
             gap: '3px'
           }}>
-            PATHOLOGY SCANNER
+            SKUAST-K DIAGNOSTICS
           </span>
         </button>
 
@@ -308,7 +308,7 @@ export default function DosageCalculator() {
           <Suspense fallback={
             <div style={{ padding: '36px 20px', textAlign: 'center', color: 'var(--color-slate-gray)' }}>
               <div style={{ width: '28px', height: '28px', border: '3px solid var(--border-color)', borderTopColor: 'var(--color-pine-green)', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 12px' }} />
-              <span style={{ fontSize: '13.5px', fontWeight: 550 }}>Initializing Kashmiri Orchard Pathology Scanner...</span>
+              <span style={{ fontSize: '13.5px', fontWeight: 550 }}>Loading SKUAST-K Pathology Database...</span>
             </div>
           }>
             <LeafDiseaseDetector 

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, memo } from 'react';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { useTheme } from '../context/ThemeContext';
-import { Sparkles, Rotate3d } from 'lucide-react';
+import { Rotate3d, Sprout } from 'lucide-react';
 
 // Generates a rich, procedural Kashmir Red Delicious apple skin texture with golden blush streaks
 function createAppleTexture() {
@@ -574,7 +574,7 @@ function OrchardScene3D() {
       {/* Floating HUD Meta Tag Overlay */}
       <div className="orchard-3d-overlay">
         <div className="orchard-3d-badge">
-          <Sparkles size={13} color="var(--color-pine-green)" />
+          <Sprout size={13} color="var(--color-pine-green)" />
           <span>Kashmir Royal Delicious • 3D</span>
         </div>
         <div className="orchard-3d-hint">

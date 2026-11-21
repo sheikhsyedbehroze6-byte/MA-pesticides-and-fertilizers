@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Calculator, ShieldCheck, MapPin, Phone, MessageCircle, Clock, ExternalLink, Sparkles, CheckCircle2, Package, Calendar, Bug, Search } from 'lucide-react';
+import { ArrowRight, Calculator, ShieldCheck, MapPin, Phone, MessageCircle, Clock, ExternalLink, CheckCircle2, Package, Calendar, Bug, Search } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import WeatherSprayAlert from '../components/WeatherSprayAlert';
@@ -380,18 +380,24 @@ export default function Home() {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  window.dispatchEvent(new CustomEvent('open-advisor-chat', { detail: heroSearch }));
+                  const q = heroSearch.trim();
+                  if (q) {
+                    const waUrl = `https://wa.me/919906541321?text=${encodeURIComponent(`Hello Sheikh Mohammad Ayoub, I need expert crop advisory regarding: ${q}`)}`;
+                    window.open(waUrl, '_blank', 'noopener,noreferrer');
+                  } else {
+                    window.dispatchEvent(new CustomEvent('open-advisor-chat', { detail: '' }));
+                  }
                 }}
                 className="advisory-composer-input"
               >
                 <input
                   type="text"
-                  placeholder="Ask about apple scab sprays, 200L tank dosage, or SKUAST timing..."
+                  placeholder="Ask Sheikh M. Ayoub on WhatsApp (apple scab, 200L tank dosage, spray timing)..."
                   value={heroSearch}
                   onChange={(e) => setHeroSearch(e.target.value)}
                   style={{ fontSize: '14.5px' }}
                 />
-                <button type="submit" className="advisory-composer-send-btn" aria-label="Ask Chemist Desk">
+                <button type="submit" className="advisory-composer-send-btn" aria-label="Send to WhatsApp Desk" title="Send to WhatsApp Desk">
                   <ArrowRight size={16} />
                 </button>
               </form>
@@ -445,19 +451,19 @@ export default function Home() {
               color: 'var(--color-ink-black)'
             }}>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#0284c7' }}></span>
+                <CheckCircle2 size={13} color="var(--color-pine-green)" />
                 Bayer CropScience
               </span>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#16a34a' }}></span>
+                <CheckCircle2 size={13} color="var(--color-pine-green)" />
                 Syngenta India
               </span>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#9333ea' }}></span>
+                <CheckCircle2 size={13} color="var(--color-pine-green)" />
                 IPL Biologicals
               </span>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#d97706' }}></span>
+                <CheckCircle2 size={13} color="var(--color-pine-green)" />
                 SKUAST-K Protocols
               </span>
             </div>
