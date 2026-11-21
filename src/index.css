@@ -3310,6 +3310,42 @@ html {
   }
 }
 
+/* ==========================================================================
+   Store Map Leaflet & OpenStreetMap Styles
+   ========================================================================== */
+.store-map-leaflet {
+  overflow: hidden;
+  border-radius: var(--radius-cards);
+}
+
+.store-map-leaflet .leaflet-container {
+  font-family: var(--font-sohne), -apple-system, BlinkMacSystemFont, sans-serif;
+  width: 100%;
+  height: 100%;
+}
+
+[data-theme='dark'] .store-map-leaflet .leaflet-tile {
+  filter: brightness(0.68) invert(1) contrast(2.2) hue-rotate(180deg) saturate(0.35);
+}
+
+[data-theme='dark'] .store-map-leaflet .leaflet-popup-content-wrapper,
+[data-theme='dark'] .store-map-leaflet .leaflet-popup-tip {
+  background-color: #171b24 !important;
+  color: #f1f5f9 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45) !important;
+}
+
+[data-theme='dark'] .store-map-leaflet .leaflet-bar a {
+  background-color: #171b24;
+  color: #f1f5f9;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='dark'] .store-map-leaflet .leaflet-bar a:hover {
+  background-color: #232936;
+}
+
+
 
 
 

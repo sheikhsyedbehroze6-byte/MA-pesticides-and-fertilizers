@@ -44,21 +44,15 @@ export default function StoreMap() {
       });
       mapInstanceRef.current = map;
 
-      // Tile Layer: Esri ArcGIS World Street Map (Light) & Dark Gray Canvas (Dark)
-      // 100% free, zero API key required, reliable global CDN with zero watermark
-      // maxNativeZoom: 16 ensures Leaflet never requests missing zoom 17+ tiles from Esri
-      const tileUrl = theme === 'dark'
-        ? 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}'
-        : 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}';
-
-      L.tileLayer(tileUrl, {
+      // OpenStreetMap: High-fidelity street map with complete coverage for Srinagar, Kashmir
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         minZoom: 12,
-        maxNativeZoom: 16,
-        maxZoom: 18,
-        attribution: 'Tiles &copy; <a href="https://www.esri.com/" target="_blank" rel="noopener">Esri</a> &mdash; Esri, DeLorme, NAVTEQ, USGS'
+        maxZoom: 19,
+        subdomains: ['a', 'b', 'c'],
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'
       }).addTo(map);
 
-      // Custom Editorial Pin matching MA Pesticides brand
+      // Custom Botanical Pin matching MA Pesticides brand
       const customIcon = L.divIcon({
         className: 'store-map-pin',
         html: `
@@ -66,7 +60,7 @@ export default function StoreMap() {
             position: relative;
             width: 36px;
             height: 36px;
-            background: #5d2a1a;
+            background: #1c472a;
             border: 2.5px solid #ffffff;
             border-radius: 50% 50% 50% 0;
             transform: rotate(-45deg);
@@ -93,13 +87,19 @@ export default function StoreMap() {
       const marker = L.marker([STORE_LAT, STORE_LNG], { icon: customIcon }).addTo(map);
 
       // Rich popup
+      const isDark = theme === 'dark';
+      const popupText = isDark ? '#f1f5f9' : '#17191c';
+      const popupSubtext = isDark ? '#94a3b8' : '#555e68';
+      const popupBadgeBg = isDark ? 'rgba(34, 197, 94, 0.2)' : '#e8f5e9';
+      const popupBadgeText = isDark ? '#4ade80' : '#1c472a';
+
       const popupContent = `
-        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 4px; max-width: 220px;">
-          <h4 style="margin: 0 0 4px; font-size: 15px; font-weight: 600; color: #17191c;">MA Pesticides</h4>
-          <p style="margin: 0 0 6px; font-size: 12.5px; color: #555e68; line-height: 1.4;">
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 4px; max-width: 220px; color: ${popupText};">
+          <h4 style="margin: 0 0 4px; font-size: 15px; font-weight: 600; color: ${popupText};">MA Pesticides</h4>
+          <p style="margin: 0 0 6px; font-size: 12.5px; color: ${popupSubtext}; line-height: 1.4;">
             Hari Singh High Street, opp. High Court Complex, Srinagar — 190001
           </p>
-          <span style="display: inline-block; background: #e8f5e9; color: #1c472a; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px;">
+          <span style="display: inline-block; background: ${popupBadgeBg}; color: ${popupBadgeText}; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px;">
             Open: Mon–Sat 9AM–7PM
           </span>
         </div>
@@ -211,6 +211,7 @@ export default function StoreMap() {
   return (
     <div
       ref={mapContainerRef}
+      className="store-map-leaflet"
       style={{
         width: '100%',
         height: '100%',
