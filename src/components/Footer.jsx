@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, ArrowUpRight } from 'lucide-react';
+import { MapPin, Phone, ArrowUpRight, ShieldAlert } from 'lucide-react';
 import { preloadRoute } from '../utils/routePreloader';
 
 function Footer() {
@@ -47,9 +47,10 @@ function Footer() {
                   to="/poison-control" 
                   onMouseEnter={() => preloadRoute('/poison-control')} 
                   onTouchStart={() => preloadRoute('/poison-control')}
-                  style={{ color: '#dc2626', fontWeight: 650 }}
+                  style={{ color: '#b91c1c', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '5px' }}
                 >
-                  🚨 Poison Control &amp; Antidote Guide
+                  <ShieldAlert size={14} color="#b91c1c" />
+                  <span>Poison Control &amp; Antidotes</span>
                 </Link>
               </li>
               <li><a href="/download.html" target="_blank" rel="noopener noreferrer">Technical Architecture</a></li>
