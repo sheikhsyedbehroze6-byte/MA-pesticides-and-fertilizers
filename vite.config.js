@@ -109,12 +109,12 @@ export default defineConfig({
             }
           },
           {
-            urlPattern: /^https:\/\/[a-c]\.tile\.openstreetmap\.org\/.*/i,
+            urlPattern: /^https:\/\/[a-d]\.basemaps\.cartocdn\.com\/.*/i,
             handler: 'CacheFirst',
             options: {
-              cacheName: 'osm-map-tiles',
+              cacheName: 'carto-map-tiles',
               expiration: {
-                maxEntries: 120,
+                maxEntries: 160,
                 maxAgeSeconds: 60 * 60 * 24 * 60 // 60 days
               },
               cacheableResponse: {

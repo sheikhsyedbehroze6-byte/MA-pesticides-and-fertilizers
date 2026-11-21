@@ -42,10 +42,15 @@ export default function StoreMap() {
       });
       mapInstanceRef.current = map;
 
-      // Tile Layer: OpenStreetMap standard tiles
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      // Tile Layer: High-performance CartoDB tiles (clean, reliable CDN, supports dark mode & no OSM access block)
+      const tileUrl = theme === 'dark'
+        ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+        : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+
+      L.tileLayer(tileUrl, {
+        subdomains: 'abcd',
+        maxZoom: 20,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>'
       }).addTo(map);
 
       // Custom Editorial Pin matching MA Pesticides brand
@@ -96,16 +101,35 @@ export default function StoreMap() {
       `;
       marker.bindPopup(popupContent).openPopup();
 
-      const timer = setTimeout(() => {
+      const timer1 = setTimeout(() => {
         try {
           map.invalidateSize();
         } catch {
           // ignore
         }
-      }, 200);
+      }, 100);
+
+      const timer2 = setTimeout(() => {
+        try {
+          map.invalidateSize();
+        } catch {
+          // ignore
+        }
+      }, 500);
+
+      const handleResize = () => {
+        try {
+          map.invalidateSize();
+        } catch {
+          // ignore
+        }
+      };
+      window.addEventListener('resize', handleResize);
 
       return () => {
-        clearTimeout(timer);
+        clearTimeout(timer1);
+        clearTimeout(timer2);
+        window.removeEventListener('resize', handleResize);
         if (mapInstanceRef.current) {
           try {
             mapInstanceRef.current.remove();
