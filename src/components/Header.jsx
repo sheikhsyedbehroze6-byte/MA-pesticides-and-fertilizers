@@ -61,18 +61,30 @@ function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // lock scroll when mobile menu is open
+  // lock scroll when mobile menu is open, while preserving touch scroll inside drawer
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
-      document.body.style.touchAction = 'none';
     } else {
       document.body.style.overflow = '';
-      document.body.style.touchAction = '';
     }
     return () => {
       document.body.style.overflow = '';
-      document.body.style.touchAction = '';
+    };
+  }, [isMobileMenuOpen]);
+
+  // Auto-close mobile drawer on screen rotation/resize beyond tablet breakpoint
+  useEffect(() => {
+    const handleOrientationOrResize = () => {
+      if (window.innerWidth > 992 && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleOrientationOrResize, { passive: true });
+    window.addEventListener('orientationchange', handleOrientationOrResize, { passive: true });
+    return () => {
+      window.removeEventListener('resize', handleOrientationOrResize);
+      window.removeEventListener('orientationchange', handleOrientationOrResize);
     };
   }, [isMobileMenuOpen]);
 

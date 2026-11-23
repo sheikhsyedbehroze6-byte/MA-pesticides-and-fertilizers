@@ -664,3 +664,36 @@
     padding: 12px 18px 18px;
   }
 }
+
+/* Mobile Landscape Drawer: side-slide panel rather than cramped bottom sheet */
+@media (orientation: landscape) and (max-height: 520px) {
+  .spray-order-backdrop {
+    align-items: stretch !important;
+    justify-content: flex-end !important;
+  }
+
+  .spray-order-drawer {
+    width: 100% !important;
+    max-width: 440px !important;
+    height: 100dvh !important;
+    border-radius: 0 !important;
+    animation: sprayDrawerSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  }
+
+  .spray-drawer-pull-bar {
+    display: none !important;
+  }
+
+  .spray-drawer-header {
+    padding: 8px 16px 6px !important;
+  }
+
+  .spray-drawer-body {
+    padding: 10px 16px !important;
+    gap: 10px !important;
+  }
+
+  .spray-drawer-footer {
+    padding: 10px 16px 14px !important;
+  }
+}

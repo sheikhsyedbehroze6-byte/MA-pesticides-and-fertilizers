@@ -1850,10 +1850,81 @@ button, input, select, textarea {
     padding-bottom: 48px !important;
   }
 
-  /* Floating cart on mobile */
+  /* Floating cart on mobile floats cleanly above bottom nav */
   .floating-cart-wrapper {
-    bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important;
+    bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
     right: 12px !important;
+  }
+}
+
+/* ==========================================================================
+   MOBILE ORIENTATION & COMPACT LANDSCAPE ERGONOMICS
+   ========================================================================== */
+@media (orientation: landscape) and (max-height: 520px) {
+  /* Slim down sticky header to maximize vertical reading area */
+  .steep-header {
+    height: 50px !important;
+  }
+
+  .header-inner {
+    height: 50px !important;
+  }
+
+  .brand-logo-icon {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .brand-title {
+    font-size: 15px !important;
+  }
+
+  .brand-subtitle {
+    display: none !important;
+  }
+
+  .mobile-header-icon-btn,
+  .mobile-toggle-btn {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  /* Full-bleed scrollable mobile drawer in landscape */
+  .mobile-menu-drawer {
+    top: 50px !important;
+    height: calc(100dvh - 50px) !important;
+    max-height: calc(100vh - 50px) !important;
+    padding: 14px 20px 28px !important;
+  }
+
+  /* Quick Navigation Hub in mobile landscape: clean 3 columns */
+  .home-quick-hub-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 10px !important;
+    margin-top: 18px !important;
+  }
+
+  /* Hero section compact vertical spacing */
+  .home-hero-section {
+    padding-top: 18px !important;
+    padding-bottom: 32px !important;
+  }
+
+  .section-padding {
+    padding-top: 24px !important;
+    padding-bottom: 32px !important;
+  }
+
+  /* Compact floating cart in landscape */
+  .floating-cart-wrapper {
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px)) !important;
+    right: calc(16px + env(safe-area-inset-right, 0px)) !important;
+  }
+
+  /* Landscape safe padding for notched edges */
+  .page-container {
+    padding-left: max(16px, env(safe-area-inset-left, 0px)) !important;
+    padding-right: max(16px, env(safe-area-inset-right, 0px)) !important;
   }
 }
 
