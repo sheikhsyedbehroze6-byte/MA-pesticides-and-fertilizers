@@ -344,16 +344,20 @@ export default function Home() {
             <div className="floating-product-artifact gsap-hero-card">
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
                 <div style={{
-                  width: '32px',
-                  height: '32px',
+                  width: '34px',
+                  height: '34px',
+                  minWidth: '34px',
                   borderRadius: '50%',
                   backgroundColor: 'rgba(93, 42, 26, 0.1)',
                   color: 'var(--color-sienna-brown)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '14px',
-                  fontWeight: 600
+                  fontSize: '11.5px',
+                  fontWeight: 700,
+                  letterSpacing: '0.04em',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0
                 }}>
                   SMA
                 </div>
