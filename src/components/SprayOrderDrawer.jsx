@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { preloadRoute } from '../utils/routePreloader';
 import { 
   X, 
   ShoppingBag, 
@@ -53,7 +54,6 @@ export default function SprayOrderDrawer() {
     getWhatsAppUrl
   } = useCart();
 
-  const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
 
   // Close drawer on Escape key press
@@ -246,17 +246,35 @@ export default function SprayOrderDrawer() {
               <p>
                 Browse our authorized pesticide inventory or calculate dosage from the Spray Calculator to build your seasonal order.
               </p>
-              <button 
-                onClick={() => {
-                  closeCart();
-                  navigate('/products');
-                }}
-                className="pill-button-filled"
-                style={{ marginTop: '12px', gap: '8px' }}
-              >
-                <span>Browse Products</span>
-                <ArrowRight size={15} />
-              </button>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%', maxWidth: '280px', marginTop: '14px' }}>
+                <Link 
+                  to="/products"
+                  onClick={() => {
+                    closeCart();
+                    window.scrollTo({ top: 0, behavior: 'instant' });
+                  }}
+                  onMouseEnter={() => preloadRoute('/products')}
+                  onTouchStart={() => preloadRoute('/products')}
+                  className="pill-button-filled"
+                  style={{ gap: '8px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '10px 18px', width: '100%', boxSizing: 'border-box' }}
+                >
+                  <span>Browse Products Catalog</span>
+                  <ArrowRight size={15} />
+                </Link>
+                <Link 
+                  to="/spray-calendar"
+                  onClick={() => {
+                    closeCart();
+                    window.scrollTo({ top: 0, behavior: 'instant' });
+                  }}
+                  onMouseEnter={() => preloadRoute('/spray-calendar')}
+                  onTouchStart={() => preloadRoute('/spray-calendar')}
+                  className="pill-button-ghost"
+                  style={{ gap: '8px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', padding: '8px 14px', width: '100%', boxSizing: 'border-box' }}
+                >
+                  <span>View SKUAST Spray Calendar</span>
+                </Link>
+              </div>
             </div>
           ) : (
             <>
@@ -264,13 +282,28 @@ export default function SprayOrderDrawer() {
               <div className="spray-items-section">
                 <div className="spray-section-header">
                   <span>Selected Chemicals & Tonics</span>
-                  <button 
-                    onClick={clearCart} 
-                    className="spray-clear-all-btn"
-                    title="Clear entire cart"
-                  >
-                    Clear All
-                  </button>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <Link
+                      to="/products"
+                      onClick={() => {
+                        closeCart();
+                        window.scrollTo({ top: 0, behavior: 'instant' });
+                      }}
+                      onMouseEnter={() => preloadRoute('/products')}
+                      onTouchStart={() => preloadRoute('/products')}
+                      style={{ fontSize: '12px', fontWeight: 600, color: 'var(--color-pine-green)', textDecoration: 'underline', textUnderlineOffset: '2px', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                    >
+                      <Plus size={13} />
+                      <span>Add More</span>
+                    </Link>
+                    <button 
+                      onClick={clearCart} 
+                      className="spray-clear-all-btn"
+                      title="Clear entire cart"
+                    >
+                      Clear All
+                    </button>
+                  </div>
                 </div>
 
                 <div className="spray-items-list">
@@ -347,6 +380,21 @@ export default function SprayOrderDrawer() {
                     );
                   })}
                 </div>
+
+                <Link
+                  to="/products"
+                  onClick={() => {
+                    closeCart();
+                    window.scrollTo({ top: 0, behavior: 'instant' });
+                  }}
+                  onMouseEnter={() => preloadRoute('/products')}
+                  onTouchStart={() => preloadRoute('/products')}
+                  className="pill-button-ghost pill-button-sm"
+                  style={{ alignSelf: 'flex-start', gap: '6px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', marginTop: '4px', fontSize: '12.5px' }}
+                >
+                  <Plus size={14} />
+                  <span>+ Browse &amp; Add More Formulations</span>
+                </Link>
               </div>
 
               {/* Farmer & Orchard Details Form */}
