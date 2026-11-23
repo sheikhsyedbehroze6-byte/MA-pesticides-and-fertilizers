@@ -2434,24 +2434,49 @@ button, input, select, textarea {
 
   .page-container {
     padding: 0 14px;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .header-actions {
+    gap: 6px !important;
+  }
+
+  .mobile-header-icon-btn,
+  .mobile-toggle-btn {
+    width: 36px !important;
+    height: 36px !important;
   }
 
   .brand-logo {
-    gap: 8px;
+    gap: 8px !important;
   }
 
   .brand-logo-icon {
-    width: 32px;
-    height: 32px;
+    width: 32px !important;
+    height: 32px !important;
   }
 
   .brand-title {
-    font-size: 17px;
+    font-size: clamp(14px, 4.2vw, 16px) !important;
   }
 
   .brand-subtitle {
-    font-size: 9.5px;
-    letter-spacing: 0.9px;
+    font-size: clamp(8.5px, 2.5vw, 9.5px) !important;
+    letter-spacing: 0.6px !important;
+  }
+
+  .quick-nav-pill {
+    padding: 12px 10px !important;
+  }
+
+  .quick-nav-pill-title {
+    font-size: 13px !important;
+  }
+
+  .quick-nav-pill-desc {
+    font-size: 11px !important;
   }
 
   .floating-product-artifact {
@@ -2487,6 +2512,80 @@ button, input, select, textarea {
 
   .advisory-composer-input input {
     font-size: 16px !important;
+  }
+}
+
+/* Chemist initials badge single-line enforcement */
+.chemist-avatar-badge,
+.chemist-avatar-badge * {
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  flex-shrink: 0 !important;
+}
+
+/* Extra-Narrow Mobile Screens (e.g. 320px–360px / iPhone SE 1st gen / Galaxy Fold narrow) */
+@media (max-width: 360px) {
+  .page-container {
+    padding: 0 10px !important;
+  }
+
+  .header-actions {
+    gap: 4px !important;
+  }
+
+  .mobile-header-icon-btn,
+  .mobile-toggle-btn {
+    width: 33px !important;
+    height: 33px !important;
+  }
+
+  .brand-logo {
+    gap: 6px !important;
+  }
+
+  .brand-logo-icon {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  .brand-title {
+    font-size: 13.5px !important;
+  }
+
+  .brand-subtitle {
+    display: none !important;
+  }
+
+  .home-quick-hub-grid {
+    gap: 8px !important;
+  }
+
+  .quick-nav-pill {
+    padding: 10px 8px !important;
+  }
+
+  .quick-nav-pill-icon {
+    width: 28px !important;
+    height: 28px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .quick-nav-pill-title {
+    font-size: 12px !important;
+  }
+
+  .quick-nav-pill-desc {
+    font-size: 10px !important;
+  }
+
+  .bottom-nav-label {
+    font-size: 9.5px !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  .bottom-nav-link {
+    padding: 5px 2px 3px !important;
   }
 }
 

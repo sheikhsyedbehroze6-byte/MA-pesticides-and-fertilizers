@@ -343,23 +343,31 @@ export default function Home() {
           <div className="hero-artifacts-grid hero-artifacts-row-2">
             <div className="floating-product-artifact gsap-hero-card">
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
-                <div style={{
-                  width: '36px',
-                  height: '36px',
-                  minWidth: '36px',
-                  borderRadius: '50%',
-                  backgroundColor: 'rgba(93, 42, 26, 0.1)',
-                  color: 'var(--color-sienna-brown)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '11px',
-                  fontWeight: 700,
-                  letterSpacing: '0.08em',
-                  whiteSpace: 'nowrap',
-                  flexShrink: 0
-                }}>
-                  SMA
+                <div 
+                  className="chemist-avatar-badge"
+                  style={{
+                    width: '38px',
+                    height: '38px',
+                    minWidth: '38px',
+                    maxWidth: '38px',
+                    borderRadius: '50%',
+                    backgroundColor: 'rgba(93, 42, 26, 0.1)',
+                    color: 'var(--color-sienna-brown)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    letterSpacing: '0.04em',
+                    whiteSpace: 'nowrap',
+                    wordBreak: 'keep-all',
+                    overflowWrap: 'normal',
+                    lineHeight: 1,
+                    flexShrink: 0,
+                    userSelect: 'none'
+                  }}
+                >
+                  <span style={{ whiteSpace: 'nowrap', wordBreak: 'keep-all', display: 'inline', letterSpacing: '0.04em' }}>SMA</span>
                 </div>
                 <div>
                   <h4 style={{ fontFamily: 'var(--font-sohne)', fontSize: '15px', fontWeight: 600, margin: 0, color: 'var(--color-ink-black)' }}>
@@ -410,7 +418,7 @@ export default function Home() {
 
           <div className="gsap-hero-card" style={{
             marginTop: '48px',
-            padding: '18px 24px',
+            padding: 'clamp(14px, 3.5vw, 18px) clamp(14px, 4vw, 24px)',
             backgroundColor: 'var(--surface-elevated-white)',
             borderRadius: 'var(--radius-smallcards)',
             border: '1px solid var(--border-color)',
@@ -419,7 +427,8 @@ export default function Home() {
             alignItems: 'center',
             justifyContent: 'space-between',
             flexWrap: 'wrap',
-            gap: '16px'
+            gap: '16px',
+            boxSizing: 'border-box'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <div style={{
@@ -555,8 +564,8 @@ export default function Home() {
                 backgroundColor: 'rgba(255, 255, 255, 0.4)',
                 flexShrink: 0
               }}>
-                <span style={{ fontFamily: 'var(--font-signifier)', fontSize: '16px', fontWeight: 600, letterSpacing: '1px', lineHeight: 1 }}>SMA</span>
-                <span style={{ fontSize: '8px', textTransform: 'uppercase', letterSpacing: '0.5px', marginTop: '2px', opacity: 0.8 }}>EST. 1980</span>
+                <span style={{ fontFamily: 'var(--font-signifier)', fontSize: '16px', fontWeight: 600, letterSpacing: '1px', lineHeight: 1, whiteSpace: 'nowrap', wordBreak: 'keep-all' }}>SMA</span>
+                <span style={{ fontSize: '8px', textTransform: 'uppercase', letterSpacing: '0.5px', marginTop: '2px', opacity: 0.8, whiteSpace: 'nowrap' }}>EST. 1980</span>
               </div>
             </div>
 

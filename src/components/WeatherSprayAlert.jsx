@@ -51,7 +51,7 @@ function WeatherSprayAlert() {
   }, [selectedDistrict]);
 
   return (
-    <div className="floating-product-artifact" style={{ padding: '24px' }}>
+    <div className="floating-product-artifact" style={{ padding: 'clamp(16px, 4vw, 24px)', boxSizing: 'border-box' }}>
       {/* Header Bar */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', flexWrap: 'wrap', gap: '12px' }}>
         <div>

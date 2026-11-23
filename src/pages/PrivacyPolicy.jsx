@@ -219,8 +219,8 @@ export default function PrivacyPolicy() {
             "When a grower comes to our counter at Hari Singh High Street or uses our online spray calculators to calculate chemical ratios per 200-litre barrel, they are trusting us with their livelihood. We built this website to deliver authentic chemistry and SKUAST-K stage timing directly into growers' hands — not to harvest phone numbers or build marketing profiles. Everything you calculate stays in your hands."
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: '#000000', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1.5px solid #d4af37' }}>
-              <span style={{ color: '#d4af37', fontWeight: 700, fontSize: '13px' }}>SMA</span>
+            <div style={{ width: '42px', height: '42px', minWidth: '42px', borderRadius: '50%', backgroundColor: '#000000', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1.5px solid #d4af37', flexShrink: 0 }}>
+              <span style={{ color: '#d4af37', fontWeight: 700, fontSize: '13px', whiteSpace: 'nowrap', wordBreak: 'keep-all' }}>SMA</span>
             </div>
             <div>
               <strong style={{ display: 'block', fontSize: '14.5px', color: 'var(--color-sienna-brown)' }}>Sheikh Mohammad Ayoub</strong>
