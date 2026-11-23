@@ -1,8 +1,11 @@
 import { useState, useMemo, useDeferredValue } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { products } from '../data/agricultureData';
 import { Search, X } from 'lucide-react';
 import Breadcrumb from '../components/Breadcrumb';
+
+const CATEGORIES = ['All', 'Fungicide', 'Insecticide', 'Herbicide', 'Plant Tonic / Bio-Stimulant'];
 
 const CROP_DATA = [
   { id: 'All Crops', label: 'All Crops' },
@@ -14,12 +17,23 @@ const CROP_DATA = [
 ];
 
 export default function Products() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const catParam = searchParams.get('cat');
+  const activeCategory = (catParam && CATEGORIES.includes(catParam)) ? catParam : 'All';
+
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeCategory, setActiveCategory] = useState('All');
   const [activeCrop, setActiveCrop] = useState('All Crops');
   const deferredSearch = useDeferredValue(searchTerm);
 
-  const categories = ['All', 'Fungicide', 'Insecticide', 'Herbicide', 'Plant Tonic / Bio-Stimulant'];
+  const handleCategoryChange = (cat) => {
+    const next = new URLSearchParams(searchParams);
+    if (cat === 'All') {
+      next.delete('cat');
+    } else {
+      next.set('cat', cat);
+    }
+    setSearchParams(next, { replace: true });
+  };
 
   const filteredProducts = useMemo(() => {
     const term = deferredSearch.toLowerCase().trim();
@@ -94,10 +108,11 @@ export default function Products() {
         {/* Category Pills Bar (Horizontal Touch Swiper on Mobile) */}
         <div className="mobile-horizontal-pills-container">
           <div className="mobile-horizontal-pills">
-            {categories.map(cat => (
+            {CATEGORIES.map(cat => (
               <button
                 key={cat}
-                onClick={() => setActiveCategory(cat)}
+                type="button"
+                onClick={() => handleCategoryChange(cat)}
                 className={activeCategory === cat ? 'pill-button-filled pill-button-sm' : 'pill-button-ghost pill-button-sm'}
               >
                 {cat}
@@ -149,7 +164,8 @@ export default function Products() {
               Try resetting your search or categories to inspect our full 60+ Srinagar inventory.
             </p>
             <button
-              onClick={() => { setSearchTerm(''); setActiveCategory('All'); setActiveCrop('All Crops'); }}
+              type="button"
+              onClick={() => { setSearchTerm(''); handleCategoryChange('All'); setActiveCrop('All Crops'); }}
               className="pill-button-filled pill-button-sm"
             >
               Reset All Filters

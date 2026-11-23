@@ -1061,7 +1061,19 @@ export default function SprayCalendar() {
                               }}
                             >
                               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <img src={matched.image} alt={matched.name} loading="lazy" decoding="async" width="32" height="32" style={{ width: '32px', height: '32px', borderRadius: '4px', objectFit: 'cover' }} />
+                                <img
+                                  src={matched.image}
+                                  alt={matched.name}
+                                  loading="lazy"
+                                  decoding="async"
+                                  width="32"
+                                  height="32"
+                                  style={{ width: '32px', height: '32px', borderRadius: '4px', objectFit: 'cover' }}
+                                  onError={(e) => {
+                                    e.currentTarget.onerror = null;
+                                    e.currentTarget.src = '/hero-image.png';
+                                  }}
+                                />
                                 <div>
                                   <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--color-ink-black)' }}>{matched.name}</span>
                                   <span style={{ fontSize: '0.75rem', color: 'var(--color-slate-gray)', display: 'block' }}>{matched.composition}</span>

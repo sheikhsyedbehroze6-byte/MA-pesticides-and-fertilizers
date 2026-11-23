@@ -45,7 +45,7 @@ function ProductCard({ product, langMode = 'both' }) {
   const [isCalcOpen, setIsCalcOpen] = useState(false);
   const [customTankLiters, setCustomTankLiters] = useState(200);
 
-  const cleanBenefits = product.benefits.replace(/^20%\s*discount\s*on\s*print\s*price\.\s*/i, '');
+  const cleanBenefits = (product.benefits || '').replace(/^20%\s*discount\s*on\s*print\s*price\.\s*/i, '');
   const typeUrdu = TYPE_URDU_MAP[product.type] || 'زرعی دوا';
   const parsedDosage = parseDosage(product.dosage);
   const { mrp, discounted } = estimateProductPrice(product);

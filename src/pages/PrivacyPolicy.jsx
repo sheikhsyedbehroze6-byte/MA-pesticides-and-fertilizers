@@ -56,14 +56,17 @@ function getClientState() {
     };
   }
   try {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-    const savedDosages = JSON.parse(localStorage.getItem('ma_saved_recipes') || '[]');
+    const rawCart = localStorage.getItem('ma_pesticides_spray_cart_v1') || localStorage.getItem('cart') || '[]';
+    const rawWishlist = localStorage.getItem('wishlist') || '[]';
+    const rawDosages = localStorage.getItem('ma_saved_recipes') || '[]';
+    const cart = JSON.parse(rawCart);
+    const wishlist = JSON.parse(rawWishlist);
+    const savedDosages = JSON.parse(rawDosages);
     const consent = getStoredConsent();
     return {
-      cartItemsCount: cart.length,
-      wishlistCount: wishlist.length,
-      hasCustomDosages: savedDosages.length > 0,
+      cartItemsCount: Array.isArray(cart) ? cart.length : 0,
+      wishlistCount: Array.isArray(wishlist) ? wishlist.length : 0,
+      hasCustomDosages: Array.isArray(savedDosages) && savedDosages.length > 0,
       analyticsConsent: consent
     };
   } catch (err) {

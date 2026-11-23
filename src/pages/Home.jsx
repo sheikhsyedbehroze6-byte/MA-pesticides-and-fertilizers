@@ -344,18 +344,18 @@ export default function Home() {
             <div className="floating-product-artifact gsap-hero-card">
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
                 <div style={{
-                  width: '34px',
-                  height: '34px',
-                  minWidth: '34px',
+                  width: '36px',
+                  height: '36px',
+                  minWidth: '36px',
                   borderRadius: '50%',
                   backgroundColor: 'rgba(93, 42, 26, 0.1)',
                   color: 'var(--color-sienna-brown)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '11.5px',
+                  fontSize: '11px',
                   fontWeight: 700,
-                  letterSpacing: '0.04em',
+                  letterSpacing: '0.08em',
                   whiteSpace: 'nowrap',
                   flexShrink: 0
                 }}>
