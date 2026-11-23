@@ -34,7 +34,7 @@ export default function DosageCalculatorPage() {
           </h1>
 
           <p className="text-body-lg" style={{ color: 'var(--color-slate-gray)', marginBottom: '24px' }}>
-            Identify foliar pathogens using clinical symptom keys and calculate exact chemical volumes and water ratios for Kashmiri 200L barrels, 500L tanks, 1000L spray motors, or tree acreage.
+            Identify orchard diseases by leaf symptoms and calculate exact chemical measurements for 200L drums, 500L tractor tanks, or power spray motors.
           </p>
 
           {/* Cross-link to Disease Guide */}

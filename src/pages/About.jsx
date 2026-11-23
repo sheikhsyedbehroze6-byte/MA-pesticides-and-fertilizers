@@ -9,12 +9,12 @@ export default function About() {
 
         {/* header */}
         <div style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 64px' }}>
-          <span className="tag-label">Established in Srinagar, Kashmir</span>
+          <span className="tag-label">Family Firm &bull; Srinagar, Kashmir</span>
           <h1 className="text-heading-lg" style={{ marginBottom: '16px' }}>
-            Bridging chemistry and fruit farming.
+            Four decades of chemistry and apple farming.
           </h1>
           <p className="text-body-lg" style={{ color: 'var(--color-slate-gray)' }}>
-            Founded by Sheikh Mohammad Ayoub (M.Sc. Organic Chemistry) to bring genuine formulations and scientific spray advice to Kashmir orchardists.
+            Started by Sheikh Mohammad Ayoub (M.Sc. Organic Chemistry) to give Kashmir growers access to genuine manufacturer medicines and honest spray guidance.
           </p>
         </div>
 
@@ -25,11 +25,11 @@ export default function About() {
             Sheikh Mohammad Ayoub
           </h2>
           <p style={{ fontSize: '15px', color: 'var(--color-sienna-brown)', opacity: 0.9, marginBottom: '24px' }}>
-            M.Sc. Organic Chemistry, B.Ed. — University of Kashmir & Senior Chemistry Educator
+            M.Sc. Organic Chemistry, B.Ed. — University of Kashmir &amp; Chemistry Educator
           </p>
 
           <p style={{ fontFamily: 'var(--font-sohne)', fontSize: '18px', fontWeight: 430, lineHeight: 1.5, marginBottom: '32px', maxWidth: '820px' }}>
-            Before launching MA Pesticides, Sheikh Mohammad Ayoub spent decades teaching organic chemistry. Driven by a deep commitment to Kashmir's fruit growers, he applied chemical analysis to crop health — ensuring every farmer gets genuine Bayer & Syngenta stock at 20% below print MRP.
+            Before opening our counter at Hari Singh High Street, Sheikh Mohammad Ayoub taught chemistry in Kashmir for over twenty years. He saw local farmers losing crops to fake chemicals and wrong tank ratios. He opened this firm to solve that problem directly: original sealed cartons from Bayer, Syngenta, and IPL, backed by practical advice on exact dilutions.
           </p>
 
           <a
@@ -47,32 +47,32 @@ export default function About() {
         {/* pillars */}
         <div className="grid-3">
           <div className="card-neutral">
-            <span className="tag-label">MISSION</span>
+            <span className="tag-label">ORIGINAL STOCK</span>
             <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '24px', fontWeight: 400, marginBottom: '12px' }}>
-              Zero Counterfeit Guarantee
+              Direct Factory Seals
             </h3>
             <p style={{ fontSize: '15px', color: 'var(--color-slate-gray)', lineHeight: 1.45 }}>
-              Counterfeit pesticides destroy entire harvests. We stock exclusively authorized factory batches directly from Bayer, Syngenta, and IPL Biologicals.
+              Spurious chemicals ruin an entire year's crop. We order directly from Bayer, Syngenta, and IPL warehouses with clear company bills and verified batch numbers.
             </p>
           </div>
 
           <div className="card-neutral">
-            <span className="tag-label">METHODOLOGY</span>
+            <span className="tag-label">UNIVERSITY TIMING</span>
             <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '24px', fontWeight: 400, marginBottom: '12px' }}>
-              SKUAST-K Synchronization
+              SKUAST-K Calendar
             </h3>
             <p style={{ fontSize: '15px', color: 'var(--color-slate-gray)', lineHeight: 1.45 }}>
-              All spray calendars align with Sher-e-Kashmir University of Agricultural Sciences stage advisories and local Srinagar weather windows.
+              We time every spray against the official university schedule, helping farmers spray at the right bud stage instead of wasting money on unnecessary rounds.
             </p>
           </div>
 
           <div className="card-neutral">
-            <span className="tag-label">STORE LOCATION</span>
+            <span className="tag-label">VISIT OUR COUNTER</span>
             <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '24px', fontWeight: 400, marginBottom: '12px' }}>
               Hari Singh High Street
             </h3>
             <p style={{ fontSize: '15px', color: 'var(--color-slate-gray)', lineHeight: 1.45 }}>
-              Located opposite the High Court Complex, Hari Singh High Street, Srinagar. Open Monday through Saturday with free soil and leaf inspection.
+              Find us opposite the High Court complex in Srinagar. Bring fresh leaf samples or damaged twigs to the shop for on-the-spot inspection.
             </p>
           </div>
         </div>
@@ -108,10 +108,10 @@ export default function About() {
             />
             <div>
               <div style={{ fontFamily: 'var(--font-signifier)', fontSize: '18px', fontWeight: 600, color: 'var(--color-ink-black)' }}>
-                Digital Advisory &amp; Calculation Engine
+                Digital Tools for Kashmir Growers
               </div>
               <p style={{ fontSize: '13.5px', color: 'var(--color-slate-gray)', margin: '4px 0 0', lineHeight: 1.5 }}>
-                Engineered by <strong>Sheikh Behroze Ayub (B.Tech CSE)</strong> for our family firm <strong>M/S Sheikh Mohammad Ayoub &amp; Sons</strong>, translating SKUAST-K university stage schedules and precision barrel chemistry into direct tools for Kashmir fruit growers.
+                Built by <strong>Sheikh Behroze Ayub (B.Tech CSE)</strong> for our family firm <strong>M/S Sheikh Mohammad Ayoub &amp; Sons</strong>. Made to put SKUAST-K spray timelines and 200-litre tank calculators right on your phone, with or without internet.
               </p>
             </div>
           </div>

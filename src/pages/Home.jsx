@@ -174,11 +174,11 @@ export default function Home() {
             </div>
 
             <h1 className="text-display gsap-hero-title" style={{ marginBottom: '24px', color: 'var(--color-ink-black)', fontSize: 'clamp(28px, 5.5vw, 76px)', lineHeight: 1.22 }}>
-              Scientific crop protection <span className="editorial-italic" style={{ marginRight: '0.18em' }}>tailored for Kashmir</span> orchards.
+              Original crop medicines <span className="editorial-italic" style={{ marginRight: '0.18em' }}>for Kashmir apple</span> growers.
             </h1>
 
             <p className="text-body-lg gsap-hero-sub" style={{ color: 'var(--color-slate-gray)', marginBottom: '32px', maxWidth: '680px', margin: '0 auto 32px' }}>
-              Genuine Bayer, Syngenta, and IPL formulations paired with official SKUAST-K stage schedules — designed specifically for Kashmir fruit growers.
+              Direct factory dealership for Bayer, Syngenta, and IPL at Hari Singh High Street, Srinagar. Honest mixing advice and official SKUAST-K spray timing.
             </p>
 
             <div className="hero-actions gsap-hero-actions">
@@ -487,50 +487,50 @@ export default function Home() {
       <section className="section-padding section-fog-bg gsap-scroll-section">
         <div className="page-container">
           <div className="section-header gsap-scroll-item">
-            <span className="tag">Our Core Principles</span>
-            <h2>Built on three uncompromising standards.</h2>
-            <p>Every recommendation, formulation, and dosage rate is backed by chemical analysis and verified field testing.</p>
+            <span className="tag">Counter Standard</span>
+            <h2>How we serve orchardists in Srinagar.</h2>
+            <p>Every spray we hand over the counter is checked for company seals, proper chemical strength, and the right dilution per 200L barrel.</p>
           </div>
 
           <div className="grid-3">
             <div className="card-neutral gsap-scroll-item">
               <span className="tag-label">AUTHENTICITY</span>
               <h3 className="text-heading-sm" style={{ marginBottom: '12px' }}>
-                100% Genuine Inventory
+                Original Factory Batches
               </h3>
               <p className="text-body" style={{ color: 'var(--color-slate-gray)', marginBottom: '20px' }}>
-                Authorized dealership for Bayer, Syngenta, and IPL Biologicals. Guaranteed 100% authentic formulations backed by verified manufacturer batch receipts.
+                Authorized dealership for Bayer, Syngenta, and IPL Biologicals. Every carton comes with direct company invoices so our farmers never risk counterfeit stock.
               </p>
               <Link to="/products" onMouseEnter={() => preloadRoute('/products')} onTouchStart={() => preloadRoute('/products')} className="text-link-arrow">
-                <span>Browse Formulations</span>
+                <span>Browse Available Stock</span>
                 <span className="arrow">→</span>
               </Link>
             </div>
 
             <div className="card-neutral gsap-scroll-item">
-              <span className="tag-label">AGRONOMY</span>
+              <span className="tag-label">SPRAY TIMING</span>
               <h3 className="text-heading-sm" style={{ marginBottom: '12px' }}>
-                SKUAST-K Stage Schedules
+                SKUAST-K Spray Calendar
               </h3>
               <p className="text-body" style={{ color: 'var(--color-slate-gray)', marginBottom: '20px' }}>
-                Synchronized with Kashmir's microclimate from Green Tip to Harvest to maximize rain-fastness and eliminate foliage scorch.
+                Timed stage-by-stage from Green Tip through Petal Fall to harvest, matched to local rain forecasts so fungicides dry safely without washing off.
               </p>
               <Link to="/spray-calendar" onMouseEnter={() => preloadRoute('/spray-calendar')} onTouchStart={() => preloadRoute('/spray-calendar')} className="text-link-arrow">
-                <span>Explore Stage Schedule</span>
+                <span>View Spray Stages</span>
                 <span className="arrow">→</span>
               </Link>
             </div>
 
             <div className="card-neutral gsap-scroll-item">
-              <span className="tag-label">CHEMISTRY</span>
+              <span className="tag-label">CHEMIST ADVICE</span>
               <h3 className="text-heading-sm" style={{ marginBottom: '12px' }}>
-                M.Sc. Chemist Guidance
+                Guidance by Sheikh M. Ayoub
               </h3>
               <p className="text-body" style={{ color: 'var(--color-slate-gray)', marginBottom: '20px' }}>
-                Personalized technical advice by Sheikh Mohammad Ayoub (M.Sc. Chemistry) with complimentary leaf and soil guidance at our Srinagar store.
+                Walk into our Hari Singh High Street shop or message on WhatsApp for personal help with leaf disease diagnosis and barrel water calculations.
               </p>
               <Link to="/about" onMouseEnter={() => preloadRoute('/about')} onTouchStart={() => preloadRoute('/about')} className="text-link-arrow">
-                <span>Learn About Our Store</span>
+                <span>About Our Counter</span>
                 <span className="arrow">→</span>
               </Link>
             </div>
@@ -570,7 +570,7 @@ export default function Home() {
             </div>
 
             <p style={{ fontFamily: 'var(--font-sohne)', fontSize: '17px', fontWeight: 400, lineHeight: 1.6, marginBottom: '28px', maxWidth: '820px', color: 'var(--color-sienna-brown)', opacity: 0.95 }}>
-              Every fungicide and insecticide recommendation is grounded in chemical precision and decades of hands-on Kashmir orchard experience. Zero counterfeits, zero generic fillers &mdash; only authentic manufacturer batches matched to exact SKUAST-K phenological stages.
+              A spray must cure the fungus without scorching tender leaf tissues. In over forty years serving apple growers across Kashmir, we have always stood by one simple promise: genuine company stock, accurate barrel dilutions, and honest prices for every farmer who visits our shop.
             </p>
 
             <div style={{

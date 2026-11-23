@@ -732,7 +732,7 @@ export default function SprayCalendar() {
             باغات کے لیے مرحلہ وار سپرے کے رہنما اصول
           </p>
           <p className="text-body-lg" style={{ color: 'var(--color-slate-gray)' }}>
-            Scientific SKUAST-K extension timelines tailored to <strong>Kashmir's climate</strong> — covering winter dormancy, spring scab season, summer mite pressure, and autumn harvest protection.
+            Official SKUAST-K university spray timelines for Kashmir valley orchards — covering dormant wash, spring scab windows, summer mite control, and pre-harvest sprays.
           </p>
 
           {/* Kashmir Climate Strip with SVG Season Icons */}
