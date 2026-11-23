@@ -121,104 +121,104 @@ const SKUAST_STAGES = [
 const GENERAL_AGRONOMY_KB = [
   {
     keywords: ['saeb', 'saeb manz', 'scab lagyomut', 'kharash', 'chhaanik', 'kya karun', 'che chhaanik', 'saeb kharab'],
-    title: '🍏 Apple Scab (سیب کی خارش) Management Protocol',
-    response: `🍏 **Apple Scab (سیب کی خارش / کھاراش) Comprehensive Protocol:**\n\nIn Kashmir orchards, Apple Scab (*Venturia inaequalis*) spreads aggressively during spring rain breaks.\n\n- 🛡️ **Pre-Rain Preventive Shield:** Spray **Bayer Antracol 70% WP** @ 2.5 g/L (500g / 200L) or **Superstar Dodine 65% WP** @ 1 g/L (200g / 200L) before rain starts.\n- 🧬 **Post-Rain Curative Eradication:** If rain exceeded 24 hours, apply systemic **Bayer Luna Experience** @ 1 ml/L (200ml / 200L) or **Score (Difenoconazole)** @ 0.5 ml/L to kill active fungal germ-tubes inside leaf tissue.\n- 💰 **Store Privilege:** 20% discount on print MRP directly at MA Pesticides Srinagar.`
+    title: 'Apple Scab (سیب کی خارش / کھاراش)',
+    response: `Apple Scab (کھاراش) Treatment Protocol:\n\n1. Before Rain (Pre-Rain Protective Cover):\nSpray Bayer Antracol (500g in 200L water) or Superstar Dodine 65% WP (200g in 200L water). Apply at least 4 to 6 hours before rain starts so the spray dries firmly on the leaf cuticle.\n\n2. After Continuous Rain (Post-Rain Curative Spray):\nIf rain lasted over 24 hours, spray systemic Bayer Luna Experience (200ml in 200L water) or Score / Difenoconazole (100ml in 200L water) within 48 to 72 hours of rain stopping.\n\nOriginal factory cartons are available at our Hari Singh High Street counter in Srinagar at flat 20% discount below print MRP.`
   },
   {
     keywords: ['red mite', 'surakh mite', 'lal keeda', 'chote keede', 'makdi', 'spider mite', 'jal'],
-    title: '🕷️ European Red Mite (سرخ مائٹس) Cure',
-    response: `🕷️ **European Red Mite (سرخ مائٹس) Treatment:**\n\nRed Mites flare up during warm dry spells in June–July, producing bronze dusty leaves and early defoliation.\n\n- 🩺 **Acaricide Spray:** Spray **Mitofix (Propargite 57% EC)** @ 1.5 ml/L (300ml / 200L barrel).\n- 💧 **Add Non-Ionic Spreader:** Mix **Life80** (0.5 ml/L) so spray droplets spread uniformly underneath leaves where mites hide.\n- ⏰ **Best Time:** Early morning (6:00 AM – 9:00 AM) when temperature is below 25°C.`
+    title: 'European Red Mite (سرخ مائٹس)',
+    response: `European Red Mite Treatment:\n\nRed Mites spread fast during dry summer spells in June and July, turning leaves bronze and dusty.\n\n• Acaricide Spray: Mitofix (Propargite 57% EC) at 300ml per 200L barrel, or Magister (Fenazaquin) at 200ml per 200L barrel.\n• Spreader: Add Life80 non-ionic sticker (100ml per 200L) to ensure the spray covers the underside of the leaves where mites lay eggs.\n• Timing: Spray early morning (6:00 AM – 9:00 AM) while temperature is under 25°C.`
   },
   {
     keywords: ['canker', 'chhaal kharab', 'tahni sukhna', 'chaubatia', 'silver leaf', 'wound'],
-    title: '🩹 Apple Tree Canker & Bark Wound Treatment',
-    response: `🩹 **Apple Canker & Stem Wound Recovery (SKUAST Standard):**\n\nCanker fungi (*Botryosphaeria*) enter via unsealed pruning cuts and frost injuries.\n\n- ✂️ **Sanitation:** Scrape diseased bark down to healthy green wood using a sanitized curved knife.\n- 🎨 **Protective Sealant:** Apply **Proma Gro Chaubatia Paste** (Copper Carbonate + Red Lead + Linseed oil) directly over the cut surface.\n- 🌿 **Soil Drenching:** Drench the tree root collar with **IPL Sanjeevni Trichoderma** (10 g/L) to prevent soil-borne reinfection.`
+    title: 'Apple Tree Canker & Bark Wound Treatment',
+    response: `Apple Tree Canker & Bark Wound Treatment:\n\nCanker enters through open pruning cuts and winter frost cracks.\n\n1. Scrape away the infected, dead bark with a clean curved knife until you reach healthy green wood.\n2. Paint the cut surface immediately with Proma Gro Chaubatia Paste (Copper Carbonate + Red Lead + Linseed oil) to seal out fungal spores.\n3. Drench the base root collar with IPL Sanjeevni Trichoderma (10g per litre) to prevent collar rot.`
   },
   {
     keywords: ['prun', 'cutting', 'katayi', 'shakh tarashi', 'trimming'],
-    title: '✂️ Apple & Fruit Tree Pruning Advisory',
-    response: `✂️ **Apple & Fruit Tree Pruning Advisory (Kashmir Conditions):**\n\n- 📅 **Optimal Timing:** January to February (Dormant period before bud swell, when daily temps are above 0°C).\n- 🎯 **Pruning System:** Central Leader (Modified) for standard trees; Slender Spindle for high-density M9 rootstocks.\n- 🔬 **Key Steps:**\n  1. Remove dead, diseased (canker-infected), and criss-crossing water sprouts.\n  2. Open the central canopy to maximize sunlight penetration for fruit color development.\n  3. Maintain 45°–60° branch angles for heavy fruit-bearing capacity.\n- ⚠️ **Critical Precaution:** Always sterilize pruning shears with 70% alcohol or copper wash between cuts. Paint all cut wounds larger than 2 cm immediately with **Proma Gro Chaubatia Paste** to prevent Canker and Silver Leaf fungus.`
+    title: 'Apple Tree Pruning Advisory',
+    response: `Apple Tree Pruning Guidelines for Kashmir:\n\n• Timing: January to February, during full dormancy before buds begin to swell.\n• Key Steps:\n  1. Cut out all dead wood, canker wounds, and criss-crossing water shoots.\n  2. Open up the center of the canopy so sunlight reaches the lower fruiting branches for good apple color.\n  3. Aim for 45° to 60° branch angles for bearing heavy crop loads without snapping.\n• Disinfection: Wipe shears with spirit between trees, and immediately paint any cut larger than 2 cm with Chaubatia Paste.`
   },
   {
     keywords: ['urea', 'nitrogen', 'leaf fall', 'autumn urea', 'khazaan'],
-    title: '🌾 Urea & Autumn Sanitation Spray',
-    response: `🌾 **Agricultural Urea Guide for Kashmir Orchards:**\n\n- 🍂 **Post-Harvest / Autumn Foliar Spray (Most Critical):**\n  - **Dosage:** 5% Agricultural Urea (**10 kg per 200L barrel** of water).\n  - **Timing:** October–November when ~50% leaves have turned yellow/fallen.\n  - **Benefit:** Accelerates leaf decomposition on the orchard floor, destroying overwintering Apple Scab (*Venturia inaequalis*) pseudothecia and reducing spring fungal inoculum by up to **70%**!\n- 🌱 **Spring Soil Application:** Apply Urea in split doses: 1st dose at Green Tip/Bud Burst; 2nd dose 3 weeks after Petal Fall. Avoid excessive nitrogen in late summer, which causes soft fruit and poor color.`
+    title: 'Autumn Urea Sanitation Spray',
+    response: `Autumn Urea Spray for Kashmir Orchards:\n\n• Post-Harvest Spray: Spray 5% Agricultural Urea (10 kg in 200L water) in late October or November when about half the leaves have turned yellow or begun falling.\n• Why this matters: Urea accelerates leaf decay on the ground over winter, destroying the overwintering scab fungus and cutting down primary scab infections next spring by up to 70%.\n• Spring Soil Application: Apply soil urea in two splits: at Green Tip and 3 weeks after Petal Fall. Avoid late summer nitrogen, which softens the fruit and reduces red color.`
   },
   {
     keywords: ['yellow', 'chlorosis', 'leaves turning yellow', 'peele patte', 'zard'],
-    title: '🍂 Yellowing Leaves (Chlorosis) Diagnosis',
-    response: `🍂 **Why Are Your Apple Leaves Turning Yellow? (Diagnosis & Cure):**\n\n1. 🟡 **Iron/Zinc Deficiency (Interveinal Chlorosis):** Young leaves turn pale yellow while veins stay green. Cause: Alkaline high-pH soil in parts of Kashmir.\n   - **Cure:** Foliar spray of Chelated Micronutrients / **IPL 5G Neo+** (2 ml/L) or Zinc Sulphate.\n2. 🕷️ **European Red Mite Attack:** Leaves turn dull bronze or yellow-brown with dusty undersides.\n   - **Cure:** Spray **Mitofix (Propargite 57% EC)** @ 1.5 ml/L.\n3. 💧 **Waterlogging / Collar Rot:** Lower leaves wilt, yellow, and drop due to poor drainage.\n   - **Cure:** Expose root collar, drench with **Ridomil Gold** (3g/L), and improve soil trench drainage.`
+    title: 'Yellowing Leaves (Chlorosis) Diagnosis',
+    response: `Why Apple Leaves Turn Yellow in Kashmir Orchards:\n\n1. Zinc or Iron Deficiency (Veins stay green while leaf turns pale yellow):\nCommon in high-pH valley soils. Spray chelated micronutrients or IPL 5G Neo+ (400ml per 200L barrel).\n\n2. Red Mite Damage (Foliage looks dusty bronze or scorched yellow):\nCheck undersides with a hand lens. Spray Mitofix (300ml per 200L barrel).\n\n3. Root Waterlogging or Collar Rot (Lower leaves wilt and drop):\nDig drainage trenches around tree rows and drench tree collars with Ridomil Gold (3g per litre).`
   },
   {
     keywords: ['size', 'increase size', 'bada kaise', 'fruit growth', 'weight', 'fruitlet', 'motayi'],
-    title: '🍎 How to Increase Apple Fruit Size & Color',
-    response: `🍎 **How to Maximize Apple Fruit Size, Weight & Color (SKUAST Protocol):**\n\n1. ✂️ **Early Fruit Thinning (Crucial):** Thin out clusters 15–20 days after petal fall, leaving only the central 'king blossom' fruitlet (1 fruit per 15–20 cm branch). Trees carrying excess fruit produce small, unmarketable apples.\n2. 💧 **Consistent Soil Moisture:** Apple fruit expands primarily through cell expansion in June–July. Ensure regular irrigation during dry spells (15–20L per tree every 4–5 days).\n3. 🌿 **Foliar Nutrition:**\n   - At Walnut/Pea stage: Spray **Calcium Nitrate** (5g/L) + **Boron** (1g/L) to enhance cell wall elasticity.\n   - At Fruit Sizing: Foliar spray of Potassium Schoenite or **Bublin NPK suspension** (2 ml/L).\n4. ☀️ **Canopy Sunlight:** Summer prune excessive water shoots in July to allow sunlight directly onto fruit clusters for rich red anthocyanin color development.`
+    title: 'Improving Apple Fruit Size & Color',
+    response: `Guidelines for Apple Fruit Size and Color:\n\n1. Early Thinning: Thin fruit clusters 15 to 20 days after petal fall. Keep only the central king fruitlet (1 fruit per 15–20 cm branch). Heavy over-cropped trees yield small, unmarketable grade-C fruit.\n2. Irrigation: Apples expand through cell elongation during June and July. Ensure steady watering during dry weeks (20–30 litres per tree every 4 to 5 days).\n3. Foliar Calcium & Potassium:\n• At Walnut size: Spray Calcium Nitrate (1 kg in 200L water) + Boron (200g in 200L water).\n• At Fruit Sizing: Spray Potassium Schoenite or Multi-K (1 kg in 200L water).\n4. Summer Pruning: Remove upright water shoots in July to let direct sunlight reach fruit clusters for dark red color.`
   },
   {
     keywords: ['calcium', 'bitter pit', 'cork', 'spots on fruit', 'dhabbe fruit par'],
-    title: '🦴 Calcium Nitrate & Bitter Pit Prevention',
-    response: `🦴 **Calcium Nutrition & Bitter Pit Management in Apples:**\n\n- 🚨 **The Problem:** Bitter Pit appears as small, sunken, corky brown pits on fruit skin and flesh (common in Delicious apples in Kashmir), drastically degrading market price.\n- 🧪 **The Cause:** Calcium moves very slowly inside tree xylem. Fast shoot growth diverts calcium away from the fruit into leaves.\n- 🩺 **The Solution:** Apply 3–4 foliar sprays of **Agricultural Calcium Nitrate** (5 g per Litre of water = **1 kg per 200L barrel**) starting 4 weeks after petal fall at 14-day intervals.\n- 💡 **Bonus:** Enhances fruit firmness and gives 2–3 extra months of shelf life in CA cold storage.`
+    title: 'Calcium Nitrate & Bitter Pit Prevention',
+    response: `Calcium Nutrition and Bitter Pit Prevention:\n\n• The Problem: Bitter Pit causes sunken, brown corky spots under the apple skin, ruining Delicious apples in cold storage.\n• The Cause: Calcium travels slowly in apple wood and shoots draw it away from developing fruit.\n• Solution: Apply 3 to 4 foliar sprays of Agricultural Calcium Nitrate (1 kg in 200L water) starting 4 weeks after petal fall, spaced 14 days apart.\n• Storage Benefit: Calcium strengthens cell walls, keeping apples firm for 2 to 3 extra months in CA cold storage.`
   },
   {
     keywords: ['boron', 'flower set', 'fruit drop', 'blossom drop', 'phool girna'],
-    title: '🌸 Boron Advisory for Fruit Setting',
-    response: `🌸 **Boron Spray for Flowering & Fruit Setting:**\n\n- 🎯 **Why Boron Matters:** Boron is vital for pollen grain germination, pollen tube elongation down the style, and initial cell division in developing fruitlets.\n- 📅 **Best Application Timing:**\n  1. **Pink Bud Stage:** 1 g Solubor (Boron 20%) per Litre of water.\n  2. **Petal Fall Stage:** Repeat at 1 g/L with Hexaconazole or fungicide.\n- ⚠️ **Precaution:** Never exceed 1g/L concentration, as excessive boron causes leaf margin scorching.`
+    title: 'Boron for Flower Setting',
+    response: `Boron Spray for Apple Flowering and Fruit Set:\n\n• Function: Boron helps pollen germinate and grow down the flower style, ensuring complete pollination and seed set.\n• Application:\n1. Pink Bud Stage: 200g Solubor (Boron 20%) in 200L water.\n2. Petal Fall Stage: Repeat at 200g in 200L water along with the stage fungicide.\n• Caution: Do not exceed 1g per litre of water, as excess boron burns leaf margins.`
   },
   {
     keywords: ['water', 'irrigation', 'pani', 'how much water', 'drip', 'paani'],
-    title: '💧 Orchard Water & Irrigation Guidelines',
-    response: `💧 **Water & Irrigation Guidelines for Kashmir Fruit Trees:**\n\n- 🌳 **Mature Apple Tree Requirement:** ~**20–30 Litres of water per day** during peak summer (June–August) fruit development.\n- 🚜 **High-Density Rootstocks (M9/M26):** Require daily drip irrigation (4–8 Litres per tree) because root systems are shallow.\n- 📅 **Critical Moisture Windows:**\n  1. **Bud Break to Petal Fall (April–May):** Dry spells cause flower drop.\n  2. **Fruit Expansion (June–July):** Moisture stress halts fruit cell expansion.\n- ⚠️ **Chemist Tip:** Avoid flooding the tree base trunk directly! Build raised mounds around the collar to prevent Phytophthora Collar Rot fungus.`
+    title: 'Orchard Irrigation Requirements',
+    response: `Orchard Watering Guidelines:\n\n• Standard mature apple tree: 20 to 30 litres of water per day during peak summer fruit growth (June–August).\n• High-density M9 rootstocks: Need regular drip irrigation (4 to 8 litres per tree daily) due to shallow root depth.\n• Critical stages:\n1. Bud Break to Petal Fall (April–May): Moisture stress leads to heavy flower drop.\n2. Fruit Expansion (June–July): Dry spells stop fruit cell sizing.\n• Precaution: Keep irrigation water away from direct contact with the trunk collar to prevent Phytophthora collar rot.`
   },
   {
     keywords: ['contact', 'systemic', 'difference', 'fungicide types', 'dawa ka farq'],
-    title: '🔬 Contact vs. Systemic Fungicides Explained',
-    response: `🔬 **Contact vs. Systemic Fungicides (Chemist Guide):**\n\n1. 🛡️ **Contact Fungicides (e.g. Bayer Antracol, Dodine, Mancozeb):**\n   - **Mechanism:** Remains strictly on the leaf and fruit surface, creating a protective chemical shield that kills fungal spores *before* they penetrate.\n   - **When to Use:** Pre-rain preventive sprays.\n   - **Rain-Fastness:** Needs **4–6 hours** of dry sunny weather to bind firmly with leaf wax cuticles.\n\n2. 🧬 **Systemic Fungicides (e.g. Bayer Luna, Hexaconazole, Score):**\n   - **Mechanism:** Absorbed through stomata into leaf vascular tissue, moving translaminarly to cure active infections already inside the plant.\n   - **When to Use:** Post-infection curative sprays (within 48–72h of a scab-promoting rain event).\n   - **Rain-Fastness:** Rain-safe within **1–2 hours** after application.`
+    title: 'Contact vs Systemic Fungicides',
+    response: `Contact vs Systemic Fungicides (Chemist Guide):\n\n1. Contact Fungicides (Antracol, Dodine, Mancozeb):\n• Stays on the outer surface of leaf and fruit, forming a protective shield that kills spores before they penetrate.\n• Use: Before rain events.\n• Rain-Fastness: Requires 4 to 6 hours of dry sunshine to bind to leaf cuticles.\n\n2. Systemic Fungicides (Luna Experience, Score, Hexaconazole):\n• Absorbed through leaf pores into plant tissue, stopping fungal mycelium already growing inside.\n• Use: Within 48 to 72 hours after infection rain events.\n• Rain-Fastness: Absorbed and rain-safe within 1 to 2 hours.`
   },
   {
     keywords: ['timing', 'best time', 'evening', 'morning', 'dhoop', 'time to spray', 'subah', 'sham'],
-    title: '⏰ Best Time of Day to Spray Pesticides',
-    response: `⏰ **Optimal Time of Day for Spray Application in Kashmir:**\n\n- 🌅 **Early Morning (6:00 AM – 9:30 AM):** Highly recommended! Winds are calm (< 5 km/h), relative humidity is high (preventing droplet evaporation), and leaves absorb systemic chemicals efficiently.\n- 🌇 **Late Afternoon (4:30 PM – 7:30 PM):** Excellent secondary window after mid-day heat subsides.\n- 🚫 **NEVER SPRAY AT MID-DAY (11:30 AM – 3:30 PM):** High temperatures (> 28°C) cause rapid chemical evaporation, photolysis degradation, and severe droplet lens scorching on tender apple skin!`
+    title: 'Best Time of Day to Spray',
+    response: `Best Time of Day for Spray Application:\n\n• Early Morning (6:00 AM – 9:30 AM): The best window. Winds are calm, morning humidity prevents spray droplets from evaporating too quickly, and leaves absorb systemic chemicals readily.\n• Late Afternoon (4:30 PM – 7:30 PM): Good secondary window once afternoon heat subsides.\n• Do Not Spray Mid-Day (11:30 AM – 3:30 PM): Temperatures above 28°C cause rapid evaporation, active ingredient breakdown, and droplet lens burn on tender apple skin.`
   },
   {
     keywords: ['weed', 'ghas', 'grass', 'herbicide', 'glyphosate', 'paraquat', 'weeds', 'bood'],
-    title: '🌿 Orchard Weed Management & Herbicides',
-    response: `🌿 **Orchard Weed Management (Safe Chemical Protocol):**\n\n- 🚜 **Non-Chemical Ring Weeding:** Clear a 1-meter radius clean basin around the tree trunk to prevent rodents and weed competition.\n- 🧴 **Contact Herbicide (Paraquat 24% SL / All Clear / Bragg):**\n  - **Dosage:** 5–6 ml per Litre of water.\n  - **Action:** Scorches all green foliage within 24 hours. Does not leave soil residue.\n- 🌾 **Systemic Herbicide (Glyphosate 41% SL / Gulftop):**\n  - **Dosage:** 8–10 ml per Litre for deep-rooted perennial grasses and tough weeds.\n- ⚠️ **STRICT WARNING:** Always use a spray hood attachment. Never allow herbicide drift to touch green apple bark, leaves, or trunk root suckers, or severe tree decline will occur!`
+    title: 'Orchard Weed Management',
+    response: `Orchard Weed Management:\n\n• Clean Basin: Clear a 1-meter basin around each tree trunk to stop rodents and weed competition.\n• Contact Herbicide (Paraquat 24% SL): 5 to 6 ml per litre of water. Scorches green weeds within 24 hours without leaving soil residue.\n• Systemic Herbicide (Glyphosate 41% SL): 8 to 10 ml per litre for tough perennial grasses.\n• Strict Warning: Always use a protective hood on the spray lance. Never allow herbicide droplets or drift to touch green bark, leaves, or root suckers.`
   },
   {
     keywords: ['organic', 'bio', 'natural', 'chemical free', 'trichoderma', 'qudrati'],
-    title: '🌱 Organic & Bio-Pesticide Solutions',
-    response: `🌱 **Organic & Biological Crop Protection at MA Pesticides:**\n\n- 🦠 **IPL Sanjeevni (Trichoderma Viride):** Biological antagonistic fungus for controlling root rot, collar rot, and soil wilt without synthetic chemicals (5–10 g/L soil drench).\n- 🌿 **IPL Neemkavach (Cold-pressed Neem Oil / Azadirachtin):** Natural botanical antifeedant repellent against sucking pests, whiteflies, and mites (3–5 ml/L).\n- 🪱 **Sikri Vermicompost:** 100% natural organic carbon and microbial amendment for restoring exhausted orchard soils (2–4 kg per tree).\n- 🍄 **IPL Vamshakti (Mycorrhiza):** Bio-fertilizer that expands root surface area by 300% for natural phosphorus and drought resistance.`
+    title: 'Organic & Bio-Pesticide Solutions',
+    response: `Biological & Organic Products at MA Pesticides:\n\n• IPL Sanjeevni (Trichoderma Viride): Antagonistic bio-fungus for root rot and collar rot prevention without synthetic residue (5–10g per litre drench).\n• IPL Neemkavach (Cold-pressed Neem Oil / Azadirachtin): Natural botanical repellent against sucking pests and mites (3–5 ml per litre).\n• Sikri Vermicompost: Natural organic carbon amendment for restoring tired orchard soils (2–4 kg per tree).\n• IPL Vamshakti (Mycorrhiza): Root-inoculant bio-fertilizer that improves phosphorus uptake and drought tolerance.`
   },
   {
     keywords: ['soil', 'soil test', 'ph', 'testing', 'mitti', 'zameen'],
-    title: '🧪 Soil Health & Testing Service',
-    response: `🧪 **Soil Health & pH Advisory for Kashmir Valley:**\n\n- 🎯 **Optimal Orchard pH:** **6.0 – 6.8** (Slightly acidic to neutral). Many soils in Baramulla, Shopian, and Pulwama range from 6.8–7.6.\n- 🔬 **Free Service at MA Pesticides:** Bring 500g of dry soil collected 1 foot deep from your orchard tree dripline to our **Hari Singh High Street store in Srinagar** for free inspection and custom fertilizer dosage chart by **Sheikh Mohammad Ayoub** (M.Sc. Organic Chemistry)!`
+    title: 'Soil Health & Testing Service',
+    response: `Soil Health & Testing Advisory:\n\n• Ideal Orchard pH: 6.0 to 6.8 (slightly acidic to neutral). Many soils in Baramulla, Shopian, and Pulwama test between 6.8 and 7.6.\n• Free Counter Service: Bring 500g of dry soil collected 1 foot deep from under your tree dripline to our Hari Singh High Street shop in Srinagar for a free pH check and fertilizer recommendation by Sheikh Mohammad Ayoub (M.Sc. Chemistry).`
   },
   {
     keywords: ['delivery', 'home delivery', 'bhejo', 'order', 'parcel', 'transport', 'deliver'],
-    title: '📦 Order & Orchard Delivery Services',
-    response: `📦 **Ordering & Delivery to Orchards across Kashmir:**\n\n- 🚚 **District Coverage:** We supply authorized factory batches to orchardists across **Srinagar, Budgam, Pulwama, Shopian, Baramulla, Anantnag, Kulgam, and Ganderbal**.\n- 💰 **Wholesale Privilege:** Direct factory pricing with **20% flat discount on print MRP**.\n- 📲 **How to Order:** Click the WhatsApp link below or call [+91 99065 41321](tel:+919906541321). Provide your tree count or product list, and our team will coordinate direct dispatch to your orchard!`
+    title: 'Order & Orchard Delivery',
+    response: `Ordering & Valley Delivery:\n\n• Coverage: We supply genuine factory cartons across Srinagar, Budgam, Pulwama, Shopian, Baramulla, Anantnag, Kulgam, and Ganderbal.\n• Pricing: Direct dealership rates with flat 20% discount below print MRP.\n• How to Order: Call or WhatsApp +91 99065 41321 with your product list or tree count, and we will arrange dispatch directly to your orchard.`
   },
   {
     keywords: ['ayoub', 'sheikh ayoub', 'sheikh mohammad ayoub', 'owner', 'founder', 'chemist'],
-    title: '👨‍🔬 Sheikh Mohammad Ayoub (Founder & Chemist)',
-    response: `👨‍🔬 **Sheikh Mohammad Ayoub — Founder & Managing Director:**\n\n- 🎓 **Credentials:** M.Sc. Organic Chemistry, B.Ed. — University of Kashmir.\n- 🏫 **Background:** Senior Chemistry educator for decades who dedicated his career to applying molecular chemical analysis to agriculture and fruit crop protection.\n- 🌿 **Mission:** Protecting Kashmir's fruit growers from counterfeit pesticides by supplying 100% factory-sealed stock from Bayer, Syngenta, and IPL Biologicals at genuine discounted rates.\n- 📍 **Consult Him:** In person at MA Pesticides, Hari Singh High Street, Srinagar or via WhatsApp at [+91 99065 41321](https://wa.me/919906541321).`
+    title: 'Sheikh Mohammad Ayoub (Founder & Chemist)',
+    response: `Sheikh Mohammad Ayoub (Founder & Chemist):\n\n• Education: M.Sc. Organic Chemistry, B.Ed. — University of Kashmir.\n• Experience: Decades teaching chemistry in Kashmir, dedicating his professional life to scientific crop protection and orchard health.\n• Commitment: Supplying 100% genuine sealed company cartons from Bayer, Syngenta, and IPL Biologicals at honest prices.\n• In Person: Available Monday to Saturday at our Hari Singh High Street counter in Srinagar, or directly on WhatsApp at +91 99065 41321.`
   },
   {
     keywords: ['behroze', 'sheikh behroze', 'developer', 'who created', 'who made this website', 'engineer', 'btech', 'developed this'],
-    title: '👨‍💻 Sheikh Behroze Ayub (Platform Engineer)',
-    response: `👨‍💻 **Digital Platform Engineer:**\n\n**Sheikh Behroze Ayub (B.Tech CSE)** has engineered this platform.\n\nHe built this digital agrochemical service for **M.A. Pesticides & Fertilizers**, creating tools such as the Chemist Advisory Desk, Precision Tank Dosage Calculator, SKUAST-guided Spray Schedules, and Orchard Health Analytics.`,
+    title: 'Sheikh Behroze Ayub (Platform Engineer)',
+    response: `Platform Engineering:\n\nDesigned and developed by Sheikh Behroze Ayub (B.Tech Computer Science & Engineering) for our family enterprise, M/S Sheikh Mohammad Ayoub & Sons.\n\nBuilt to give Kashmir apple growers fast, offline-capable access to SKUAST-K spray calendars, disease identification, and 200L tank dosage calculators without commercial fluff.`,
     imageEmbed: '/sheikh-behroze-signature.webp'
   },
   {
     keywords: ['who are you', 'what are you', 'kya kar sakte ho', 'help me', 'about yourself', 'what is this bot'],
-    title: '🌿 About M.A. Pesticides Advisory Desk',
-    response: `🌿 **About M.A. Pesticides Advisory Desk:**\n\nThis is the digital agronomy desk for **M.A. Pesticides & Fertilizers**, drawing on decades of organic chemistry and field agronomy from **Sheikh Mohammad Ayoub** (M.Sc. Organic Chemistry, B.Ed. — University of Kashmir).\n\n💡 **We provide guidance on:**\n- 🍏 **Disease & Pest Diagnosis:** Apple Scab, Mites, Codling Moth, Canker, Mildew, Fire Blight\n- 🧮 **Precision Dosage:** Exact chemical grams/ml for any tree count or tank capacity\n- 🗓️ **SKUAST-K Schedules:** Stage-by-stage spray recommendations from Dormant to Harvest\n- ⚠️ **Tank Mix Compatibility:** Safe chemical combinations and WALES mixing order\n- 🌾 **Soil & Tree Nutrition:** Urea, Calcium Nitrate, Boron, NPK, Vermicompost\n- 📍 **Store & Discounts:** Genuine factory batches with 20% flat discount on print MRP`
+    title: 'About M.A. Pesticides Advisory Counter',
+    response: `M.A. Pesticides Consultation Counter:\n\nThis is the digital advisory desk for M.A. Pesticides & Fertilizers Srinagar, backed by Sheikh Mohammad Ayoub (M.Sc. Organic Chemistry).\n\nWe provide direct help with:\n• Apple disease and pest identification (Scab, Mites, Powdery Mildew, Canker)\n• Accurate dilution measurements per 200L barrel or power spray motor\n• Official SKUAST-K stage-wise spray timings\n• Tank mix compatibility and chemical mixing order\n• Soil nutrients (Urea, Calcium Nitrate, Boron, NPK)\n• Store pricing with flat 20% discount on print MRP`
   },
   {
     keywords: ['thank', 'thanks', 'shukriya', 'dhanwad', 'great', 'good job', 'zabardast'],
-    title: '🙏 You are most welcome!',
-    response: `🙏 **Shukriya! You are most welcome!**\n\nMay your orchard flourish with abundant, healthy fruit this season. If you need any more spray schedules, dosage calculations, or product availability, I am always here.\n\nFor in-person chemical analysis and a free leaf check, visit Sheikh Mohammad Ayoub at our **Hari Singh High Street shop in Srinagar**!`
+    title: 'Shukriya',
+    response: `Shukriya! You are always welcome.\n\nMay your orchard bear a clean, abundant crop this harvest. If you have any further questions about bud stages, tank mixing, or product availability, feel free to ask here or visit us at Hari Singh High Street, Srinagar.`
   }
 ];
 
@@ -1723,8 +1723,8 @@ export default function AdvisorChatbot() {
   const [messages, setMessages] = useState([
     {
       sender: 'advisor',
-      text: "Assalamu Alaikum! 👋 Welcome to **M.A. Pesticides & Fertilizers Consultation Desk**.\n\nBacked directly by **Sheikh Mohammad Ayoub** (M.Sc. Organic Chemistry, B.Ed. — University of Kashmir) and our shop on Hari Singh High Street & Tengpora Bypass, Srinagar. Every diagnosis and tank dosage here follows verified SKUAST-K guidelines and genuine factory formulation chemistry.\n\nHow can we assist your orchard today?\n- 🌤️ **Live Spray Window:** Real-time valley temperature, rain hazard & humidity telemetry\n- 🍏 **Pathological Diagnosis:** Clinical verification for Apple Scab, Alternaria, Red Mites & Canker\n- 🧮 **Precision Tank Dilution:** Exact milliliter/gram calculations for 200L barrels and motorized pumps\n- 🗓️ **SKUAST-K Spray Schedule:** Official stage-wise crop calendar from Dormant to Harvest\n- 👨‍🔬 **Direct Chemist Handoff:** Tap **WhatsApp Chemist** above anytime for a direct voice or photo consultation",
-      suggestions: ['🌤️ What is the weather right now', '🍏 Apple Scab Treatment', '🧮 200L Tank Dosage Calc', '🗓️ Pink Bud Stage Spray']
+      text: "Assalam-o-Alaikum! Welcome to M.A. Pesticides & Fertilizers, Srinagar.\n\nI am Sheikh Mohammad Ayoub (M.Sc. Organic Chemistry). For over forty years at our shop on Hari Singh High Street, I have assisted Kashmir fruit growers with original manufacturer sprays, disease diagnosis, and accurate tank dilutions.\n\nHow can I help your orchard today?\n• Spray timing for current bud stage (Dormant wash, Green Tip, Pink Bud, Petal Fall)\n• Treatment for Scab (کھاراش), Red Mites, or Powdery Mildew\n• Chemical dosage per 200L barrel or tractor tank\n• Real-time rain and weather suitability for spraying\n\nYou can also tap the WhatsApp button above to message me directly or send leaf photos.",
+      suggestions: ['Apple Scab Treatment', '200L Tank Dosage Calc', 'Spray Weather Today', 'Pink Bud Stage Spray']
     }
   ]);
   const [input, setInput] = useState('');

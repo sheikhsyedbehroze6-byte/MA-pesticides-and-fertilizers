@@ -315,27 +315,27 @@ export default function Home() {
 
             <div className="floating-product-artifact gsap-hero-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
-                <div style={{ marginBottom: '14px' }}>
-                  <span className="tag-label" style={{ margin: 0, fontSize: '11px', letterSpacing: '0.8px' }}>Valley Spray Fastness Window</span>
+                <div style={{ marginBottom: '10px' }}>
+                  <span className="tag-label" style={{ margin: 0, fontSize: '11px', letterSpacing: '0.8px' }}>Field Spray Guidelines</span>
                 </div>
-                <div style={{ fontFamily: 'var(--font-sohne)', fontSize: '24px', fontWeight: 500, color: 'var(--color-ink-black)' }}>
-                  48–72h <span style={{ fontSize: '13.5px', color: 'var(--color-slate-gray)', fontWeight: 400 }}>Rain-fast drying requirement</span>
+                <div style={{ fontFamily: 'var(--font-sohne)', fontSize: '20px', fontWeight: 600, color: 'var(--color-ink-black)', marginBottom: '4px' }}>
+                  Rain-Fast Drying Windows
                 </div>
               </div>
 
-              <div style={{ height: '70px', marginTop: '14px', position: 'relative' }}>
-                <svg viewBox="0 0 300 70" fill="none" style={{ width: '100%', height: '100%' }}>
-                  <path
-                    d="M0 55 C 40 50, 70 65, 110 32 C 150 5, 200 42, 240 20 C 270 10, 290 14, 300 8"
-                    stroke="var(--color-pine-green)"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                  />
-                </svg>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', margin: '8px 0 12px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '7px 10px', borderRadius: '8px', backgroundColor: 'var(--surface-canvas, #fcfbf9)', border: '1px solid var(--border-color)' }}>
+                  <span style={{ fontSize: '12.5px', color: 'var(--color-ink-black)', fontWeight: 500 }}>Contact Sprays (Dodine, Antracol)</span>
+                  <span style={{ fontSize: '12px', color: 'var(--color-pine-green)', fontWeight: 600 }}>Needs 4–6 hrs dry sun</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '7px 10px', borderRadius: '8px', backgroundColor: 'var(--surface-canvas, #fcfbf9)', border: '1px solid var(--border-color)' }}>
+                  <span style={{ fontSize: '12.5px', color: 'var(--color-ink-black)', fontWeight: 500 }}>Systemic Sprays (Luna, Score)</span>
+                  <span style={{ fontSize: '12px', color: 'var(--color-pine-green)', fontWeight: 600 }}>Rain-safe in 2 hours</span>
+                </div>
               </div>
 
-              <div style={{ fontSize: '12.5px', color: 'var(--color-ash-gray)', marginTop: '6px' }}>
-                March – June Ascospore Infection Pressure Monitoring
+              <div style={{ fontSize: '12px', color: 'var(--color-slate-gray)' }}>
+                Field Rule: Never spray during high winds (&gt;10 km/h) or while leaves are wet with morning dew.
               </div>
             </div>
           </div>

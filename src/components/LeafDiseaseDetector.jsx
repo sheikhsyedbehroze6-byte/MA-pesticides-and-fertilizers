@@ -825,7 +825,7 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
                 animation: 'spin 0.7s linear infinite'
               }} />
               <span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--color-pine-green)' }}>
-                Analyzing foliar symptoms...
+                Matching symptoms with SKUAST-K pathology guide...
               </span>
             </div>
           )}
