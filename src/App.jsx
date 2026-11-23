@@ -30,9 +30,10 @@ import {
   preloadAllRoutes
 } from './utils/routePreloader';
 
+import SprayOrderDrawer from './components/SprayOrderDrawer';
+
 const AdvisorChatbot = lazy(() => import('./components/AdvisorChatbot'));
 const PWAInstallPrompt = lazy(() => import('./components/PWAInstallPrompt'));
-const SprayOrderDrawer = lazy(() => import('./components/SprayOrderDrawer'));
 const AgriSafetyModal = lazy(() => import('./components/AgriSafetyModal'));
 
 function RouteFallback() {
@@ -117,7 +118,6 @@ function App() {
     const preloadOverlays = () => {
       preloadAllRoutes();
       import('./components/AdvisorChatbot');
-      import('./components/SprayOrderDrawer');
       import('./components/PWAInstallPrompt');
     };
 
@@ -155,6 +155,8 @@ function App() {
 
               <Footer />
 
+              <SprayOrderDrawer />
+
               {/* Isolated lazy overlays: an error in any overlay never crashes the core site */}
               <Suspense fallback={null}>
                 <ErrorBoundary fallback={null}>
@@ -162,9 +164,6 @@ function App() {
                 </ErrorBoundary>
                 <ErrorBoundary fallback={null}>
                   <PWAInstallPrompt />
-                </ErrorBoundary>
-                <ErrorBoundary fallback={null}>
-                  <SprayOrderDrawer />
                 </ErrorBoundary>
                 <ErrorBoundary fallback={null}>
                   <AgriSafetyModal />

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import { sanitizeInput, safeJsonParse } from '../utils/security';
 import { trackEvent } from '../utils/analytics';
 
@@ -290,6 +290,9 @@ export function CartProvider({ children }) {
     return `https://wa.me/919906541321?text=${encodeURIComponent(msg)}`;
   };
 
+  const openCart = useCallback(() => setIsCartOpen(true), []);
+  const closeCart = useCallback(() => setIsCartOpen(false), []);
+
   return (
     <CartContext.Provider
       value={{
@@ -300,8 +303,8 @@ export function CartProvider({ children }) {
         savings,
         isCartOpen,
         setIsCartOpen,
-        openCart: () => setIsCartOpen(true),
-        closeCart: () => setIsCartOpen(false),
+        openCart,
+        closeCart,
         addToCart,
         removeFromCart,
         updateQuantity,

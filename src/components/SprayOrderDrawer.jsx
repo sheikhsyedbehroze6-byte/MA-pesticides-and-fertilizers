@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   X, 
   ShoppingBag, 
@@ -52,17 +53,37 @@ export default function SprayOrderDrawer() {
     getWhatsAppUrl
   } = useCart();
 
+  const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
+
+  // Close drawer on Escape key press
+  useEffect(() => {
+    if (!isCartOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        closeCart();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isCartOpen, closeCart]);
 
   if (!isCartOpen) return null;
 
   const handleCopyMessage = () => {
-    const url = getWhatsAppUrl();
-    const text = decodeURIComponent(url.replace('https://wa.me/919906541321?text=', ''));
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
+    try {
+      const url = getWhatsAppUrl ? getWhatsAppUrl() : '';
+      const text = decodeURIComponent((url || '').replace('https://wa.me/919906541321?text=', ''));
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text)
+          .then(() => {
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2500);
+          })
+          .catch(() => {});
+      }
+    } catch {
+      /* ignore copy errors */
     }
   };
 
@@ -79,113 +100,119 @@ export default function SprayOrderDrawer() {
         <div className="spray-drawer-pull-bar" />
 
         {/* Official Printable Proforma Estimate Slip (Revealed only during window.print()) */}
-        <div className="print-proforma-slip">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '2px solid #1a432e', paddingBottom: '14px', marginBottom: '16px' }}>
-            <div>
-              <h2 style={{ margin: 0, fontSize: '22px', fontWeight: 700, color: '#1a432e', fontFamily: 'serif', letterSpacing: '0.5px' }}>
-                M.A. PESTICIDES &amp; FERTILIZERS SRINAGAR
-              </h2>
-              <div style={{ fontSize: '11px', color: '#4b5563', marginTop: '3px' }}>
-                Authorized Agricultural Dealership • Bayer | Syngenta | IPL Biologicals
+        {cartItems.length > 0 && (
+          <div className="print-proforma-slip">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '2px solid #1a432e', paddingBottom: '14px', marginBottom: '16px' }}>
+              <div>
+                <h2 style={{ margin: 0, fontSize: '22px', fontWeight: 700, color: '#1a432e', fontFamily: 'serif', letterSpacing: '0.5px' }}>
+                  M.A. PESTICIDES &amp; FERTILIZERS SRINAGAR
+                </h2>
+                <div style={{ fontSize: '11px', color: '#4b5563', marginTop: '3px' }}>
+                  Authorized Agricultural Dealership • Bayer | Syngenta | IPL Biologicals
+                </div>
+                <div style={{ fontSize: '11px', color: '#4b5563' }}>
+                  Hari Singh High Street &amp; Tengpora Bypass, Srinagar, Kashmir &bull; Ph: +91 99065 41321
+                </div>
+                <div style={{ fontSize: '11.5px', color: '#111827', fontWeight: 600, marginTop: '4px' }}>
+                  Chief Technical Advisors: Sheikh Mohammad Ayoub (M.Sc. Organic Chemistry) &amp; Sheikh Behroze Ayub
+                </div>
               </div>
-              <div style={{ fontSize: '11px', color: '#4b5563' }}>
-                Hari Singh High Street &amp; Tengpora Bypass, Srinagar, Kashmir &bull; Ph: +91 99065 41321
-              </div>
-              <div style={{ fontSize: '11.5px', color: '#111827', fontWeight: 600, marginTop: '4px' }}>
-                Chief Technical Advisors: Sheikh Mohammad Ayoub (M.Sc. Organic Chemistry) &amp; Sheikh Behroze Ayub
+              <div style={{ textAlign: 'right' }}>
+                <span style={{ display: 'inline-block', backgroundColor: '#1a432e', color: '#ffffff', fontSize: '10.5px', fontWeight: 700, padding: '4px 10px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
+                  Orchard Spray Order Estimate
+                </span>
+                <div style={{ fontSize: '11px', color: '#4b5563', marginTop: '6px' }}>
+                  Date: {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                </div>
+                <div style={{ fontSize: '11px', color: '#4b5563' }}>
+                  Estimate ID: MAP-EST-{new Date().getFullYear()}-{totalItems}
+                </div>
               </div>
             </div>
-            <div style={{ textAlign: 'right' }}>
-              <span style={{ display: 'inline-block', backgroundColor: '#1a432e', color: '#ffffff', fontSize: '10.5px', fontWeight: 700, padding: '4px 10px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
-                Orchard Spray Order Estimate
-              </span>
-              <div style={{ fontSize: '11px', color: '#4b5563', marginTop: '6px' }}>
-                Date: {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+
+            {/* Farmer & Orchard Details */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', backgroundColor: '#f9fafb', padding: '10px 14px', borderRadius: '8px', border: '1px solid #e5e7eb', marginBottom: '16px', fontSize: '12px' }}>
+              <div>
+                <strong>Grower Name:</strong> {farmerInfo?.name || 'Valued Kashmir Orchardist'}<br />
+                <strong>District / Zone:</strong> {farmerInfo?.district || 'Srinagar / Central Valley'}
               </div>
-              <div style={{ fontSize: '11px', color: '#4b5563' }}>
-                Estimate ID: MAP-EST-{new Date().getFullYear()}-{totalItems}
+              <div style={{ textAlign: 'right' }}>
+                <strong>Fulfilment:</strong> {(farmerInfo?.deliveryType === 'delivery' || farmerInfo?.deliveryMode === 'delivery') ? 'Express Orchard Delivery' : 'Direct Shop Pickup'}<br />
+                <strong>Total Formulations:</strong> {totalItems} items
+              </div>
+            </div>
+
+            {/* Itemized Table */}
+            <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '16px', fontSize: '12px' }}>
+              <thead>
+                <tr style={{ backgroundColor: '#1a432e', color: '#ffffff', textAlign: 'left' }}>
+                  <th style={{ padding: '8px 10px' }}>S.No</th>
+                  <th style={{ padding: '8px 10px' }}>Formulation / Active Chemistry</th>
+                  <th style={{ padding: '8px 10px', textAlign: 'center' }}>Qty</th>
+                  <th style={{ padding: '8px 10px', textAlign: 'right' }}>Print MRP</th>
+                  <th style={{ padding: '8px 10px', textAlign: 'right' }}>Farmer Privilege (-20%)</th>
+                  <th style={{ padding: '8px 10px', textAlign: 'right' }}>Line Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cartItems.map((item, idx) => {
+                  const itemName = item.name || item.product?.name || 'Crop Formulation';
+                  const itemComposition = item.composition || item.product?.composition || '';
+                  const itemMrp = item.mrp || item.product?.mrp || 850;
+                  const discounted = item.price || item.product?.price || Math.round(itemMrp * 0.8);
+                  const quantity = item.quantity || 1;
+                  const lineTotal = discounted * quantity;
+                  return (
+                    <tr key={item.itemKey || item.id || idx} style={{ borderBottom: '1px solid #e5e7eb' }}>
+                      <td style={{ padding: '8px 10px' }}>{idx + 1}</td>
+                      <td style={{ padding: '8px 10px' }}>
+                        <strong>{itemName}</strong>
+                        {itemComposition && <span style={{ display: 'block', fontSize: '10.5px', color: '#6b7280' }}>{itemComposition}</span>}
+                        {item.calculatedNote && <span style={{ display: 'block', fontSize: '10px', color: '#047857' }}>🎯 {item.calculatedNote}</span>}
+                      </td>
+                      <td style={{ padding: '8px 10px', textAlign: 'center' }}>{quantity}</td>
+                      <td style={{ padding: '8px 10px', textAlign: 'right', textDecoration: 'line-through', color: '#9ca3af' }}>₹{itemMrp}</td>
+                      <td style={{ padding: '8px 10px', textAlign: 'right', fontWeight: 600, color: '#1a432e' }}>₹{discounted}</td>
+                      <td style={{ padding: '8px 10px', textAlign: 'right', fontWeight: 700 }}>₹{lineTotal.toLocaleString('en-IN')}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+
+            {/* Pricing Summary */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '24px' }}>
+              <div style={{ width: '280px', fontSize: '12.5px', lineHeight: '1.6' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', color: '#4b5563' }}>
+                  <span>Print MRP Total:</span>
+                  <span style={{ textDecoration: 'line-through' }}>₹{mrpTotal.toLocaleString('en-IN')}</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', color: '#047857', fontWeight: 600 }}>
+                  <span>Store Privilege Discount (20%):</span>
+                  <span>-₹{savings.toLocaleString('en-IN')}</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '2px solid #1a432e', paddingTop: '6px', marginTop: '6px', fontSize: '15px', fontWeight: 700, color: '#1a432e' }}>
+                  <span>Estimated Counter Total:</span>
+                  <span>₹{subtotal.toLocaleString('en-IN')}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer Guarantee & Signatures */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', borderTop: '1px dashed #9ca3af', paddingTop: '16px', fontSize: '11px', color: '#4b5563' }}>
+              <div>
+                <strong>Authenticity Guarantee:</strong> 100% Factory Sealed Batches.<br />
+                All rates include exclusive 20% farmer privilege at M.A. Pesticides Srinagar.
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ height: '32px' }} />
+                <div style={{ borderTop: '1px solid #111827', width: '160px', paddingTop: '4px', fontWeight: 600, color: '#111827' }}>
+                  Authorized Chemist Stamp
+                </div>
               </div>
             </div>
           </div>
-
-          {/* Farmer & Orchard Details */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', backgroundColor: '#f9fafb', padding: '10px 14px', borderRadius: '8px', border: '1px solid #e5e7eb', marginBottom: '16px', fontSize: '12px' }}>
-            <div>
-              <strong>Grower Name:</strong> {farmerInfo.name || 'Valued Kashmir Orchardist'}<br />
-              <strong>District / Zone:</strong> {farmerInfo.district || 'Srinagar / Central Valley'}
-            </div>
-            <div style={{ textAlign: 'right' }}>
-              <strong>Fulfilment:</strong> {farmerInfo.deliveryMode === 'delivery' ? 'Express Orchard Delivery' : 'Direct Shop Pickup'}<br />
-              <strong>Total Formulations:</strong> {totalItems} items
-            </div>
-          </div>
-
-          {/* Itemized Table */}
-          <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '16px', fontSize: '12px' }}>
-            <thead>
-              <tr style={{ backgroundColor: '#1a432e', color: '#ffffff', textAlign: 'left' }}>
-                <th style={{ padding: '8px 10px' }}>S.No</th>
-                <th style={{ padding: '8px 10px' }}>Formulation / Active Chemistry</th>
-                <th style={{ padding: '8px 10px', textAlign: 'center' }}>Qty</th>
-                <th style={{ padding: '8px 10px', textAlign: 'right' }}>Print MRP</th>
-                <th style={{ padding: '8px 10px', textAlign: 'right' }}>Farmer Privilege (-20%)</th>
-                <th style={{ padding: '8px 10px', textAlign: 'right' }}>Line Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cartItems.map((item, idx) => {
-                const itemMrp = item.product.mrp || 850;
-                const discounted = Math.round(itemMrp * 0.8);
-                const lineTotal = discounted * item.quantity;
-                return (
-                  <tr key={item.id} style={{ borderBottom: '1px solid #e5e7eb' }}>
-                    <td style={{ padding: '8px 10px' }}>{idx + 1}</td>
-                    <td style={{ padding: '8px 10px' }}>
-                      <strong>{item.product.name}</strong>
-                      {item.product.composition && <span style={{ display: 'block', fontSize: '10.5px', color: '#6b7280' }}>{item.product.composition}</span>}
-                    </td>
-                    <td style={{ padding: '8px 10px', textAlign: 'center' }}>{item.quantity}</td>
-                    <td style={{ padding: '8px 10px', textAlign: 'right', textDecoration: 'line-through', color: '#9ca3af' }}>₹{itemMrp}</td>
-                    <td style={{ padding: '8px 10px', textAlign: 'right', fontWeight: 600, color: '#1a432e' }}>₹{discounted}</td>
-                    <td style={{ padding: '8px 10px', textAlign: 'right', fontWeight: 700 }}>₹{lineTotal.toLocaleString('en-IN')}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-
-          {/* Pricing Summary */}
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '24px' }}>
-            <div style={{ width: '280px', fontSize: '12.5px', lineHeight: '1.6' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#4b5563' }}>
-                <span>Print MRP Total:</span>
-                <span style={{ textDecoration: 'line-through' }}>₹{mrpTotal.toLocaleString('en-IN')}</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', color: '#047857', fontWeight: 600 }}>
-                <span>Store Privilege Discount (20%):</span>
-                <span>-₹{savings.toLocaleString('en-IN')}</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '2px solid #1a432e', paddingTop: '6px', marginTop: '6px', fontSize: '15px', fontWeight: 700, color: '#1a432e' }}>
-                <span>Estimated Counter Total:</span>
-                <span>₹{subtotal.toLocaleString('en-IN')}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Footer Guarantee & Signatures */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', borderTop: '1px dashed #9ca3af', paddingTop: '16px', fontSize: '11px', color: '#4b5563' }}>
-            <div>
-              <strong>Authenticity Guarantee:</strong> 100% Factory Sealed Batches.<br />
-              All rates include exclusive 20% farmer privilege at M.A. Pesticides Srinagar.
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ height: '32px' }} />
-              <div style={{ borderTop: '1px solid #111827', width: '160px', paddingTop: '4px', fontWeight: 600, color: '#111827' }}>
-                Authorized Chemist Stamp
-              </div>
-            </div>
-          </div>
-        </div>
+        )}
 
         {/* Drawer Header */}
         <div className="spray-drawer-header">
@@ -220,7 +247,10 @@ export default function SprayOrderDrawer() {
                 Browse our authorized pesticide inventory or calculate dosage from the Spray Calculator to build your seasonal order.
               </p>
               <button 
-                onClick={closeCart}
+                onClick={() => {
+                  closeCart();
+                  navigate('/products');
+                }}
                 className="pill-button-filled"
                 style={{ marginTop: '12px', gap: '8px' }}
               >
@@ -244,68 +274,78 @@ export default function SprayOrderDrawer() {
                 </div>
 
                 <div className="spray-items-list">
-                  {cartItems.map((item) => (
-                    <div key={item.itemKey} className="spray-item-card">
-                      <div className="spray-item-thumb">
-                        <img src={item.image} alt={item.name} loading="lazy" decoding="async" />
-                      </div>
+                  {cartItems.map((item, idx) => {
+                    const itemName = item.name || item.product?.name || 'Crop Formulation';
+                    const itemComposition = item.composition || item.product?.composition || '';
+                    const itemImage = item.image || item.product?.image || '/placeholder-chemical.jpg';
+                    const itemMrp = item.mrp || item.product?.mrp || 850;
+                    const itemPrice = item.price || item.product?.price || Math.round(itemMrp * 0.8);
+                    const quantity = item.quantity || 1;
+                    const itemKey = item.itemKey || item.id || `spray-item-${idx}`;
 
-                      <div className="spray-item-details">
-                        <div className="spray-item-top-row">
-                          <h4 className="spray-item-name">{item.name}</h4>
-                          <button
-                            onClick={() => removeFromCart(item.itemKey)}
-                            className="spray-item-remove-btn"
-                            title="Remove chemical"
-                            aria-label={`Remove ${item.name}`}
-                          >
-                            <Trash2 size={16} />
-                          </button>
+                    return (
+                      <div key={itemKey} className="spray-item-card">
+                        <div className="spray-item-thumb">
+                          <img src={itemImage} alt={itemName} loading="lazy" decoding="async" />
                         </div>
 
-                        {item.composition && (
-                          <div className="spray-item-composition">{item.composition}</div>
-                        )}
-
-                        {item.calculatedNote && (
-                          <div className="spray-item-tank-badge">
-                            🎯 {item.calculatedNote}
-                          </div>
-                        )}
-
-                        <div className="spray-item-bottom-row">
-                          <div className="spray-item-price-wrap">
-                            <span className="spray-item-price">
-                              ₹{(item.price * item.quantity).toLocaleString('en-IN')}
-                            </span>
-                            <span className="spray-item-mrp">
-                              ₹{(item.mrp * item.quantity).toLocaleString('en-IN')}
-                            </span>
-                            <span className="spray-item-discount-tag">20% OFF</span>
+                        <div className="spray-item-details">
+                          <div className="spray-item-top-row">
+                            <h4 className="spray-item-name">{itemName}</h4>
+                            <button
+                              onClick={() => removeFromCart(itemKey)}
+                              className="spray-item-remove-btn"
+                              title="Remove chemical"
+                              aria-label={`Remove ${itemName}`}
+                            >
+                              <Trash2 size={16} />
+                            </button>
                           </div>
 
-                          {/* Stepper Controls */}
-                          <div className="spray-item-stepper">
-                            <button
-                              onClick={() => updateQuantity(item.itemKey, item.quantity - 1)}
-                              aria-label="Decrease quantity"
-                              className="spray-stepper-btn"
-                            >
-                              <Minus size={14} />
-                            </button>
-                            <span className="spray-stepper-qty">{item.quantity}</span>
-                            <button
-                              onClick={() => updateQuantity(item.itemKey, item.quantity + 1)}
-                              aria-label="Increase quantity"
-                              className="spray-stepper-btn"
-                            >
-                              <Plus size={14} />
-                            </button>
+                          {itemComposition && (
+                            <div className="spray-item-composition">{itemComposition}</div>
+                          )}
+
+                          {item.calculatedNote && (
+                            <div className="spray-item-tank-badge">
+                              🎯 {item.calculatedNote}
+                            </div>
+                          )}
+
+                          <div className="spray-item-bottom-row">
+                            <div className="spray-item-price-wrap">
+                              <span className="spray-item-price">
+                                ₹{(itemPrice * quantity).toLocaleString('en-IN')}
+                              </span>
+                              <span className="spray-item-mrp">
+                                ₹{(itemMrp * quantity).toLocaleString('en-IN')}
+                              </span>
+                              <span className="spray-item-discount-tag">20% OFF</span>
+                            </div>
+
+                            {/* Stepper Controls */}
+                            <div className="spray-item-stepper">
+                              <button
+                                onClick={() => updateQuantity(itemKey, quantity - 1)}
+                                aria-label="Decrease quantity"
+                                className="spray-stepper-btn"
+                              >
+                                <Minus size={14} />
+                              </button>
+                              <span className="spray-stepper-qty">{quantity}</span>
+                              <button
+                                onClick={() => updateQuantity(itemKey, quantity + 1)}
+                                aria-label="Increase quantity"
+                                className="spray-stepper-btn"
+                              >
+                                <Plus size={14} />
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
 
