@@ -174,7 +174,7 @@ export default function Home() {
             </div>
 
             <h1 className="text-display gsap-hero-title" style={{ marginBottom: '24px', color: 'var(--color-ink-black)', fontSize: 'clamp(28px, 5.5vw, 76px)', lineHeight: 1.22 }}>
-              Original crop medicines <span className="editorial-italic" style={{ marginRight: '0.18em' }}>for Kashmir apple</span> growers.
+              Original crop medicines for <span className="editorial-italic" style={{ marginRight: '0.18em' }}>Kashmiri</span> farmers.
             </h1>
 
             <p className="text-body-lg gsap-hero-sub" style={{ color: 'var(--color-slate-gray)', marginBottom: '32px', maxWidth: '680px', margin: '0 auto 32px' }}>
