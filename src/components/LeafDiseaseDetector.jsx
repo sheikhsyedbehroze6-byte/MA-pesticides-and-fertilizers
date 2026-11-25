@@ -273,16 +273,30 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
 
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       streamRef.current = stream;
+      setIsCameraActive(true);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        await videoRef.current.play();
+        try {
+          await videoRef.current.play();
+        } catch {
+          // Auto-play was prevented; user interaction handles playback
+        }
       }
-      setIsCameraActive(true);
     } catch {
       setCameraError('Camera access was not permitted. You can upload a photo instead.');
       setIsCameraActive(false);
     }
   };
+
+  // Synchronize stream with video element when mounted
+  useEffect(() => {
+    if (isCameraActive && videoRef.current && streamRef.current) {
+      if (videoRef.current.srcObject !== streamRef.current) {
+        videoRef.current.srcObject = streamRef.current;
+      }
+      videoRef.current.play().catch(() => {});
+    }
+  }, [isCameraActive]);
 
   const toggleCameraFacing = () => {
     const nextFacing = cameraFacing === 'environment' ? 'user' : 'environment';
@@ -411,11 +425,13 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
   const captureCameraFrame = () => {
     if (!videoRef.current) return;
     const video = videoRef.current;
+    const w = video.videoWidth || 640;
+    const h = video.videoHeight || 480;
     const canvas = document.createElement('canvas');
-    canvas.width = 640;
-    canvas.height = 480;
+    canvas.width = w;
+    canvas.height = h;
     const ctx = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0, 640, 480);
+    ctx.drawImage(video, 0, 0, w, h);
     stopCamera();
 
     canvas.toBlob((blob) => {
@@ -475,7 +491,8 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
   };
 
   const handleWhatsAppConsult = () => {
-    trackEvent('consult_disease_whatsapp', { disease: selectedDisease?.name });
+    if (!selectedDisease) return;
+    trackEvent('consult_disease_whatsapp', { disease: selectedDisease.name });
     const text = `Assalam-o-Alaikum Sheikh Ayoub Sahib, I suspect ${selectedDisease.name} (${selectedDisease.nameUrdu}) in my orchard. Recommended spray: ${selectedDisease.primaryCure}. Please advise on current stock and tank mixing.`;
     window.open(`https://wa.me/919906541321?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
   };

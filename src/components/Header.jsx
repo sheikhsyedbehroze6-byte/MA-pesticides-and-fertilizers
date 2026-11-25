@@ -37,7 +37,9 @@ function Header() {
   const [prevPathname, setPrevPathname] = useState(location.pathname);
   if (location.pathname !== prevPathname) {
     setPrevPathname(location.pathname);
-    if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+    if (isMobileMenuOpen) {
+      setIsMobileMenuOpen(false);
+    }
   }
 
   // close mobile menu on route change

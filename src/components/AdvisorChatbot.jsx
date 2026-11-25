@@ -1964,6 +1964,13 @@ export default function AdvisorChatbot() {
         setMessages(prev => [...prev, { sender: 'advisor', ...response }]);
       } catch (err) {
         console.error('Advisor error:', err);
+        setMessages(prev => [
+          ...prev,
+          {
+            sender: 'advisor',
+            text: 'I could not process that specific query right now. Please call Sheikh Mohammad Ayoub directly at +91 99065 41321 or message us on WhatsApp for instant guidance.'
+          }
+        ]);
       } finally {
         setIsThinking(false);
       }
