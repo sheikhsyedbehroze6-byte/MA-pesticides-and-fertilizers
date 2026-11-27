@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Calculator, ShieldCheck, MapPin, Phone, MessageCircle, Clock, ExternalLink, CheckCircle2, Package, Calendar, Bug, Search } from 'lucide-react';
+import { ArrowRight, Calculator, ShieldCheck, MapPin, Phone, MessageCircle, Clock, ExternalLink, CheckCircle2 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import WeatherSprayAlert from '../components/WeatherSprayAlert';
@@ -165,13 +165,10 @@ export default function Home() {
     <div ref={mainRef} style={{ backgroundColor: 'var(--surface-canvas)' }}>
       <section className="section-padding home-hero-section" style={{ overflow: 'hidden' }}>
         <div className="page-container">
-          <div style={{ textAlign: 'center', maxWidth: '1020px', margin: '0 auto 48px' }}>
-            <div className="gsap-hero-tag" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', borderRadius: '9999px', backgroundColor: 'var(--color-sage-tint)', border: '1px solid rgba(26, 67, 46, 0.1)', marginBottom: '20px' }}>
-              <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: 'var(--color-pine-green)' }}></span>
-              <span style={{ fontFamily: 'var(--font-sohne)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.8px', textTransform: 'uppercase', color: 'var(--color-pine-green)' }}>
-                Kashmir Crop Protection &bull; Official Dealerships
-              </span>
-            </div>
+          <div style={{ textAlign: 'center', maxWidth: '1020px', margin: '0 auto 44px' }}>
+            <p className="gsap-hero-tag" style={{ fontFamily: 'var(--font-sohne)', fontSize: '13px', fontWeight: 500, letterSpacing: '0.04em', color: 'var(--color-slate-gray)', marginBottom: '16px' }}>
+              Hari Singh High Street, Srinagar &middot; Est. 1980
+            </p>
 
             <h1 className="text-display gsap-hero-title" style={{ marginBottom: '24px', color: 'var(--color-ink-black)', fontSize: 'clamp(28px, 5.5vw, 76px)', lineHeight: 1.22 }}>
               Original crop medicines for <span className="editorial-italic" style={{ marginRight: '0.18em' }}>Kashmiri</span> farmers.
@@ -200,35 +197,6 @@ export default function Home() {
                 <span>Consult Sheikh M. Ayoub</span>
                 <ArrowRight size={16} />
               </a>
-            </div>
-
-            <div className="gsap-hero-actions home-quick-hub-grid">
-              {[
-                { to: '/products', label: 'Products', desc: '60+ Formulations', Icon: Package },
-                { to: '/spray-calendar', label: 'Spray Calendar', desc: 'SKUAST Timing', Icon: Calendar },
-                { to: '/dosage-calculator', label: 'Dosage Calc', desc: 'Tank Dilution', Icon: Calculator },
-                { to: '/disease-guide', label: 'Disease Guide', desc: 'Scab & Mite Cures', Icon: Bug },
-                { to: '/search', label: 'Quick Search', desc: 'Find Any Product', Icon: Search },
-                { to: '/contact', label: 'Store & Visit', desc: 'Srinagar Location', Icon: MapPin }
-              ].map(({ to, label, desc, Icon }) => (
-                <Link
-                  key={to}
-                  to={to}
-                  onMouseEnter={() => preloadRoute(to)}
-                  onTouchStart={() => preloadRoute(to)}
-                  className="quick-nav-pill"
-                >
-                  <div className="quick-nav-pill-icon">
-                    <Icon size={18} strokeWidth={2.2} />
-                  </div>
-                  <span className="quick-nav-pill-title">
-                    {label}
-                  </span>
-                  <span className="quick-nav-pill-desc">
-                    {desc}
-                  </span>
-                </Link>
-              ))}
             </div>
           </div>
 
@@ -371,19 +339,19 @@ export default function Home() {
                 </div>
                 <div>
                   <h4 style={{ fontFamily: 'var(--font-sohne)', fontSize: '15px', fontWeight: 600, margin: 0, color: 'var(--color-ink-black)' }}>
-                    Apple Scab Clinical Management
+                    Apple Scab Spray Routine
                   </h4>
                   <span style={{ fontSize: '11.5px', color: 'var(--color-slate-gray)' }}>
-                    Formulation verified by Sheikh M. Ayoub (M.Sc.)
+                    Checked by Sheikh M. Ayoub (M.Sc.)
                   </span>
                 </div>
               </div>
 
               <div style={{ fontSize: '20px', fontFamily: 'var(--font-signifier)', fontWeight: 400, color: 'var(--color-ink-black)', marginBottom: '6px' }}>
-                Preventive &amp; Curative Regimen
+                Before &amp; After Rain Sprays
               </div>
               <p style={{ fontSize: '13.5px', color: 'var(--color-slate-gray)', margin: 0, lineHeight: 1.45 }}>
-                Pre-rain contact spray (Antracol/Dodine) followed by translaminar systemic (Luna/Score) halts perithecia spore germination without fruit russeting.
+                Pre-rain contact spray (Antracol or Dodine) followed by systemic Luna or Score stops scab spores from taking hold without marking the fruit skin.
               </p>
             </div>
 
@@ -494,7 +462,6 @@ export default function Home() {
 
           <div className="grid-3">
             <div className="card-neutral gsap-scroll-item">
-              <span className="tag-label">AUTHENTICITY</span>
               <h3 className="text-heading-sm" style={{ marginBottom: '12px' }}>
                 Original Factory Batches
               </h3>
@@ -508,7 +475,6 @@ export default function Home() {
             </div>
 
             <div className="card-neutral gsap-scroll-item">
-              <span className="tag-label">SPRAY TIMING</span>
               <h3 className="text-heading-sm" style={{ marginBottom: '12px' }}>
                 SKUAST-K Spray Calendar
               </h3>
@@ -522,7 +488,6 @@ export default function Home() {
             </div>
 
             <div className="card-neutral gsap-scroll-item">
-              <span className="tag-label">CHEMIST ADVICE</span>
               <h3 className="text-heading-sm" style={{ marginBottom: '12px' }}>
                 Guidance by Sheikh M. Ayoub
               </h3>
@@ -731,25 +696,22 @@ export default function Home() {
       <section className="section-padding section-fog-bg gsap-scroll-section" style={{ borderTop: '1px solid var(--border-color)' }}>
         <div className="page-container">
           <div className="section-header centered gsap-scroll-item">
-            <span className="tag">Visit &amp; Consult</span>
-            <h2>Visit Kashmir's premier crop protection store.</h2>
-            <p>Centrally located on Hari Singh High Street, Srinagar. Free leaf diagnosis and genuine chemist consultation.</p>
+            <h2>Visit our shop on Hari Singh High Street.</h2>
+            <p>Drop by our counter in Srinagar for free leaf checks and genuine sealed formulations.</p>
           </div>
 
           <div className="grid-2" style={{ gap: '24px' }}>
             <div className="card-neutral gsap-scroll-item" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', flexWrap: 'wrap', gap: '8px' }}>
-                  <span className="tag-label" style={{ margin: 0 }}>CENTRAL SRINAGAR STORE</span>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
+                  <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '26px', fontWeight: 400, margin: 0 }}>
+                    Hari Singh High Street
+                  </h3>
                   <span className="badge-green" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                     <Clock size={12} />
                     Open Mon – Sat (9 AM – 7 PM)
                   </span>
                 </div>
-
-                <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '26px', fontWeight: 400, marginBottom: '16px' }}>
-                  Hari Singh High Street
-                </h3>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '24px' }}>
                   <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
@@ -786,40 +748,24 @@ export default function Home() {
                   onTouchStart={() => preloadRoute('/contact')}
                   className="pill-button-ghost pill-button-sm"
                 >
-                  <span>Store Guide</span>
+                  <span>Shop Hours &amp; Map</span>
                 </Link>
               </div>
             </div>
 
             <div className="card-peach gsap-scroll-item" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 10px', borderRadius: '9999px', backgroundColor: 'rgba(93, 42, 26, 0.08)', marginBottom: '12px' }}>
-                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--color-pine-green)' }}></span>
-                  <span style={{ fontFamily: 'var(--font-sohne)', fontSize: '11.5px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.8px', color: 'var(--color-sienna-brown)' }}>
-                    Complimentary In-Store Service
-                  </span>
-                </div>
                 <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: 'clamp(22px, 2.5vw, 28px)', fontWeight: 400, color: 'var(--color-sienna-brown)', marginBottom: '14px', letterSpacing: '-0.2px' }}>
-                  Bring Your Orchard Samples
+                  Bring Damaged Leaves to the Shop
                 </h3>
                 <p style={{ fontSize: '14.5px', color: 'var(--color-sienna-brown)', opacity: 0.95, lineHeight: 1.55, marginBottom: '20px' }}>
-                  Facing mysterious leaf yellowing, fruit spotting, or shoot wilting? Bring fresh leaf or soil samples to our Srinagar store for complimentary visual &amp; chemical pathology inspection by Senior Chemist Sheikh Mohammad Ayoub (M.Sc.).
+                  Noticing leaf spots, curled shoots, or fruit marks? Bring fresh leaf or twig samples to our Srinagar counter for a free inspection by Senior Chemist Sheikh Mohammad Ayoub (M.Sc.).
                 </p>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px', color: 'var(--color-sienna-brown)' }}>
-                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: 'var(--color-sage-tint)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <CheckCircle2 size={13} color="var(--color-pine-green)" />
-                    </div>
-                    <span>Instant pathogen identification (Scab, Blight, Psylla)</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13.5px', color: 'var(--color-sienna-brown)' }}>
-                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: 'var(--color-sage-tint)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <CheckCircle2 size={13} color="var(--color-pine-green)" />
-                    </div>
-                    <span>Exact tank dilution calculation based on your orchard tree count</span>
-                  </div>
-                </div>
+                <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '13.5px', color: 'var(--color-sienna-brown)' }}>
+                  <li>&mdash; Spot scab, blight, red mites, and psylla before mixing a tank</li>
+                  <li>&mdash; Exact gram or ml measure for your 200L barrel and tree count</li>
+                </ul>
               </div>
 
               <div>

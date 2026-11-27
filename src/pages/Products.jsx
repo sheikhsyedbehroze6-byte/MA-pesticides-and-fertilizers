@@ -75,12 +75,11 @@ export default function Products() {
 
         {/* Header */}
         <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 48px' }}>
-          <span className="tag-label">Authorized Srinagar Inventory</span>
           <h1 className="text-heading-lg" style={{ marginBottom: '16px' }}>
-            Curated crop protection catalog.
+            Stock at our Srinagar counter.
           </h1>
           <p className="text-body-lg" style={{ color: 'var(--color-slate-gray)' }}>
-            Authentic Bayer, Syngenta, and IPL Biologicals formulations available at 20% below print MRP.
+            Genuine Bayer, Syngenta, and IPL Biologicals formulations available at 20% below print MRP.
           </p>
         </div>
 

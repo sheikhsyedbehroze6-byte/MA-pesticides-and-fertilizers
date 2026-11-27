@@ -56,7 +56,7 @@ function WeatherSprayAlert() {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span className="tag-label" style={{ margin: 0 }}>Valley Microclimate &amp; Spray Window</span>
+            <span className="tag-label" style={{ margin: 0 }}>Orchard Spray Weather</span>
             {isLive && (
               <span style={{
                 fontSize: '10.5px',
@@ -85,7 +85,7 @@ function WeatherSprayAlert() {
           <button
             type="button"
             onClick={() => loadWeather(selectedDistrict, true)}
-            title="Refresh live satellite data"
+            title="Refresh weather forecast"
             style={{
               background: 'none',
               border: '1px solid rgba(23, 25, 28, 0.12)',
@@ -100,7 +100,7 @@ function WeatherSprayAlert() {
             }}
           >
             <RefreshCw size={12} className={loading ? 'spin' : ''} />
-            <span>Sync</span>
+            <span>Refresh</span>
           </button>
 
           <span style={{
@@ -112,7 +112,7 @@ function WeatherSprayAlert() {
             padding: '5px 12px',
             borderRadius: '9999px'
           }}>
-            {weather.sprayStatus === 'SAFE' ? 'SAFE TO SPRAY' : weather.sprayStatus === 'CAUTION' ? 'EXERCISE CAUTION' : 'UNSAFE (POSTPONE)'}
+            {weather.sprayStatus === 'SAFE' ? 'SAFE TO SPRAY' : weather.sprayStatus === 'CAUTION' ? 'SPRAY WITH CARE' : 'DO NOT SPRAY'}
           </span>
         </div>
       </div>

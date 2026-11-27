@@ -47,7 +47,6 @@ export default function About() {
         {/* pillars */}
         <div className="grid-3">
           <div className="card-neutral">
-            <span className="tag-label">ORIGINAL STOCK</span>
             <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '24px', fontWeight: 400, marginBottom: '12px' }}>
               Direct Factory Seals
             </h3>
@@ -57,7 +56,6 @@ export default function About() {
           </div>
 
           <div className="card-neutral">
-            <span className="tag-label">UNIVERSITY TIMING</span>
             <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '24px', fontWeight: 400, marginBottom: '12px' }}>
               SKUAST-K Calendar
             </h3>
@@ -67,7 +65,6 @@ export default function About() {
           </div>
 
           <div className="card-neutral">
-            <span className="tag-label">VISIT OUR COUNTER</span>
             <h3 style={{ fontFamily: 'var(--font-signifier)', fontSize: '24px', fontWeight: 400, marginBottom: '12px' }}>
               Hari Singh High Street
             </h3>
