@@ -494,6 +494,9 @@ button, input, select, textarea {
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
 }
 
@@ -541,6 +544,9 @@ button, input, select, textarea {
   box-shadow: var(--shadow-artifact);
   border: 1px solid rgba(23, 25, 28, 0.04);
   padding: 24px 28px;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
 }
 
@@ -723,20 +729,31 @@ button, input, select, textarea {
 /* Grid Layouts */
 .grid-3 {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
 }
 
 .grid-2 {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 32px;
 }
 
 .grid-4 {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 20px;
+}
+
+.grid-3 > *,
+.grid-2 > *,
+.grid-4 > *,
+.hero-artifacts-grid > *,
+.spray-timeline-layout > *,
+.dosage-two-col > * {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* ==========================================================================
@@ -1424,7 +1441,7 @@ button, input, select, textarea {
 
 .table-fragment {
   width: 100%;
-  min-width: 290px;
+  min-width: 0;
   border-collapse: collapse;
   font-size: 13.5px;
   font-family: var(--font-sohne);
@@ -1583,11 +1600,11 @@ button, input, select, textarea {
   }
 
   .grid-3, .grid-4 {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .footer-top {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 32px;
   }
 }
@@ -1606,13 +1623,13 @@ button, input, select, textarea {
   padding: 2rem;
 }
 
-/* Compact desktop nav on standard laptops & tablets (993px to 1240px) */
-@media (min-width: 993px) and (max-width: 1240px) {
+/* Compact desktop nav on standard laptops & tablets (993px to 1360px) */
+@media (min-width: 993px) and (max-width: 1360px) {
   .nav-links-list {
-    gap: clamp(4px, 0.8vw, 10px) !important;
+    gap: clamp(2px, 0.5vw, 8px) !important;
   }
   .nav-link-item {
-    padding: 6px 10px !important;
+    padding: 6px 9px !important;
     font-size: 13.5px !important;
   }
   .header-actions {
@@ -1623,6 +1640,32 @@ button, input, select, textarea {
     font-size: 12.5px !important;
   }
   .header-desktop-xl-only {
+    display: none !important;
+  }
+}
+
+/* Tighter desktop nav at 993px–1140px (iPad landscape / 1024px laptops) */
+@media (min-width: 993px) and (max-width: 1140px) {
+  .brand-title {
+    font-size: 16.5px !important;
+  }
+  .brand-logo-icon {
+    width: 34px !important;
+    height: 34px !important;
+  }
+  .nav-links-list {
+    gap: 1px !important;
+  }
+  .nav-link-item {
+    padding: 5px 7px !important;
+    font-size: 12.5px !important;
+  }
+  .header-safety-badge {
+    padding: 0 9px !important;
+    width: 36px;
+    height: 36px !important;
+  }
+  .header-safety-badge span:last-child {
     display: none !important;
   }
 }
@@ -1737,7 +1780,7 @@ button, input, select, textarea {
   }
 
   .grid-3, .grid-2, .grid-4 {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 16px;
   }
 

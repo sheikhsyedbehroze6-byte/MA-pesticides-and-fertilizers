@@ -751,8 +751,9 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
 
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(2, 1fr)',
-              gap: '8px'
+              gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+              gap: '8px',
+              width: '100%'
             }}>
               {LEAF_DISEASES_DB.map((d) => {
                 const isSelected = selectedDisease?.id === d.id;
@@ -766,6 +767,9 @@ export default function LeafDiseaseDetector({ onApplyDosage, selectedProductId }
                       alignItems: 'center',
                       gap: '10px',
                       padding: '8px 10px',
+                      minWidth: 0,
+                      maxWidth: '100%',
+                      overflow: 'hidden',
                       borderRadius: '10px',
                       border: isSelected
                         ? '1.5px solid var(--color-pine-green)'

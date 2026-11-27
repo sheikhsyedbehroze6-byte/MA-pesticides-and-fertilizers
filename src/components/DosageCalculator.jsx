@@ -244,7 +244,7 @@ export default function DosageCalculator() {
           type="button"
           onClick={() => setActiveTab('detector')}
           style={{
-            padding: '12px 18px',
+            padding: '10px 14px',
             fontSize: '13.5px',
             fontWeight: activeTab === 'detector' ? 600 : 500,
             color: activeTab === 'detector' ? 'var(--color-pine-green)' : 'var(--color-slate-gray)',
@@ -257,11 +257,12 @@ export default function DosageCalculator() {
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            whiteSpace: 'nowrap'
+            flexWrap: 'wrap',
+            maxWidth: '100%'
           }}
         >
           <Bug size={16} color="var(--color-pine-green)" />
-          <span>Clinical Disease Diagnostic Guide</span>
+          <span>Leaf Disease Checker</span>
           <span style={{
             fontSize: '10px',
             fontWeight: 700,
@@ -274,7 +275,7 @@ export default function DosageCalculator() {
             alignItems: 'center',
             gap: '3px'
           }}>
-            SKUAST-K DIAGNOSTICS
+            SKUAST-K
           </span>
         </button>
 
@@ -282,7 +283,7 @@ export default function DosageCalculator() {
           type="button"
           onClick={() => setActiveTab('direct')}
           style={{
-            padding: '12px 18px',
+            padding: '10px 14px',
             fontSize: '13.5px',
             fontWeight: activeTab === 'direct' ? 600 : 500,
             color: activeTab === 'direct' ? 'var(--color-pine-green)' : 'var(--color-slate-gray)',
@@ -295,7 +296,7 @@ export default function DosageCalculator() {
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            whiteSpace: 'nowrap'
+            maxWidth: '100%'
           }}
         >
           <Calculator size={15} />
